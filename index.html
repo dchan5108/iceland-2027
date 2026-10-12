@@ -967,6 +967,7 @@ const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐
 /* confirmed marks: tap the timeline dot (real versions only); saved on this device */
 /* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
 const CONFIRMED={2:[/入住 Miðhraun/],7:[/冰河湖獨木舟/]};
+const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const isConf=(d,a)=>(CONFIRMED[d]||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")));
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
 const cfKey=(d,t,a)=>{let h=0;const x=`${d}|${t}|${String(a).replace(/<[^>]*>/g,"")}`;for(let i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))|0;return "c"+(h>>>0).toString(36)};
@@ -988,7 +989,7 @@ function richRows(day){
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
-    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${esc(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
+    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
   const nFix=plan.filter(([t,a])=>isConf(day.d,a)).length,nOn=plan.filter(([t,a])=>isConf(day.d,a)||(REAL&&CF[cfKey(day.d,t,a)])).length,showCf=REAL||nFix;
   return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${REAL?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${REAL?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
