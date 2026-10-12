@@ -81,6 +81,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;margin:0 0 4px}
 .links a{color:var(--route);text-decoration:none;border-bottom:1px solid currentColor}
 .sun{font-size:12.5px;color:var(--muted);margin:0 0 4px;font-variant-numeric:tabular-nums}
+.golin{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:rgba(47,111,134,.10);color:var(--fg)}.golin .late b{color:#b3261e}
 .dusk{font-size:12.5px;color:var(--route);margin:0 0 4px;font-variant-numeric:tabular-nums}
 .dusk.warn{color:var(--stay);font-weight:700}
 .au{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;font-size:12.5px;color:var(--muted);margin:0 0 10px}
@@ -400,6 +401,7 @@ const days=[
   plan:[["09:00","雷克雅維克取車（租車公司市區辦事處或送車到住處，要預先確認）","c"],["09:55–10:55","Costco（Garðabær）：入滿油，買幾日的早餐、零食和飲品","c"],["12:10–12:55","午餐：博爾加內斯 Settlement Center 餐廳（11:30 開）","m"],["14:05–14:30","Ytri Tunga 海豹沙灘"],["15:05–15:25","布迪爾黑教堂"],["16:15–16:50","Djúpalónssandur 黑沙灘","c"],["17:20–17:35","Ingjaldshóll 教堂筆直大道"],["18:20–18:50","草帽山瀑布","c"],["19:05","入住格倫達菲厄澤","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["全程最長的一天之一；如果進度落後，先刪 Djúpalónssandur，可以早約 1小時20分鐘到住處",1],["日落約 20:10，可以由住處或步行去看草帽山日落，不要開車"]]},
  {d:3,date:"9/14（二）",stay:"Hjalteyri／阿克雷里一帶",arrive:"17:20",legs:[L("grund","stykk",40,{c:1}),L("stykk","kolu",140,{c:1,via:["Búðardalur"]}),L("kolu","hjal",135)],
+  real:{arrive:"17:50",plan:[["09:30","退房出發","c"],["10:20–11:00","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）"],["11:00–12:10","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）"],["12:10–12:55","午餐：Búðardalur","m"],["12:55–14:35","經 59 號公路接 1 號公路，開往 Kolugljúfur"],["14:35–15:10","Kolugljúfur 峽谷"],["15:10–17:50","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:50","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]]},
   plan:[["09:00","退房出發","c"],["09:50–10:30","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","c"],["10:30–11:40","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）","c"],["11:40–12:25","午餐：Búðardalur","m"],["12:25–14:05","經 59 號公路接 1 號公路，開往 Kolugljúfur","c"],["14:05–14:40","Kolugljúfur 峽谷"],["14:40–17:20","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:20","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]],
   notes:[["Settlement Center 已在 D2 午餐時去過，D3 唔再經博爾加內斯",1]],
   opt:[{k:"hvit",t:"Hvítserkur 海蝕岩",add:"+約 2 小時（較緊）",d:"Vatnsnes 半島海邊一塊像飲水恐龍的玄武岩。由 Kolugljúfur 開去要走 711 號碎石路，之後再繞回 1 號公路去 Hjalteyri，整日會多約 2 小時，大約 19:20 先到住處，只比日落（約 19:46）早一點。只適合當日進度提早、天氣好；要確認租車保險包碎石路。"}]},
@@ -408,13 +410,16 @@ const days=[
   notes:[["隧道費要在 24 小時內上網繳"],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，傍晚在 Hverir 會合",1]],
   opt:[{k:"grjo",t:"Grjótagjá 溫泉洞",add:"+20 分鐘",d:"Hverir 附近的小熔岩洞，裡面有藍色溫泉水，《權力遊戲》在這裡取景。現在不准下水，只可以看。去的話米湖溫泉要縮短，確保日落前到住處。"}]},
  {d:5,date:"9/16（四）",stay:"埃伊爾斯塔濟",arrive:"18:15",legs:[L("myv","dett",50,{dx:-6,dy:-14}),L("dett","egil",120,{c:1})],
+  real:{plan:[["09:30","出發","c"],["10:30–11:30","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:40–13:40","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:30","到埃伊爾斯塔濟、入住"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]]},
   plan:[["09:00","出發"],["10:00–11:00","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:10–13:10","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:00","到埃伊爾斯塔濟、入住","c"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]],
   opt:[{k:"stud",t:"Stuðlagil 玄武岩峽谷",add:"+約 2 小時",d:"在黛提瀑布去埃伊爾斯塔濟的路上，從 1 號公路轉入 Jökuldalur 山谷。西岸觀景台很快可到；東岸可以落到峽谷底，來回步行約 1.5–2 小時。這裡日落約 19:23，去 Stuðlagil 的話要刪 Vök，否則會趕不及。"}]},
  {d:6,date:"9/17（五）",stay:"赫本",arrive:"17:20",legs:[L("egil","seyd",30,{c:1,hide:1}),L("seyd","gufu",5,{hide:1}),L("gufu","fask",70),L("fask","egg",85),L("egg","hvaln",45),L("hvaln","hofn",35)],
+  real:{arrive:"17:50",plan:[["09:30","出發","c"],["10:10–11:00","藍色教堂、彩虹街","c"],["11:15–11:25","Gufufoss 瀑布（出 Seyðisfjörður 的山路旁，路邊停一停）"],["12:50–13:35","午餐：Fáskrúðsfjörður 法國小漁村","m"],["13:35–15:20","沿東部峽灣南下，經 Stöðvarfjörður、Breiðdalsvík"],["15:20–15:40","Djúpivogur 蛋雕塑（Eggin í Gleðivík）"],["16:35–17:05","Hvalnes 燈塔、Eystrahorn 山"],["17:50","到赫本、入住休息","c"],["18:45","小龍蝦晚餐（Pakkhús 唔接受訂位，早啲去排；住在鎮上可步行）","m"]]},
   plan:[["09:00","出發","c"],["09:40–10:30","藍色教堂、彩虹街","c"],["10:45–10:55","Gufufoss 瀑布（出 Seyðisfjörður 的山路旁，路邊停一停）"],["12:20–13:05","午餐：Fáskrúðsfjörður 法國小漁村","m"],["13:05–14:50","沿東部峽灣南下，經 Stöðvarfjörður、Breiðdalsvík"],["14:50–15:10","Djúpivogur 蛋雕塑（Eggin í Gleðivík）"],["16:05–16:35","Hvalnes 燈塔、Eystrahorn 山"],["17:20","到赫本、入住休息","c"],["18:30","小龍蝦晚餐（Pakkhús 唔接受訂位，早啲去排；住在鎮上可步行）","m"]],
   notes:[["全程開車最長的一天，實際約 4小時30分鐘；景點都在 1 號公路旁，每站只停 10–30 分鐘"],["Fáskrúðsfjörður 餐廳不多，9 月營業時間要確認；最穩陣係早上在埃伊爾斯塔濟的 Bónus 或 Nettó 買定午餐"],["東部峽灣路彎多、有時有羊過馬路，唔好趕"]],
   opt:[{k:"petra",t:"Petra 石頭博物館（Steinasafn Petru）",add:"+約 40 分鐘",d:"Stöðvarfjörður 鎮上一位女士收集了一生的石頭和礦物，屋前花園放滿各種石頭，順路。網上資料寫星期一至六 10:00–17:00、星期日休息，9/17 係星期五，但 9 月時間要再確認。去的話大約 18:00 先到赫本，比日落早約 1小時20分鐘。"}]},
  {d:7,date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"16:20",legs:[L("hofn","vest",15),L("vest","jok",75,{dy:-14}),L("jok","hjok",25)],
+  real:{plan:[["09:30","退房出發","c"],["09:55–10:40","西角山（Stokksnes，入場收費；停留縮短到 45 分鐘）"],["12:10–12:40","午餐：冰河湖旁的餐車或咖啡館（只有半個鐘，揀快的）","m"],["12:45–14:45","冰河湖獨木舟（確定去；預約 12:45，水上約 1.5 小時，連換裝和講解約 2 小時）","c"],["15:00–15:45","鑽石沙灘"],["16:20","入住"],["19:00","晚餐：住處","m"]]},
   plan:[["09:00","退房出發"],["09:25–10:25","西角山（Stokksnes，入場收費）"],["11:55–12:35","午餐：冰河湖旁的餐車或咖啡館","m"],["12:45–14:45","冰河湖獨木舟（確定去；預約 12:45，水上約 1.5 小時，連換裝和講解約 2 小時）","c"],["15:00–15:45","鑽石沙灘"],["16:20","入住"],["19:00","晚餐：住處","m"]],
   opt:[{k:"fjall",t:"Fjallsárlón 小冰河湖",add:"+30 分鐘",d:"在大冰河湖西邊約 10 分鐘，免費。湖較小，但離冰川更近；海豹較少。去住處時順路停。"}]},
  {d:8,date:"9/19（日）",stay:"Hótel Jökulsárlón（第 2 晚）",arrive:"16:50",legs:[L("hjok","skaf",25),L("skaf","hjok",25,{c:1})],
@@ -452,7 +457,7 @@ const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60
 const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
 const hr=s=>REAL?s:s.replace(/（實際車程約[^）]*）/g,"").replace(/，實際約 ?[\d小時分鐘 ]+/g,"");
 const EP=plan=>plan.map(([t,a,f])=>[shiftClock(t),hr(shiftBook(a)),f]);
-const R=day=>{const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
+const R=day0=>{const day=REAL&&day0.real?{...day0,...day0.real,told:day0.plan}:day0;const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
 
 const buf=m=>Math.max(m+10,Math.ceil(m*1.2/5)*5);
 let drv=REAL&&store.get("iceland-drv")==="raw"?"raw":"buf";const dT=m=>drv==="raw"?m:buf(m);
@@ -749,6 +754,7 @@ function card(raw){
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
+    ${REAL?(()=>{const f=pl=>{const ok=rx=>(pl||[]).find(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1])),r=ok(/出發|取車/)||ok(/退房/);return r?r[0]:null},told=f(day.told||day.plan),firm=f(day.plan);return told&&firm?`<div class="golin"><span>話俾大家知：<b>${told}</b> 出發</span><span class="${told!==firm?"late":""}">一定要走：<b>${firm}</b></span></div>`:""})():""}
     ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
