@@ -92,7 +92,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sched .t{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
 .sched .a{min-width:0}
 .sched .m{color:var(--meal);font-weight:500}
-.sched .c{color:var(--chg);font-weight:500}
+.sched .c{}
 .sched .y{color:var(--chg)}
 .sched .a.y{border-left:2px dashed var(--chg);padding-left:8px}
 .ytag{font-size:11px;font-weight:700;border:1px dashed var(--chg);border-radius:4px;padding:0 5px;margin-right:6px;white-space:nowrap}
@@ -100,12 +100,12 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .leg{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:3px 0;border-top:1px dashed var(--line);color:inherit;text-decoration:none}
 .leg:first-of-type{border-top:0}
 .leg b{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--route);text-align:right}
-.leg.c > span,.leg.c b{color:var(--chg)}
+
 .leg > span::after{content:" ↗";color:var(--route)}
 .leg:hover > span{text-decoration:underline}
 .was{display:block;font-size:11.5px;font-weight:400;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted);margin-top:4px}
-.note.c{color:var(--chg);font-weight:500}
+.note.c{color:var(--fg);font-weight:500}
 .stayline{margin-top:10px;font-size:13px;color:var(--stay);font-weight:500}
 .daynav{display:flex;justify-content:space-between;gap:8px;margin-top:12px;max-width:720px}
 .daynav button{font-size:13px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--fg);cursor:pointer}
@@ -163,6 +163,9 @@ details.more p{margin:6px 0 0;max-width:80ch}
 #map [data-key]{cursor:pointer}
 .opts summary .add{font-weight:400;color:var(--meal);margin-left:8px;font-size:12.5px}
 .opts a{font-size:12.5px;color:var(--route)}
+.tipsdl{display:grid;grid-template-columns:6em minmax(0,1fr);gap:10px 14px;max-width:760px;font-size:14.5px;margin:0}
+.tipsdl dt{font-weight:700;color:var(--route)}
+.tipsdl dd{margin:0}
 .print .tabs,.print .topbar,.print .chips,.print .daynav,.print #changes,.print .links,.print .legend + details summary{display:none!important}
 .print .day{max-width:none;break-inside:auto;margin:0 0 14px}
 .print .day h3{break-after:avoid}
@@ -189,30 +192,13 @@ details.more p{margin:6px 0 0;max-width:80ch}
   <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 12 天 · 7 人 2 車</p>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
+    <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">出發前必讀</button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
   </nav>
 
   <div id="view-trip" role="tabpanel" aria-labelledby="tab-trip">
-    <section class="changes" id="changes" hidden>
-      <div class="chead"><h2>這版改了什麼</h2><button type="button" class="pillbtn" id="hideChanges">收起</button></div>
-      <ul>
-        <li>新增 D0（9/11，只限先到的兩人）；D1 可揀藍湖或 Sky Lagoon，Costco 之後直接出發，第一晚住博爾加內斯</li>
-        <li>9/13 才取車：D1 坐巴士去藍湖再入雷克雅維克住一晚；D2 取車後先去 Costco 才出發</li>
-        <li>每日加入建議時間表，已預留午餐和晚餐；每日 09:00 後出發，日落前完成所有車程</li>
-        <li>Hótel Jökulsárlón 連住兩晚：D8 做 6 小時冰川健行後回酒店，D9 是冰川健行的緩衝日</li>
-        <li>可切換後備方案：D8 健行順利或取消，D9、D10 的時間表和地圖會跟著變</li>
-        <li>不去冰川滑索；D10 改為在 Sólheimajökull 免費觀景步道停一停</li>
-        <li>D7 確定冰河湖獨木舟</li>
-        <li>雷尼斯黑沙灘和迪霍拉里提前到 D9 傍晚，D10 改為 09:30 才出發</li>
-        <li>騎馬改在 D10 南岸的 Skálakot 馬場，就在斯科加爾和水簾洞瀑布之間，不用繞路</li>
-        <li>Silfra 浮潛、金圈和 Sky Lagoon 合併到 D11（浮潛較少因天氣取消）</li>
-        <li>新增眾神瀑布（D4）、藍色教堂（D6）、水簾洞瀑布（D10）</li>
-        <li>D4 改為 09:00 出發；修正 4 段車程（每日車程裡列出原本的時間）</li>
-      </ul>
-    </section>
 
     <div class="topbar">
-      <button type="button" class="pillbtn" id="showChanges">顯示修改摘要</button>
       <div class="scen" role="group" aria-label="車程顯示">
         <span>車程</span>
         <div class="seg"><button type="button" id="dv-buf" aria-pressed="true">預留時間</button><button type="button" id="dv-raw" aria-pressed="false">實際車程</button></div>
@@ -228,7 +214,6 @@ details.more p{margin:6px 0 0;max-width:80ch}
     <div class="legend">
       <span><i class="dot" style="background:var(--stay)"></i>住宿</span>
       <span><i class="dot" style="background:var(--spot)"></i>景點</span>
-      <span><i class="dot" style="background:var(--chg)"></i>新增或修改</span>
       <span><i class="bar"></i>路線 · 方框為車程</span>
       <span><i class="dot" style="background:var(--land);border:2px dashed var(--meal);width:9px;height:9px"></i>推薦可選（名稱見每日卡片）</span>
     </div>
@@ -240,6 +225,8 @@ details.more p{margin:6px 0 0;max-width:80ch}
 
     <div id="panel" aria-live="polite"></div>
   </div>
+
+  <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
 
   <section class="budget" id="budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
     <h2 style="margin-top:0">預算估算</h2>
@@ -271,7 +258,7 @@ const pts={
  ytri:["Ytri Tunga 海豹",-23.08,64.80,"spot","b"], budir:["布迪爾黑教堂",-23.38,64.82,"spot","l"],
  ingj:["Ingjaldshóll 教堂",-23.86,64.91,"spot","t"], kirk:["草帽山瀑布",-23.36,64.93,"spot","t"],
  grund:["格倫達菲厄澤（D2）",-23.25,64.925,"stay","r"],
- borg:["博爾加內斯（午餐）",-21.92,64.54,"spot","r"], kolu:["Kolugljúfur 峽谷",-20.62,65.33,"spot","b"],
+ borg:["博爾加內斯（午餐）",-21.92,64.54,"spot","r"], kolu:["Kolugljúfur 峽谷",-20.62,65.33,"spot","b"], stykk:["Stykkishólmur 教堂",-22.73,65.075,"spot","t",1], hvit:["Hvítserkur 海蝕岩",-20.64,65.61,"opt"],
  hjal:["Hjalteyri（D3）",-18.22,65.85,"stay","l"], husa:["胡薩維克 賞鯨",-17.34,66.04,"spot","t"],
  goda:["眾神瀑布",-17.55,65.68,"spot","b",1],
  hver:["Hverir・米湖溫泉",-16.80,65.63,"spot","r"],
@@ -308,16 +295,18 @@ const days=[
  {d:2,date:"9/13（一）",stay:"格倫達菲厄澤",arrive:"19:05",legs:[L("rvk","costco",15,{c:1}),L("costco","borg",60,{c:1}),L("borg","ytri",55,{c:1,dy:16}),L("ytri","budir",25),L("budir","djup",40,{c:1}),L("djup","ingj",20,{c:1}),L("ingj","kirk",35,{dy:-16}),L("kirk","grund",5)],
   plan:[["09:00","雷克雅維克取車（租車公司市區辦事處或送車到住處，要預先確認）","c"],["09:55–10:55","Costco（Garðabær）：入滿油，買幾日的早餐、零食和飲品","c"],["12:10–12:55","午餐：博爾加內斯 Settlement Center 餐廳（11:30 開）","m"],["14:05–14:30","Ytri Tunga 海豹沙灘"],["15:05–15:25","布迪爾黑教堂"],["16:15–16:50","Djúpalónssandur 黑沙灘","c"],["17:20–17:35","Ingjaldshóll 教堂筆直大道"],["18:20–18:50","草帽山瀑布","c"],["19:05","入住格倫達菲厄澤","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["全程最長的一天之一；如果進度落後，先刪 Djúpalónssandur，可以早約 1 小時 20 分到住處",1],["日落約 20:10，可以由住處或步行去看草帽山日落，不要開車"]]},
- {d:3,date:"9/14（二）",stay:"Apt. Hotel Hjalteyri",arrive:"17:45",legs:[L("grund","borg",80),L("borg","kolu",105,{c:1,was:"原 1 小時 30 分"}),L("kolu","hjal",135)],
-  plan:[["09:00","退房出發（原 10:00，車程較長）","c"],["10:40–11:30","Settlement Center 展覽（D2 只食咗午餐的話；展覽時間要向館方確認）","c"],["11:30–12:15","早午餐：博爾加內斯","m"],["12:15–14:25","開往 Kolugljúfur"],["14:25–15:00","Kolugljúfur 峽谷"],["15:00–17:45","經 Öxnadalsheiði 山口開往 Hjalteyri"],["17:45","入住 Hjalteyri"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]]},
- {d:4,date:"9/15（三）",stay:"米湖區",arrive:"19:05",legs:[L("hjal","husa",80,{dx:-14,dy:-6,c:1,was:"原 1 小時 10 分"}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
+ {d:3,date:"9/14（二）",stay:"Hjalteyri／阿克雷里一帶",arrive:"17:20",legs:[L("grund","stykk",40,{c:1}),L("stykk","kolu",140,{c:1,via:["Búðardalur"]}),L("kolu","hjal",135)],
+  plan:[["09:00","退房出發","c"],["09:50–10:30","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","c"],["10:30–11:40","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）","c"],["11:40–12:25","午餐：Búðardalur","m"],["12:25–14:05","經 59 號公路接 1 號公路，開往 Kolugljúfur","c"],["14:05–14:40","Kolugljúfur 峽谷"],["14:40–17:20","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:20","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]],
+  notes:[["Settlement Center 已在 D2 午餐時去過，D3 唔再經博爾加內斯",1]],
+  opt:[{k:"hvit",t:"Hvítserkur 海蝕岩",add:"+約 2 小時（較緊）",d:"Vatnsnes 半島海邊一塊像飲水恐龍的玄武岩。由 Kolugljúfur 開去要走 711 號碎石路，之後再繞回 1 號公路去 Hjalteyri，整日會多約 2 小時，大約 19:20 先到住處，只比日落（約 19:46）早一點。只適合當日進度提早、天氣好；要確認租車保險包碎石路。"}]},
+ {d:4,date:"9/15（三）",stay:"米湖區",arrive:"19:05",legs:[L("hjal","husa",80,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
   plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時 20 分，通常 10:20 已到）","c"],["11:00–14:00","賞鯨（約 3 小時）"],["10:45–14:00","揀法一：GeoSea 海水溫泉，之後逛胡薩維克港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道 → 17:10 在 Hverir 同大隊會合","w"],["14:00–14:45","午餐：胡薩維克港口","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區（全部人會合）"],["17:45–18:40","米湖天然溫泉（未必去；唔去就直接入住休息）","c"],["19:05","到米湖區住處"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["隧道費要在 24 小時內上網繳"],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，傍晚在 Hverir 會合",1]],
   opt:[{k:"grjo",t:"Grjótagjá 溫泉洞",add:"+20 分鐘",d:"Hverir 附近的小熔岩洞，裡面有藍色溫泉水，《權力遊戲》在這裡取景。現在不准下水，只可以看。去的話米湖溫泉要縮短，確保日落前到住處。"}]},
- {d:5,date:"9/16（四）",stay:"埃伊爾斯塔濟",arrive:"18:15",legs:[L("myv","dett",50,{dx:-6,dy:-14}),L("dett","egil",120,{c:1,was:"原 1 小時 45 分"})],
+ {d:5,date:"9/16（四）",stay:"埃伊爾斯塔濟",arrive:"18:15",legs:[L("myv","dett",50,{dx:-6,dy:-14}),L("dett","egil",120,{c:1})],
   plan:[["09:00","出發"],["10:00–11:00","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:10–13:10","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:00","到埃伊爾斯塔濟、入住","c"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]],
   opt:[{k:"stud",t:"Stuðlagil 玄武岩峽谷",add:"+約 2 小時",d:"在黛提瀑布去埃伊爾斯塔濟的路上，從 1 號公路轉入 Jökuldalur 山谷。西岸觀景台很快可到；東岸可以落到峽谷底，來回步行約 1.5–2 小時。這裡日落約 19:23，去 Stuðlagil 的話要刪 Vök，否則會趕不及。"}]},
- {d:6,date:"9/17（五）",stay:"赫本",arrive:"15:50",legs:[L("egil","seyd",30,{c:1,hide:1}),L("seyd","hofn",225,{c:1,was:"原 埃伊爾斯塔濟直達 3 小時 15 分"})],
+ {d:6,date:"9/17（五）",stay:"赫本",arrive:"15:50",legs:[L("egil","seyd",30,{c:1,hide:1}),L("seyd","hofn",225,{c:1})],
   plan:[["09:00","出發","c"],["09:40–10:30","藍色教堂、彩虹街","c"],["10:30–13:35","沿東部峽灣南下"],["13:35–14:20","午餐：Djúpivogur（可看蛋雕塑）","m"],["15:50","到赫本、入住休息","c"],["18:30","小龍蝦晚餐（建議預約，住在鎮上可步行）","m"]],
   notes:[["全程開車最長的一天，實際約 4 小時 15 分"]]},
  {d:7,date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"16:20",legs:[L("hofn","vest",15),L("vest","jok",75,{dy:-14}),L("jok","hjok",25)],
@@ -334,9 +323,9 @@ const days=[
    notes:[["為了日落前到維克，羽毛峽谷要放棄；黑沙灘移到 D10 早上",1]]}},
   opt:[{k:"stjo",t:"Stjórnarfoss 瀑布",add:"+20 分鐘",d:"在羽毛峽谷附近的 Kirkjubæjarklaustur 鎮旁，從停車處短步行即到。只適合健行順利版。"}]},
  {d:10,date:"9/21（二）",stay:"塞爾福斯",v:{
-  ok:{tag:"健行順利版",arrive:"17:05",legs:[L("vik","solh",25,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1,was:"原 斯科加爾直達 1 小時 20 分"})],
+  ok:{tag:"健行順利版",arrive:"17:05",legs:[L("vik","solh",25,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1})],
    plan:[["08:30","早餐","m"],["09:30","退房出發","c"],["10:05–10:50","Sólheimajökull 冰川觀景步道（免費，不上冰）","c"],["11:15–12:00","斯科加爾瀑布（可行樓梯上頂）"],["12:00–12:45","午餐：Skógar","m"],["13:05–14:35","Skálakot 騎馬（預約 13:05）","c"],["15:00–15:50","水簾洞瀑布＋Gljúfrabúi 隱藏瀑布","c"],["17:05","到塞爾福斯、入住","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]]},
-  redo:{tag:"補做健行版",arrive:"18:05",legs:[L("vik","reyn",15),L("reyn","dyr",20,{c:1}),L("dyr","solh",20,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1,was:"原 斯科加爾直達 1 小時 20 分"})],
+  redo:{tag:"補做健行版",arrive:"18:05",legs:[L("vik","reyn",15),L("reyn","dyr",20,{c:1}),L("dyr","solh",20,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1})],
    plan:[["08:00","早餐","m"],["09:00","退房出發","c"],["09:25–10:05","雷尼斯黑沙灘（先看 safetravel.is）","c"],["10:35–11:05","迪霍拉里","c"],["11:35–12:05","Sólheimajökull 冰川觀景步道（免費，不上冰）","c"],["12:30–13:15","午餐：Skógar","m"],["13:15–13:50","斯科加爾瀑布"],["14:10–15:40","Skálakot 騎馬（預約 14:10）","c"],["16:05–16:45","水簾洞瀑布","c"],["18:05","到塞爾福斯、入住"],["19:00","晚餐：住處","m"]]}},
   notes:[["刪走冰川滑索後，這天輕鬆很多，日落前約 1.5–2.5 小時已到住處",1],["騎馬後備：Hveragerði 也有馬場，離塞爾福斯約 15 分"]]},
  {d:11,date:"9/22（三）",stay:"雷克雅維克",arrive:"19:00",legs:[L("self","gull",60,{c:1}),L("gull","geys",10),L("geys","silf",60,{dx:8,dy:8,c:1}),L("silf","rvk",50,{dx:-4,dy:-8,c:1,via:["Sky Lagoon"]})],
@@ -359,9 +348,9 @@ const short=m=>m<60?`${m}分`:(m%60?`${Math.floor(m/60)}h${String(m%60).padStart
 const NS="http://www.w3.org/2000/svg", svg=$("map");
 const el=(t,a,txt,par=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;par.appendChild(e);return e};
 const OFF={r:[11,4,"start"],l:[-11,4,"end"],t:[0,-11,"middle"],b:[0,18,"middle"]};
-const label=(x,y,side,name,stay,c,par)=>{const o=OFF[side];return el("text",{x:x+o[0],y:y+o[1],"text-anchor":o[2],"font-size":stay?14:12.5,"font-weight":stay||c?700:500,fill:stay?"var(--stay)":(c?"var(--chg)":"var(--fg)"),"paint-order":"stroke",stroke:"var(--land)","stroke-width":3.5,"stroke-linejoin":"round","font-family":"var(--sans)"},name,par)};
-const dotc=k=>{const [,, ,type,,c]=pts[k];return type==="stay"?"var(--stay)":(c?"var(--chg)":"var(--spot)")};
-const legStyle=(g,d)=>({stroke:g.c?"var(--chg)":"var(--route)","stroke-width":g.c?2.6:2.2,"stroke-linecap":"round","stroke-dasharray":(d===1||d===12)?"5 4":"none",opacity:.9});
+const label=(x,y,side,name,stay,c0,par)=>{const o=OFF[side],c=0;return el("text",{x:x+o[0],y:y+o[1],"text-anchor":o[2],"font-size":stay?14:12.5,"font-weight":stay||c?700:500,fill:stay?"var(--stay)":(c?"var(--chg)":"var(--fg)"),"paint-order":"stroke",stroke:"var(--land)","stroke-width":3.5,"stroke-linejoin":"round","font-family":"var(--sans)"},name,par)};
+const dotc=k=>pts[k][3]==="stay"?"var(--stay)":"var(--spot)";
+const legStyle=(g,d)=>({stroke:"var(--route)","stroke-width":2.2,"stroke-linecap":"round","stroke-dasharray":(d===1||d===12)?"5 4":"none",opacity:.9});
 const RG={x0:395,y0:625,x1:515,y1:700},S=2.2,IX=20,IY=600,IW=(RG.x1-RG.x0)*S,IH=(RG.y1-RG.y0)*S;
 const T=([x,y])=>[IX+(x-RG.x0)*S,IY+(y-RG.y0)*S];
 
@@ -388,8 +377,8 @@ function drawMap(){
   }
   pills.forEach(([x,y,t,c,d])=>{
     const w=t.length*7.6+12;
-    el("rect",{x:x-w/2,y:y-10,width:w,height:20,rx:5,fill:"var(--pill)",stroke:c?"var(--chg)":"var(--route)","stroke-width":c?1.6:1,"data-day":d});
-    el("text",{x,y:y+4.5,"text-anchor":"middle","font-size":12.5,"font-weight":c?700:500,fill:c?"var(--chg)":"var(--pill-fg)","font-family":"var(--sans)","data-day":d},t);
+    el("rect",{x:x-w/2,y:y-10,width:w,height:20,rx:5,fill:"var(--pill)",stroke:"var(--route)","stroke-width":1,"data-day":d});
+    el("text",{x,y:y+4.5,"text-anchor":"middle","font-size":12.5,"font-weight":500,fill:"var(--pill-fg)","font-family":"var(--sans)","data-day":d},t);
   });
   days.forEach(day=>(day.opt||[]).forEach(o=>{if(!o.k)return;const [name,lon,lat]=pts[o.k],[x,y]=P(lon,lat);
     const c=el("circle",{cx:x,cy:y,r:5.5,fill:"var(--land)",stroke:"var(--meal)","stroke-width":2,"stroke-dasharray":"2 2","data-days":String(day.d),"data-key":o.k});
@@ -413,7 +402,7 @@ function drawMap(){
 }
 
 /* Google Maps directions, sunrise/sunset, moon */
-const Q={kef:"Keflavík International Airport",bl:"Blue Lagoon",rvk:"Reykjavík",ytri:"Ytri Tunga",budir:"Búðakirkja",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss",grund:"Grundarfjörður",borg:"Landnámssetur Íslands, Borgarnes",kolu:"Kolugljúfur",hjal:"Hjalteyri",husa:"Húsavík harbour",goda:"Goðafoss",hver:"Hverir",myv:"Reykjahlíð",dett:"Dettifoss",egil:"Egilsstaðir",seyd:"Seyðisfjarðarkirkja",hofn:"Höfn",vest:"Vestrahorn",jok:"Jökulsárlón",hjok:"Hótel Jökulsárlón",skaf:"Skaftafell Visitor Centre",eld:"Eldhraun",fjad:"Fjaðrárgljúfur",vik:"Vík í Mýrdal",reyn:"Reynisfjara",dyr:"Dyrhólaey",solh:"Sólheimajökull",skog:"Skógafoss",skal:"Skálakot",selj:"Seljalandsfoss",self:"Selfoss",gull:"Gullfoss",geys:"Geysir",silf:"Silfra",costco:"Costco Kauptún, Garðabær",skyl:"Sky Lagoon",djup:"Djúpalónssandur",grjo:"Grjótagjá",stud:"Stuðlagil",fjall:"Fjallsárlón",stjo:"Stjórnarfoss",hvamm:"Hvammsvík Hot Springs"};
+const Q={stykk:"Stykkishólmskirkja",hvit:"Hvítserkur",kef:"Keflavík International Airport",bl:"Blue Lagoon",rvk:"Reykjavík",ytri:"Ytri Tunga",budir:"Búðakirkja",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss",grund:"Grundarfjörður",borg:"Landnámssetur Íslands, Borgarnes",kolu:"Kolugljúfur",hjal:"Hjalteyri",husa:"Húsavík harbour",goda:"Goðafoss",hver:"Hverir",myv:"Reykjahlíð",dett:"Dettifoss",egil:"Egilsstaðir",seyd:"Seyðisfjarðarkirkja",hofn:"Höfn",vest:"Vestrahorn",jok:"Jökulsárlón",hjok:"Hótel Jökulsárlón",skaf:"Skaftafell Visitor Centre",eld:"Eldhraun",fjad:"Fjaðrárgljúfur",vik:"Vík í Mýrdal",reyn:"Reynisfjara",dyr:"Dyrhólaey",solh:"Sólheimajökull",skog:"Skógafoss",skal:"Skálakot",selj:"Seljalandsfoss",self:"Selfoss",gull:"Gullfoss",geys:"Geysir",silf:"Silfra",costco:"Costco Kauptún, Garðabær",skyl:"Sky Lagoon",djup:"Djúpalónssandur",grjo:"Grjótagjá",stud:"Stuðlagil",fjall:"Fjallsárlón",stjo:"Stjórnarfoss",hvamm:"Hvammsvík Hot Springs"};
 const enc=s=>encodeURIComponent(s+", Iceland");
 const dir=stops=>{const o=stops[0],d=stops[stops.length-1],w=stops.slice(1,-1);
   return `https://www.google.com/maps/dir/?api=1&origin=${enc(o)}&destination=${enc(d)}${w.length?`&waypoints=${w.map(enc).join("%7C")}`:""}&travelmode=driving`};
@@ -477,6 +466,7 @@ const SP={
  thing:{t:"Þingvellir 國家公園（唔浮潛的人）",d:"北美板塊和歐亞板塊之間的裂谷，冰島國會在公元 930 年於這裡成立，是世界遺產。Almannagjá 大裂谷步道沿板塊岩壁而行，行約 20 分鐘可到 Öxarárfoss 瀑布。",w:["停車要付費，用 Parka app 或在停車場機器繳","步道大多平坦，來回約 1–1.5 小時；遊客中心有洗手間和咖啡"]},
  geosea:{t:"GeoSea 海水溫泉（唔觀鯨的人）",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看 Skjálfandi 海灣，有時遠遠見到賞鯨船出海。",w:["要預約；價錢和開放時間以官網為準","由碼頭開車約 3 分鐘，行路約 15 分鐘"]},
  leir:{t:"Leirhnjúkur 熔岩原（唔觀鯨的人）",d:"Krafla 火山區的熔岩原，1975–1984 年「Krafla 之火」噴發留下的黑色熔岩仍然冒煙，地面有彩色的地熱泥土。由 Krafla 停車場行環形步道約 1–1.5 小時。",w:["一定要留在步道上，地面可能很燙或很薄","步道碎石多，穿登山鞋","由 Hverir 開車約 10 分鐘"]},
+ stykk:{t:"Stykkishólmskirkja 教堂",d:"1990 年建成的白色現代教堂，外形像鯨魚骨或者海螺，坐在小山上可以俯瞰 Stykkishólmur 港口。附近的 Súgandisey 小島有燈塔，行幾分鐘就上到頂，看布雷達灣的小島。",w:["教堂內部未必開放，外面已經值得看","Súgandisey 頂部風大，小心崖邊"]},
  graik:{t:"Grái Kötturinn（地下室早餐）",d:"市中心一間細小的地下室咖啡店，以份量大的冰島式早餐聞名，例如招牌的「Truck」（煙肉、蛋、薯仔、班戟）。",w:["地方細，座位少，早點去","每日 08:00–14:30，廚房 14:00 截單；地址 Hverfisgata 16"]},
  nauth:{t:"Nauthólsvík 地熱海灘",d:"雷克雅維克市內的人工沙灘，地熱水流入海灣，有熱水池可以浸，亦可以落海冷水浴。",w:["9 月是冬季時間：星期六 11:00–16:00，星期日和一閉館","有更衣室和淋浴，記得帶泳衣和毛巾","在市中心以南，坐巴士或的士約 10–15 分鐘"]},
  volc:{t:"Þríhnúkagígur 火山內部",d:"坐開放式升降台落到一座休眠火山的岩漿庫裡面，深約 120 米。每人約 51,000 ISK，接送另加 4,500–6,399 ISK。",w:["要行約 3 公里去入口，單程約 45–50 分鐘，最後一段有斜坡","入面潮濕清涼，穿防水外套和好行的鞋","會因天氣取消"]},
@@ -507,7 +497,7 @@ function card(raw){
   const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`預留 ${fmt(buf(l.m))}<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`}</b></a>`).join("");
   const notes=(day.notes||[]).map(n=>`<div class="note${n[1]?" c":""}">${n[0]}</div>`).join("");
-  return `<article class="day${isChg(day)?" chg":""}">
+  return `<article class="day">
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":"車程預留約"} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
@@ -522,9 +512,9 @@ function card(raw){
   <div class="daynav"><button type="button" data-go="${day.d-1}"${day.d===0?' class="ghost" tabindex="-1" aria-hidden="true"':""}>← D${day.d-1}</button><button type="button" data-go="${ALL}">看全部</button><button type="button" data-go="${day.d+1}"${day.d===12?' class="ghost" tabindex="-1" aria-hidden="true"':""}>D${day.d+1} →</button></div>`;
 }
 function overview(){
-  return tipsHTML()+`<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0);
+  return `<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?k.slice(4):nm(k)).filter((v,i,a)=>v!==a[i-1]).join(" → ");
-    return `<button type="button" class="ovrow" data-go="${day.d}"><span class="d${isChg(day)?" c":""}">D${day.d}</span><span class="dt">${day.date}</span><span class="r">${route}${day.stay?`<small>住：${day.stay}</small>`:""}</span><span class="tm">${day.bus?"巴士":tot?fmt(tot):"無車"}</span></button>`}).join("")}</div>`;
+    return `<button type="button" class="ovrow" data-go="${day.d}"><span class="d">D${day.d}</span><span class="dt">${day.date}</span><span class="r">${route}${day.stay?`<small>住：${day.stay}</small>`:""}</span><span class="tm">${day.bus?"巴士":tot?fmt(tot):"無車"}</span></button>`}).join("")}</div>`;
 }
 function dim(){
   svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",sel!==ALL&&+e.dataset.day!==sel));
@@ -556,10 +546,7 @@ $("dv-buf").setAttribute("aria-pressed",String(drv==="buf"));$("dv-raw").setAttr
 setScen(scen);select(sel);
 
 /* changes summary: collapsed by default */
-function setChanges(open){$("changes").hidden=!open;$("showChanges").hidden=open;store.set("iceland-changes",open?"1":"0")}
-$("hideChanges").addEventListener("click",()=>{setChanges(false);$("showChanges").focus()});
-$("showChanges").addEventListener("click",()=>{setChanges(true);$("hideChanges").focus()});
-if(store.get("iceland-changes")==="1")setChanges(true);
+
 
 /* budget: one table — prices on the left, one column per person on the right */
 const SRC={
@@ -568,7 +555,6 @@ const SRC={
  myv:["Arctic Adventures：Mývatn 溫泉","https://adventures.is/iceland/attractions/myvatn-nature-baths"],
  vok:["Vök Baths 價錢和時間","https://www.vokbaths.is/about"],
  whale:["North Sailing 胡薩維克賞鯨","https://www.northsailing.is/project-category/husavik/"],
- boat:["Nonni Travel：冰河湖 Zodiac 快艇","https://nonnitravel.is/?p=7566"],
  kayak:["Nonni Travel：冰河湖獨木舟","https://nonnitravel.is/?p=7708"],
  silf:["Nonni Travel：Silfra 浮潛","https://nonnitravel.is/?p=7733"],
  stok:["Stokksnes 入場費","https://beyondthemoments.com/what-to-know-before-visiting-stokksnes-vestrahorn-in-iceland"],
@@ -581,7 +567,7 @@ const SRC={
 const B_=(id,name,price,qty,scope,o={})=>({id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false});
 const BUD=[
  ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("blbus","D1 巴士：機場→藍湖→市區",7000,1,"a",{est:1,src:"",note:"未取車要坐巴士；價錢待查"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Pure（D11）",9790,1,"a",{note:"網頁未註明日期，可能已調價"})]],
- ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("boat","冰河湖 Zodiac 快艇（D7，不去）",15700,1,"a",{def:false,on:false,note:"已改為獨木舟；留作對照"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
+ ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/13 取車，11 日）",13000,11,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,11,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
  ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("air","Airbnb 整間屋（7 人）",65000,11,"g",{est:1,src:"",note:"每晚平均，已計服務費；雷克雅維克較貴，鄉郊較平"}),B_("clean","Airbnb 清潔費",10000,10,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房）",90000,11,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"})]]
@@ -646,14 +632,17 @@ $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href=
 calc();
 
 /* page tabs */
+$("tips").innerHTML=`<h2 style="margin-top:0">出發前必讀：注意事項</h2><dl class="tipsdl">${TIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
 function view(v){
-  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";
-  $("tab-trip").setAttribute("aria-selected",String(v==="trip"));$("tab-budget").setAttribute("aria-selected",String(v==="budget"));
-  try{history.replaceState(null,"",v==="budget"?"#budget":"#trip")}catch(e){}
+  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";
+  ["trip","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
+  try{history.replaceState(null,"","#"+v)}catch(e){}
   window.scrollTo(0,0);
 }
 $("tab-trip").addEventListener("click",()=>view("trip"));
 $("tab-budget").addEventListener("click",()=>view("budget"));
+$("tab-tips").addEventListener("click",()=>view("tips"));
+if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
 if(/simple/.test(location.hash)){
   document.documentElement.classList.add("print","simple");
