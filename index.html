@@ -310,6 +310,16 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .gsts.ok{background:#e3ece2;color:#4d6b52}.gsts.chg{background:#f3e2da;color:#9a5a45}
 .gsta{color:var(--route);font-weight:600;margin-top:2px}.gstw{margin:4px 0 6px;color:var(--muted)}
 .gstl ul{margin:2px 0 6px;padding-left:18px}.gstl>b{font-size:12.5px;color:var(--meal)}
+.kmlp{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:8px 2px 0;font-size:12.5px;color:var(--muted)}
+:root{--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181}}
+:root[data-theme="dark"]{--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181}
+.bpie{max-width:760px}.bpw{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}.bpw svg{width:180px;height:180px;flex:0 0 auto}
+.bpw .pct1{font-size:10px;fill:var(--muted)}.bpw .pct2{font-size:17px;font-weight:700;fill:var(--fg)}
+.plg{list-style:none;margin:0;padding:0;display:grid;gap:6px;flex:1 1 260px;font-size:13.5px}
+.plg li{display:grid;grid-template-columns:12px 1fr auto;gap:2px 8px;align-items:baseline}.plg i{width:12px;height:12px;border-radius:3px;align-self:center}
+.plg .pv{font-weight:700;font-variant-numeric:tabular-nums}.plg .pa{grid-column:2/4;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}.plg .pa small{margin-left:6px}
+.bpie .fade{opacity:.3}.bpie path,.plg li{transition:opacity .15s}
 </style>
 
 </head>
@@ -350,6 +360,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
       <span><i class="bar"></i>路線（放大後顯示車程）</span>
       <span><i class="dot" style="background:var(--land);border:2px dashed var(--meal);width:9px;height:9px"></i>推薦可選（名稱見每日卡片）</span>
     </div>
+    <p class="kmlp" id="kmlp" hidden><a class="btn ghostb" href="iceland-2027.kml" download>下載 Google Maps 地圖檔（KML）</a><span>匯入 Google My Maps 後，可以喺 Google Maps app 睇晒所有景點同導航</span></p>
     <details class="more">
       <summary>地圖說明和極光</summary>
       <p><span class="rawonly" hidden>車程和時間表已按實際車程多預留約兩成（每段至少多 10 分鐘），地圖方框顯示的是預留時間。</span>車程為約數，不含停留時間；地圖上的路線是直線示意，不是實際道路。揀日子時地圖會自動放大到當日路線；可以兩隻手指縮放、拖動，撳景點會彈出簡介和 Google Maps 連結。少於 30 分鐘的短程只列在每日車程裡。每段車程都可以按一下，用 Google Maps 開實際路線。</p>
@@ -375,6 +386,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
       <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label>
     </div>
     <div class="btot" id="b-tot"></div>
+    <div class="bpie" id="b-pie"></div>
     <p class="bnote" style="margin-top:12px">表格右邊每人一欄：溫泉和活動預設全部人參加，可以逐格取消，或用「全選／清除」一次改整行；其他項目會自動計算每人應付的份額。最底一行是每個人各自的總額。名字可以直接改。</p>
     <div class="bwrap"><table class="btable" id="b-table"></table></div>
     <p class="bsrc" id="b-src"></p>
@@ -1030,6 +1042,21 @@ function build(ppl){
   const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td>${P_.map(i=>`<td class="pc num" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td>${P_.map(i=>`<td class="pc num" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
   $("b-table").innerHTML=head+`<tbody>${body}</tbody>`+foot;built=ppl;
 }
+/* budget donut: share of the group total by category (visible legend doubles as the table view) */
+const RCI=Object.fromEntries(BUD.flatMap(([,rs],ci)=>rs.map(r=>[r.id,ci])));
+function drawPie(ppl,hkd){
+  const tot=BUD.map(()=>0);rowsAll.forEach(r=>{if(!r.on)return;const unit=r.price*r.qty;const sub=r.scope==="a"?unit*join[r.id].filter(Boolean).length:r.scope==="p"?unit*ppl:unit*(r.scope==="c"?(+$("b-cars").value||1):1);tot[RCI[r.id]]+=sub});
+  const sum=tot.reduce((a,b)=>a+b,0);if(!sum){$("b-pie").innerHTML="";return}
+  const names=BUD.map(([c])=>c.replace(/（.*）/,"")),R=70,r=44,cx=90,cy=90;let a0=-Math.PI/2,paths="";
+  const pt=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];
+  tot.forEach((v,i)=>{if(!v)return;const a1=a0+v/sum*Math.PI*2,big=a1-a0>Math.PI?1:0,[x0,y0]=pt(a0,R),[x1,y1]=pt(a1,R),[x2,y2]=pt(a1,r),[x3,y3]=pt(a0,r);
+    const d=v===sum?`M${cx-R},${cy}a${R},${R} 0 1,0 ${2*R},0a${R},${R} 0 1,0 ${-2*R},0M${cx-r},${cy}a${r},${r} 0 1,1 ${2*r},0a${r},${r} 0 1,1 ${-2*r},0Z`:`M${x0},${y0}A${R},${R} 0 ${big} 1 ${x1},${y1}L${x2},${y2}A${r},${r} 0 ${big} 0 ${x3},${y3}Z`;
+    paths+=`<path d="${d}" fill="var(--pc${i})" stroke="var(--card)" stroke-width="2" data-i="${i}"><title>${names[i]}：${fI(v)} ISK（${Math.round(v/sum*100)}%）</title></path>`;a0=a1});
+  $("b-pie").innerHTML=`<h3 class="tiph">預算分佈（全組，已勾選項目）</h3><div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}<text x="90" y="84" text-anchor="middle" class="pct1">平均每人</text><text x="90" y="104" text-anchor="middle" class="pct2">${fI(sum/ppl)}</text><text x="90" y="120" text-anchor="middle" class="pct1">ISK</text></svg>
+   <ul class="plg">${tot.map((v,i)=>`<li data-i="${i}"><i style="background:var(--pc${i})"></i><span class="pn">${names[i]}</span><span class="pv">${Math.round(v/sum*100)}%</span><span class="pa">${fI(v)} ISK<small>每人約 ${fI(v/ppl)} ISK・HKD ${fI(v/ppl*hkd)}</small></span></li>`).join("")}</ul></div>`;
+  const hl=i=>{$("b-pie").querySelectorAll("[data-i]").forEach(e=>e.classList.toggle("fade",i!=null&&e.dataset.i!==i))};
+  $("b-pie").querySelectorAll("[data-i]").forEach(e=>{e.addEventListener("pointerenter",()=>hl(e.dataset.i));e.addEventListener("pointerleave",()=>hl(null))});
+}
 function calc(){
   const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1)),hkd=+$("b-hkd").value||0,aud=+$("b-aud").value||0;
   if(built!==ppl)build(ppl);
@@ -1047,6 +1074,7 @@ function calc(){
   const g=id=>rowsAll.find(r=>r.id===id),u=r=>r.price*r.qty,airPP=(u(g("air"))+u(g("clean")))/ppl,hotPP=u(g("hotel"))/ppl;
   const avg=total/ppl,lo=Math.min(...per),hi=Math.max(...per);
   $("b-tot").innerHTML=`<div><small>全組總額（${ppl} 人・${cars} 車）</small><b>${fI(total)} ISK</b><small>約 HKD ${fI(total*hkd)} · AUD ${fI(total*aud)}</small></div><div><small>平均每人</small><b>${fI(avg)} ISK</b><small>約 HKD ${fI(avg*hkd)} · AUD ${fI(avg*aud)}</small></div><div><small>每人由低至高</small><b>${fI(lo)} – ${fI(hi)}</b><small>按各人勾選的活動，見表格右邊</small></div><div><small>住宿每人：Airbnb／酒店</small><b>${fI(airPP)} / ${fI(hotPP)}</b><small>未計飲食差異；酒店通常要多出外食</small></div>`;
+  drawPie(ppl,hkd);
   store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 $("budget").addEventListener("click",e=>{const btn=e.target.closest("[data-all]");if(!btn)return;const id=btn.dataset.all;
@@ -1214,6 +1242,7 @@ if(/print/.test(location.hash)){
 try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(enWalk))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
 try{if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+try{if(/github\.io$/.test(location.hostname))$("kmlp").hidden=false}catch(e){}
 </script>
 
 </body>
