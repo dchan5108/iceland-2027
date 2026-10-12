@@ -179,7 +179,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sched.rich.cfon .a::before{display:none}
 .cfb{position:absolute;left:-9px;top:.6em;width:16px;height:16px;border-radius:50%;border:2.5px solid var(--route);background:var(--card);padding:0;cursor:pointer;display:grid;place-items:center;font-size:11px;line-height:1;color:#fff}
 .sched.rich .a.m .cfb{border-color:var(--meal)}.sched.rich .a.y .cfb{border-color:var(--chg)}
-.cfb[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)!important}.cfb[aria-pressed="true"]::after{content:"✓";font-weight:700}
+.cfb.fix{cursor:default}.cfb:not(.fix)[aria-pressed="true"]{background:var(--card);color:var(--ok)}.cfb[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)!important}.cfb[aria-pressed="true"]::after{content:"✓";font-weight:700}.cfcopy{margin-left:auto}
 .sched.rich .a.cf{border-left-color:var(--ok);border-left-style:solid}.sched.rich .t.cf{color:var(--ok);font-weight:600}
 .cfbar{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:8px}.cfc{color:var(--ok);font-weight:500}
 .rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
@@ -522,7 +522,7 @@ const days=[
 ];
 let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 const ALL=99;
-let sel=+(store.get("iceland-day2")??ALL);if(!(sel>=0&&sel<=12))sel=ALL;
+let sel=+(store.get("iceland-day2")??ALL);
 /* time display */
 const REAL_KEY="n8f3",OFS=0;const isRealUrl=()=>{try{return location.hash.replace("#","")===REAL_KEY||new URLSearchParams(location.search).has(REAL_KEY)}catch(e){return false}};
 let REAL=isRealUrl();try{if(REAL)store.set("iceland-mode","r");else REAL=store.get("iceland-mode")==="r"}catch(e){}
@@ -965,11 +965,19 @@ const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.
 const TAGS={v:"待大家決定",o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人",g:"若不能去冰川健行"};
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 /* confirmed marks: tap the timeline dot (real versions only); saved on this device */
+/* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
+const CONFIRMED={2:[/入住 Miðhraun/],7:[/冰河湖獨木舟/]};
+const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isConf=(d,a)=>(CONFIRMED[d]||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")));
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
 const cfKey=(d,t,a)=>{let h=0;const x=`${d}|${t}|${String(a).replace(/<[^>]*>/g,"")}`;for(let i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))|0;return "c"+(h>>>0).toString(36)};
 const cfCount=el=>{const art=el.closest("article");if(!art)return;const bs=[...art.querySelectorAll(".cfb")],n=bs.filter(b=>b.getAttribute("aria-pressed")==="true").length,c=art.querySelector(".cfc");if(c)c.innerHTML=`已確認 <b>${n}</b> / ${bs.length}`};
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".cfb");if(!b)return;e.preventDefault();e.stopPropagation();const k=b.dataset.cf,on=!CF[k];if(on)CF[k]=1;else delete CF[k];store.set("iceland-cf",JSON.stringify(CF));
   b.setAttribute("aria-pressed",String(on));b.closest(".a").classList.toggle("cf",on);const t=b.closest(".a").previousElementSibling;if(t)t.classList.toggle("cf",on);cfCount(b)});
+document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest(".cfcopy");if(!b)return;
+  const all=[...document.querySelectorAll('#panel .cfb[data-cf]')],on=all.filter(x=>x.getAttribute("aria-pressed")==="true").map(x=>x.dataset.txt);
+  const txt=on.length?"請將以下行程標記為已確認（大家都見到）：\n"+on.map(x=>"・"+x).join("\n"):"";if(!txt){b.textContent="未有新剔的項目";setTimeout(()=>b.textContent="傳畀 Claude",1800);return}
+  try{await navigator.clipboard.writeText(txt);b.textContent="已複製，貼返俾 Claude"}catch(err){window.prompt("複製以下文字：",txt)}setTimeout(()=>b.textContent="傳畀 Claude",2500)});
 function richRows(day){
   const plan=EP(day.plan),att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
   const order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
@@ -981,10 +989,10 @@ function richRows(day){
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
-    const ck=cfKey(day.d,t,a),on=REAL&&!!CF[ck],btn=REAL?`<button type="button" class="cfb" data-cf="${ck}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
+    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
-  const nOn=REAL?plan.filter(([t,a])=>CF[cfKey(day.d,t,a)]).length:0;
-  return `${REAL?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span><span>撳時間線上的圓圈標記已確認（只儲存喺呢部裝置）</span></div>`:""}<div class="sched rich${REAL?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
+  const nFix=plan.filter(([t,a])=>isConf(day.d,a)).length,nOn=plan.filter(([t,a])=>isConf(day.d,a)||(REAL&&CF[cfKey(day.d,t,a)])).length,showCf=REAL||nFix;
+  return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${REAL?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${REAL?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 function card(raw){
@@ -1007,7 +1015,7 @@ function card(raw){
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":(REAL?"車程（已多預留約兩成，按一下開 Google Maps）":"車程（按一下開 Google Maps）")}</div>${legs}`:""}
     ${day.stay?`<div class="stayline">住宿（未確定）：${day.stay}</div>`:""}
   </article>
-  <div class="daynav"><button type="button" data-go="${day.d-1}"${day.d===0?' class="ghost" tabindex="-1" aria-hidden="true"':""}>← D${day.d-1}</button><button type="button" data-go="${ALL}">看全部</button><button type="button" data-go="${day.d+1}"${day.d===12?' class="ghost" tabindex="-1" aria-hidden="true"':""}>D${day.d+1} →</button></div>`;
+  ${(()=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav"><button type="button"${pv?` data-go="${pv.d}"`:gh}>← ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">看全部</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} →</button>`})()}</div>`;
 }
 function overview(){
   return `<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0);
@@ -1019,7 +1027,7 @@ function dim(){
   svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",sel!==ALL&&!e.dataset.days.split(" ").includes(String(sel))));
   applyVB();
 }
-function renderPanel(){$("panel").innerHTML=sel===ALL?overview():card(days.find(x=>x.d===sel))}
+function renderPanel(){if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;$("panel").innerHTML=sel===ALL?overview():card(days.find(x=>x.d===sel))}
 function select(d,scroll){
   sel=d;store.set("iceland-day2",String(d));
   $("chips").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.d===d)));
@@ -1046,7 +1054,7 @@ $("sc-redo").addEventListener("click",()=>setScen("redo"));
 function setDrv(v){drv=v;store.set("iceland-drv",v);$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));drawMap();renderPanel();dim()}
 $("dv-buf").addEventListener("click",()=>setDrv("buf"));$("dv-raw").addEventListener("click",()=>setDrv("raw"));
 if(REAL){$("drvgrp").hidden=false;document.querySelectorAll(".rawonly").forEach(e=>e.hidden=false)}$("dv-buf").setAttribute("aria-pressed",String(drv==="buf"));$("dv-raw").setAttribute("aria-pressed",String(drv==="raw"));
-setScen(scen);select(sel);
+if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;setScen(scen);select(sel);
 
 /* changes summary: collapsed by default */
 
