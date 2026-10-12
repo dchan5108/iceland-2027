@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>html{color-scheme:light}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>冰島環島修改版</title>
+<title>2027 冰島（暫定行程）</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap">
 <style>
 /* Layout: page tabs (trip / budget); trip view = backup-plan switch, day chips, schematic map with south-coast inset, then either a compact 12-day overview or one selected day's card */
@@ -167,6 +167,9 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .tipsdl dt{font-weight:700;color:var(--route)}
 .tiph{font-size:1rem;font-weight:700;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);max-width:760px}
 .tipsdl dd{margin:0}
+.eat{font-size:13.5px}
+.eatm{font-weight:700;color:var(--meal);margin-top:4px}
+.eat ul{margin:2px 0 4px;padding-left:1.2em;display:grid;gap:2px}
 .print .tabs,.print .topbar,.print .chips,.print .daynav,.print #changes,.print .links,.print .legend + details summary{display:none!important}
 .print .day{max-width:none;break-inside:auto;margin:0 0 14px}
 .print .day h3{break-after:avoid}
@@ -189,7 +192,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 </head>
 <body>
 <div class="wrap">
-  <h1>冰島環島修改版</h1>
+  <h1>2027 冰島（暫定行程）</h1>
   <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 12 天 · 7 人 2 車</p>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
@@ -211,7 +214,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
     </div>
 
     <div class="chips" id="chips" role="group" aria-label="選擇日子"></div>
-    <div class="mapbox"><svg id="map" viewBox="0 0 1000 785" role="img" aria-label="冰島環島修改版路線圖"></svg></div>
+    <div class="mapbox"><svg id="map" viewBox="0 0 1000 785" role="img" aria-label="2027 冰島路線圖"></svg></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--stay)"></i>住宿</span>
       <span><i class="dot" style="background:var(--spot)"></i>景點</span>
@@ -286,13 +289,13 @@ const nm=k=>N[k]||pts[k][0].replace(/（.*）/,"");
 const L=(a,b,m,o={})=>({a,b,m,...o});
 /* plan rows: [time, activity, flag]  flag: "m" meal, "c" changed.  Days 9 and 10 have two versions: ok = D8 hike went ahead, redo = D8 cancelled and redone on D9 */
 const days=[
- {d:0,date:"9/11（六）",only:"只限你同朋友・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"火山內部 → 地熱海灘 → 書店酒吧",
+ {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"火山內部 → 地熱海灘 → 書店酒吧",
   plan:[["07:30","早餐：住處（火山團約 08:30 接人；Grái Kötturinn 08:00 才開門，改到 9/12 去）","m"],["約 08:30–14:00","Þríhnúkagígur 火山內部（連酒店接送約 5–6 小時，接送時間以預訂為準）","c"],["14:00–14:30","簡單午餐（市中心）","m"],["14:45–16:00","Nauthólsvík 地熱海灘（星期六 11:00–16:00）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
   notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["火山內部有季節性（5 月 5 日至 10 月 30 日），會因天氣取消，揀可以免費改期的時段"]],
   opt:[{t:"較平或較輕鬆的選擇",add:"代替火山內部",d:"Raufarhólshellir 熔岩隧道（雷克雅維克附近，約 1 小時，有接送）；ATV 越野車（約 1–2 小時，有接送）；或免費的 Reykjadalur 溫泉河（行山單程約 1 小時）。"}]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",bus:1,legs:[L("kef","bl",20,{c:1}),L("bl","rvk",45,{c:1})],
-  plan:[["09:00–10:00","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山","y"],["11:00–11:45","Laugavegur 購物街（星期日大多 11:00 後先開）","y"],["11:45–12:00","Sun Voyager 維京船雕塑","y"],["12:00–12:15","Harpa 音樂廳","y"],["12:15–12:35","午餐：Bæjarins Beztu 熱狗","y"],["12:45","由 BSÍ 坐巴士去藍湖（約 45 分鐘，班次要上 re.is 查）","y"],["上午","大隊抵達 KEF；今日未取車","c"],["12:00–12:45","大隊午餐：機場","m"],["約 13:00","大隊坐機場巴士去藍湖（約 20 分鐘），行李可寄存","c"],["13:30–15:45","藍湖（預約 13:30 時段）；全部人在這裡會合"],["16:15","全部人坐巴士去雷克雅維克（約 45 分鐘）","c"],["17:15","入住雷克雅維克住處，附近超市買早餐","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["9/12 未取車：機場、藍湖、市區之間全部坐巴士（例如 Destination Blue Lagoon），7 人要預早訂位",1],["紫色虛線框的是你同朋友的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
+  plan:[["09:00–10:00","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["11:00–11:45","Laugavegur 購物街（星期日大多 11:00 後先開）","y"],["11:45–12:00","Sun Voyager 維京船雕塑","y"],["12:00–12:15","Harpa 音樂廳","y"],["12:15–12:35","午餐：Bæjarins Beztu 熱狗","y"],["12:45","由 BSÍ 坐巴士去藍湖（約 45 分鐘，班次要上 re.is 查）","y"],["上午","大隊抵達 KEF；今日未取車","c"],["12:00–12:45","大隊午餐：機場","m"],["約 13:00","大隊坐機場巴士去藍湖（約 20 分鐘），行李可寄存","c"],["13:30–15:45","藍湖（預約 13:30 時段）；全部人在這裡會合"],["16:15","全部人坐巴士去雷克雅維克（約 45 分鐘）","c"],["17:15","入住雷克雅維克住處，附近超市買早餐","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  notes:[["9/12 未取車：機場、藍湖、市區之間全部坐巴士（例如 Destination Blue Lagoon），7 人要預早訂位",1],["紫色虛線框的是Dorcas 和 Tebe的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
  {d:2,date:"9/13（一）",stay:"格倫達菲厄澤",arrive:"19:05",legs:[L("rvk","costco",15,{c:1}),L("costco","borg",60,{c:1}),L("borg","ytri",55,{c:1,dy:16}),L("ytri","budir",25),L("budir","djup",40,{c:1}),L("djup","ingj",20,{c:1}),L("ingj","kirk",35,{dy:-16}),L("kirk","grund",5)],
   plan:[["09:00","雷克雅維克取車（租車公司市區辦事處或送車到住處，要預先確認）","c"],["09:55–10:55","Costco（Garðabær）：入滿油，買幾日的早餐、零食和飲品","c"],["12:10–12:55","午餐：博爾加內斯 Settlement Center 餐廳（11:30 開）","m"],["14:05–14:30","Ytri Tunga 海豹沙灘"],["15:05–15:25","布迪爾黑教堂"],["16:15–16:50","Djúpalónssandur 黑沙灘","c"],["17:20–17:35","Ingjaldshóll 教堂筆直大道"],["18:20–18:50","草帽山瀑布","c"],["19:05","入住格倫達菲厄澤","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["全程最長的一天之一；如果進度落後，先刪 Djúpalónssandur，可以早約 1 小時 20 分到住處",1],["日落約 20:10，可以由住處或步行去看草帽山日落，不要開車"]]},
@@ -330,7 +333,7 @@ const days=[
    plan:[["08:00","早餐","m"],["09:00","退房出發","c"],["09:25–10:05","雷尼斯黑沙灘（先看 safetravel.is）","c"],["10:35–11:05","迪霍拉里","c"],["11:35–12:05","Sólheimajökull 冰川觀景步道（免費，不上冰）","c"],["12:30–13:15","午餐：Skógar","m"],["13:15–13:50","斯科加爾瀑布"],["14:10–15:40","Skálakot 騎馬（預約 14:10）","c"],["16:05–16:45","水簾洞瀑布","c"],["18:05","到塞爾福斯、入住"],["19:00","晚餐：住處","m"]]}},
   notes:[["刪走冰川滑索後，這天輕鬆很多，日落前約 1.5–2.5 小時已到住處",1],["騎馬後備：Hveragerði 也有馬場，離塞爾福斯約 15 分"]]},
  {d:11,date:"9/22（三）",stay:"雷克雅維克",arrive:"19:00",legs:[L("self","gull",60,{c:1}),L("gull","geys",10),L("geys","silf",60,{dx:8,dy:8,c:1}),L("silf","rvk",50,{dx:-4,dy:-8,c:1,via:["Sky Lagoon"]})],
-  plan:[["09:00","退房出發","c"],["10:15–10:55","黃金瀑布"],["11:15–11:45","間歇泉"],["11:45–12:15","午餐：Geysir 遊客中心","m"],["13:30–16:30","Silfra 浮潛（確定去；預約 13:30，連講解和換裝約 3 小時）","c"],["13:30–16:30","Þingvellir 國家公園：Almannagjá 大裂谷步道 → Öxarárfoss 瀑布 → 遊客中心觀景台；最後在岸邊幫浮潛的人影相","n"],["17:30–18:45","Sky Lagoon（預約 17:30）","c"],["19:00","到雷克雅維克住處（日落約 19:30）","c"],["19:30","晚餐：住處或步行可到的餐廳","m"]],
+  plan:[["09:00","退房出發","c"],["10:15–10:55","黃金瀑布"],["11:15–11:45","間歇泉"],["11:45–12:30","午餐：Geysir 遊客中心，或預約 Friðheimar 番茄溫室（見推薦食肆）","m"],["13:30–16:30","Silfra 浮潛（確定去；預約 13:30，連講解和換裝約 3 小時）","c"],["13:30–16:30","Þingvellir 國家公園：Almannagjá 大裂谷步道 → Öxarárfoss 瀑布 → 遊客中心觀景台；最後在岸邊幫浮潛的人影相","n"],["17:30–18:45","Sky Lagoon（預約 17:30）","c"],["19:00","到雷克雅維克住處（日落約 19:30）","c"],["19:30","晚餐：住處或步行可到的餐廳","m"]],
   notes:[["Silfra 沒有後備日，但較少因天氣取消；如果取消，全部人一齊行 Þingvellir 步道，然後早啲去 Sky Lagoon"],["預約 Silfra 要先填健康聲明；唔浮潛的人預算表記得剔走 Silfra"]],
   opt:[{k:"hvamm",t:"Hvammsvík 溫泉（取代 Sky Lagoon）",add:"車程 +約 20 分鐘",d:"海邊的天然溫泉池，受潮汐影響，比較少人，途經《權力遊戲》取景的 Þórufoss 瀑布。去的話要在 18:30 前離開，才可以在日落前回到雷克雅維克，所以只能泡約 1 小時。要預約。"}]},
  {d:12,date:"9/23（四）",stay:null,legs:[L("rvk","costco",15,{c:1}),L("costco","kef",40,{hide:1,c:1})],
@@ -468,6 +471,7 @@ const SP={
  geosea:{t:"GeoSea 海水溫泉（唔觀鯨的人）",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看 Skjálfandi 海灣，有時遠遠見到賞鯨船出海。",w:["要預約；價錢和開放時間以官網為準","由碼頭開車約 3 分鐘，行路約 15 分鐘"]},
  leir:{t:"Leirhnjúkur 熔岩原（唔觀鯨的人）",d:"Krafla 火山區的熔岩原，1975–1984 年「Krafla 之火」噴發留下的黑色熔岩仍然冒煙，地面有彩色的地熱泥土。由 Krafla 停車場行環形步道約 1–1.5 小時。",w:["一定要留在步道上，地面可能很燙或很薄","步道碎石多，穿登山鞋","由 Hverir 開車約 10 分鐘"]},
  stykk:{t:"Stykkishólmskirkja 教堂",d:"1990 年建成的白色現代教堂，外形像鯨魚骨或者海螺，坐在小山上可以俯瞰 Stykkishólmur 港口。附近的 Súgandisey 小島有燈塔，行幾分鐘就上到頂，看布雷達灣的小島。",w:["教堂內部未必開放，外面已經值得看","Súgandisey 頂部風大，小心崖邊"]},
+ icemem:{t:"Iceland Memories（Dorcas 和 Tebe）",d:"彩虹街 Skólavörðustígur 20 號的手信店，有本地設計的手信、羊毛衫和飾物，可以買黑綿羊磁貼。",w:["每日 10:00–19:00（第三方網站資料），9/12 係星期日，出發前再確認"]},
  graik:{t:"Grái Kötturinn（地下室早餐）",d:"市中心一間細小的地下室咖啡店，以份量大的冰島式早餐聞名，例如招牌的「Truck」（煙肉、蛋、薯仔、班戟）。",w:["地方細，座位少，早點去","每日 08:00–14:30，廚房 14:00 截單；地址 Hverfisgata 16"]},
  nauth:{t:"Nauthólsvík 地熱海灘",d:"雷克雅維克市內的人工沙灘，地熱水流入海灣，有熱水池可以浸，亦可以落海冷水浴。",w:["9 月是冬季時間：星期六 11:00–16:00，星期日和一閉館","有更衣室和淋浴，記得帶泳衣和毛巾","在市中心以南，坐巴士或的士約 10–15 分鐘"]},
  volc:{t:"Þríhnúkagígur 火山內部",d:"坐開放式升降台落到一座休眠火山的岩漿庫裡面，深約 120 米。每人約 51,000 ISK，接送另加 4,500–6,399 ISK。",w:["要行約 3 公里去入口，單程約 45–50 分鐘，最後一段有斜坡","入面潮濕清涼，穿防水外套和好行的鞋","會因天氣取消"]},
@@ -494,13 +498,66 @@ const TIPS=[
   ["付款","幾乎全部可以刷卡，刷卡時揀用 ISK 付款；小費不是必須。"],
   ["飲水","自來水可以直接喝，自備水壺。"]]]
 ];
-const spotsOf=day=>{const s=stopsOf(day).filter(k=>!k.startsWith("via:")).filter((k,i)=>day.d===1||i>0).filter(k=>SP[k]);if(day.d===12)s.unshift("hall");if(day.d===0)s.push("volc","nauth");if(day.d===1)s.unshift("graik");if(day.d===11)s.push("thing");if(day.d===4)s.push("geosea","leir");return [...new Set(s)]};
+/* restaurant suggestions per day: [meal, name, note]; weekday checked against the 2027 date */
+const EAT={
+ 0:[["午餐","Hlemmur Mathöll 美食廣場","約 10 個攤檔，有冰島魚肉薯蓉（plokkfiskur），主菜約 1,800–3,200 ISK；星期六正常營業"],
+    ["午餐","Sægreifinn（Sea Baron）","港口小店，招牌龍蝦湯約 2,500–3,000 ISK，唔接受訂位"],
+    ["晚餐","Messinn","海鮮煎鍋，北極紅點鮭最出名，主菜約 3,500–4,000 ISK；廚房 21:00 前截單，建議 18:00 去"],
+    ["晚餐","Grandi Mathöll 美食廣場","舊港口海鮮為主，有挪威海螯蝦"]],
+ 1:[["晚餐","Hlemmur Mathöll 美食廣場","7 個人揀自己想食的，最方便；9/12 係星期日，夜晚較靜，部分攤檔唔即做"],
+    ["晚餐","Messinn","海鮮煎鍋，7 人要早啲打電話問位"],
+    ["晚餐","住處自己煮","附近超市買材料；星期日 Vínbúðin 酒舖全日休息"]],
+ 2:[["午餐","Settlement Center 餐廳（博爾加內斯）","每日 11:30–21:00；有自助午餐和湯"],
+    ["晚餐","Bjargarsteinn Mathús","海邊餐廳，用本地食材；9 月的營業時間要預先問（+354 438 6770）"],
+    ["晚餐","Kaffi 59","漢堡、薄餅、魚，價錢較親民"],
+    ["晚餐","Harbour Cafe","魚、羊、雞；營業時間要預先問"]],
+ 3:[["午餐","Dalakot（Búðardalur）","薄餅、漢堡，每日 12:00–21:00，星期二有開"],
+    ["晚餐","阿克雷里早啲食：Strikið 或 Rub 23","Strikið 五樓海鮮、望峽灣；Rub 23 壽司和燒烤。食完要在日落（約 19:46）前到住處"],
+    ["晚餐","住處自己煮","經阿克雷里時去 Bónus 或 Krónan 買材料；Hjalteyri 本身選擇很少"]],
+ 4:[["午餐","Naustið（胡薩維克）","家庭經營的海鮮小店，自家焗麵包"],
+    ["午餐","Gamli Baukur（胡薩維克）","港口木屋，本地魚和羊；夏季每日 11:30–20:00，9 月中有冇開要確認"],
+    ["晚餐","Vogafjós Cowshed Café（米湖）","農場餐廳，全年開；煙燻鱒魚、羊膝、自家芝士，可以隔住玻璃睇擠奶（17:30）"],
+    ["晚餐","Daddi's Pizza（米湖）","薄餅，較平"]],
+ 5:[["午餐","Fjallakaffi（Möðrudalur 農場）","羊肉湯、苔蘚湯、冰島炸麵包；9 月的營業時間要確認"],
+    ["晚餐","Askur Pizzeria（埃伊爾斯塔濟）","薄餅，可以自選配料"],
+    ["晚餐","Salt Café & Bistro（埃伊爾斯塔濟）","咖啡店兼餐廳"],
+    ["晚餐","Glóð（Hotel Valaskjálf）","意大利菜：薄餅、意粉、魚和肉"]],
+ 6:[["午餐","Langabúð（Djúpivogur）","港口老木屋咖啡店兼博物館；9 月營業時間要確認"],
+    ["午餐","Hotel Framtíð 餐廳（Djúpivogur）","酒店餐廳，較穩陣有開"],
+    ["晚餐","Pakkhús（赫本）","龍蝦（挪威海螯蝦）名店，每日 12:00–22:00，唔接受訂位，早啲去排"],
+    ["晚餐","Hafnarbúðin（赫本）","港口細小快餐店，龍蝦包較平；營業時間要確認"]],
+ 7:[["午餐","The Café（冰河湖）","全年開，6–9 月 09:00–19:00；海鮮湯、三文治"],
+    ["晚餐","住處餐廳","冰河湖一帶選擇少，入住時順便訂位"],
+    ["晚餐","Hali Country Hotel","晚餐約 18:00–21:00（冬季到 20:00）"]],
+ 8:[["午餐","自備午餐","6 小時冰川健行，前一晚準備好三文治和小食"],
+    ["晚餐","住處餐廳","健行後唔使再開車"],
+    ["晚餐","Hof-1 餐廳","每日 18:00–21:00"]],
+ 9:[["午餐","Freysnes 油站餐廳（斯卡夫塔山）","每日 09:00–20:00；湯、主菜，快而平"],
+    ["晚餐","Suður Vík（維克）","每日 12:00–21:00，有薄餅；7 人建議預約"],
+    ["晚餐","Systrakaffi（維克）","每日 12:00–21:00；北極紅點鮭、薄餅、自家蛋糕"],
+    ["晚餐","Halldórs Kaffi（維克）","每日 12:00–21:00"]],
+ 10:[["午餐","Mia's Country Grill（Skógar）","炸魚薯條餐車，每日 12:00–16:00，室外座位"],
+     ["午餐","Hótel Skógafoss Bistro","非住客都可以食"],
+     ["晚餐","Tryggvaskáli（塞爾福斯）","本地食材；星期二 16:00–21:00 有開"],
+     ["晚餐","Kaffi Krús（塞爾福斯）","漢堡、薄餅、意粉；星期一至四 11:00–21:00"]],
+ 11:[["午餐","Friðheimar 番茄溫室餐廳","喺溫室入面食任添番茄湯；廚房每日 11:30–16:00，一定要預約；離間歇泉約 20 分鐘，要再預 Silfra 前的車程"],
+     ["午餐","Geysir 遊客中心","湯、咖啡，最方便"],
+     ["晚餐","Hlemmur Mathöll 美食廣場","星期三正常營業"],
+     ["晚餐","Messinn","最後一晚可以食好啲"]],
+ 12:[["早餐","Brauð & Co","肉桂卷，大約 08:00–09:00 開"],
+     ["午餐","Bæjarins Beztu 熱狗","每日 09:00 開"],
+     ["午餐","Sægreifinn","龍蝦湯，唔接受訂位"]]
+};
+const eatHTML=d=>{const e=EAT[d];if(!e)return"";const g={};e.forEach(([m,n,t])=>(g[m]=g[m]||[]).push([n,t]));
+  return `<div class="sub2">推薦食肆（揀一間就得）</div><div class="eat">${Object.entries(g).map(([m,xs])=>`<div class="eatm">${m}</div><ul>${xs.map(([n,t])=>`<li><b>${n}</b>：${t}</li>`).join("")}</ul>`).join("")}</div>`};
+
+const spotsOf=day=>{const s=stopsOf(day).filter(k=>!k.startsWith("via:")).filter((k,i)=>day.d===1||i>0).filter(k=>SP[k]);if(day.d===12)s.unshift("hall");if(day.d===0)s.push("volc","nauth");if(day.d===1)s.unshift("graik","icemem");if(day.d===11)s.push("thing");if(day.d===4)s.push("geosea","leir");return [...new Set(s)]};
 const spotHTML=day=>{const ks=spotsOf(day);if(!ks.length)return"";
   return `<div class="sub2">景點介紹和注意事項</div><div class="spots">${ks.map(k=>`<details data-spot="${k}"><summary>${SP[k].t}</summary><p>${SP[k].d}</p>${SP[k].w.length?`<ul>${SP[k].w.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}</details>`).join("")}</div>`};
 const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl>${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</details>`;
 
 
-const TAGS={y:"你同朋友",n:"唔浮潛的人",w:"唔觀鯨的人"};
+const TAGS={y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人"};
 const rows=p=>`<div class="sched">${p.map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 function card(raw){
   const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
@@ -513,6 +570,7 @@ function card(raw){
     ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${day.arrive} 完成，比日落早約 ${gap} 分鐘</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${rows(day.plan)}${notes}
+    ${eatHTML(day.d)}
     ${spotHTML(day)}
     ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div><div class="spots opts">${raw.opt.map(o=>`<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":"車程（已多預留約兩成，按一下開 Google Maps）"}</div>${legs}`:""}
@@ -585,7 +643,7 @@ const FOOD={out:{lunch:11,cookL:0,dinner:10,cookD:0},cook:{lunch:9,cookL:2,dinne
 const fI=n=>Math.round(n).toLocaleString("en-US");
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const rowsAll=BUD.flatMap(([,r])=>r),actRows=rowsAll.filter(r=>r.scope==="a");
-const KEY="iceland-budget-v10";
+const KEY="iceland-budget-v11";
 let st={};try{st=JSON.parse(store.get(KEY)||"{}")}catch(e){st={}}
 ["people","cars","hkd","aud","food","stay"].forEach(k=>{if(st[k]!=null)$("b-"+k).value=st[k]});
 rowsAll.forEach(r=>{const x=(st.rows||{})[r.id];if(x){r.price=x.price;r.qty=x.qty;r.on=x.on}});
@@ -594,7 +652,7 @@ const join={};actRows.forEach(r=>{join[r.id]=Array.isArray((st.join||{})[r.id])?
 const scopeTxt={p:"每人 × 人數",c:"每車 × 車數",g:"全組平均分攤"};
 let built=0;
 function build(ppl){
-  while(names.length<ppl)names.push(`成員 ${names.length+1}`);names=names.slice(0,ppl);
+  const DEF=["Dorcas","Tebe"];while(names.length<ppl)names.push(DEF[names.length]||`成員 ${names.length+1}`);names=names.slice(0,ppl);
   actRows.forEach(r=>{const x=join[r.id];while(x.length<ppl)x.push(r.def);join[r.id]=x.slice(0,ppl)});
   const P_=[...Array(ppl).keys()],cols=6+ppl;
   const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th>${P_.map(i=>`<th class="pc"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
@@ -633,7 +691,7 @@ $("budget").addEventListener("change",e=>{
 });
 $("budget").addEventListener("input",e=>{
   const m=/^mn-(\d+)$/.exec(e.target.id||"");
-  if(m){names[+m[1]]=e.target.value.trim()||`成員 ${+m[1]+1}`;calc();return}
+  if(m){names[+m[1]]=e.target.value.trim()||(["Dorcas","Tebe"][+m[1]]||`成員 ${+m[1]+1}`);calc();return}
   if(e.target.type==="number")calc();
 });
 const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
