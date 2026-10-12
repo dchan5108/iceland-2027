@@ -168,6 +168,22 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .tiph{font-size:1rem;font-weight:700;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);max-width:760px}
 .tipsdl dd{margin:0}
 .eat{font-size:13.5px}
+.dnote{border:1px solid var(--line);border-left:3px solid var(--stay);border-radius:0;padding:6px 10px;margin:6px 0 10px;font-size:13.5px;background:var(--bg)}
+.dnh{font-weight:700;color:var(--stay);font-size:12.5px}
+.dnote ul{margin:2px 0 0;padding-left:1.2em}
+.sched.rich details summary{cursor:pointer;list-style:none}
+.sched.rich details summary::-webkit-details-marker{display:none}
+.sched.rich details summary::after{content:" ▸ 詳情";font-size:11.5px;color:var(--route);font-weight:400}
+.sched.rich details[open] summary::after{content:" ▾"}
+.spd{border-top:1px dashed var(--line);margin-top:6px;padding-top:6px;font-size:13px;color:var(--fg);font-weight:400}
+.spt{font-weight:700}
+.spd p{margin:2px 0 4px}
+.spd dl{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:2px 8px;margin:0}
+.spd dt{color:var(--muted)}
+.spd dd{margin:0}
+.spd ul{margin:0;padding-left:1.1em}
+.eatbox{margin:6px 0 2px;font-size:13px;font-weight:400;color:var(--fg)}
+.eatbox ul{margin:2px 0 0;padding-left:1.2em}
 .eatm{font-weight:700;color:var(--meal);margin-top:4px}
 .eat ul{margin:2px 0 4px;padding-left:1.2em;display:grid;gap:2px}
 .print .tabs,.print .topbar,.print .chips,.print .daynav,.print #changes,.print .links,.print .legend + details summary{display:none!important}
@@ -311,7 +327,7 @@ const days=[
   plan:[["09:00","出發"],["10:00–11:00","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:10–13:10","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:00","到埃伊爾斯塔濟、入住","c"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]],
   opt:[{k:"stud",t:"Stuðlagil 玄武岩峽谷",add:"+約 2 小時",d:"在黛提瀑布去埃伊爾斯塔濟的路上，從 1 號公路轉入 Jökuldalur 山谷。西岸觀景台很快可到；東岸可以落到峽谷底，來回步行約 1.5–2 小時。這裡日落約 19:23，去 Stuðlagil 的話要刪 Vök，否則會趕不及。"}]},
  {d:6,date:"9/17（五）",stay:"赫本",arrive:"15:50",legs:[L("egil","seyd",30,{c:1,hide:1}),L("seyd","hofn",225,{c:1})],
-  plan:[["09:00","出發","c"],["09:40–10:30","藍色教堂、彩虹街","c"],["10:30–13:35","沿東部峽灣南下"],["13:35–14:20","午餐：Djúpivogur（可看蛋雕塑）","m"],["15:50","到赫本、入住休息","c"],["18:30","小龍蝦晚餐（建議預約，住在鎮上可步行）","m"]],
+  plan:[["09:00","出發","c"],["09:40–10:30","藍色教堂、彩虹街","c"],["10:30–13:35","沿東部峽灣南下"],["13:35–14:20","午餐：Djúpivogur（可看蛋雕塑）","m"],["15:50","到赫本、入住休息","c"],["18:30","小龍蝦晚餐（Pakkhús 唔接受訂位，早啲去排；住在鎮上可步行）","m"]],
   notes:[["全程開車最長的一天，實際約 4 小時 15 分"]]},
  {d:7,date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"16:20",legs:[L("hofn","vest",15),L("vest","jok",75,{dy:-14}),L("jok","hjok",25)],
   plan:[["09:00","退房出發"],["09:25–10:25","西角山（Stokksnes，入場收費）"],["11:55–12:35","午餐：冰河湖旁的餐車或咖啡館","m"],["12:45–14:45","冰河湖獨木舟（確定去；預約 12:45，水上約 1.5 小時，連換裝和講解約 2 小時）","c"],["15:00–15:45","鑽石沙灘"],["16:20","入住"],["19:00","晚餐：住處","m"]],
@@ -437,48 +453,55 @@ const sunKey={0:"rvk",1:"rvk",2:"grund",3:"hjal",4:"myv",5:"egil",6:"hofn",7:"hj
 const isChg=day=>day.legs.some(l=>l.c)||(day.notes||[]).some(n=>n[1])||day.plan.some(r=>r[2]==="c");
 /* spotlight: t title, d intro, w cautions */
 const SP={
- kef:{t:"取車和還車",d:"在 KEF 機場取車，還車時同樣在機場。",w:["取車時把車身刮痕和輪胎拍照存證","還車前加滿油，預留時間排隊驗車"]},
- bl:{t:"藍湖",d:"含矽泥的乳藍色地熱海水溫泉，就在機場附近，適合抵達當天放鬆。",w:["入池前要赤身淋浴，這是冰島所有溫泉和泳池的規定","矽和礦物會令頭髮又乾又硬：先塗護髮素，盡量不要弄濕頭髮","要預約入場時段"]},
- ytri:{t:"Ytri Tunga 海豹沙灘",d:"金色沙灘旁的岩石上常有海豹休息，退潮時機會較高。",w:["保持距離，不要走近、追趕或餵食海豹"]},
- budir:{t:"布迪爾黑教堂",d:"Búðahraun 熔岩原上的黑色木教堂，四周是苔蘚和海岸。",w:["只走步道，熔岩原上的苔蘚很脆弱"]},
- ingj:{t:"Ingjaldshóll 教堂",d:"1903 年建成的白色教堂，常被稱為世界上最古老的混凝土教堂；通往教堂的筆直道路是拍照熱點。",w:["在路上拍照要留意來車，不要停在路中"]},
- kirk:{t:"草帽山瀑布",d:"草帽山（Kirkjufell）是冰島最常被拍攝的山，《權力遊戲》也在這裡取景；瀑布在山的對面，從停車場步行幾分鐘。",w:["不建議攀登草帽山，曾有人墮崖死亡","停車場要付費"]},
- borg:{t:"Settlement Center（博爾加內斯）",d:"介紹冰島定居歷史和《埃吉爾薩迦》的展覽館，附設餐廳，適合午餐。",w:[]},
- kolu:{t:"Kolugljúfur 峽谷",d:"Kolufossar 瀑布沖進一條約 1 公里長的峽谷，傳說由女巨人 Kolla 挖出，從 1 號公路轉入 715 號公路。",w:["沒有圍欄的崖邊不要靠近","停車處和觀景台很近，停留 30–45 分鐘已足夠"]},
- husa:{t:"胡薩維克賞鯨",d:"冰島的賞鯨重鎮，9 月中仍然常見座頭鯨；船公司通常會提供保暖連身衣。",w:["容易暈船的人，出發前先吃暈浪藥","不去賞鯨的人可去 GeoSea 海水溫泉，或逛鯨魚博物館和港口"]},
- goda:{t:"眾神瀑布",d:"高約 12 米、寬約 30 米的弧形瀑布。相傳公元 1000 年冰島改信基督教時，有人把舊神像丟進瀑布，因而得名。",w:["兩岸都可以看；岸邊石頭濕滑"]},
- hver:{t:"Hverir 地熱區・米湖溫泉",d:"Hverir 有冒煙的噴氣孔和沸騰的泥漿池，硫磺味很重。米湖溫泉（Earth Lagoon Mývatn）2026 年重建後重開。",w:["一定要留在步道和繩索內，地表可能很薄，下面是滾燙泥漿","泥漿會黏在鞋上，穿舊鞋","米湖溫泉要預約"]},
- dett:{t:"黛提瀑布",d:"歐洲水量最大的瀑布之一，寬約 100 米、落差約 44 米。走西岸的鋪裝道路，上游約 1 公里還有 Selfoss 瀑布。",w:["步道部分是石頭路，濕滑","不要越過繩索走近崖邊"]},
- egil:{t:"Vök Baths",d:"建在 Urriðavatn 湖上的浮動溫泉池，可以在湖中泡溫泉。",w:["9 月 16 日起開放時間為 12:00–22:00","同樣要先赤身淋浴"]},
- seyd:{t:"藍色教堂（Seyðisfjörður）",d:"峽灣小鎮裡的淺藍色木教堂，前面是彩虹步道。",w:["要翻過 Fjarðarheiði 山口，常有霧，慢駛"]},
- hofn:{t:"赫本",d:"以龍蝦（其實是挪威海螯蝦，冰島語 humar）聞名的漁港小鎮。",w:["熱門餐廳要預約，7 人一桌更要早訂"]},
- vest:{t:"西角山（Stokksnes）",d:"黑沙丘和鋸齒狀山峰，水面平靜時有倒影，日出和清晨光線最好。",w:["私人土地，每人入場費 800 ISK，在 Viking Café 繳費"]},
- jok:{t:"冰河湖・鑽石沙灘",d:"冰川融化形成的潟湖，浮冰間常見海豹；對面的鑽石沙灘有冰塊散落在黑沙上。",w:["獨木舟會提供乾式衣、救生衣和防水鞋；裡面穿保暖衣物，帶手套","不要爬上浮冰或冰塊","鑽石沙灘同樣有瘋狗浪，不要背向大海"]},
- skaf:{t:"斯卡夫塔山",d:"瓦特納冰川國家公園的一部分，冰川健行從這裡出發。Svartifoss（黑瀑布）被玄武岩柱圍繞，從遊客中心來回約 1.5–2 小時。",w:["冰川健行要穿防水登山鞋；冰爪和頭盔通常由公司提供","多帶一層保暖衣物、手套和午餐","停車要付費"]},
- eld:{t:"埃爾德熔岩原",d:"1783 年 Laki 火山噴發形成的熔岩原，鋪滿厚厚的苔蘚。",w:["不要踩苔蘚，踩壞要幾十年才能恢復","只在路邊指定停車處停車"]},
- fjad:{t:"羽毛峽谷",d:"深約 100 米、長約 2 公里的蜿蜒峽谷，沿峽谷上方的步道走。",w:["只走指定步道；植被受損時曾臨時封閉，出發前查看","停車要付費"]},
- reyn:{t:"雷尼斯黑沙灘",d:"黑沙、玄武岩柱和海蝕柱 Reynisdrangar。",w:["冰島最危險的沙灘，瘋狗浪會突然沖上岸，多年來多人遇溺","永遠不要背向大海；停車場的警告燈是紅色就不要落沙灘","2026 年初曾因侵蝕和山泥傾瀉局部封閉，出發當日先看 safetravel.is"]},
- dyr:{t:"迪霍拉里",d:"巨大的海蝕拱門和燈塔，可從高處望黑沙灘和海蝕柱。",w:["上燈塔的路是陡峭碎石路，慢駛","崖邊風大，遠離邊緣"]},
- solh:{t:"Sólheimajökull 冰川觀景步道",d:"Mýrdalsjökull 冰帽伸出的冰川舌，冰川正在後退。從停車場沿步道行約 15–20 分鐘，就可以在冰川邊緣附近看冰舌。",w:["沒有導遊不要走上冰川，冰面有裂縫","冰川前面的湖水很冷，不要靠近水邊","路面碎石多，穿好行的鞋"]},
- skog:{t:"斯科加爾瀑布",d:"高約 60 米，晴天常見彩虹；旁邊約 500 級樓梯可以走上頂部觀景台。",w:["靠近瀑布會全身濕，穿防水外套","樓梯頗累，量力而行"]},
- skal:{t:"Skálakot 騎馬",d:"冰島馬體型小但很強壯，有獨特的「托爾特」步法，初學者也可以騎。",w:["穿保暖防水衣物和合腳的鞋，頭盔通常由馬場提供","部分馬場有體重上限，預約時查詢"]},
- selj:{t:"水簾洞瀑布",d:"高約 60 米，可以走到瀑布後面。附近的 Gljúfrabúi 隱藏瀑布藏在峽谷內，步行約 5–10 分鐘。",w:["瀑布後面的路又濕又滑，穿防水外套和防滑鞋","停車要付費"]},
- gull:{t:"黃金瀑布",d:"分兩級落下的大瀑布，總落差約 32 米，是金圈三大景點之一。",w:["下層步道濕滑，水花很大"]},
- geys:{t:"間歇泉",d:"大間歇泉 Geysir 現在很少噴發；旁邊的 Strokkur 約每 5–10 分鐘噴一次，最高可達約 20 米。",w:["水溫接近 100°C，留在繩索外","站在上風位置，避免被熱水灑到"]},
- silf:{t:"Silfra 浮潛・Sky Lagoon",d:"Silfra 是北美板塊和歐亞板塊之間的裂縫，水溫約 2–4°C，能見度可超過 100 米。之後的 Sky Lagoon 是海邊的無邊際溫泉，有「七步」水療。",w:["Silfra：要會游泳、12 歲以上、身高 150–200 厘米、體重 45–120 公斤","要簽健康聲明，60 歲以上要醫生簽名","乾式潛水衣裡面穿保暖衣物和厚襪","Sky Lagoon 要 12 歲以上"]},
- costco:{t:"Costco（Garðabær）",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。從雷克雅維克市中心約 15 分鐘，去機場也順路。",w:["入油和購物都要 Costco 會員卡；一般海外會員卡通用","商場和油站的開放時間網上查不到可靠資料，出發前上 costco.is 或打電話確認","以耐放的食物為主，新鮮食物容易吃不完"]},
- thing:{t:"Þingvellir 國家公園（唔浮潛的人）",d:"北美板塊和歐亞板塊之間的裂谷，冰島國會在公元 930 年於這裡成立，是世界遺產。Almannagjá 大裂谷步道沿板塊岩壁而行，行約 20 分鐘可到 Öxarárfoss 瀑布。",w:["停車要付費，用 Parka app 或在停車場機器繳","步道大多平坦，來回約 1–1.5 小時；遊客中心有洗手間和咖啡"]},
- geosea:{t:"GeoSea 海水溫泉（唔觀鯨的人）",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看 Skjálfandi 海灣，有時遠遠見到賞鯨船出海。",w:["要預約；價錢和開放時間以官網為準","由碼頭開車約 3 分鐘，行路約 15 分鐘"]},
- leir:{t:"Leirhnjúkur 熔岩原（唔觀鯨的人）",d:"Krafla 火山區的熔岩原，1975–1984 年「Krafla 之火」噴發留下的黑色熔岩仍然冒煙，地面有彩色的地熱泥土。由 Krafla 停車場行環形步道約 1–1.5 小時。",w:["一定要留在步道上，地面可能很燙或很薄","步道碎石多，穿登山鞋","由 Hverir 開車約 10 分鐘"]},
- stykk:{t:"Stykkishólmskirkja 教堂",d:"1990 年建成的白色現代教堂，外形像鯨魚骨或者海螺，坐在小山上可以俯瞰 Stykkishólmur 港口。附近的 Súgandisey 小島有燈塔，行幾分鐘就上到頂，看布雷達灣的小島。",w:["教堂內部未必開放，外面已經值得看","Súgandisey 頂部風大，小心崖邊"]},
- icemem:{t:"Iceland Memories（Dorcas 和 Tebe）",d:"彩虹街 Skólavörðustígur 20 號的手信店，有本地設計的手信、羊毛衫和飾物，可以買黑綿羊磁貼。",w:["每日 10:00–19:00（第三方網站資料），9/12 係星期日，出發前再確認"]},
- graik:{t:"Grái Kötturinn（地下室早餐）",d:"市中心一間細小的地下室咖啡店，以份量大的冰島式早餐聞名，例如招牌的「Truck」（煙肉、蛋、薯仔、班戟）。",w:["地方細，座位少，早點去","每日 08:00–14:30，廚房 14:00 截單；地址 Hverfisgata 16"]},
- nauth:{t:"Nauthólsvík 地熱海灘",d:"雷克雅維克市內的人工沙灘，地熱水流入海灣，有熱水池可以浸，亦可以落海冷水浴。",w:["9 月是冬季時間：星期六 11:00–16:00，星期日和一閉館","有更衣室和淋浴，記得帶泳衣和毛巾","在市中心以南，坐巴士或的士約 10–15 分鐘"]},
- volc:{t:"Þríhnúkagígur 火山內部",d:"坐開放式升降台落到一座休眠火山的岩漿庫裡面，深約 120 米。每人約 51,000 ISK，接送另加 4,500–6,399 ISK。",w:["要行約 3 公里去入口，單程約 45–50 分鐘，最後一段有斜坡","入面潮濕清涼，穿防水外套和好行的鞋","會因天氣取消"]},
- skyl:{t:"Sky Lagoon",d:"雷克雅維克市郊海邊的無邊際溫泉，有「七步」水療。",w:["要預約時段","12 歲以上"]},
- djup:{t:"Djúpalónssandur 黑沙灘",d:"斯奈山半島西端的黑色卵石灘，沙灘上有 1948 年沉船的殘骸，還有傳統的「力量石」可以試舉。",w:["同樣有瘋狗浪，不要靠近水邊","由停車場落沙灘的路有少少斜，小心腳步"]},
- hall:{t:"哈爾格林姆大教堂・熱狗",d:"雷克雅維克地標，塔高約 74.5 米，登塔要買票。附近的 Bæjarins Beztu 熱狗攤是著名小吃。",w:["9 月起 10:00–17:00，塔頂到 16:45；成人登塔 1,500 ISK，只可即日在教堂商店買","星期日 10:30–12:30 左右因崇拜關閉；星期四中午 11:45–12:45 大堂關閉"]}
+ bl:{t:"藍湖",d:"含矽泥的乳藍色地熱海水溫泉，在機場和雷克雅維克之間。",stay:"2–2.5 小時",hours:"每日開放，時段以預約為準",closed:"無固定休館日；附近火山活動時可能臨時關閉",ticket:"Comfort 由 11,990 ISK 起（2026 年，按時段浮動）",book:"必須預約入場時段，建議提早 4–6 星期",when:"下午時段；落機當日最順路",photo:"入口步道兩旁的藍色水池；池內拍照要用防水手機袋",dress:"入池前要赤身淋浴，再穿泳衣；頭髮先塗護髮素，盡量唔好弄濕",bag:"大行李可付費寄存（D1 未取車，必須用）",w:["矽泥會令頭髮變乾變硬","手機、首飾留在儲物櫃"],alt:"Sky Lagoon（雷克雅維克市郊）"},
+ graik:{t:"Grái Kötturinn（地下室早餐）",d:"市中心一間細小的地下室咖啡店，以份量大的冰島式早餐聞名，例如招牌的「Truck」。",stay:"45–60 分鐘",hours:"每日 08:00–14:30，廚房 14:00 截單",closed:"無",ticket:"—",book:"唔使，但位少",when:"早啲去，09:00 前人較少",bag:"地方細，唔好帶大行李入去",w:["地址 Hverfisgata 16"]},
+ icemem:{t:"Iceland Memories",d:"彩虹街 Skólavörðustígur 20 號的手信店，有本地設計手信、羊毛衫和飾物，可以買黑綿羊磁貼。",stay:"15–30 分鐘",hours:"每日 10:00–19:00（第三方網站資料）",closed:"資料顯示無；9/12 係星期日，出發前再確認",ticket:"免費入場",book:"唔使",when:"10:30 後",w:["小店，7 人入去會好逼，分批入"]},
+ hall:{t:"哈爾格林姆大教堂・熱狗",d:"雷克雅維克地標，塔高約 74.5 米，塔頂可以望到全市。附近的 Bæjarins Beztu 熱狗攤是著名小吃。",stay:"45–60 分鐘",hours:"9 月起 10:00–17:00，塔頂到 16:45",closed:"無固定休館日；星期日約 10:30–12:30 崇拜時關閉；星期四 11:45–12:45 大堂關閉；有活動時會改時間",ticket:"教堂免費；登塔成人 1,500 ISK，只可即日在教堂商店買",book:"登塔唔接受預約",when:"開門時段，排隊較少",photo:"教堂正面配 Leifur Eiríksson 雕像；塔頂望彩色屋頂",dress:"教堂內保持安靜，崇拜時唔好入去",bag:"大行李唔好帶入教堂，D12 留在車內（車要停好、唔好放當眼位置）",w:["升降機細，要排隊"]},
+ nauth:{t:"Nauthólsvík 地熱海灘",d:"雷克雅維克市內的人工沙灘，地熱水流入海灣，有熱水池，亦可以落海冷水浴。",stay:"1–1.5 小時",hours:"9 月是冬季時間：星期二至五 11:00–19:00，星期六 11:00–16:00",closed:"星期日和星期一閉館",ticket:"有入場費，金額以現場為準",book:"唔使",when:"9/11 星期六，16:00 前要離開",dress:"帶泳衣和毛巾；入池前要淋浴",bag:"有更衣室",w:["在市中心以南，坐巴士或的士約 10–15 分鐘"],alt:"市內公眾泳池（例如 Sundhöllin）"},
+ volc:{t:"Þríhnúkagígur 火山內部",d:"坐開放式升降台落到一座休眠火山的岩漿庫裡面，深約 120 米。",stay:"連接送約 5–6 小時",hours:"每年 5 月 5 日至 10 月 30 日",closed:"季節外；天氣差會取消",ticket:"成人 51,000 ISK；接送另加 4,500–6,399 ISK",book:"必須預約，揀可以免費改期的時段",when:"上午團",photo:"升降台落到底時向上影出口",dress:"防水外套、登山鞋；入面潮濕清涼",bag:"只帶細背囊",w:["要行約 3 公里去入口，單程 45–50 分鐘，最後一段有斜坡"],alt:"Raufarhólshellir 熔岩隧道（較平）"},
+ ytri:{t:"Ytri Tunga 海豹沙灘",d:"金色沙灘旁的岩石上常有海豹休息。",stay:"30 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"退潮時海豹較多；9 月中不一定見到",photo:"由沙灘向海邊岩石，用長鏡",w:["保持距離，唔好走近、追趕或餵食海豹"],alt:"Arnarstapi 海岸步道"},
+ budir:{t:"布迪爾黑教堂",d:"Búðahraun 熔岩原上的黑色木教堂，四周是苔蘚和海岸。",stay:"20–30 分鐘",hours:"外觀全日可看；教堂內部通常唔開放",closed:"—",ticket:"免費",book:"唔使",when:"任何時間",photo:"由教堂前的石牆外，連後面的山一齊影",w:["只走步道，熔岩原上的苔蘚很脆弱"]},
+ djup:{t:"Djúpalónssandur 黑沙灘",d:"鋪滿黑色鵝卵石的海灘，有 1948 年船難的鐵殘骸，以及傳統用來試力量的「力量石」。",stay:"30–40 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"白天",photo:"由停車場落海灘的熔岩小路",w:["有瘋狗浪，唔好走近水邊","唔好拿走鵝卵石"],alt:"Lóndrangar 海蝕柱觀景台（附近）"},
+ ingj:{t:"Ingjaldshóll 教堂",d:"1903 年建成的白色教堂，常被稱為世界上最古老的混凝土教堂；通往教堂的筆直道路是拍照熱點。",stay:"15–20 分鐘",hours:"外觀全日可看",closed:"—",ticket:"免費",book:"唔使",when:"下午光線較好",photo:"站在道路遠處，正面對住教堂",w:["在路上拍照要留意來車，唔好停在路中"]},
+ kirk:{t:"草帽山瀑布",d:"草帽山（Kirkjufell）是冰島最常被拍攝的山，《權力遊戲》也在這裡取景；瀑布在山的對面。",stay:"30 分鐘",hours:"全日",closed:"無",ticket:"停車收費，金額以現場為準",book:"唔使",when:"日落前的金黃光線；日落約 20:10",photo:"瀑布上方小橋旁，把瀑布和草帽山放在同一畫面",w:["唔建議攀登草帽山，曾有人墮崖","日落後唔好開車，可以由鎮上步行約 2 公里"]},
+ borg:{t:"Settlement Center（博爾加內斯）",d:"介紹冰島定居歷史和《埃吉爾薩迦》的展覽館，附設餐廳。",stay:"午餐 45 分鐘；看展覽加約 30–60 分鐘",hours:"餐廳每日 11:30–21:00；展覽時間要向館方確認",closed:"資料顯示無",ticket:"展覽要收費，金額向館方確認",book:"7 人午餐建議預先通知",when:"中午",w:["電話 +354 437 1600"]},
+ stykk:{t:"Stykkishólmskirkja 教堂",d:"1990 年建成的白色現代教堂，外形像鯨魚骨或海螺，坐在小山上俯瞰港口。附近 Súgandisey 小島有燈塔。",stay:"30–40 分鐘",hours:"外觀全日可看；內部未必開放",closed:"—",ticket:"免費",book:"唔使",when:"上午",photo:"Súgandisey 燈塔小山頂，望港口和布雷達灣小島",w:["Súgandisey 頂部風大，小心崖邊"]},
+ kolu:{t:"Kolugljúfur 峽谷",d:"Kolufossar 瀑布沖進一條約 1 公里長的峽谷，傳說由女巨人 Kolla 挖出。",stay:"30–45 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"白天",photo:"峽谷上的小橋",w:["無圍欄的崖邊唔好靠近","要由 1 號公路轉入 715 號碎石路約 6 公里"]},
+ husa:{t:"胡薩維克賞鯨",d:"冰島的賞鯨重鎮，9 月中仍然常見座頭鯨。",stay:"約 3 小時",hours:"按船班時間",closed:"天氣差會停航",ticket:"由 12,990 ISK 起（North Sailing）",book:"必須預約；揀大船、可以改期的方案",when:"上午 11:00 班；想寬鬆可以揀 13:00 班",dress:"船公司通常提供保暖連身衣；裡面穿保暖衣物，帶手套和帽",bag:"只帶細背囊，大行李留在車上",w:["容易暈船的人出發前先食暈浪藥","不少公司見唔到鯨魚會讓你免費再搭一次"],alt:"GeoSea 海水溫泉，或 Leirhnjúkur 熔岩原"},
+ geosea:{t:"GeoSea 海水溫泉",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看海灣。",stay:"1.5–2 小時",hours:"全年開放；時間以官網為準",closed:"以官網為準",ticket:"中價，預約時確認（預算暫估 8,000 ISK）",book:"建議預約",when:"上午，和賞鯨的人同時段",photo:"溫泉邊緣對住海灣",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["由碼頭開車約 3 分鐘"]},
+ leir:{t:"Leirhnjúkur 熔岩原",d:"Krafla 火山區的熔岩原，1975–1984 年噴發留下的黑色熔岩仍然冒煙，地面有彩色地熱泥土。",stay:"1–1.5 小時",hours:"全日",closed:"大雪時路面可能封閉",ticket:"免費；停車可能收費",book:"唔使",when:"中午至下午",photo:"環形步道最高點，望冒煙的熔岩",dress:"登山鞋",w:["一定要留在步道上，地面可能很燙或很薄","由 Hverir 開車約 10 分鐘"],alt:"Dimmuborgir 熔岩迷宮"},
+ goda:{t:"眾神瀑布",d:"高約 12 米、寬約 30 米的弧形瀑布，相傳公元 1000 年冰島改信基督教時，有人把舊神像丟進瀑布。",stay:"30–40 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"下午",photo:"東岸（遊客中心對面）可以影到成個弧形",w:["兩岸都可以看；岸邊石頭濕滑"]},
+ hver:{t:"Hverir 地熱區",d:"冒煙的噴氣孔和沸騰的泥漿池，硫磺味很重。",stay:"30 分鐘",hours:"全日",closed:"無",ticket:"停車可能收費",book:"唔使",when:"下午",photo:"由步道望噴氣孔，背景是 Námafjall 山",dress:"穿舊鞋，泥漿會黏在鞋上",w:["一定要留在步道和繩索內，地表可能很薄，下面是滾燙泥漿"],alt:"Grjótagjá 溫泉洞"},
+ myvb:{t:"米湖溫泉（Earth Lagoon Mývatn）",d:"北部的地熱溫泉，2026 年重建後重開，人比藍湖少。",stay:"1–1.5 小時",hours:"以官網為準",closed:"以官網為準",ticket:"Earth Essential 由 7,900 ISK 起",book:"建議預約",when:"傍晚",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["未必去；唔去就直接入住休息"]},
+ dett:{t:"黛提瀑布",d:"歐洲水量最大的瀑布之一，寬約 100 米、落差約 44 米；上游約 1 公里有 Selfoss 瀑布。",stay:"1 小時（連 Selfoss）",hours:"全日",closed:"西岸 862 號公路冬季可能封閉，9 月中通常開放",ticket:"免費；停車可能收費",book:"唔使",when:"上午",photo:"西岸觀景台，晴天下午有彩虹",dress:"防水外套，水花大",w:["走西岸鋪裝道路","唔好越過繩索走近崖邊"],alt:"Stuðlagil 玄武岩峽谷"},
+ egil:{t:"Vök Baths",d:"建在 Urriðavatn 湖上的浮動溫泉池，可以在湖中泡溫泉。",stay:"1.5–2 小時",hours:"9 月 16 日起 12:00–22:00",closed:"以官網為準",ticket:"成人 7,690 ISK",book:"建議預約",when:"下午至傍晚",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["9/16 剛好轉冬季時間"]},
+ seyd:{t:"藍色教堂（Seyðisfjörður）",d:"峽灣小鎮裡的淺藍色木教堂，前面是彩虹步道。",stay:"45–60 分鐘",hours:"教堂內部只在星期一至五 13:00–16:00 開放",closed:"星期六、日內部唔開放",ticket:"免費",book:"唔使",when:"D6（9/17 星期五）早上去只可以看外觀",photo:"站在彩虹步道起點，正面對住教堂",w:["要翻過 Fjarðarheiði 山口，常有霧，慢駛"],alt:"Hengifoss 瀑布（要行山約 1.5–2 小時）"},
+ hofn:{t:"赫本",d:"以龍蝦（挪威海螯蝦）聞名的漁港小鎮。",stay:"過夜",hours:"—",closed:"—",ticket:"—",book:"熱門餐廳要早啲去",when:"傍晚港口散步",photo:"港口望瓦特納冰川",w:["7 人一桌，Pakkhús 唔接受訂位，要早啲排"]},
+ vest:{t:"西角山（Stokksnes）",d:"黑沙丘和鋸齒狀山峰，水面平靜時有倒影。",stay:"1 小時",hours:"Viking Café 09:00–20:00（星期日到 18:00）；關門後可用門外機器繳費",closed:"無",ticket:"每人 800 ISK",book:"唔使",when:"早上光線最好",photo:"沙丘之間的淺水位影倒影",w:["私人土地，入場要先繳費"]},
+ jok:{t:"冰河湖獨木舟",d:"冰川融化形成的潟湖，在浮冰之間划獨木舟，常見海豹。",stay:"連換裝約 2 小時（水上約 1.5 小時）",hours:"按團時間；列明 5–9 月",closed:"天氣差、風大會取消",ticket:"每人 18,400 ISK",book:"必須預約；確認 9/18 有團",when:"中午 12:45 團",photo:"由獨木舟低角度影浮冰",dress:"公司提供乾式衣、救生衣和防水鞋；裡面穿保暖衣物，帶手套",bag:"身上唔可以帶袋，手機用防水袋；行李留在車上",w:["唔好爬上浮冰"],alt:"冰河湖岸邊散步，或 Fjallsárlón 小冰河湖"},
+ diam:{t:"鑽石沙灘",d:"冰河湖對面的黑沙灘，冰塊被沖上岸，在黑沙上閃閃發亮。",stay:"45 分鐘",hours:"全日",closed:"無",ticket:"停車可能收費",book:"唔使",when:"下午，逆光時冰塊最通透",photo:"蹲低用冰塊做前景",w:["有瘋狗浪，唔好背向大海","唔好爬上冰塊"]},
+ skaf:{t:"斯卡夫塔山 6 小時冰川健行",d:"瓦特納冰川國家公園的一部分，由導遊帶上冰川。",stay:"約 6 小時",hours:"按團時間",closed:"天氣差、風大會取消",ticket:"每人約 24,900 ISK（Blue Iceland）",book:"必須預約，訂約 10:00 開團",when:"10:00 團",photo:"冰川裂縫和藍冰",dress:"防水登山鞋（要可以扣冰爪）、防水外套和褲、手套；冰爪和頭盔通常由公司提供",bag:"細背囊，帶午餐、小食和水",w:["遊客中心停車要付費"],alt:"如果取消：D9 補做"},
+ svart:{t:"Svartifoss 黑瀑布步道",d:"被黑色玄武岩柱圍繞的瀑布，由斯卡夫塔山遊客中心出發。",stay:"1.5–2 小時來回",hours:"全日",closed:"無",ticket:"免費；停車收費（約 1,000 ISK 以內）",book:"唔使",when:"上午",photo:"瀑布正前方的小橋",dress:"登山鞋",w:["上斜路段要慢行"],alt:"Skaftafellsjökull 冰川舌觀景步道（較短）"},
+ eld:{t:"埃爾德熔岩原",d:"1783 年 Laki 火山噴發形成的熔岩原，鋪滿厚厚的苔蘚。",stay:"20 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"任何時間",photo:"指定停車處旁的步道",w:["唔好踩苔蘚，踩壞要幾十年才恢復","只在指定停車處停車"]},
+ fjad:{t:"羽毛峽谷",d:"深約 100 米、長約 2 公里的蜿蜒峽谷，沿峽谷上方步道走。",stay:"45–60 分鐘",hours:"全日；植被受損時會臨時封閉",closed:"出發前查看有無封閉",ticket:"停車收費（約 1,000 ISK 以內）",book:"唔使",when:"下午",photo:"步道盡頭的觀景台",w:["只走指定步道"],alt:"Stjórnarfoss 瀑布"},
+ reyn:{t:"雷尼斯黑沙灘",d:"黑沙、玄武岩柱和海蝕柱 Reynisdrangar。",stay:"45 分鐘",hours:"全日；有時因危險封閉",closed:"2026 年初曾因侵蝕和山泥傾瀉局部封閉",ticket:"停車收費（約 1,000 ISK 以內）",book:"唔使",when:"白天，潮水較低時",photo:"玄武岩柱旁，但要遠離海水",w:["冰島最危險的沙灘，瘋狗浪會突然沖上岸","永遠唔好背向大海；警告燈紅色就唔好落沙灘","出發當日先看 safetravel.is"],alt:"迪霍拉里（由高處望）"},
+ dyr:{t:"迪霍拉里",d:"巨大的海蝕拱門和燈塔，可從高處望黑沙灘和海蝕柱。",stay:"30–40 分鐘",hours:"全日",closed:"上段道路有時封閉",ticket:"免費",book:"唔使",when:"下午",photo:"燈塔旁望海蝕拱門",w:["上燈塔的路是陡峭碎石路，慢駛","崖邊風大，遠離邊緣"]},
+ solh:{t:"Sólheimajökull 冰川觀景步道",d:"Mýrdalsjökull 冰帽伸出的冰川舌，冰川正在後退。",stay:"45 分鐘",hours:"全日",closed:"無",ticket:"免費；停車可能收費",book:"唔使",when:"上午",photo:"冰川前的湖邊",dress:"好行的鞋",w:["沒有導遊唔好走上冰川，冰面有裂縫","冰川前的湖水很冷，唔好靠近水邊"]},
+ skog:{t:"斯科加爾瀑布",d:"高約 60 米，晴天常見彩虹；旁邊約 500 級樓梯可以上頂部觀景台。",stay:"40–60 分鐘",hours:"全日",closed:"無",ticket:"停車收費（約 1,000 ISK 以內）",book:"唔使",when:"中午至下午有陽光時最易見彩虹",photo:"瀑布正前方遠一點，連人和瀑布全景",dress:"防水外套，靠近會全身濕",w:["樓梯頗累，量力而行"]},
+ skal:{t:"Skálakot 騎馬",d:"冰島馬體型細但很強壯，有獨特「托爾特」步法，初學者都可以騎。",stay:"1–1.5 小時",hours:"按團時間",closed:"以馬場為準",ticket:"官網未列價錢（預算暫估 18,000 ISK）",book:"必須預約",when:"下午 13:05 團",photo:"騎馬時背景是 Eyjafjallajökull 冰川",dress:"保暖防水衣物、合腳的鞋；頭盔通常由馬場提供",bag:"背囊留在車上",w:["部分馬場有體重上限，預約時查詢"],alt:"Hveragerði 馬場（離塞爾福斯約 15 分鐘）"},
+ selj:{t:"水簾洞瀑布",d:"高約 60 米，可以走到瀑布後面。附近的 Gljúfrabúi 隱藏瀑布藏在峽谷內。",stay:"45–60 分鐘",hours:"全日；冬季瀑布後步道可能封閉",closed:"無",ticket:"停車收費（約 1,000 ISK 以內）",book:"唔使",when:"下午，日落前後有逆光",photo:"瀑布後面向外影",dress:"防水外套和防水褲、防滑鞋",w:["瀑布後的路又濕又滑"]},
+ gull:{t:"黃金瀑布",d:"分兩級落下的大瀑布，總落差約 32 米。",stay:"40 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"上午",photo:"上層觀景台望兩級瀑布",w:["下層步道濕滑，水花很大"]},
+ geys:{t:"間歇泉",d:"大間歇泉 Geysir 現在很少噴發；旁邊的 Strokkur 約每 5–10 分鐘噴一次，最高約 20 米。",stay:"30–45 分鐘",hours:"全日",closed:"無",ticket:"免費；停車 1,000 ISK",book:"唔使",when:"上午",photo:"站在上風位置，用連拍影噴發一刻",w:["水溫接近 100°C，留在繩索外"]},
+ silf:{t:"Silfra 浮潛",d:"北美板塊和歐亞板塊之間的裂縫，水溫約 2–4°C，能見度可超過 100 米。",stay:"連講解和換裝約 3 小時",hours:"按團時間",closed:"強風或風暴會取消",ticket:"每人 22,900 ISK（現場集合）；Þingvellir 停車約 1,000 ISK",book:"必須預約，要先填健康聲明",when:"13:30 團",photo:"公司通常有水底相片可以買",dress:"乾式潛水衣裡面穿保暖衣物和厚襪",bag:"行李留在車上",w:["要會游泳、12 歲以上、身高 150–200 厘米、體重 45–120 公斤","60 歲以上要醫生簽名"],alt:"Þingvellir 步道"},
+ thing:{t:"Þingvellir 國家公園",d:"北美板塊和歐亞板塊之間的裂谷，冰島國會在公元 930 年於這裡成立，是世界遺產。",stay:"2–3 小時",hours:"全日；遊客中心以官網為準",closed:"無",ticket:"免費；停車約 1,000 ISK",book:"唔使",when:"下午",photo:"Almannagjá 裂谷步道兩邊岩壁之間",w:["步道大多平坦，來回約 1–1.5 小時"]},
+ skyl:{t:"Sky Lagoon",d:"雷克雅維克市郊海邊的無邊際溫泉，有「七步」水療。",stay:"1.5 小時",hours:"以預約時段為準",closed:"以官網為準",ticket:"Saman 由 13,990 ISK 起（2026 年）",book:"必須預約時段",when:"17:30，19:00 前要離開以免日落後開車",photo:"無邊際池邊望海",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["12 歲以上才可以入"],alt:"Hvammsvík 溫泉"},
+ costco:{t:"Costco（Garðabær）",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"唔使",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 };
+/* which timetable rows a spot attaches to */
+const SPKW={bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshóll/,kirk:/草帽山瀑布/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/^Kolugljúfur 峽谷/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖天然溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const SPF=[["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
+const spDetail=k=>{const p=SP[k];return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl></div>`};
+
 const TIPS=[
  ["駕駛",[
   ["時間原則","每日 09:00 後出發；所有車程要在日落前完成，日落後不開車；晚餐在住處自己煮或去步行可到的餐廳。"],
@@ -558,20 +581,34 @@ const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.
 
 
 const TAGS={y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人"};
+const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
+function richRows(day){
+  const plan=day.plan,att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
+  const order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
+  for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
+  const meals=EAT[day.d]||[],done=new Set();
+  plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
+  const left=meals.filter(e=>!done.has(e[0]));
+  const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}</li>`).join("")}</ul></div>`;
+  const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
+    const has=x.sp.length||x.eat.length;
+    const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
+    return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"?" y":""}">${inner}</span>`}).join("");
+  return `<div class="sched rich">${body}</div>${left.length?eatList(left):""}`;
+}
 const rows=p=>`<div class="sched">${p.map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 function card(raw){
   const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`預留 ${fmt(buf(l.m))}<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`}</b></a>`).join("");
-  const notes=(day.notes||[]).map(n=>`<div class="note${n[1]?" c":""}">${n[0]}</div>`).join("");
+  const notes=(day.notes||[]).map(n=>`<li>${n[0]}</li>`).join("");
   return `<article class="day">
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":"車程預留約"} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
     ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${day.arrive} 完成，比日落早約 ${gap} 分鐘</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
-    ${rows(day.plan)}${notes}
-    ${eatHTML(day.d)}
-    ${spotHTML(day)}
+    ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
+    ${richRows(day)}
     ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div><div class="spots opts">${raw.opt.map(o=>`<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":"車程（已多預留約兩成，按一下開 Google Maps）"}</div>${legs}`:""}
     ${day.stay?`<div class="stayline">住宿（未確定）：${day.stay}</div>`:""}
@@ -633,7 +670,7 @@ const SRC={
 /* scope: a = optional (only people ticked pay), p = every person, c = per car (shared), g = whole group (shared) */
 const B_=(id,name,price,qty,scope,o={})=>({id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false});
 const BUD=[
- ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("blbus","D1 巴士：機場→藍湖→市區",7000,1,"a",{est:1,src:"",note:"未取車要坐巴士；價錢待查"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Pure（D11）",9790,1,"a",{note:"網頁未註明日期，可能已調價"})]],
+ ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("blbus","D1 巴士：機場→藍湖→市區",7000,1,"a",{est:1,src:"",note:"未取車要坐巴士；價錢待查"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
  ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/13 取車，11 日）",13000,11,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,11,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
