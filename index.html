@@ -231,6 +231,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .poph{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .popx{border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
 .pop p{margin:4px 0 10px}
+.plink{font-size:12.5px;color:var(--route);white-space:nowrap}
 .pop .ppark{margin-top:-4px;font-size:13px;color:var(--muted)}
 .popb{display:flex;flex-wrap:wrap;gap:8px}
 .btn{display:inline-block;font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--route);color:var(--card);text-decoration:none;border:1px solid var(--route);cursor:pointer}
@@ -258,7 +259,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .fnav button:not(:disabled):hover{background:var(--bg)}
 .fnav button:disabled{opacity:.35;cursor:default}
 .fnav #fall{color:var(--route)}
-#tips,.budget,.bookp{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px 20px}
+#tips,.budget{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px 20px}
 .btable .item{background:var(--card)}
 @media (max-width:560px){
   .wrap{padding-inline:12px}
@@ -271,24 +272,6 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .print .fnav,.print .mapctl,.print .maphint,.print .pop,.print .stats{display:none!important}
 .print .mapbox svg{height:auto;aspect-ratio:1000/690}
 .print .day,.print .ovrow{box-shadow:none;border:1px solid var(--line)}
-.bksum{font-size:14px;margin:0 0 8px}
-.bkbar{height:8px;border-radius:99px;background:var(--line);margin-top:6px;overflow:hidden;max-width:420px}
-.bkbar i{display:block;height:100%;background:var(--route)}
-.bklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:8px}
-.bk{border:1px solid var(--line);border-left:4px solid var(--muted);border-radius:12px;padding:10px 12px;background:var(--card);min-width:0}
-.bk.st1{border-left-color:var(--meal)}.bk.st2,.bk.st3{border-left-color:var(--route)}.bk.st4{border-left-color:var(--line);opacity:.7}
-.bkh{display:flex;gap:8px;align-items:center;margin-bottom:6px}
-.bkh .bkname{flex:1;min-width:0;font-weight:700;font-size:14.5px;border:0;background:transparent;color:var(--fg);padding:2px 0}
-.bkh select{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:3px 6px;background:var(--bg);color:var(--fg)}
-.bk.st2 .bkh select,.bk.st3 .bkh select{background:var(--route);color:var(--card);border-color:var(--route)}
-.bkg{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
-.bkg label{display:flex;flex-direction:column;font-size:11.5px;color:var(--muted);min-width:0}
-.bkg label.wide{grid-column:1/-1}
-.bkg input{font:inherit;font-size:13.5px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:4px 7px;min-width:0}
-.bkdel{margin-top:8px;font-size:12px;border:0;background:transparent;color:var(--stay);cursor:pointer;padding:0}
-.bklink{display:inline-block;margin-top:8px;margin-left:10px;font-size:12.5px;color:var(--route)}
-.bkadd{margin:2px 0 6px}
-.bkta{width:100%;min-height:200px;margin-top:10px;font:inherit;font-size:13px}
 @media (max-width:560px){.tabs button{padding:7px 6px;font-size:13.5px;white-space:nowrap}}
 </style>
 
@@ -300,7 +283,6 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
   <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span></div>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
-    <button type="button" role="tab" id="tab-book" aria-selected="false" aria-controls="book">預訂</button>
     <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
   </nav>
@@ -339,8 +321,6 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
     <div id="panel" aria-live="polite"></div>
     <nav class="fnav" id="fnav" aria-label="日子導航" hidden><button type="button" id="fprev">‹ 前一日</button><button type="button" id="fall">全部日子</button><button type="button" id="fnext">後一日 ›</button></nav>
   </div>
-
-  <section id="book" class="bookp" role="tabpanel" aria-labelledby="tab-book" hidden></section>
 
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
 
@@ -455,6 +435,11 @@ const days=[
 let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 const ALL=99;
 let sel=+(store.get("iceland-day2")??ALL);if(!(sel>=0&&sel<=12))sel=ALL;
+/* early mode: link ending #early (or #early30) shows every scheduled time 15 (or N) minutes earlier; remembered on that device; #real switches back */
+let EARLY=0;try{const m=/early(\d+)?/.exec(location.hash);if(m){EARLY=+(m[1]||15);store.set("iceland-early",String(EARLY))}else if(/real/.test(location.hash)){store.set("iceland-early","0")}else EARLY=+(store.get("iceland-early")||0)}catch(e){}
+const shiftClock=s=>!EARLY?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-EARLY;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
+const shiftBook=s=>!EARLY?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
+const EP=plan=>plan.map(([t,a,f])=>[shiftClock(t),shiftBook(a),f]);
 const R=day=>{const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
 
 const buf=m=>Math.max(m+10,Math.ceil(m*1.2/5)*5);
@@ -543,7 +528,7 @@ function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect(),ux=VB.x+(cx-r.left)
 function ctr(){const r=svg.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]}
 function showPop(k){
   const p=SP[k],ds=[...(PD[k]||[])].sort((a,b)=>a-b),name=pts[k][0].replace(/（.*）/,"");
-  $("pop").innerHTML=`<div class="poph"><b>${p?p.t:name}</b><button type="button" class="popx" aria-label="關閉">×</button></div>${p?`<p>${p.d}</p>${p.park?`<p class="ppark"><b>停車：</b>${p.park}</p>`:""}`:""}<div class="popb"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=${enc(Q[k]||name)}" target="_blank" rel="noopener">Google Maps 打開</a>${ds.map(d=>`<button type="button" class="btn ghostb" data-pd="${d}" data-pk="${k}">看 D${d} 行程</button>`).join("")}</div>`;
+  $("pop").innerHTML=`<div class="poph"><b>${p?p.t:name}</b><button type="button" class="popx" aria-label="關閉">×</button></div>${p?`<p>${p.d}</p>${p.park?`<p class="ppark"><b>停車：</b>${p.park}</p>`:""}`:""}<div class="popb"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=${enc(Q[k]||name)}" target="_blank" rel="noopener">Google Maps 打開</a>${parkUrl(k)?`<a class="btn ghostb" href="${parkUrl(k)}" target="_blank" rel="noopener">導航去停車場</a>`:""}${ds.map(d=>`<button type="button" class="btn ghostb" data-pd="${d}" data-pk="${k}">看 D${d} 行程</button>`).join("")}</div>`;
   $("pop").hidden=false;$("fnav").hidden=true;try{$("pop").scrollIntoView({block:"nearest"})}catch(e){}
 }
 
@@ -627,8 +612,10 @@ const SP={
 };
 /* which timetable rows a spot attaches to */
 const SPKW={fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshóll/,kirk:/草帽山瀑布/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/^Kolugljúfur 峽谷/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖天然溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const PQ={bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",myvb:"Earth Lagoon Mývatn",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
+const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
 const SPF=[["park","停車"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
-const spDetail=k=>{const p=SP[k];return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl></div>`};
+const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl></div>`};
 
 const TIPS=[
  ["駕駛",[
@@ -637,6 +624,13 @@ const TIPS=[
   ["加油","東部和北部油站較少，剩半缸就加；很多油站是自助的，要用有 PIN 碼的信用卡。"],
   ["兩部車","每部車都要有能開車的人，約好會合點；有些路段沒有電話訊號。"],
   ["路況","每日出發前看 umferdin.is；碎石路要慢駛，確認租車保險包碎石路。"]]],
+ ["停車",[
+  ["繳費方法","好多景點停車場用車牌辨識收費：可以用 Parka 或 EasyPark app，或者現場機器繳費；記得揀啱停車場名稱。"],
+  ["登記車牌","出發前喺 app 登記兩部租車的車牌，兩部車要各自繳費。部分租車公司有自動停車繳費系統，可能要另外啟動，取車時問清楚。"],
+  ["罰款","冇繳費會收罰款，通常係停車費的三至四倍，會經租車公司扣你信用卡，可能回國後先扣。"],
+  ["收費","南岸主要景點大多約 1,000 ISK 以內；Þingvellir 同 Geysir 約 1,000 ISK；同一日內 Þingvellir 不同停車場通用。"],
+  ["雷克雅維克","市中心路邊分收費區，收費時間按路牌；用同一個 app 繳費。住處最好有免費泊車位。"],
+  ["唔好亂泊","唔好停喺路邊、草地或者苔蘚上，亦唔好擋住單線路同農場閘口。"]]],
  ["天氣／溫度",[
   ["氣溫","9 月中下旬雷克雅維克日間大約 8–11°C、晚上 3–6°C；北部和東部再凍少少；冰川上接近 0°C，風大時體感更凍。"],
   ["日照","日出大約 06:30–07:10，日落大約 19:20–20:10，越後越早黑。"],
@@ -711,7 +705,7 @@ const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.
 const TAGS={y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人",g:"若不能去冰川健行"};
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 function richRows(day){
-  const plan=day.plan,att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
+  const plan=EP(day.plan),att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
   const order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
   for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
   const meals=EAT[day.d]||[],done=new Set();
@@ -724,7 +718,7 @@ function richRows(day){
     return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${inner}</span>`}).join("");
   return `<div class="sched rich">${body}</div>${left.length?eatList(left):""}`;
 }
-const rows=p=>`<div class="sched">${p.map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
+const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 function card(raw){
   const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`預留 ${fmt(buf(l.m))}<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`}</b></a>`).join("");
@@ -733,7 +727,7 @@ function card(raw){
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":"車程預留約"} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
-    ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${day.arrive} 完成，比日落早約 ${gap} 分鐘</div>`})():""}
+    ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${gap+EARLY} 分鐘</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
@@ -868,103 +862,17 @@ const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
 $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率按你清單上的 HKD 換算，AUD 為約數，可自行修改。";
 calc();
 
-/* bookings page: flights, stays, transport, tickets; saved on this device */
-const BK_DEF=[
- ["機票",[
-  ["f1","墨爾本 → 香港","9 月初","全部人",""],
-  ["f2","香港 → 冰島（KEF）","Dorcas & Tebe 健行前；其他人 9/12 上午到","各自",""],
-  ["f3","冰島（KEF）→ 回程","9/23 17:15 起飛","全部人","14:35 還車、15:00 辦理登機"]]],
- ["住宿",[
-  ["s0","雷克雅維克（Dorcas & Tebe）","9/10–9/12，2 晚","Dorcas & Tebe",""],
-  ["s1","雷克雅維克","9/12，1 晚","",""],
-  ["s2","格倫達菲厄澤","9/13，1 晚","",""],
-  ["s3","Hjalteyri／阿克雷里一帶","9/14，1 晚","",""],
-  ["s4","米湖區","9/15，1 晚","",""],
-  ["s5","埃伊爾斯塔濟","9/16，1 晚","",""],
-  ["s6","赫本","9/17，1 晚","",""],
-  ["s7","冰河湖一帶（連住 2 晚）","9/18–9/20，2 晚","","要確認可以連住兩晚"],
-  ["s8","維克","9/20，1 晚","",""],
-  ["s9","塞爾福斯","9/21，1 晚","",""],
-  ["s10","雷克雅維克","9/22，1 晚","",""]]],
- ["交通",[
-  ["t1","租車（2 部）","9/13 雷克雅維克取車 → 9/23 KEF 還車","","確認市區取車、碎石路保險、7 人行李空間"],
-  ["t2","D1 巴士：機場 → 藍湖 → 市區","9/12","","7 人要預早訂位"]]],
- ["門票／活動",[
-  ["a0","Þríhnúkagígur 火山內部","9/11 上午","Dorcas & Tebe","揀可以免費改期的時段"],
-  ["a1","藍湖","9/12 13:30","",""],
-  ["a2","胡薩維克賞鯨","9/15 11:00","","唔觀鯨的人唔使訂"],
-  ["a3","GeoSea（唔觀鯨的人，可選）","9/15 上午","",""],
-  ["a4","米湖溫泉（未必去）","9/15 17:45","",""],
-  ["a5","Vök Baths","9/16 16:00","",""],
-  ["a6","冰河湖獨木舟","9/18 12:45","","確認 9/18 有團"],
-  ["a7","6 小時冰川健行","9/19 10:00","","可以改期到 9/20"],
-  ["a8","Skálakot 騎馬","9/21 13:05","",""],
-  ["a9","Friðheimar 番茄溫室午餐（可選）","9/22 中午","",""],
-  ["a10","Silfra 浮潛","9/22 13:30","","要先填健康聲明"],
-  ["a11","Sky Lagoon","9/22 17:30","",""]]],
- ["其他",[
-  ["o1","旅遊保險","出發前","各自",""],
-  ["o2","safetravel.is 登記行程","出發前","",""]]]
-];
-const BK_ST=["未訂","處理中","已訂","已付款","唔使訂"];
-const BKKEY="iceland-book-v1";
-let BK={};try{BK=JSON.parse(store.get(BKKEY)||"{}")}catch(e){BK={}}
-BK.items=BK.items||{};BK.extra=BK.extra||{};
-const bkSave=()=>store.set(BKKEY,JSON.stringify(BK));
-const bkGet=(id,def)=>BK.items[id]||(BK.items[id]={name:def[1],when:def[2],who:def[3],note:def[4],st:0,ref:"",cost:"",cancel:"",link:""});
-function bkCard(cat,id,def,custom){const it=bkGet(id,def),e=x=>esc(x||"");
-  return `<article class="bk st${it.st}" data-id="${id}">
-  <div class="bkh"><input class="bkname" data-f="name" value="${e(it.name)}" aria-label="項目名稱"><select data-f="st" aria-label="狀態">${BK_ST.map((s,i)=>`<option value="${i}"${+it.st===i?" selected":""}>${s}</option>`).join("")}</select></div>
-  <div class="bkg">
-   <label>日期／時間<input data-f="when" value="${e(it.when)}"></label>
-   <label>負責人<input data-f="who" value="${e(it.who)}"></label>
-   <label>確認編號<input data-f="ref" value="${e(it.ref)}"></label>
-   <label>金額<input data-f="cost" value="${e(it.cost)}" placeholder="例如 18,400 ISK × 7"></label>
-   <label>免費取消期限<input data-f="cancel" value="${e(it.cancel)}" placeholder="例如 9/16 前"></label>
-   <label>連結<input data-f="link" value="${e(it.link)}" placeholder="https://"></label>
-   <label class="wide">備註<input data-f="note" value="${e(it.note)}"></label>
-  </div>${custom?`<button type="button" class="bkdel" data-del="${cat}|${id}">刪除此項</button>`:""}${it.link&&/^https?:\/\//.test(it.link)?`<a class="bklink" href="${e(it.link)}" target="_blank" rel="noopener">打開連結 ↗</a>`:""}</article>`}
-function renderBook(){
-  let total=0,done=0;
-  const html=BK_DEF.map(([cat,list])=>{
-    const ex=(BK.extra[cat]||[]).map(id=>[id,"","","","",1]);
-    const all=[...list.map(d=>[...d,0]),...ex];
-    const cards=all.map(d=>{const it=bkGet(d[0],d);total++;if(+it.st>=2)done++;return bkCard(cat,d[0],d,d[5])}).join("");
-    return `<h3 class="tiph">${cat}</h3><div class="bklist">${cards}</div><button type="button" class="btn ghostb bkadd" data-add="${cat}">＋ 新增${cat}項目</button>`}).join("");
-  $("book").innerHTML=`<h2 style="margin-top:0">訂房、機票、門票</h2>
-   <div class="bksum"><b>${done}</b> / ${total} 項已訂或唔使訂<div class="bkbar"><i style="width:${total?Math.round(done/total*100):0}%"></i></div></div>
-   <p class="bnote">資料只會儲存在你這部裝置，朋友睇唔到。想同大家分享，按下面「複製清單」貼去 WhatsApp。</p>
-   <div class="popb" style="margin-bottom:6px"><button type="button" class="btn" id="bkcopy">複製清單</button><span id="bkmsg" class="bnote" style="margin:0;align-self:center"></span></div>${html}`;
-  bkSave();
-}
-$("book").addEventListener("input",e=>{const c=e.target.closest(".bk"),f=e.target.dataset.f;if(!c||!f)return;BK.items[c.dataset.id][f]=e.target.value;bkSave();
-  if(f==="st"){c.className="bk st"+e.target.value;renderBook()}});
-$("book").addEventListener("change",e=>{if(e.target.dataset.f==="link"){bkSave();renderBook()}});
-$("book").addEventListener("click",e=>{
-  const a=e.target.closest("[data-add]");if(a){const cat=a.dataset.add,id="x"+Date.now();(BK.extra[cat]=BK.extra[cat]||[]).push(id);BK.items[id]={name:"新項目",when:"",who:"",note:"",st:0,ref:"",cost:"",cancel:"",link:""};renderBook();return}
-  const d=e.target.closest("[data-del]");if(d){const [cat,id]=d.dataset.del.split("|");BK.extra[cat]=(BK.extra[cat]||[]).filter(x=>x!==id);delete BK.items[id];renderBook();return}
-  if(e.target.id==="bkcopy"){
-    const txt=BK_DEF.map(([cat,list])=>{const ids=[...list.map(d=>d[0]),...(BK.extra[cat]||[])];
-      return `【${cat}】\n`+ids.map(id=>{const it=BK.items[id];return `・${it.name}｜${it.when}｜${BK_ST[+it.st]}${it.who?"｜"+it.who:""}${it.ref?"｜編號 "+it.ref:""}${it.cancel?"｜取消期限 "+it.cancel:""}`}).join("\n")}).join("\n\n");
-    const done=()=>{$("bkmsg").textContent="已複製"};
-    const fail=()=>{const t=document.createElement("textarea");t.value=txt;t.className="bkta";$("book").appendChild(t);t.select();$("bkmsg").textContent="請手動複製下面的文字"};
-    try{navigator.clipboard.writeText(txt).then(done,fail)}catch(err){fail()}
-  }});
-renderBook();
-
 /* page tabs */
 $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2>`+TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("");
 function view(v){
-  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";$("book").hidden=v!=="book";
-  ["trip","book","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
-  try{history.replaceState(null,"","#"+v)}catch(e){}
+  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";
+  ["trip","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
+  try{if(!EARLY)history.replaceState(null,"","#"+v)}catch(e){}
   window.scrollTo(0,0);
 }
 $("tab-trip").addEventListener("click",()=>view("trip"));
 $("tab-budget").addEventListener("click",()=>view("budget"));
 $("tab-tips").addEventListener("click",()=>view("tips"));
-$("tab-book").addEventListener("click",()=>view("book"));
-if(location.hash==="#book")view("book");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
 if(/simple/.test(location.hash)){
