@@ -320,6 +320,13 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .plg .pv{font-weight:700;font-variant-numeric:tabular-nums}.plg .pa{grid-column:2/4;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}.plg .pa small{margin-left:6px}
 .bpie .fade{opacity:.3}.bpie path,.plg li{transition:opacity .15s}
 .kmlp{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:8px 2px 0;font-size:12.5px;color:var(--muted)}
+.bkchk{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px;max-width:760px}
+.bkchk li{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:8px 12px}
+.bkchk label{display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:600}.bkchk input{width:18px;height:18px;accent-color:var(--route);flex:0 0 auto}
+.bkm{font-size:12.5px;color:var(--muted);margin:2px 0 0 28px}.bkchk li.done .bkn{text-decoration:line-through;color:var(--muted)}.bkchk li.done{opacity:.75}
+.bkc{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
+.bkprog{max-width:760px;font-size:14px;margin:4px 0}.bkprog .bkbar{height:8px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bkprog .bkbar i{display:block;height:100%;background:var(--route);border-radius:99px}
+.gt.flt td{min-width:9em}.gt.flt small{color:var(--muted)}
 </style>
 
 </head>
@@ -446,7 +453,13 @@ const L=(a,b,m,o={})=>({a,b,m,...o});
 const days=[
  {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"地下室早餐 → 市區散步 → 地熱海灘 → 書店酒吧",
   plan:[["08:30–09:30","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","m"],["10:00–10:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（10:00 開）","o"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["11:00–12:00","Laugavegur 購物街","o"],["12:00–12:30","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["12:30–13:00","午餐：Bæjarins Beztu 熱狗","o"],["14:00–15:30","Nauthólsvík 地熱海灘（星期六 11:00–16:00；由市中心坐巴士或的士）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
-  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1]]},
+  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["行完 4 日山，揀一兩樣就夠；市區景點 D1 下晝都有得行"],["唔建議：藍湖（D1 會去）、Sky Lagoon（D11）、出海賞鯨（D4）、騎馬（D10）；9 月已經冇海鸚；9/11 前後月光好光，極光團唔抵"]],
+  opt:[{t:"Lava Show 熔岩秀（Grandi 舊港口）",add:"約 1 小時",d:"喺室內將真熔岩倒出嚟，可以近距離睇熔岩流動同冷卻，冰島獨有。附近有 Grandi Mathöll 美食廣場可以順便食午餐。門票同場次以官網為準，建議預約。"},
+   {t:"Perlan 博物館",add:"2–3 小時",d:"有人造冰洞、冰川同火山展覽，頂樓觀景台望晒成個雷克雅維克；落雨天都啱去。喺市中心坐巴士或的士約 10 分鐘。"},
+   {t:"Laugardalslaug 泳池",add:"1–2 小時",d:"市內最大的地熱泳池，有熱水池、蒸氣室、冷水池同滑水梯；行完山浸下舒筋，價錢平過藍湖好多。可以代替 Nauthólsvík 地熱海灘。"},
+   {t:"Grótta 燈塔睇日落",add:"傍晚 1–2 小時",d:"市區西邊海角的燈塔，有細細的 Kvika 地熱浸腳池（漲潮時燈塔條路會被水浸，睇定潮汐）；日落約 20:15，坐巴士或的士去。"},
+   {t:"Raufarhólshellir 熔岩隧道（半日團）",add:"約 3–4 小時（連接送）",d:"跟團行入火山熔岩管，有燈同步道，唔辛苦；酒店接送，唔使揸車。"},
+   {t:"雷克雅維克美食徒步團（Food Walk）",add:"約 3 小時",d:"導遊帶住行市中心，一次過試羊肉湯、熱狗、魚、冰島乳酪等，可以當午餐。"}]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
   plan:[["07:30","坐 Flybus 由 BSÍ 巴士站去 KEF 機場（約 45 分鐘；唔帶行李，行李寄存喺 BSÍ 行李寄存處或住處；班次上 re.is 查）","y"],["08:00","大隊落機 KEF；過關、攞行李","c"],["09:00–09:30","全部人一齊喺機場取車（2 部）","c"],["09:30","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["10:00–12:15","藍湖（預約 10:00 時段）"],["12:15–13:00","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00","開車去雷克雅維克","c"],["13:45–14:15","Costco（Garðabær，順路）：買早餐材料、零食和飲品","o"],["14:30","到雷克雅維克住處放行李（入住時間要同住處確認）；Dorcas & Tebe 順路去 BSÍ 攞返行李","c"],["15:00–15:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（星期日 12:30 後開放）","o"],["15:30–16:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["16:00–16:45","Laugavegur 購物街","o"],["16:45–17:15","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["17:15–17:35","Bæjarins Beztu 熱狗","o"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["大隊 08:00 落機，藍湖改訂 10:00 時段；下晝市區景點全部係可選，攰就喺住處休息",1],["虛線框係分組或者可選的行程",1]]},
@@ -1172,7 +1185,7 @@ const GFOOD=[
 /* bookings: [name, when, how, lead time, note] */
 const BOOK=[
  ["景點和體驗（必須預約）",[
-  ["藍湖 Blue Lagoon","D1 9/12 10:00","bluelagoon.com","4–6 星期","時段價錢浮動，越早越平；機場巴士要配合時段"],
+  ["藍湖 Blue Lagoon","D1 9/12 10:00","bluelagoon.com","4–6 星期","時段價錢浮動，越早越平；落機取車後直接去"],
   ["胡薩維克 Húsavík 賞鯨","D4 9/15 11:00","northsailing.is","2–4 星期","只係去觀鯨的人；揀大船、可改期"],
   ["冰河湖 Jökulsárlón 獨木舟","D7 9/18 12:45","已揀的團公司官網","1–2 個月","確認 9/18 仲有團（列明 5–9 月）"],
   ["6 小時冰川健行","D8 9/19 10:00","blueiceland.is","1–2 個月","確認天氣取消時可以改去 9/20"],
@@ -1216,22 +1229,28 @@ const STAYS=[
  ["9/22（D11）","雷克雅維克 Reykjavík","未訂","最後一晚；第二朝市區半日遊再去機場",[["Airbnb 整間公寓","同 D1 一樣，揀有泊車位的"]],[["市中心酒店","行路去 Hallgrímskirkja、熱狗同購物街"]]]
 ];
 const STAYTIPS=[["點樣最平","7 人訂整間屋（3–4 房、有廚房）通常比 4 間酒店房平好多；可以每晚自己煮晚餐"],["點樣最方便","揀有免費泊車位、可以自助入住（key box）的住處；兩部車都要泊到"],["訂房","9 月仍係旺季，揀「免費取消」先訂住，之後再慢慢比較；冰河湖一帶最早滿"],["睡床","睇清楚係咪真床，唔好太多梳化床；問清楚毛巾同床單有冇包"],["Hof／米湖一帶","附近冇大超市，入住前喺大鎮（赫本 Höfn、阿克雷里 Akureyri）買定食物"]];
+/* booking checklist: ticks are saved on this device */
+let BKC={};try{BKC=JSON.parse(store.get("iceland-bkc")||"{}")}catch(e){BKC={}}
+function bkProg(){const all=[...document.querySelectorAll("#bookp input[data-bk]")],done=all.filter(x=>x.checked).length;
+  document.querySelectorAll("#bookp .bkc").forEach(c=>{const xs=[...c.closest("h3").nextElementSibling.querySelectorAll("input")];c.textContent=`${xs.filter(x=>x.checked).length}/${xs.length}`});
+  const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${done}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(done/all.length*100):0}%"></i></div>`}
+document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.bk;if(!id)return;if(e.target.checked)BKC[id]=1;else delete BKC[id];store.set("iceland-bkc",JSON.stringify(BKC));e.target.closest("li").classList.toggle("done",e.target.checked);bkProg()});
 function renderGuide(){
+  const bkl=(h,rows,ci)=>`<h3 class="tiph">${h}<span class="bkc" data-ci="${ci}"></span></h3><ul class="bkchk">${rows.map((r,ri)=>{const id=`bk${ci}_${ri}`,on=!!BKC[id];return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,r[4]].filter(Boolean).join("　")}</div></li>`}).join("")}</ul>`;
   const tbl=(h,rows)=>`<h3 class="tiph">${h}</h3><div class="gtw"><table class="gt"><thead><tr><th>項目</th><th>日子／時間</th><th>點訂</th><th>提早幾耐</th><th>備註</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c||"—"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   const food=GFOOD.map(([d,meal,m,alts])=>{const day=days.find(x=>x.d===d);return `<article class="gfood" style="--dc:${dayCol(d)}"><div class="gfh"><span class="gfd">D${d}</span><span>${day?day.date:""}・${meal}</span></div>
    <div class="gfn">${m.n}</div><dl class="gfdl"><dt>地址</dt><dd>${m.a}</dd><dt>營業時間</dt><dd>${m.h}</dd><dt>必點</dt><dd>${m.m}</dd><dt>預算</dt><dd>${m.b}</dd><dt>訂位</dt><dd>${m.r}</dd></dl>
    ${m.a!=="—"&&m.a!=="住處"?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.n+" "+m.a)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}
    <div class="gfalt"><b>替代方案（店休或客滿）</b><ul>${alts.map(([n,t])=>`<li><b>${n}</b>${t?"："+t:""}</li>`).join("")}</ul></div></article>`}).join("");
   const FL=[["墨爾本 → 香港","9/4（六）","QF29","10:15 → 17:55","直航，9 小時 40 分鐘"],["香港 → 冰島 KEF","9/5（日）","AY100＋AY991","20:55 → 9/6（一）07:50","經赫爾辛基，18 小時 55 分鐘"],["冰島 KEF → 香港","9/23（四）","AY994＋AY99","17:15 → 9/24（五）17:40","經赫爾辛基，16 小時 25 分鐘"],["香港 → 墨爾本","9/25（六）","QF30","20:05 → 9/26（日）07:20","直航，9 小時 15 分鐘"]];
-  const flights=DT?`<section id="g-fly"><h2>機票（Dorcas）</h2><div class="gtw"><table class="gt"><thead><tr><th>航段</th><th>日期</th><th>航班</th><th>時間（當地）</th><th>備註</th></tr></thead><tbody>${FL.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
-   <dl class="tipsdl"><dt>積分</dt><dd>香港來回冰島：103,600 分＋HKD 951（Economy Classic Reward）；墨爾本來回香港：86,900 分＋AUD 329（回程係 Classic Plus）</dd><dt>改期</dt><dd>有 Classic Plus 的訂單取消只可以退款，唔可以留做 Flight Credit；改期要補差價</dd><dt>Tebe</dt><dd>香港飛冰島（暫定，航班待確認）</dd></dl></section>`:"";
-  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-stay">住宿建議</a><a href="#g-save">省錢攻略</a></nav>
-   <section id="g-stay"><h2>住宿建議</h2><p class="bnote">價錢以訂房網站 9 月實價為準；7 人建議訂整間屋或者幾間相連的房。</p>
-    <div class="gstay">${STAYS.map(([n,a,st,why,cheap,conv])=>`<article class="gst"><div class="gsth"><b>${n}</b><span class="gsts ${st==="已揀"?"ok":st==="建議改"?"chg":""}">${st}</span></div><div class="gsta">${a}</div><p class="gstw">${why}</p>${cheap.length?`<div class="gstl"><b>平啲</b><ul>${cheap.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}${conv.length?`<div class="gstl"><b>方便啲</b><ul>${conv.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}</article>`).join("")}</div>
-    <h3 class="tiph">點揀住宿</h3><dl class="tipsdl">${STAYTIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></section>
-   <section id="g-save"><h2>省錢攻略</h2>${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
+  const TB={"香港 → 冰島 KEF":"暫定：香港飛冰島（航班待確認）","冰島 KEF → 香港":"待確認"};
+  const flights=DT?`<section id="g-fly"><h2>機票</h2><div class="gtw"><table class="gt flt"><thead><tr><th>航段</th><th>Dorcas</th><th>Tebe</th></tr></thead><tbody>${FL.map(([seg,dt,no,tm,nt])=>`<tr><td class="gn">${seg}</td><td><b>${dt}・${no}</b><br>${tm}<br><small>${nt}</small></td><td>${TB[seg]||"—"}</td></tr>`).join("")}</tbody></table></div>
+   <dl class="tipsdl"><dt>積分</dt><dd>香港來回冰島：103,600 分＋HKD 951（Economy Classic Reward）；墨爾本來回香港：86,900 分＋AUD 329（回程係 Classic Plus）</dd><dt>改期</dt><dd>有 Classic Plus 的訂單取消只可以退款，唔可以留做 Flight Credit；改期要補差價</dd></dl></section>`:"";
+  $("guide").innerHTML=`<h2 style="margin-top:0">省錢攻略</h2>
+
+   <section id="g-save">${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
 `;
-  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
+  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}<div class="bkprog" id="bkprog"></div><p class="bnote">剔低已經訂好的項目；記錄只會儲存喺呢部裝置。</p>${BOOK.map(([h,rows],ci)=>bkl(h,rows,ci)).join("")}</section>`;bkProg();
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
   $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
