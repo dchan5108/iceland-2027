@@ -989,10 +989,10 @@ function richRows(day){
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
-    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
+    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(DT&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
-  const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(REAL&&CF[cfKey(day.d,t,a)])).length,showCf=REAL||nFix;
-  return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${REAL?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${REAL?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
+  const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(DT&&CF[cfKey(day.d,t,a)])).length,showCf=DT||nFix;
+  return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 function card(raw){
