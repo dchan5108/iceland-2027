@@ -323,6 +323,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .bkchk{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px;max-width:760px}
 .bkchk li{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:8px 12px}
 .bkchk label{display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:600}.bkchk input{width:18px;height:18px;accent-color:var(--route);flex:0 0 auto}
+.bktag{margin-left:auto;font-size:11px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;white-space:nowrap}.bkday{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}.bkday small{flex-basis:100%;order:3;font-weight:400;font-size:12px;color:var(--muted)}.bkday .bkc{margin-left:auto}.bkd{display:inline-block;background:var(--dc,var(--route));color:#fff;border-radius:6px;padding:0 7px;font-size:13px}
 .bkm{font-size:12.5px;color:var(--muted);margin:2px 0 0 28px}.bkchk li.done .bkn{text-decoration:line-through;color:var(--muted)}.bkchk li.done{opacity:.75}
 .bkc{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
 .bkprog{max-width:760px;font-size:14px;margin:4px 0}.bkprog .bkbar{height:8px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bkprog .bkbar i{display:block;height:100%;background:var(--route);border-radius:99px}
@@ -451,15 +452,13 @@ const nm=k=>N[k]||pts[k][0].replace(/（.*）/,"");
 const L=(a,b,m,o={})=>({a,b,m,...o});
 /* plan rows: [time, activity, flag]  flag: "m" meal, "c" changed.  Days 9 and 10 have two versions: ok = D8 hike went ahead, redo = D8 cancelled and redone on D9 */
 const days=[
- {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"地下室早餐 → 市區散步 → 地熱海灘 → 書店酒吧",
-  plan:[["08:30–09:30","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","m"],["10:00–10:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（10:00 開）","o"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["11:00–12:00","Laugavegur 購物街","o"],["12:00–12:30","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["12:30–13:00","午餐：Bæjarins Beztu 熱狗","o"],["14:00–15:30","Nauthólsvík 地熱海灘（星期六 11:00–16:00；由市中心坐巴士或的士）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
-  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["行完 4 日山，揀一兩樣就夠；市區景點 D1 下晝都有得行"],["唔建議：藍湖（D1 會去）、Sky Lagoon（D11）、出海賞鯨（D4）、騎馬（D10）；9 月已經冇海鸚；9/11 前後月光好光，極光團唔抵"]],
-  opt:[{t:"Lava Show 熔岩秀（Grandi 舊港口）",add:"約 1 小時",d:"喺室內將真熔岩倒出嚟，可以近距離睇熔岩流動同冷卻，冰島獨有。附近有 Grandi Mathöll 美食廣場可以順便食午餐。門票同場次以官網為準，建議預約。"},
-   {t:"Perlan 博物館",add:"2–3 小時",d:"有人造冰洞、冰川同火山展覽，頂樓觀景台望晒成個雷克雅維克；落雨天都啱去。喺市中心坐巴士或的士約 10 分鐘。"},
-   {t:"Laugardalslaug 泳池",add:"1–2 小時",d:"市內最大的地熱泳池，有熱水池、蒸氣室、冷水池同滑水梯；行完山浸下舒筋，價錢平過藍湖好多。可以代替 Nauthólsvík 地熱海灘。"},
-   {t:"Grótta 燈塔睇日落",add:"傍晚 1–2 小時",d:"市區西邊海角的燈塔，有細細的 Kvika 地熱浸腳池（漲潮時燈塔條路會被水浸，睇定潮汐）；日落約 20:15，坐巴士或的士去。"},
-   {t:"Raufarhólshellir 熔岩隧道（半日團）",add:"約 3–4 小時（連接送）",d:"跟團行入火山熔岩管，有燈同步道，唔辛苦；酒店接送，唔使揸車。"},
-   {t:"雷克雅維克美食徒步團（Food Walk）",add:"約 3 小時",d:"導遊帶住行市中心，一次過試羊肉湯、熱狗、魚、冰島乳酪等，可以當午餐。"}]},
+ {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"Perlan → 熔岩秀 → 地熱泳池 → Grótta 日落 → 書店酒吧",
+  plan:[["08:30–09:30","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","m"],["10:00–12:00","Perlan 博物館：冰洞、冰川同火山展覽，頂樓觀景台（市中心坐巴士或的士約 10 分鐘）"],["12:30–13:30","午餐：Grandi Mathöll 美食廣場（舊港口）","m"],["13:30–14:30","Lava Show 熔岩秀（就喺 Grandi；要預約場次）"],["15:00–16:30","Laugardalslaug 地熱泳池：浸熱水池、蒸氣室，舒緩行山後的腳"],["16:30–17:30","返住處休息"],["18:00–19:15","晚餐：市中心","m"],["19:30–20:30","Grótta 燈塔睇日落（日落約 20:10；Kvika 地熱浸腳池）"],["21:00","Hús máls og menningar 書店酒吧","c"]],
+  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["冇車：用 Strætó 巴士（Klappið app 買票）或者的士；景點之間大多 10–15 分鐘"],["唔建議：藍湖（D1 會去）、Sky Lagoon（D11）、出海賞鯨（D4）、騎馬（D10）；9 月已經冇海鸚；9/11 前後月光好光，極光團唔抵"]],
+  opt:[{t:"Raufarhólshellir 熔岩隧道（半日團，代替 Perlan）",add:"約 3–4 小時（連接送）",d:"跟團行入火山熔岩管，有燈同步道，唔辛苦；酒店接送，唔使搭巴士。"},
+   {t:"雷克雅維克美食徒步團（Food Walk，代替午餐）",add:"約 3 小時",d:"導遊帶住行市中心，一次過試羊肉湯、熱狗、魚、冰島乳酪等。"},
+   {t:"Nauthólsvík 地熱海灘（代替泳池）",add:"1–1.5 小時",d:"市內人工沙灘，有熱水池，可以落海冷水浴；星期六 11:00–16:00。"},
+   {t:"市區散步（D1 下晝都有得行）",add:"約 2 小時",d:"哈爾格林姆大教堂登塔、彩虹街、Laugavegur、Harpa、Sun Voyager、熱狗。"}]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
   plan:[["07:30","坐 Flybus 由 BSÍ 巴士站去 KEF 機場（約 45 分鐘；唔帶行李，行李寄存喺 BSÍ 行李寄存處或住處；班次上 re.is 查）","y"],["08:00","大隊落機 KEF；過關、攞行李","c"],["09:00–09:30","全部人一齊喺機場取車（2 部）","c"],["09:30","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["10:00–12:15","藍湖（預約 10:00 時段）"],["12:15–13:00","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00","開車去雷克雅維克","c"],["13:45–14:15","Costco（Garðabær，順路）：買早餐材料、零食和飲品","o"],["14:30","到雷克雅維克住處放行李（入住時間要同住處確認）；Dorcas & Tebe 順路去 BSÍ 攞返行李","c"],["15:00–15:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（星期日 12:30 後開放）","o"],["15:30–16:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["16:00–16:45","Laugavegur 購物街","o"],["16:45–17:15","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["17:15–17:35","Bæjarins Beztu 熱狗","o"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["大隊 08:00 落機，藍湖改訂 10:00 時段；下晝市區景點全部係可選，攰就喺住處休息",1],["虛線框係分組或者可選的行程",1]]},
@@ -586,7 +585,7 @@ const FOODI={
 const FOODN={fish:"海鮮",soup:"湯",pizza:"薄餅",burger:"漢堡",lobster:"龍蝦",tomato:"番茄湯",hotdog:"熱狗",sandwich:"自備午餐"};
 /* one illustrated station per day; dx/dy = where the badge sits, in screen pixels from the spot */
 const ST=[
- {d:0,lon:-21.92,lat:64.12,ic:"cup",food:"hotdog",name:"市區散步",en:"Reykjavík",dx:46,dy:26},
+ {d:0,lon:-21.92,lat:64.12,ic:"cup",food:"hotdog",name:"Perlan・熔岩秀",en:"Reykjavík",dx:46,dy:26},
  {d:1,k:"bl",ic:"lagoon",food:"fish",name:"藍湖",en:"Blue Lagoon",dx:-52,dy:-24},
  {d:2,k:"kirk",ic:"peak",food:"soup",name:"草帽山",en:"Kirkjufell",dx:-6,dy:-58},
  {d:3,k:"glaum",ic:"turf",food:"burger",name:"草皮屋",en:"Glaumbær",dx:-14,dy:-58},
@@ -797,7 +796,11 @@ const SP={
  skaf:{t:"斯卡夫塔山 6 小時冰川健行",park:"斯卡夫塔山遊客中心停車場，收費（約 1,000 ISK 以內），用現場機器繳費",d:"瓦特納冰川國家公園的一部分，由導遊帶上冰川。",stay:"約 6 小時",hours:"按團時間",closed:"天氣差、風大會取消",ticket:"每人約 24,900 ISK（Blue Iceland）",book:"必須預約，訂約 10:00 開團",when:"10:00 團",photo:"冰川裂縫和藍冰",dress:"防水登山鞋（要可以扣冰爪）、防水外套和褲、手套；冰爪和頭盔通常由公司提供",bag:"細背囊，帶午餐、小食和水",w:["遊客中心停車要付費"],alt:"如果取消：D9 補做"},
  svart:{t:"Svartifoss 黑瀑布步道",park:"斯卡夫塔山遊客中心停車場，收費，步道由這裡出發",d:"被黑色玄武岩柱圍繞的瀑布，由斯卡夫塔山遊客中心出發。",stay:"1.5–2 小時來回",hours:"全日",closed:"無",ticket:"免費；停車收費（約 1,000 ISK 以內）",book:"唔使",when:"上午",photo:"瀑布正前方的小橋",dress:"登山鞋",w:["上斜路段要慢行"],alt:"Skaftafellsjökull 冰川舌觀景步道（較短）"},
  eld:{t:"埃爾德熔岩原",park:"1 號公路旁 Eldhraun 指定停車處，免費；唔好隨意停路邊",d:"1783 年 Laki 火山噴發形成的熔岩原，鋪滿厚厚的苔蘚。",stay:"20 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"唔使",when:"任何時間",photo:"指定停車處旁的步道",w:["唔好踩苔蘚，踩壞要幾十年才恢復","只在指定停車處停車"]},
-midh:{t:"Miðhraun - Lava Resort（已確定）",park:"網上列明冇酒店停車場；訂房時問清楚兩部車泊邊",d:"斯奈山半島南岸熔岩原上的家庭農莊酒店（Miðhraun 2, 342），4 房 apartment（約 94 平方米，可住 8 人：6 張單人床＋1 張雙人床），有廚房、洗衣機同露台；酒店有 Hlaðan 餐廳、地熱溫泉池、桑拿同冷水池，農場有羊。",stay:"9/13 一晚（D2 入住、D3 退房）",hours:"入住 16:00–22:00；退房 10:00；早餐 08:00–10:00",closed:"—",ticket:"住宿每人約 HKD 1,000（待確認）；早餐每人約 EUR 18，唔包；溫泉池另外收費",book:"已訂；Hlaðan 晚餐同溫泉池要預先講（+354 893 3333、info@lavaresort.is）",when:"18:50 到，19:30 晚餐，飯後浸溫泉",w:["D3 11:00 先出發，但係 10:00 要退房：問可唔可以延遲退房，或者先將行李放上車","網上有住客話餐廳試過冇預告休息，晚餐一定要預先確認","22:00 後入住要預先聯絡酒店攞鎖匙"]},
+perlan:{t:"Perlan 博物館",park:"Perlan 門口停車場；冇車就坐巴士或的士",d:"建喺熱水儲存缸上面的玻璃圓頂建築，有人造冰洞、冰川同火山展覽、天文館，頂樓觀景台可以 360 度望晒雷克雅維克。",stay:"2 小時",hours:"以官網為準（perlan.is）",closed:"—",ticket:"展覽要收費，以官網為準；觀景台可以分開買",book:"建議網上買",when:"上午",photo:"頂樓觀景台望市區同哈爾格林姆大教堂",w:["冰洞入面好凍，帶件外套"]},
+ lavash:{t:"Lava Show 熔岩秀",park:"Grandi 舊港口一帶（Fiskislóð），步行",d:"喺室內將攝氏 1,100 度的真熔岩倒出嚟，可以近距離睇熔岩流動、聽到爆裂聲同感受熱力，再睇佢冷卻變成岩石。",stay:"約 1 小時",hours:"按場次，以官網為準（icelandiclavashow.com）",closed:"—",ticket:"以官網為準",book:"要預約場次",when:"午餐後",photo:"熔岩流出嗰一刻；冇得用閃光燈",w:["前排比較熱，可以揀位"]},
+ laugd:{t:"Laugardalslaug 地熱泳池",park:"泳池門口停車場；冇車就坐巴士或的士",d:"雷克雅維克最大的公共泳池，有室內外泳池、多個熱水池、海水池、蒸氣室、冷水池同滑水梯。",stay:"1–1.5 小時",hours:"大約平日 06:30–22:00、週末 08:00–22:00（以 sundlaugar.is 為準）",closed:"—",ticket:"成人約 1,400 ISK（同市內其他泳池一樣）",book:"唔使",when:"下晝",w:["入池前要赤身淋浴","毛巾可以租或者自備"]},
+ grotta:{t:"Grótta 燈塔・Kvika 浸腳池",park:"Seltjarnarnes 停車場；冇車就坐巴士或的士",d:"市區西邊海角的燈塔同雀鳥保護區，有細細的 Kvika 地熱浸腳池，可以一邊浸腳一邊睇日落。",stay:"1 小時",hours:"全日",closed:"燈塔所在的小島漲潮時會被水浸斷",ticket:"免費",book:"唔使",when:"日落前（約 20:10）",photo:"浸腳池望燈塔同日落",w:["睇定潮汐先行過去燈塔，唔好俾潮水困住","風大，帶外套同毛巾抹腳"]},
+ midh:{t:"Miðhraun - Lava Resort（已確定）",park:"網上列明冇酒店停車場；訂房時問清楚兩部車泊邊",d:"斯奈山半島南岸熔岩原上的家庭農莊酒店（Miðhraun 2, 342），4 房 apartment（約 94 平方米，可住 8 人：6 張單人床＋1 張雙人床），有廚房、洗衣機同露台；酒店有 Hlaðan 餐廳、地熱溫泉池、桑拿同冷水池，農場有羊。",stay:"9/13 一晚（D2 入住、D3 退房）",hours:"入住 16:00–22:00；退房 10:00；早餐 08:00–10:00",closed:"—",ticket:"住宿每人約 HKD 1,000（待確認）；早餐每人約 EUR 18，唔包；溫泉池另外收費",book:"已訂；Hlaðan 晚餐同溫泉池要預先講（+354 893 3333、info@lavaresort.is）",when:"18:50 到，19:30 晚餐，飯後浸溫泉",w:["D3 11:00 先出發，但係 10:00 要退房：問可唔可以延遲退房，或者先將行李放上車","網上有住客話餐廳試過冇預告休息，晚餐一定要預先確認","22:00 後入住要預先聯絡酒店攞鎖匙"]},
  husmal:{t:"Hús máls og menningar 書店酒吧",park:"步行（Laugavegur 18）",d:"老牌書店 Mál og menning 原址：下面兩層係書店（英文書、明信片、手信），樓上係咖啡店兼酒吧；夜晚差唔多每晚都有本地樂隊現場演奏，有時有 open mic，可以一齊唱。",stay:"1–2 小時",hours:"以官網為準（husmalsogmenningar.is，+354 580 5000）",closed:"—",ticket:"免費入場；飲品自費",book:"唔使",when:"夜晚，21:00 後音樂最熱鬧",w:["第二朝 07:30 要坐 Flybus 去機場，唔好玩太夜"]},
  gear:{t:"徒步裝備補給（戶外用品店・氣罐）",park:"市中心步行；Fjallakofinn 坐巴士或的士約 10 分鐘",d:"Gangleri Outfitters（Hverfisgata 82，市中心步行可到）專做行山用品，有裝備出租同氣罐；Fjallakofinn（Hallarmúli 2）大型戶外用品店，有出租同維修；Bónus 超市氣罐最平但唔一定有貨；Laugardalur 營地接待處 24 小時有氣罐，但最貴。",stay:"1.5–2 小時",hours:"Fjallakofinn 星期一至五 10:00–18:00、星期六 10:00–16:00；Gangleri 以官網為準",closed:"Fjallakofinn 星期日（網上冇列）",ticket:"450 g 螺紋氣罐約 2,000–2,500 ISK",book:"唔使；想租裝備可以先上網預約",when:"9/6（星期一）中午",w:["氣罐唔可以帶上機，回程前用完，或者放喺營地的免費架","徒步團有提供煮食的話就唔使買","爐頭要啱氣罐接口（冰島多數係螺紋式）"]},
  sund:{t:"Sundhöllin 市中心泳池",park:"步行（Barónsstígur 45a）",d:"雷克雅維克最古老的公共泳池，有室內外 25 米泳池、38–44°C 熱水池、冷水池、桑拿同蒸氣室。",stay:"1–1.5 小時",hours:"星期一至五 06:30–22:00；週末 08:00–21:00（以 sundlaugar.is 為準）",closed:"偶爾維修，出發前睇官網",ticket:"成人 1,430 ISK",book:"唔使",when:"下晝",w:["入池前要赤身淋浴","毛巾可以租或者自備"]},
@@ -819,7 +822,7 @@ midh:{t:"Miðhraun - Lava Resort（已確定）",park:"網上列明冇酒店停�
  costco:{t:"Costco（Garðabær）",park:"Costco 門口大停車場，免費；油站在停車場旁",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"唔使",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 };
 /* which timetable rows a spot attaches to */
-const SPKW={midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const SPKW={perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
 const PQ={grab:"Grábrók parking",glaum:"Glaumbær museum parking",klaus:"Kirkjubæjarklaustur",gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",myvb:"Earth Lagoon Mývatn",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
 /* toilets: "有" = there is one at the spot; otherwise the nearest option */
@@ -876,10 +879,10 @@ const TIPS=[
 /* restaurant suggestions per day: [meal, name, note]; weekday checked against the 2027 date */
 const EAT={
  "-5":[["午餐","Sandholt","Laugavegur 36；百年麵包店，早餐同早午餐，市中心步行可到"],["午餐","Brauð & Co","Frakkastígur 16；肉桂卷，買完可以邊行邊食"],["晚餐","Svarta Kaffið","Laugavegur 54；樓上小咖啡店，每日兩款湯，裝喺麵包碗，平又飽"],["晚餐","Noodle Station","Skólavörðustígur 21a；牛肉湯麵，快、平，唔使訂"]],
- 0:[["午餐","Hlemmur Mathöll 美食廣場","約 10 個攤檔，有冰島魚肉薯蓉（plokkfiskur），主菜約 1,800–3,200 ISK；星期六正常營業"],
-    ["午餐","Sægreifinn（Sea Baron）","港口小店，招牌龍蝦湯約 2,500–3,000 ISK，唔接受訂位"],
-    ["晚餐","Messinn","海鮮煎鍋，北極紅點鮭最出名，主菜約 3,500–4,000 ISK；廚房 21:00 前截單，建議 18:00 去"],
-    ["晚餐","Grandi Mathöll 美食廣場","舊港口海鮮為主，有挪威海螯蝦"]],
+ 0:[["午餐","Grandi Mathöll 美食廣場","Grandagarður 16；舊港口，有海鮮、湯同小食攤，行過去 Lava Show 只係幾分鐘"],
+    ["午餐","Sægreifinn（Sea Baron）","Geirsgata 8；港口小店，招牌龍蝦湯約 2,500–3,000 ISK，唔接受訂位"],
+    ["晚餐","Messinn","Lækjargata 6b；海鮮煎鍋，北極紅點鮭最出名；星期六晚建議訂位"],
+    ["晚餐","Hlemmur Mathöll 美食廣場","Laugavegur 107；約 10 個攤檔，兩個人各自揀，唔使訂"]],
  1:[["午餐","Blue Café（藍湖）","藍湖入面的咖啡店，三文治、沙律，最快"],["午餐","Lava 餐廳（藍湖）","坐喺熔岩壁旁邊食，較貴；7 人要預約"],
     ["晚餐","Hlemmur Mathöll 美食廣場","7 個人揀自己想食的，最方便；9/12 係星期日，夜晚較靜，部分攤檔唔即做"],
     ["晚餐","Messinn","海鮮煎鍋，7 人要早啲打電話問位"],
@@ -1237,6 +1240,17 @@ function bkProg(){const all=[...document.querySelectorAll("#bookp input[data-bk]
   document.querySelectorAll("#bookp .bkc").forEach(c=>{const xs=[...c.closest("h3").nextElementSibling.querySelectorAll("input")];c.textContent=`${xs.filter(x=>x.checked).length}/${xs.length}`});
   const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${done}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(done/all.length*100):0}%"></i></div>`}
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.bk;if(!id)return;if(e.target.checked)BKC[id]=1;else delete BKC[id];store.set("iceland-bkc",JSON.stringify(BKC));e.target.closest("li").classList.toggle("done",e.target.checked);bkProg()});
+/* group booking items by the first day number in their date text; ids stay bk{category}_{row} so old ticks survive */
+const BOOKDT=["Dorcas & Tebe",[
+  ["Lava Show 熔岩秀","D0 9/11 13:30","icelandiclavashow.com","1–2 星期","揀 Reykjavík（Grandi）場次"],
+  ["Perlan 門票","D0 9/11 10:00","perlan.is","前一兩日","網上買比現場平少少"]]];
+function bkDays(){const cats=DT?[...BOOK,BOOKDT]:BOOK,g=new Map(),pre=[],walk=[];
+  cats.forEach(([h,rows],ci)=>rows.forEach((r,ri)=>{const it={r,ci,ri,h};if(r[0]==="唔接受訂位"){walk.push(it);return}
+    const m=String(r[1]).match(/D(\d+)/);if(!m){pre.push(it);return}const d=+m[1];if(!g.has(d))g.set(d,[]);g.get(d).push(it)}));
+  const tag=h=>h.replace(/（.*）/,"");
+  const li=({r,ci,ri,h})=>{const id=`bk${ci}_${ri}`,on=!!BKC[id];return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span><span class="bktag">${tag(h)}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,r[4]].filter(Boolean).join("　")}</div></li>`};
+  const grp=(head,items,col)=>items.length?`<h3 class="tiph bkday"${col?` style="--dc:${col}"`:""}>${head}<span class="bkc"></span></h3><ul class="bkchk">${items.map(li).join("")}</ul>`:"";
+  return grp("出發前",pre)+[...g.keys()].sort((a,b)=>a-b).map(d=>{const day=days.find(x=>x.d===d);return grp(`<span class="bkd">D${d}</span>${day?day.date:""}`,g.get(d),dayCol(d))}).join("")+grp("唔使訂（早啲去）",walk)}
 function renderGuide(){
   const bkl=(h,rows,ci)=>`<h3 class="tiph">${h}<span class="bkc" data-ci="${ci}"></span></h3><ul class="bkchk">${rows.map((r,ri)=>{const id=`bk${ci}_${ri}`,on=!!BKC[id];return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,r[4]].filter(Boolean).join("　")}</div></li>`}).join("")}</ul>`;
   const tbl=(h,rows)=>`<h3 class="tiph">${h}</h3><div class="gtw"><table class="gt"><thead><tr><th>項目</th><th>日子／時間</th><th>點訂</th><th>提早幾耐</th><th>備註</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c||"—"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
@@ -1252,7 +1266,7 @@ function renderGuide(){
 
    <section id="g-save">${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
 `;
-  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}<div class="bkprog" id="bkprog"></div><p class="bnote">剔低已經訂好的項目；記錄只會儲存喺呢部裝置。</p>${BOOK.map(([h,rows],ci)=>bkl(h,rows,ci)).join("")}</section>`;bkProg();
+  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}<div class="bkprog" id="bkprog"></div><p class="bnote">剔低已經訂好的項目；記錄只會儲存喺呢部裝置。</p>${bkDays()}</section>`;bkProg();
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
   $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
