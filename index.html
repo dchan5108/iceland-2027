@@ -182,7 +182,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .cfb.fix{cursor:default}.cfb:not(.fix)[aria-pressed="true"]{background:var(--card);color:var(--ok)}.cfb[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)!important}.cfb[aria-pressed="true"]::after{content:"✓";font-weight:700}.cfcopy{margin-left:auto}
 .sched.rich .a.cf{border-left-color:var(--ok);border-left-style:solid}.sched.rich .t.cf{color:var(--ok);font-weight:600}
 .cfbar{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:8px}.cfc{color:var(--ok);font-weight:500}
-.rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
+.ver{font-size:11px;color:var(--muted);white-space:nowrap;margin-left:4px}.rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
 :root{--ok:#4f7d5c}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ok:#8cc29a}}:root[data-theme="dark"]{--ok:#8cc29a}
 .sched.rich details summary{cursor:pointer;list-style:none}
 .sched.rich details summary::-webkit-details-marker{display:none}
@@ -342,7 +342,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 <body>
 <div class="wrap">
   <h1>2027 冰島（暫定行程）</h1>
-  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島</p>
+  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 <span class="ver">更新：10/13 01:40</span></p>
   <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span></div>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
@@ -475,8 +475,8 @@ const days=[
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
   plan:[["07:30","坐 Flybus 由 BSÍ 巴士站去 KEF 機場（約 45 分鐘；唔帶行李，行李寄存喺 BSÍ 行李寄存處或住處；班次上 re.is 查）","y"],["08:00","大隊落機 KEF；過關、攞行李","c"],["09:00–09:30","全部人一齊喺機場取車（2 部）","c"],["09:30","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["10:00–12:15","藍湖（預約 10:00 時段）"],["12:15–13:00","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00","開車去雷克雅維克","c"],["13:45–14:15","Costco（Garðabær，順路）：買早餐材料、零食和飲品","o"],["14:30","到雷克雅維克住處放行李（入住時間要同住處確認）；Dorcas & Tebe 順路去 BSÍ 攞返行李","c"],["15:00–15:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（星期日 12:30 後開放）","o"],["15:30–16:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["16:00–16:45","Laugavegur 購物街","o"],["16:45–17:15","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["17:15–17:35","Bæjarins Beztu 熱狗","o"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["大隊 08:00 落機，藍湖改訂 10:00 時段；下晝市區景點全部係可選，攰就喺住處休息",1],["虛線框係分組或者可選的行程",1]]},
- {d:2,date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"18:50",legs:[L("rvk","ytri",120,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",55,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",50,{c:1}),L("ingj","kirk",30,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
-  plan:[["出發前","早餐：酒店","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["11:30–12:15","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，啱啱好）"],["12:30–13:30","午餐：Hjá Góðu Fólki","m"],["14:15–15:00","布迪爾黑教堂：影座落喺金黃秋季苔原同黑色熔岩原之間的木教堂"],["15:50–16:35","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:05–18:05","草帽山 Kirkjufell 與瀑布"],["18:50","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:30","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
+ {d:2,date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"19:20",legs:[L("rvk","ytri",120,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",55,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",50,{c:1}),L("ingj","kirk",30,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
+  plan:[["出發前","早餐：酒店","m"],["10:00","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["12:00–12:45","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，之後一個鐘內都仲啱）"],["13:00–14:00","午餐：Hjá Góðu Fólki","m"],["14:45–15:30","布迪爾黑教堂：影座落喺金黃秋季苔原同黑色熔岩原之間的木教堂"],["16:20–17:05","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:35–18:35","草帽山 Kirkjufell 與瀑布"],["19:20","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:45","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
  {d:3,date:"9/14（二）",stay:"K16 Apartments（阿克雷里 Akureyri）",arrive:"19:15",legs:[L("midh","borg",60,{c:1,via:["54 號公路"]}),L("borg","grab",30,{c:1}),L("grab","glaum",130,{c:1}),L("glaum","akur",75,{c:1})],
   plan:[["07:30","早餐：酒店（早啲食）","y"],["08:15","開一部車去 Stykkishólmur（約 40 分鐘）","y"],["08:55–09:45","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","y"],["09:45","開返 Miðhraun（約 40 分鐘）","y"],["約 10:30","返到酒店，11:00 同大家一齊出發","y"],
    ["出發前","早餐：酒店 Hlaðan 餐廳（08:00–10:00，每人約 EUR 18）","m"],["11:00","退房出發（酒店 10:00 退房，要問可唔可以延遲，或者先將行李放上車）","c"],["12:00–12:45","博爾加內斯 Borgarnes：Bónus 補給物資"],["13:00–14:00","午餐：Dirty Burger and Ribs 或 Settlement Center","m"],["14:30–15:00","Grábrók 火山口（1 號公路旁，行上火山口邊約 30 分鐘）"],["17:10–18:00","Glaumbær 草皮屋博物館（18:00 關門）"],["19:15","入住 K16 Apartments（阿克雷里 Akureyri）","c"],["晚上","晚餐：市區食或者自己煮","m"]]},
@@ -813,7 +813,7 @@ perlan:{t:"Perlan 博物館",park:"Perlan 門口停車場；冇車就坐巴士�
  lavash:{t:"Lava Show 熔岩秀",park:"Grandi 舊港口一帶（Fiskislóð），步行",d:"喺室內將攝氏 1,100 度的真熔岩倒出嚟，可以近距離睇熔岩流動、聽到爆裂聲同感受熱力，再睇佢冷卻變成岩石。",stay:"約 1 小時",hours:"按場次，以官網為準（icelandiclavashow.com）",closed:"—",ticket:"以官網為準",book:"要預約場次",when:"午餐後",photo:"熔岩流出嗰一刻；冇得用閃光燈",w:["前排比較熱，可以揀位"]},
  laugd:{t:"Laugardalslaug 地熱泳池",park:"泳池門口停車場；冇車就坐巴士或的士",d:"雷克雅維克最大的公共泳池，有室內外泳池、多個熱水池、海水池、蒸氣室、冷水池同滑水梯。",stay:"1–1.5 小時",hours:"大約平日 06:30–22:00、週末 08:00–22:00（以 sundlaugar.is 為準）",closed:"—",ticket:"成人約 1,400 ISK（同市內其他泳池一樣）",book:"唔使",when:"下晝",w:["入池前要赤身淋浴","毛巾可以租或者自備"]},
  grotta:{t:"Grótta 燈塔・Kvika 浸腳池",park:"Seltjarnarnes 停車場；冇車就坐巴士或的士",d:"市區西邊海角的燈塔同雀鳥保護區，有細細的 Kvika 地熱浸腳池，可以一邊浸腳一邊睇日落。",stay:"1 小時",hours:"全日",closed:"燈塔所在的小島漲潮時會被水浸斷",ticket:"免費",book:"唔使",when:"日落前（約 20:10）",photo:"浸腳池望燈塔同日落",w:["睇定潮汐先行過去燈塔，唔好俾潮水困住","風大，帶外套同毛巾抹腳"]},
- midh:{t:"Miðhraun - Lava Resort（已確定）",park:"網上列明冇酒店停車場；訂房時問清楚兩部車泊邊",d:"斯奈山半島南岸熔岩原上的家庭農莊酒店（Miðhraun 2, 342），4 房 apartment（約 94 平方米，可住 8 人：6 張單人床＋1 張雙人床），有廚房、洗衣機同露台；酒店有 Hlaðan 餐廳、地熱溫泉池、桑拿同冷水池，農場有羊。",stay:"9/13 一晚（D2 入住、D3 退房）",hours:"入住 16:00–22:00；退房 10:00；早餐 08:00–10:00",closed:"—",ticket:"住宿每人約 HKD 1,000（待確認）；早餐每人約 EUR 18，唔包；溫泉池另外收費",book:"已訂；Hlaðan 晚餐同溫泉池要預先講（+354 893 3333、info@lavaresort.is）",when:"18:50 到，19:30 晚餐，飯後浸溫泉",w:["D3 11:00 先出發，但係 10:00 要退房：問可唔可以延遲退房，或者先將行李放上車","網上有住客話餐廳試過冇預告休息，晚餐一定要預先確認","22:00 後入住要預先聯絡酒店攞鎖匙"]},
+ midh:{t:"Miðhraun - Lava Resort（已確定）",park:"網上列明冇酒店停車場；訂房時問清楚兩部車泊邊",d:"斯奈山半島南岸熔岩原上的家庭農莊酒店（Miðhraun 2, 342），4 房 apartment（約 94 平方米，可住 8 人：6 張單人床＋1 張雙人床），有廚房、洗衣機同露台；酒店有 Hlaðan 餐廳、地熱溫泉池、桑拿同冷水池，農場有羊。",stay:"9/13 一晚（D2 入住、D3 退房）",hours:"入住 16:00–22:00；退房 10:00；早餐 08:00–10:00",closed:"—",ticket:"住宿每人約 HKD 1,000（待確認）；早餐每人約 EUR 18，唔包；溫泉池另外收費",book:"已訂；Hlaðan 晚餐同溫泉池要預先講（+354 893 3333、info@lavaresort.is）",when:"19:20 到，19:45 晚餐，飯後浸溫泉",w:["D3 11:00 先出發，但係 10:00 要退房：問可唔可以延遲退房，或者先將行李放上車","網上有住客話餐廳試過冇預告休息，晚餐一定要預先確認","22:00 後入住要預先聯絡酒店攞鎖匙"]},
  husmal:{t:"Hús máls og menningar 書店酒吧",park:"步行（Laugavegur 18）",d:"老牌書店 Mál og menning 原址：下面兩層係書店（英文書、明信片、手信），樓上係咖啡店兼酒吧；夜晚差唔多每晚都有本地樂隊現場演奏，有時有 open mic，可以一齊唱。",stay:"1–2 小時",hours:"以官網為準（husmalsogmenningar.is，+354 580 5000）",closed:"—",ticket:"免費入場；飲品自費",book:"唔使",when:"夜晚，21:00 後音樂最熱鬧",w:["第二朝 07:30 要坐 Flybus 去機場，唔好玩太夜"]},
  gear:{t:"徒步裝備補給（戶外用品店・氣罐）",park:"市中心步行；Fjallakofinn 坐巴士或的士約 10 分鐘",d:"Gangleri Outfitters（Hverfisgata 82，市中心步行可到）專做行山用品，有裝備出租同氣罐；Fjallakofinn（Hallarmúli 2）大型戶外用品店，有出租同維修；Bónus 超市氣罐最平但唔一定有貨；Laugardalur 營地接待處 24 小時有氣罐，但最貴。",stay:"1.5–2 小時",hours:"Fjallakofinn 星期一至五 10:00–18:00、星期六 10:00–16:00；Gangleri 以官網為準",closed:"Fjallakofinn 星期日（網上冇列）",ticket:"450 g 螺紋氣罐約 2,000–2,500 ISK",book:"唔使；想租裝備可以先上網預約",when:"9/6（星期一）中午",w:["氣罐唔可以帶上機，回程前用完，或者放喺營地的免費架","徒步團有提供煮食的話就唔使買","爐頭要啱氣罐接口（冰島多數係螺紋式）"]},
  sund:{t:"Sundhöllin 市中心泳池",park:"步行（Barónsstígur 45a）",d:"雷克雅維克最古老的公共泳池，有室內外 25 米泳池、38–44°C 熱水池、冷水池、桑拿同蒸氣室。",stay:"1–1.5 小時",hours:"星期一至五 06:30–22:00；週末 08:00–21:00（以 sundlaugar.is 為準）",closed:"偶爾維修，出發前睇官網",ticket:"成人 1,430 ISK",book:"唔使",when:"下晝",w:["入池前要赤身淋浴","毛巾可以租或者自備"]},
@@ -966,9 +966,9 @@ const TAGS={v:"待大家決定",o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人"
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 /* confirmed marks: tap the timeline dot (real versions only); saved on this device */
 /* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
-const CONFIRMED={2:[/入住 Miðhraun/],7:[/冰河湖獨木舟/]};
+const CONFIRMED={"-4":true,1:[/坐 Flybus 由 BSÍ/,/大隊落機 KEF/,/全部人一齊喺機場取車/],2:true,3:true,7:[/冰河湖獨木舟/]};
 const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const isConf=(d,a)=>(CONFIRMED[d]||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")));
+const isConf=(d,a,f)=>{const c=CONFIRMED[d];if(c===true)return f!=="y";return (c||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")))};
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
 const cfKey=(d,t,a)=>{let h=0;const x=`${d}|${t}|${String(a).replace(/<[^>]*>/g,"")}`;for(let i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))|0;return "c"+(h>>>0).toString(36)};
 const cfCount=el=>{const art=el.closest("article");if(!art)return;const bs=[...art.querySelectorAll(".cfb")],n=bs.filter(b=>b.getAttribute("aria-pressed")==="true").length,c=art.querySelector(".cfc");if(c)c.innerHTML=`已確認 <b>${n}</b> / ${bs.length}`};
@@ -989,9 +989,9 @@ function richRows(day){
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
-    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
+    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(REAL&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:REAL?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
-  const nFix=plan.filter(([t,a])=>isConf(day.d,a)).length,nOn=plan.filter(([t,a])=>isConf(day.d,a)||(REAL&&CF[cfKey(day.d,t,a)])).length,showCf=REAL||nFix;
+  const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(REAL&&CF[cfKey(day.d,t,a)])).length,showCf=REAL||nFix;
   return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${REAL?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${REAL?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
@@ -1006,7 +1006,7 @@ function card(raw){
     ${sunriseHTML(day,Nd)}
     ${REAL&&day.firmT?`<div class="golin"><span>話俾大家知：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}
     ${(()=>{const ks=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]&&WC[k].startsWith("有"));return day.legs.length?`<div class="dusk wcl">${ks.length?`沿途有廁所：${ks.map(k=>nm(k)).join("、")}`:"景點冇廁所：靠午餐地點同沿途油站（N1、Olís）"}</div>`:""})()}
-    ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}
+    ${REAL&&day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
