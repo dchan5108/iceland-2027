@@ -393,11 +393,12 @@ const pts={
  borg:["博爾加內斯（午餐）",-21.92,64.54,"spot","r"], kolu:["Kolugljúfur 峽谷",-20.62,65.33,"spot","b"], stykk:["Stykkishólmur 教堂",-22.73,65.075,"spot","t",1], hvit:["Hvítserkur 海蝕岩",-20.64,65.61,"opt"],
  hjal:["Hjalteyri（D3）",-18.22,65.85,"stay","l"], husa:["胡薩維克 賞鯨",-17.34,66.04,"spot","t"],
  goda:["眾神瀑布",-17.55,65.68,"spot","b",1],
- hver:["Hverir・米湖溫泉",-16.80,65.63,"spot","r"],
+ hver:["Hverir 地熱區",-16.80,65.63,"spot","r"],
  myv:["米湖（D4）",-16.92,65.645,"stay","b"], dett:["黛提瀑布",-16.38,65.81,"spot","r"],
  egil:["埃伊爾斯塔濟（D5）",-14.4,65.27,"stay","b"], seyd:["藍色教堂",-14.01,65.26,"spot","t",1],
  gufu:["Gufufoss 瀑布",-14.08,65.245,"spot",null,1], fask:["Fáskrúðsfjörður",-14.0,64.93,"spot","l"],
  egg:["Djúpivogur 蛋雕塑",-14.28,64.66,"spot","r"], hvaln:["Hvalnes 燈塔・Eystrahorn",-14.54,64.40,"spot","r"], petra:["Petra 石頭博物館",-13.88,64.84,"opt"],
+ akur:["阿克雷里 Akureyri（D3）",-18.09,65.68,"stay","l"],
  midh:["Miðhraun（D2）",-22.667,64.861,"stay","b"],
  hofn:["赫本・小龍蝦（D6）",-15.21,64.25,"stay","t"],
  vest:["西角山",-14.98,64.30,"spot","r"], jok:["冰河湖・鑽石沙灘",-16.2,64.05,"spot","t"],
@@ -420,24 +421,21 @@ const nm=k=>N[k]||pts[k][0].replace(/（.*）/,"");
 const L=(a,b,m,o={})=>({a,b,m,...o});
 /* plan rows: [time, activity, flag]  flag: "m" meal, "c" changed.  Days 9 and 10 have two versions: ok = D8 hike went ahead, redo = D8 cancelled and redone on D9 */
 const days=[
- {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"火山內部 → 地熱海灘 → 書店酒吧",
-  plan:[["07:30","早餐：住處（火山團約 08:30 接人；Grái Kötturinn 08:00 才開門，改到 9/12 去）","m"],["約 08:30–14:00","Þríhnúkagígur 火山內部（連酒店接送約 5–6 小時，接送時間以預訂為準）","c"],["14:00–14:30","簡單午餐（市中心）","m"],["14:45–16:00","Nauthólsvík 地熱海灘（星期六 11:00–16:00）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
-  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["火山內部有季節性（5 月 5 日至 10 月 30 日），會因天氣取消，揀可以免費改期的時段"]],
-  opt:[{t:"較平或較輕鬆的選擇",add:"代替火山內部",d:"Raufarhólshellir 熔岩隧道（雷克雅維克附近，約 1 小時，有接送）；ATV 越野車（約 1–2 小時，有接送）；或免費的 Reykjadalur 溫泉河（行山單程約 1 小時）。"}]},
+ {d:0,date:"9/11（六）",only:"只限Dorcas 和 Tebe・無車",stay:"雷克雅維克（自行預訂）",legs:[],summary:"地下室早餐 → 市區散步 → 地熱海灘 → 書店酒吧",
+  plan:[["08:30–09:30","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","m"],["10:00–10:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（10:00 開）","o"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["11:00–12:00","Laugavegur 購物街","o"],["12:00–12:30","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["12:30–13:00","午餐：Bæjarins Beztu 熱狗","o"],["14:00–15:30","Nauthólsvík 地熱海灘（星期六 11:00–16:00；由市中心坐巴士或的士）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
+  notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1]]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
-  plan:[["08:00–08:45","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["08:45–09:30","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","y"],["09:30–09:50","Bæjarins Beztu 熱狗（09:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–10:45","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["10:45","行去 BSÍ 巴士站（約 15 分鐘，或者坐的士 5 分鐘）","y"],["11:00","由 BSÍ 巴士站坐 Flybus 去 KEF 機場（約 45 分鐘，行李一齊帶；班次上 re.is 查）","y"],["約 11:45","喺 KEF 同大隊會合，一齊去拎車","y"],["上午","大隊抵達 KEF；全部人一齊喺機場取車（2 部）","c"],["12:00–12:45","午餐：機場（全部人）","m"],["約 13:00","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["13:30–15:45","藍湖（預約 13:30 時段）"],["16:15","開車去雷克雅維克","c"],["16:50–17:30","Costco（Garðabær，順路）：買早餐材料、零食和飲品（可選）"],["17:45","入住雷克雅維克住處","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["改咗 9/12 喺 KEF 取車，慳返 D2 早上取車同去 Costco 的時間；租車要多計 1 日",1],["紫色虛線框的是Dorcas 和 Tebe的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
+  plan:[["07:30","坐 Flybus 由 BSÍ 巴士站去 KEF 機場（約 45 分鐘，行李一齊帶；班次上 re.is 查）","y"],["08:00","大隊落機 KEF；過關、攞行李，機場食早餐","c"],["09:00–09:30","全部人一齊喺機場取車（2 部）","c"],["09:30","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["10:00–12:15","藍湖（預約 10:00 時段）"],["12:15–13:00","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00","開車去雷克雅維克","c"],["13:45–14:15","Costco（Garðabær，順路）：買早餐材料、零食和飲品","o"],["14:30","到雷克雅維克住處放行李（入住時間要同住處確認）","c"],["15:00–15:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（星期日 12:30 後開放）","o"],["15:30–16:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["16:00–16:45","Laugavegur 購物街","o"],["16:45–17:15","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["17:15–17:35","Bæjarins Beztu 熱狗","o"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  notes:[["大隊 08:00 落機，藍湖改訂 10:00 時段；下晝市區景點全部係可選，攰就喺住處休息",1],["虛線框係分組或者可選的行程",1]]},
  {d:2,date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"18:50",legs:[L("rvk","ytri",120,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",55,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",50,{c:1}),L("ingj","kirk",30,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
   plan:[["出發前","早餐：酒店","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["11:30–12:15","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，啱啱好）"],["12:30–13:30","午餐：Hjá Góðu Fólki","m"],["14:15–15:00","布迪爾黑教堂：影座落喺金黃秋季苔原同黑色熔岩原之間的木教堂"],["15:50–16:35","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:05–18:05","草帽山 Kirkjufell 與瀑布"],["18:50","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:30","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
- {d:3,date:"9/14（二）",stay:"Hjalteyri／阿克雷里一帶",arrive:"17:20",legs:[L("midh","stykk",40,{c:1}),L("stykk","kolu",140,{c:1,via:["Búðardalur"]}),L("kolu","hjal",135)],
-  real:{arrive:"17:50",plan:[["09:30","退房出發","c"],["10:20–11:00","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）"],["11:00–12:10","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）"],["12:10–12:55","午餐：Búðardalur","m"],["12:55–14:35","經 59 號公路接 1 號公路，開往 Kolugljúfur"],["14:35–15:10","Kolugljúfur 峽谷"],["15:10–17:50","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:50","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]]},
-  plan:[["09:00","退房出發","c"],["09:50–10:30","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","c"],["10:30–11:40","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）","c"],["11:40–12:25","午餐：Búðardalur","m"],["12:25–14:05","經 59 號公路接 1 號公路，開往 Kolugljúfur","c"],["14:05–14:40","Kolugljúfur 峽谷"],["14:40–17:20","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:20","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]],
-  notes:[["由 Miðhraun 出發，經 56 號公路北上 Stykkishólmur（約 40 分鐘）",1]],
-  opt:[{k:"hvit",t:"Hvítserkur 海蝕岩",add:"+約 2 小時（較緊）",d:"Vatnsnes 半島海邊一塊像飲水恐龍的玄武岩。由 Kolugljúfur 開去要走 711 號碎石路，之後再繞回 1 號公路去 Hjalteyri，整日會多約 2 小時，大約 19:20 先到住處，只比日落（約 19:46）早一點。只適合當日進度提早、天氣好；要確認租車保險包碎石路。"}]},
- {d:4,date:"9/15（三）",stay:"米湖區",arrive:"19:05",legs:[L("hjal","husa",80,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
-  plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1小時20分鐘，通常 10:20 已到）","c"],["11:00–14:00","賞鯨（約 3 小時）"],["10:45–14:00","揀法一：GeoSea 海水溫泉，之後逛胡薩維克港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道 → 17:10 在 Hverir 同大隊會合","w"],["14:00–14:45","午餐：胡薩維克港口","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區（全部人會合）"],["17:45–18:40","米湖天然溫泉（未必去；唔去就直接入住休息）","c"],["19:05","到米湖區住處"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["隧道費要在 24 小時內上網繳"],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，傍晚在 Hverir 會合",1]],
-  opt:[{k:"grjo",t:"Grjótagjá 溫泉洞",add:"+20 分鐘",d:"Hverir 附近的小熔岩洞，裡面有藍色溫泉水，《權力遊戲》在這裡取景。現在不准下水，只可以看。去的話米湖溫泉要縮短，確保日落前到住處。"}]},
+ {d:3,date:"9/14（二）",stay:"K16 Apartments（阿克雷里 Akureyri）",arrive:"19:15",legs:[L("midh","borg",60,{c:1,via:["54 號公路"]}),L("borg","kolu",105,{c:1}),L("kolu","akur",135,{c:1})],
+  plan:[["07:30","早餐：酒店（早啲食）","y"],["08:15","開一部車去 Stykkishólmur（約 40 分鐘）","y"],["08:55–09:45","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","y"],["09:45","開返 Miðhraun（約 40 分鐘）","y"],["約 10:30","返到酒店，11:00 同大家一齊出發","y"],
+   ["出發前","早餐：酒店","m"],["11:00","退房出發","c"],["12:00–12:45","博爾加內斯 Borgarnes：Bónus 補給物資"],["13:00–14:00","午餐：Dirty Burger and Ribs 或 Settlement Center","m"],["16:00–17:00","巨人峽谷 Kolugljúfur"],["19:15","入住 K16 Apartments（阿克雷里 Akureyri）","c"],["晚上","晚餐：市區食或者自己煮","m"]]},
+ {d:4,date:"9/15（三）",stay:"米湖區",arrive:"18:05",legs:[L("akur","husa",60,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
+  plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時，通常 10:00 前已到）","c"],["11:00–14:00","賞鯨（約 3 小時）"],["10:45–14:00","揀法一：GeoSea 海水溫泉，之後逛胡薩維克 Húsavík 港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道 → 17:10 喺 Hverir 同大隊會合","w"],["14:00–14:45","午餐：胡薩維克港口","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區"],["18:05","到米湖區住處"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  notes:[["隧道費要在 24 小時內上網繳"],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，17:10 喺 Hverir 會合",1]],
+  opt:[{k:"grjo",t:"Grjótagjá 溫泉洞",add:"+20 分鐘",d:"Hverir 附近的小熔岩洞，裡面有藍色溫泉水，《權力遊戲》在這裡取景。現在不准下水，只可以看。去的話晚 20 分鐘到住處，仍然喺日落前。"}]},
  {d:5,date:"9/16（四）",stay:"埃伊爾斯塔濟",arrive:"18:15",legs:[L("myv","dett",50,{dx:-6,dy:-14}),L("dett","egil",120,{c:1})],
   real:{plan:[["09:30","出發","c"],["10:30–11:30","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:40–13:40","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:30","到埃伊爾斯塔濟、入住"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]]},
   plan:[["09:00","出發"],["10:00–11:00","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["12:10–13:10","午餐：Möðrudalur 山中農場咖啡館（稍離 1 號公路）","m"],["15:00","到埃伊爾斯塔濟、入住","c"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]],
@@ -521,6 +519,7 @@ const ICONS={
  stacks:'<path d="M8 24V12L10 9L12 12V24Z" fill="#6f6a66" stroke="#45413e" stroke-width="1"/><path d="M14 24V8L16.5 4L19 8V24Z" fill="#7a7470" stroke="#45413e" stroke-width="1"/><path d="M21 24V15L23 12L25 15V24Z" fill="#6f6a66" stroke="#45413e" stroke-width="1"/><path d="M2 25q3-2 6 0t6 0t6 0t6 0t6 0" stroke="#8fb3c6" stroke-width="1.3" fill="none"/><path d="M3 28.5H29" stroke="#55514d" stroke-width="2" stroke-linecap="round"/>',
  horse:'<path d="M7 16Q3 18 4 23" stroke="#5e4636" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M10 20L9 27M13 21L13 27M18 21L19 27M21 19L22 27" stroke="#5e4636" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="15" cy="17" rx="8" ry="4.5" fill="#b08a6e" stroke="#5e4636" stroke-width="1.2"/><path d="M21 15L25 8Q27 7 28 9L27 11L24 12L22 17Z" fill="#b08a6e" stroke="#5e4636" stroke-width="1.2" stroke-linejoin="round"/><path d="M22 13Q23 9 25 7.5" stroke="#5e4636" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+GR,
  geyser:'<path d="M14 26Q13 16 15 7Q16 5 17 7Q19 16 18 26Z" fill="#cfe0e4" stroke="#6f8f96" stroke-width="1"/><path d="M9 10q-2-3 1-4q2-3 5-1q3-2 5 1q3 1 1 4" fill="#eef2f2" stroke="#9fb4ba" stroke-width="1"/><ellipse cx="16" cy="26.5" rx="11" ry="2.5" fill="#c9bfae" stroke="#6b5f55" stroke-width="1"/>',
+ cup:'<path d="M7 13H23V20Q23 26 15 26Q7 26 7 20Z" fill="#d9c3a5" stroke="#6b5a4c" stroke-width="1.2" stroke-linejoin="round"/><path d="M23 15Q28 15 28 18.5Q28 22 23 22" fill="none" stroke="#6b5a4c" stroke-width="1.4"/><path d="M11 10q-1.5-2.5 0-5M15 10q-1.5-2.5 0-5M19 10q-1.5-2.5 0-5" stroke="#a8a29a" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M5 27.5H27" stroke="#93a993" stroke-width="1.4" stroke-linecap="round"/>',
  church:'<path d="M14 26V8L16 4L18 8V26Z" fill="#e7e1d6" stroke="#6b6359" stroke-width="1.1" stroke-linejoin="round"/><path d="M14 13H12V17H10V20.5H8V26H14Z" fill="#ddd5c8" stroke="#6b6359" stroke-width="1" stroke-linejoin="round"/><path d="M18 13H20V17H22V20.5H24V26H18Z" fill="#ddd5c8" stroke="#6b6359" stroke-width="1" stroke-linejoin="round"/><path d="M16 9.5v3" stroke="#6b6359" stroke-width="1"/>'+GR
 };
 const FOODI={
@@ -536,7 +535,7 @@ const FOODI={
 const FOODN={fish:"海鮮",soup:"湯",pizza:"薄餅",burger:"漢堡",lobster:"龍蝦",tomato:"番茄湯",hotdog:"熱狗",sandwich:"自備午餐"};
 /* one illustrated station per day; dx/dy = where the badge sits, in screen pixels from the spot */
 const ST=[
- {d:0,lon:-21.70,lat:63.99,ic:"volcano",food:"fish",name:"火山內部",en:"Þríhnúkagígur",dx:-6,dy:42},
+ {d:0,lon:-21.92,lat:64.12,ic:"cup",food:"hotdog",name:"市區散步",en:"Reykjavík",dx:46,dy:26},
  {d:1,k:"bl",ic:"lagoon",food:"fish",name:"藍湖",en:"Blue Lagoon",dx:-52,dy:-24},
  {d:2,k:"kirk",ic:"peak",food:"soup",name:"草帽山",en:"Kirkjufell",dx:-6,dy:-58},
  {d:3,k:"kolu",ic:"canyon",food:"pizza",name:"Kolugljúfur",en:"",dx:-14,dy:-58},
@@ -679,7 +678,7 @@ function showPop(k){
 }
 
 /* Google Maps directions, sunrise/sunset, moon */
-const Q={gufu:"Gufufoss Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík",hvaln:"Hvalnes lighthouse",petra:"Steinasafn Petru",stykk:"Stykkishólmskirkja",hvit:"Hvítserkur",kef:"Keflavík International Airport",bl:"Blue Lagoon",rvk:"Reykjavík",ytri:"Ytri Tunga",budir:"Búðakirkja",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss",grund:"Grundarfjörður",borg:"Landnámssetur Íslands, Borgarnes",kolu:"Kolugljúfur",hjal:"Hjalteyri",husa:"Húsavík harbour",goda:"Goðafoss",hver:"Hverir",myv:"Reykjahlíð",dett:"Dettifoss",egil:"Egilsstaðir",seyd:"Seyðisfjarðarkirkja",hofn:"Höfn",vest:"Vestrahorn",jok:"Jökulsárlón",hjok:"Hótel Jökulsárlón",skaf:"Skaftafell Visitor Centre",eld:"Eldhraun",fjad:"Fjaðrárgljúfur",vik:"Vík í Mýrdal",reyn:"Reynisfjara",dyr:"Dyrhólaey",solh:"Sólheimajökull",skog:"Skógafoss",skal:"Skálakot",selj:"Seljalandsfoss",self:"Selfoss",gull:"Gullfoss",geys:"Geysir",silf:"Silfra",costco:"Costco Kauptún, Garðabær",skyl:"Sky Lagoon",djup:"Djúpalónssandur",grjo:"Grjótagjá",stud:"Stuðlagil",fjall:"Fjallsárlón",stjo:"Stjórnarfoss",hvamm:"Hvammsvík Hot Springs"};
+const Q={akur:"Akureyri",midh:"Miðhraun Lava Resort",gufu:"Gufufoss Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík",hvaln:"Hvalnes lighthouse",petra:"Steinasafn Petru",stykk:"Stykkishólmskirkja",hvit:"Hvítserkur",kef:"Keflavík International Airport",bl:"Blue Lagoon",rvk:"Reykjavík",ytri:"Ytri Tunga",budir:"Búðakirkja",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss",grund:"Grundarfjörður",borg:"Landnámssetur Íslands, Borgarnes",kolu:"Kolugljúfur",hjal:"Hjalteyri",husa:"Húsavík harbour",goda:"Goðafoss",hver:"Hverir",myv:"Reykjahlíð",dett:"Dettifoss",egil:"Egilsstaðir",seyd:"Seyðisfjarðarkirkja",hofn:"Höfn",vest:"Vestrahorn",jok:"Jökulsárlón",hjok:"Hótel Jökulsárlón",skaf:"Skaftafell Visitor Centre",eld:"Eldhraun",fjad:"Fjaðrárgljúfur",vik:"Vík í Mýrdal",reyn:"Reynisfjara",dyr:"Dyrhólaey",solh:"Sólheimajökull",skog:"Skógafoss",skal:"Skálakot",selj:"Seljalandsfoss",self:"Selfoss",gull:"Gullfoss",geys:"Geysir",silf:"Silfra",costco:"Costco Kauptún, Garðabær",skyl:"Sky Lagoon",djup:"Djúpalónssandur",grjo:"Grjótagjá",stud:"Stuðlagil",fjall:"Fjallsárlón",stjo:"Stjórnarfoss",hvamm:"Hvammsvík Hot Springs"};
 const enc=s=>encodeURIComponent(s+", Iceland");
 const dir=stops=>{const o=stops[0],d=stops[stops.length-1],w=stops.slice(1,-1);
   return `https://www.google.com/maps/dir/?api=1&origin=${enc(o)}&destination=${enc(d)}${w.length?`&waypoints=${w.map(enc).join("%7C")}`:""}&travelmode=driving`};
@@ -706,11 +705,11 @@ const aurora=d=>{
   if(city){s=Math.max(0,s-1);why.push("市區有光害，要開到郊外")}
   return {s,lv:["低","中","較高"][s],why:why.join("；")};
 };
-const sunKey={0:"rvk",1:"rvk",2:"midh",3:"hjal",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"hjok",9:"vik",10:"self",11:"rvk",12:"rvk"};
+const sunKey={0:"rvk",1:"rvk",2:"midh",3:"akur",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"hjok",9:"vik",10:"self",11:"rvk",12:"rvk"};
 const isChg=day=>day.legs.some(l=>l.c)||(day.notes||[]).some(n=>n[1])||day.plan.some(r=>r[2]==="c");
 /* spotlight: t title, d intro, w cautions */
 const SP={
- bl:{t:"藍湖",park:"藍湖專用停車場，免費；D1 坐巴士不用停車",d:"含矽泥的乳藍色地熱海水溫泉，在機場和雷克雅維克之間。",stay:"2–2.5 小時",hours:"每日開放，時段以預約為準",closed:"無固定休館日；附近火山活動時可能臨時關閉",ticket:"Comfort 由 11,990 ISK 起（2026 年，按時段浮動）",book:"必須預約入場時段，建議提早 4–6 星期",when:"下午時段；落機當日最順路",photo:"入口步道兩旁的藍色水池；池內拍照要用防水手機袋",dress:"入池前要赤身淋浴，再穿泳衣；頭髮先塗護髮素，盡量唔好弄濕",bag:"大行李可付費寄存（D1 未取車，必須用）",w:["矽泥會令頭髮變乾變硬","手機、首飾留在儲物櫃"],alt:"Sky Lagoon（雷克雅維克市郊）"},
+ bl:{t:"藍湖",park:"藍湖專用停車場，免費；D1 坐巴士不用停車",d:"含矽泥的乳藍色地熱海水溫泉，在機場和雷克雅維克之間。",stay:"2–2.5 小時",hours:"每日開放，時段以預約為準",closed:"無固定休館日；附近火山活動時可能臨時關閉",ticket:"Comfort 由 11,990 ISK 起（2026 年，按時段浮動）",book:"必須預約入場時段，建議提早 4–6 星期",when:"10:00 時段；落機後直接去最順路",photo:"入口步道兩旁的藍色水池；池內拍照要用防水手機袋",dress:"入池前要赤身淋浴，再穿泳衣；頭髮先塗護髮素，盡量唔好弄濕",bag:"大行李可付費寄存（D1 未取車，必須用）",w:["矽泥會令頭髮變乾變硬","手機、首飾留在儲物櫃"],alt:"Sky Lagoon（雷克雅維克市郊）"},
  fjall:{t:"Fjallsárlón 小冰河湖",park:"Fjallsárlón 湖邊停車場（1 號公路轉入小路），免費",d:"大冰河湖西邊的小冰河湖，離冰川更近，人比較少；湖邊有咖啡店，有 Zodiac 船團。",stay:"45–60 分鐘（坐船加約 1 小時）",hours:"全日；船團季節和時間以官網為準",closed:"無",ticket:"免費；坐船要收費",book:"坐船要預約",when:"上午，人少",photo:"湖邊小山丘，連浮冰和冰川一齊影",w:["唔好爬上浮冰","海豹比大冰河湖少"],alt:"大冰河湖岸邊"},
  hof:{t:"Hofskirkja 草皮教堂",park:"教堂旁小停車場，免費",d:"冰島最後一座按傳統方法建造的草皮教堂（1884 年），屋頂長滿草，四周是墓園。",stay:"20–30 分鐘",hours:"外觀全日可看；內部開放時間要確認",closed:"—",ticket:"免費（可自由捐獻）",book:"唔使",when:"上午",photo:"墓園入口望教堂草屋頂",dress:"墓園內保持安靜，唔好踩上草屋頂",w:["在 1 號公路旁的 Hof 農場，離斯卡夫塔山約 20 分鐘"]},
  graik:{t:"Grái Kötturinn（地下室早餐）",park:"市中心，步行前往（D1 未取車）",d:"市中心一間細小的地下室咖啡店，以份量大的冰島式早餐聞名，例如招牌的「Truck」。",stay:"45–60 分鐘",hours:"每日 08:00–14:30，廚房 14:00 截單",closed:"無",ticket:"—",book:"唔使，但位少",when:"早啲去，09:00 前人較少",bag:"地方細，唔好帶大行李入去",w:["地址 Hverfisgata 16"]},
@@ -762,7 +761,7 @@ const SP={
  costco:{t:"Costco（Garðabær）",park:"Costco 門口大停車場，免費；油站在停車場旁",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"唔使",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 };
 /* which timetable rows a spot attaches to */
-const SPKW={fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshóll/,kirk:/草帽山瀑布/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/^Kolugljúfur 峽谷/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖天然溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const SPKW={fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖天然溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
 const PQ={gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",myvb:"Earth Lagoon Mývatn",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
 /* toilets: "有" = there is one at the spot; otherwise the nearest option */
@@ -822,15 +821,17 @@ const EAT={
     ["午餐","Sægreifinn（Sea Baron）","港口小店，招牌龍蝦湯約 2,500–3,000 ISK，唔接受訂位"],
     ["晚餐","Messinn","海鮮煎鍋，北極紅點鮭最出名，主菜約 3,500–4,000 ISK；廚房 21:00 前截單，建議 18:00 去"],
     ["晚餐","Grandi Mathöll 美食廣場","舊港口海鮮為主，有挪威海螯蝦"]],
- 1:[["晚餐","Hlemmur Mathöll 美食廣場","7 個人揀自己想食的，最方便；9/12 係星期日，夜晚較靜，部分攤檔唔即做"],
+ 1:[["午餐","Blue Café（藍湖）","藍湖入面的咖啡店，三文治、沙律，最快"],["午餐","Lava 餐廳（藍湖）","坐喺熔岩壁旁邊食，較貴；7 人要預約"],
+    ["晚餐","Hlemmur Mathöll 美食廣場","7 個人揀自己想食的，最方便；9/12 係星期日，夜晚較靜，部分攤檔唔即做"],
     ["晚餐","Messinn","海鮮煎鍋，7 人要早啲打電話問位"],
     ["晚餐","住處自己煮","附近超市買材料；星期日 Vínbúðin 酒舖全日休息"]],
  2:[["午餐","Hjá Góðu Fólki","Ytri Tunga 附近小咖啡店，魚湯、溫室菜湯、深盤薄餅；+354 892 5667"],
     ["午餐","Hótel Búðir 餐廳（後備）","下一站布迪爾黑教堂旁邊"],
     ["晚餐","Hlaðan Veitingahús（Miðhraun 酒店餐廳）","住處餐廳，唔使再開車；訂房時一齊訂 7 人晚餐"]],
- 3:[["午餐","Dalakot（Búðardalur）","薄餅、漢堡，每日 12:00–21:00，星期二有開"],
-    ["晚餐","阿克雷里早啲食：Strikið 或 Rub 23","Strikið 五樓海鮮、望峽灣；Rub 23 壽司和燒烤。食完要在日落（約 19:46）前到住處"],
-    ["晚餐","住處自己煮","經阿克雷里時去 Bónus 或 Krónan 買材料；Hjalteyri 本身選擇很少"]],
+ 3:[["午餐","Dirty Burger and Ribs（博爾加內斯）","漢堡、豬肋骨；博爾加內斯分店的地址同營業時間要先確認"],
+    ["午餐","Settlement Center 餐廳（博爾加內斯）","Brákarbraut 13–15；每日 11:30–21:00，有自助午餐；7 人預先打電話"],
+    ["晚餐","阿克雷里市區：Strikið 或 Rub 23","Strikið：Skipagata 14（5 樓），海鮮、望峽灣；Rub 23：Kaupvangsstræti 6，壽司同燒烤；住市區，可以步行去"],
+    ["晚餐","自己煮","阿克雷里有 Bónus、Krónan，營業時間出發前睇定"]],
  4:[["午餐","Naustið（胡薩維克）","家庭經營的海鮮小店，自家焗麵包"],
     ["午餐","Gamli Baukur（胡薩維克）","港口木屋，本地魚和羊；夏季每日 11:30–20:00，9 月中有冇開要確認"],
     ["晚餐","Vogafjós Cowshed Café（米湖）","農場餐廳，全年開；煙燻鱒魚、羊膝、自家芝士，可以隔住玻璃睇擠奶（17:30）"],
@@ -870,7 +871,7 @@ const EAT={
 };
 /* must-order dishes shown under each restaurant */
 const MUST={"Hlemmur Mathöll 美食廣場":"冰島魚肉薯蓉 plokkfiskur、各攤招牌菜","Sægreifinn（Sea Baron）":"龍蝦湯、烤魚串","Sægreifinn":"龍蝦湯、烤魚串","Messinn":"北極紅點鮭煎鍋、plokkfiskur 煎鍋","Grandi Mathöll 美食廣場":"海鮮攤的挪威海螯蝦",
- "Hjá Góðu Fólki":"魚湯、深盤薄餅、自家蛋糕","Dalakot（Búðardalur）":"薄餅","阿克雷里早啲食：Strikið 或 Rub 23":"Strikið 海鮮湯、羊肉；Rub 23 壽司","Naustið（胡薩維克）":"魚湯、烤魚串","Gamli Baukur（胡薩維克）":"海鮮湯、羊肉",
+ "Hjá Góðu Fólki":"魚湯、深盤薄餅、自家蛋糕","Dirty Burger and Ribs（博爾加內斯）":"漢堡、豬肋骨","Settlement Center 餐廳（博爾加內斯）":"自助午餐、冰島羊肉湯","阿克雷里市區：Strikið 或 Rub 23":"Strikið 海鮮湯、羊肉；Rub 23 壽司","Naustið（胡薩維克）":"魚湯、烤魚串","Gamli Baukur（胡薩維克）":"海鮮湯、羊肉",
  "Vogafjós Cowshed Café（米湖）":"煙燻鱒魚、羊膝、地熱焗黑麥麵包","Daddi's Pizza（米湖）":"薄餅","Fjallakaffi（Möðrudalur 農場）":"冰島羊肉湯 kjötsúpa、炸麵包 kleinur","Askur Pizzeria（埃伊爾斯塔濟）":"自選配料薄餅",
  "Salt Café & Bistro（埃伊爾斯塔濟）":"薄餅、咖喱","Glóð（Hotel Valaskjálf）":"薄餅、當日魚","Café Sumarlína（Fáskrúðsfjörður）":"湯、當日魚","Langabúð（Djúpivogur）":"自家蛋糕","Pakkhús（赫本）":"挪威海螯蝦：烤蝦尾、龍蝦湯",
  "Hafnarbúðin（赫本）":"龍蝦包","The Café（冰河湖）":"海鮮湯","Freysnes 油站餐廳（斯卡夫塔山）":"當日湯","Suður Vík（維克）":"薄餅、羊肉","Smiðjan Brugghús（維克）":"厚漢堡、黑啤醬豬肋骨、自家啤酒","Halldórs Kaffi（維克）":"湯、漢堡",
@@ -886,7 +887,7 @@ const spotHTML=day=>{const ks=spotsOf(day);if(!ks.length)return"";
 const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl>${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</details>`;
 
 
-const TAGS={y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人",g:"若不能去冰川健行"};
+const TAGS={o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人",g:"若不能去冰川健行"};
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 function richRows(day){
   const plan=EP(day.plan),att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
@@ -990,8 +991,8 @@ const bToggle=tr=>{const ci=+tr.dataset.ci,open=BCOL.has(ci);if(open)BCOL.delete
 document.addEventListener("click",e=>{const tr=e.target.closest&&e.target.closest("#budget tr.cat");if(tr)bToggle(tr)});
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const tr=e.target.closest&&e.target.closest("#budget tr.cat");if(tr){e.preventDefault();bToggle(tr)}});
 const BUD=[
- ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("myv","米湖溫泉（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
- ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
+ ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
+ ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 KEF 取車，12 日）",13000,12,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,12,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
  ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，每人約 HKD 1,000）",108900,1,"g",{est:1,src:"",note:"按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；待確認"}),B_("air","Airbnb 整間屋（7 人，其餘 10 晚）",65000,10,"g",{est:1,src:"",note:"每晚平均，已計服務費；雷克雅維克較貴，鄉郊較平"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，其餘 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"})]]
@@ -1111,8 +1112,7 @@ const GFOOD=[
 /* bookings: [name, when, how, lead time, note] */
 const BOOK=[
  ["景點和體驗（必須預約）",[
-  ["藍湖 Blue Lagoon","D1 9/12 13:30","bluelagoon.com","4–6 星期","時段價錢浮動，越早越平；機場巴士要配合時段"],
-  ["Þríhnúkagígur 火山內部","D0 9/11 上午（Dorcas & Tebe）","insidethevolcano.com","1–2 個月","揀可以免費改期的方案"],
+  ["藍湖 Blue Lagoon","D1 9/12 10:00","bluelagoon.com","4–6 星期","時段價錢浮動，越早越平；機場巴士要配合時段"],
   ["胡薩維克 Húsavík 賞鯨","D4 9/15 11:00","northsailing.is","2–4 星期","只係去觀鯨的人；揀大船、可改期"],
   ["冰河湖 Jökulsárlón 獨木舟","D7 9/18 12:45","已揀的團公司官網","1–2 個月","確認 9/18 仲有團（列明 5–9 月）"],
   ["6 小時冰川健行","D8 9/19 10:00","blueiceland.is","1–2 個月","確認天氣取消時可以改去 9/20"],
@@ -1121,15 +1121,15 @@ const BOOK=[
   ["Sky Lagoon","D11 9/22 17:30","skylagoon.com","2–4 星期","揀 17:30 時段"]]],
  ["建議預約",[
   ["Vök Baths","D5 9/16 16:00","vokbaths.is","1–2 星期",""],
-  ["GeoSea 海水溫泉","D4 9/15（唔觀鯨的人，可選）","geosea.is","1 星期",""],
-  ["米湖溫泉 Earth Lagoon Mývatn","D4 9/15（未必去）","官網","幾日前","決定去先訂"],
+  ["GeoSea 海水溫泉","D4 9/15（唔觀鯨的人）","geosea.is","1 星期",""],
   ["Fjallsárlón 坐船（可選）","D7／D8","官網","幾日前",""]]],
  ["餐廳訂位",[
   ["Messinn","D1、D11 晚餐","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
   ["Friðheimar 番茄溫室","D11 午餐","+354 486 8894 或官網","2–4 星期","12:00–13:00 最多人"],
   ["Hjá Góðu Fólki","D2 午餐","+354 892 5667","前幾日","7 人預先通知"],
   ["Hlaðan Veitingahús（Miðhraun 酒店）","D2 晚餐","訂房時一齊訂（info@lavaresort.is）","—",""],
-  ["Strikið","D3 晚餐（如去阿克雷里食）","官網","1 星期","訂 18:00"],
+  ["Settlement Center","D3 午餐","電話","前一兩日","通知 7 人"],
+  ["Strikið","D3 晚餐（如出去食）","官網","1 星期","入住後 19:30 或之後"],
   ["Vogafjós","D4 晚餐","+354 464 3800","幾日前","19:00 前後"],
   ["Hótel Jökulsárlón 酒店餐廳","D7、D8 晚餐","訂房時一齊訂","—",""],
   ["Suður Vík","D9 晚餐（後備）","電話","前一兩日",""],
