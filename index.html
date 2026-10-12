@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="冰島 2027">
 <style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>2027 冰島（暫定行程）</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap">
@@ -457,7 +460,13 @@ const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60
 const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
 const hr=s=>REAL?s:s.replace(/（實際車程約[^）]*）/g,"").replace(/，實際約 ?[\d小時分鐘 ]+/g,"");
 const EP=plan=>plan.map(([t,a,f])=>[shiftClock(t),hr(shiftBook(a)),f]);
-const R=day0=>{const day=REAL&&day0.real?{...day0,...day0.real,told:day0.plan}:day0;const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
+const depI=pl=>{const f=rx=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1]));const i=f(/出發|取車/);return i>=0?i:f(/退房/)};
+const toM=t=>{const [h,m]=t.split(":").map(Number);return h*60+m},toT=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+const R0=day0=>{const day=REAL&&day0.real?{...day0,...day0.real}:day0;const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
+/* departure: firm = when the cars really leave; told = what everyone is told, always at least 15 minutes earlier */
+const R=day0=>{const d=R0(day0),x=day0.v?day0.v[scen]:null,firmPl=x&&x.plan?x.plan:(day0.real?day0.real.plan:day0.plan),toldPl=x&&x.plan?x.plan:day0.plan;
+  const fi=depI(firmPl),ti=depI(toldPl);if(fi<0||ti<0)return d;const firm=firmPl[fi][0],told=toT(Math.min(toM(toldPl[ti][0]),toM(firm)-15));
+  if(REAL)return {...d,firmT:firm,toldT:told};const di=depI(d.plan);if(di<0)return d;const plan=d.plan.map((r,i)=>i===di?[told,...r.slice(1)]:r);return {...d,plan}};
 
 const buf=m=>Math.max(m+10,Math.ceil(m*1.2/5)*5);
 let drv=REAL&&store.get("iceland-drv")==="raw"?"raw":"buf";const dT=m=>drv==="raw"?m:buf(m);
@@ -639,12 +648,15 @@ const SP={
 const SPKW={fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshóll/,kirk:/草帽山瀑布/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/^Kolugljúfur 峽谷/,husa:/賞鯨（/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖天然溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
 const PQ={gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",myvb:"Earth Lagoon Mývatn",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
-const SPF=[["park","停車"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
+/* toilets: "有" = there is one at the spot; otherwise the nearest option */
+const WC={"bl": "有（入場後更衣室）", "graik": "有（店內，幫襯）", "icemem": "冇；用附近咖啡店", "hall": "附近咖啡店或餐廳（幫襯）", "nauth": "有（更衣室，入場用）", "volc": "有（集合點小屋）", "ytri": "唔肯定；最近較穩陣係 Vegamót 餐廳油站（54 號公路）", "budir": "冇公廁；Hótel Búðir（幫襯）", "djup": "有（停車場洗手間）", "ingj": "冇；最近係 Hellissandur 或 Ólafsvík 鎮", "kirk": "唔肯定；最近較穩陣係格倫達菲厄澤 Grundarfjörður 鎮上油站（約 5 分鐘）", "borg": "有（餐廳，幫襯）", "stykk": "教堂冇；鎮上港口一帶咖啡店或油站", "kolu": "冇；最近係 1 號公路 Víðigerði 油站", "husa": "有（港口賞鯨公司售票處）", "geosea": "有（入場後）", "leir": "有（Krafla 停車場洗手間）", "goda": "有（Fosshóll 一帶，收費或幫襯）", "hver": "有（停車場，收費）", "myvb": "有（入場後）", "dett": "有（西岸停車場）", "egil": "有（入場後）", "gufu": "冇；藍色教堂所在的 Seyðisfjörður 鎮上用", "fask": "有（餐廳，幫襯）", "egg": "雕塑旁冇；Djúpivogur 鎮上咖啡店或油站", "hvaln": "冇；上一個係 Djúpivogur，下一個係赫本 Höfn（約 45 分鐘）", "petra": "有（博物館內）", "seyd": "鎮上咖啡店或油站", "vest": "有（Viking Café，入場費已包）", "jok": "有（停車場，可能收費）", "diam": "冇；用對面冰河湖 Jökulsárlón 停車場", "fjall": "有（Frost 咖啡店旁）", "hof": "冇固定公廁；最近係斯卡夫塔山 Skaftafell 遊客中心", "skaf": "有（遊客中心）", "svart": "步道冇；出發前喺遊客中心去", "eld": "冇；最近係 Kirkjubæjarklaustur 油站", "fjad": "有（停車場，曾經有人遇到關閉）", "reyn": "有（Black Sand 餐廳旁，停車費已包）", "dyr": "有（停車場，收費約 200 ISK）", "solh": "有（停車場，可能收費）", "skog": "有（停車場旁，可能收費）", "skal": "有（馬場，參加者用）", "selj": "有（停車場，收費）", "gull": "有（上層遊客中心）", "geys": "有（Geysir Center 對面）", "silf": "有（P5 停車場）", "thing": "有（P1 遊客中心）", "skyl": "有（入場後）", "costco": "有（店內）"};
+for(const k in WC)if(SP[k])SP[k].wc=WC[k];
+const SPF=[["park","停車"],["wc","廁所"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
 const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl></div>`};
 
 const TIPS=[
  ["駕駛",[
-  ["時間原則","每日 09:00 後出發；所有車程要在日落前完成，日落後不開車；晚餐在住處自己煮或去步行可到的餐廳。"],
+  ["時間原則","每日出發時間以當日時間表為準，請準時；所有車程要在日落前完成，日落後不開車；晚餐在住處自己煮或去步行可到的餐廳。"],
   ["交通規則","離開道路駕駛違法，罰款很重；一般速限是柏油路 90、碎石路 80、市區 50 公里；單線橋讓先到的車；路上常有羊；不要在路中停車拍照。"],
   ["加油","東部和北部油站較少，剩半缸就加；很多油站是自助的，要用有 PIN 碼的信用卡。"],
   ["兩部車","每部車都要有能開車的人，約好會合點；有些路段沒有電話訊號。"],
@@ -656,6 +668,11 @@ const TIPS=[
   ["收費","南岸主要景點大多約 1,000 ISK 以內；Þingvellir 同 Geysir 約 1,000 ISK；同一日內 Þingvellir 不同停車場通用。"],
   ["雷克雅維克","市中心路邊分收費區，收費時間按路牌；用同一個 app 繳費。住處最好有免費泊車位。"],
   ["唔好亂泊","唔好停喺路邊、草地或者苔蘚上，亦唔好擋住單線路同農場閘口。"]]],
+ ["廁所",[
+  ["邊度有","景點停車場、遊客中心、油站（N1、Olís）同餐廳；好多景點之間開成個鐘都冇廁所，見到就去。"],
+  ["收費","好多要收費，約 200–500 ISK，多數可以刷卡，少數只收現金；喺油站或餐廳買嘢通常可以免費用。"],
+  ["無人油站","Orkan、ÓB 呢類無人油站通常冇廁所。"],
+  ["長車程日子","D3、D5、D6、D9 開車時間長，午餐地點同中途油站一定要去一次；每日卡片的景點詳情有寫每個景點有冇廁所。"]]],
  ["天氣／溫度",[
   ["氣溫","9 月中下旬雷克雅維克日間大約 8–11°C、晚上 3–6°C；北部和東部再凍少少；冰川上接近 0°C，風大時體感更凍。"],
   ["日照","日出大約 06:30–07:10，日落大約 19:20–20:10，越後越早黑。"],
@@ -754,7 +771,8 @@ function card(raw){
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
-    ${REAL?(()=>{const f=pl=>{const ok=rx=>(pl||[]).find(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1])),r=ok(/出發|取車/)||ok(/退房/);return r?r[0]:null},told=f(day.told||day.plan),firm=f(day.plan);return told&&firm?`<div class="golin"><span>話俾大家知：<b>${told}</b> 出發</span><span class="${told!==firm?"late":""}">一定要走：<b>${firm}</b></span></div>`:""})():""}
+    ${REAL&&day.firmT?`<div class="golin"><span>話俾大家知：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}
+    ${(()=>{const ks=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]&&WC[k].startsWith("有"));return day.legs.length?`<div class="dusk wcl">${ks.length?`沿途有廁所：${ks.map(k=>nm(k)).join("、")}`:"景點冇廁所：靠午餐地點同沿途油站（N1、Olís）"}</div>`:""})()}
     ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
@@ -919,6 +937,8 @@ if(/print/.test(location.hash)){
   document.querySelector(".sub").textContent="2027 年 9 月 11–23 日 · 7 人 2 車 · "+(drv==="raw"?"實際車程版：車程未加預留時間（時間表本身已留有空檔）":"預留時間版")+" · 健行順利版";
 }
 try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(enWalk))).observe(document.body,{childList:true,subtree:true})}catch(e){}
+/* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
+try{if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
 </script>
 
 </body>
