@@ -435,10 +435,10 @@ const days=[
 let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 const ALL=99;
 let sel=+(store.get("iceland-day2")??ALL);if(!(sel>=0&&sel<=12))sel=ALL;
-/* early mode: link ending #early (or #early30) shows every scheduled time 15 (or N) minutes earlier; remembered on that device; #real switches back */
-let EARLY=0;try{const m=/early(\d+)?/.exec(location.hash);if(m){EARLY=+(m[1]||15);store.set("iceland-early",String(EARLY))}else if(/real/.test(location.hash)){store.set("iceland-early","0")}else EARLY=+(store.get("iceland-early")||0)}catch(e){}
-const shiftClock=s=>!EARLY?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-EARLY;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
-const shiftBook=s=>!EARLY?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
+/* time display */
+const REAL_KEY="n8f3";let OFS=15;try{if(location.hash.replace("#","")===REAL_KEY)store.set("iceland-mode","r");if(store.get("iceland-mode")==="r")OFS=0}catch(e){}
+const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-OFS;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
+const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
 const EP=plan=>plan.map(([t,a,f])=>[shiftClock(t),shiftBook(a),f]);
 const R=day=>{const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
 
@@ -727,7 +727,7 @@ function card(raw){
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":"車程預留約"} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
-    ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${gap+EARLY} 分鐘</div>`})():""}
+    ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${gap+OFS} 分鐘</div>`})():""}
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
@@ -867,7 +867,7 @@ $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2>`+TIPS.map(([h,it
 function view(v){
   $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";
   ["trip","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
-  try{if(!EARLY)history.replaceState(null,"","#"+v)}catch(e){}
+  
   window.scrollTo(0,0);
 }
 $("tab-trip").addEventListener("click",()=>view("trip"));
