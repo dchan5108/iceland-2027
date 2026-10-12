@@ -84,6 +84,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;margin:0 0 4px}
 .links a{color:var(--route);text-decoration:none;border-bottom:1px solid currentColor}
 .sun{font-size:12.5px;color:var(--muted);margin:0 0 4px;font-variant-numeric:tabular-nums}
+.sunr{margin:0 0 8px;border:1px solid #e0b25a;border-radius:10px;background:rgba(240,180,60,.10)}.sunr summary{cursor:pointer;padding:8px 10px;font-weight:600;color:#8a5a00}.sunb{padding:0 12px 10px;font-size:13.5px}.sunb p{margin:6px 0}.sunb ul{margin:4px 0 6px;padding-left:18px}
 .golin{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:rgba(47,111,134,.10);color:var(--fg)}.golin .late b{color:#b3261e}
 .dusk{font-size:12.5px;color:var(--route);margin:0 0 4px;font-variant-numeric:tabular-nums}
 .dusk.warn{color:var(--stay);font-weight:700}
@@ -277,6 +278,27 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .print .mapbox svg{height:auto;aspect-ratio:1000/690}
 .print .day,.print .ovrow{box-shadow:none;border:1px solid var(--line)}
 @media (max-width:560px){.tabs button{padding:7px 6px;font-size:13.5px;white-space:nowrap}}
+/* Morandi theme: soft muted palette, warm paper map, day colours */
+:root{--bg:#f4f1ec;--card:#fffdf9;--fg:#2f3437;--muted:#76797a;--line:#e4ddd2;--sea:#d8e1df;--land:#f4eee3;--coast:#9fada6;--route:#5f8189;--pill:#fffdf9;--pill-fg:#4c646a;--stay:#b06d58;--spot:#4a4f52;--meal:#9c7445;--ice:#fbfcfa;--shadow:0 1px 2px rgba(80,70,60,.06),0 6px 18px rgba(80,70,60,.07)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
+:root[data-theme="dark"]{--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
+.mapbox{background:var(--sea)}
+.chips button .cdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--dc);margin-right:5px;vertical-align:1px}
+.chips button[aria-pressed="true"][style]{background:var(--dc);border-color:var(--dc);color:#fff}
+.chips button[aria-pressed="true"] .cdot{background:#fff}
+.day[style]{border-top:5px solid var(--dc)}
+.day[style] h3{color:var(--fg)}
+#map g.st{transition:opacity .2s}
+.gnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}.gnav a{font-size:13.5px;padding:5px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--route);text-decoration:none}
+#guide section{scroll-margin-top:12px}#guide h2{margin-top:26px}
+.gfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.gfood{background:var(--card);border-radius:14px;box-shadow:var(--shadow);border-top:4px solid var(--dc);padding:12px 14px;font-size:13.5px}
+.gfh{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12.5px}.gfd{background:var(--dc);color:#fff;border-radius:999px;padding:0 8px;font-weight:700}
+.gfn{font-family:var(--serif);font-size:1.08rem;font-weight:600;margin:4px 0 6px}
+.gfdl{display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:3px 8px;margin:0 0 6px}.gfdl dt{color:var(--muted)}.gfdl dd{margin:0}
+.gfalt{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line)}.gfalt ul{margin:4px 0 0;padding-left:18px}
+.gtw{overflow-x:auto;max-width:100%}.gt{border-collapse:collapse;font-size:13px;min-width:620px;width:100%;background:var(--card);border-radius:10px;overflow:hidden}
+.gt th,.gt td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}.gt th{background:var(--sea);font-weight:700;font-size:12.5px}.gt .gn{font-weight:600}
 </style>
 
 </head>
@@ -288,6 +310,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
     <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
+    <button type="button" role="tab" id="tab-guide" aria-selected="false" aria-controls="guide">攻略</button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
   </nav>
 
@@ -327,6 +350,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
   </div>
 
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
+  <section id="guide" role="tabpanel" aria-labelledby="tab-guide" hidden></section>
 
   <section class="budget" id="budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
     <h2 style="margin-top:0">預算估算</h2>
@@ -372,6 +396,7 @@ const pts={
  egil:["埃伊爾斯塔濟（D5）",-14.4,65.27,"stay","b"], seyd:["藍色教堂",-14.01,65.26,"spot","t",1],
  gufu:["Gufufoss 瀑布",-14.08,65.245,"spot",null,1], fask:["Fáskrúðsfjörður",-14.0,64.93,"spot","l"],
  egg:["Djúpivogur 蛋雕塑",-14.28,64.66,"spot","r"], hvaln:["Hvalnes 燈塔・Eystrahorn",-14.54,64.40,"spot","r"], petra:["Petra 石頭博物館",-13.88,64.84,"opt"],
+ midh:["Miðhraun（D2）",-22.667,64.861,"stay","b"],
  hofn:["赫本・小龍蝦（D6）",-15.21,64.25,"stay","t"],
  vest:["西角山",-14.98,64.30,"spot","r"], jok:["冰河湖・鑽石沙灘",-16.2,64.05,"spot","t"],
  hjok:["Hótel Jökulsárlón（D7・D8）",-16.55,63.92,"stay","b",1], skaf:["斯卡夫塔山 冰川健行",-16.97,64.02,"spot","t"],
@@ -397,16 +422,16 @@ const days=[
   plan:[["07:30","早餐：住處（火山團約 08:30 接人；Grái Kötturinn 08:00 才開門，改到 9/12 去）","m"],["約 08:30–14:00","Þríhnúkagígur 火山內部（連酒店接送約 5–6 小時，接送時間以預訂為準）","c"],["14:00–14:30","簡單午餐（市中心）","m"],["14:45–16:00","Nauthólsvík 地熱海灘（星期六 11:00–16:00）","c"],["19:00","晚餐：市中心","m"],["20:30","Hús máls og menningar 書店酒吧","c"]],
   notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["火山內部有季節性（5 月 5 日至 10 月 30 日），會因天氣取消，揀可以免費改期的時段"]],
   opt:[{t:"較平或較輕鬆的選擇",add:"代替火山內部",d:"Raufarhólshellir 熔岩隧道（雷克雅維克附近，約 1 小時，有接送）；ATV 越野車（約 1–2 小時，有接送）；或免費的 Reykjadalur 溫泉河（行山單程約 1 小時）。"}]},
- {d:1,date:"9/12（日）",stay:"雷克雅維克",bus:1,legs:[L("kef","bl",20,{c:1}),L("bl","rvk",45,{c:1})],
-  plan:[["09:00–10:00","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["11:00–11:45","Laugavegur 購物街（星期日大多 11:00 後先開）","y"],["11:45–12:00","Sun Voyager 維京船雕塑","y"],["12:00–12:15","Harpa 音樂廳","y"],["12:15–12:35","午餐：Bæjarins Beztu 熱狗","y"],["12:45","由 BSÍ 坐巴士去藍湖（約 45 分鐘，班次要上 re.is 查）","y"],["上午","大隊抵達 KEF；今日未取車","c"],["12:00–12:45","大隊午餐：機場","m"],["約 13:00","大隊坐機場巴士去藍湖（約 20 分鐘），行李可寄存","c"],["13:30–15:45","藍湖（預約 13:30 時段）；全部人在這裡會合"],["16:15","全部人坐巴士去雷克雅維克（約 45 分鐘）","c"],["17:15","入住雷克雅維克住處，附近超市買早餐","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["9/12 未取車：機場、藍湖、市區之間全部坐巴士（例如 Destination Blue Lagoon），7 人要預早訂位",1],["紫色虛線框的是Dorcas 和 Tebe的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
- {d:2,date:"9/13（一）",stay:"格倫達菲厄澤",arrive:"19:05",legs:[L("rvk","costco",15,{c:1}),L("costco","borg",60,{c:1}),L("borg","ytri",55,{c:1,dy:16}),L("ytri","budir",25),L("budir","djup",40,{c:1}),L("djup","ingj",20,{c:1}),L("ingj","kirk",35,{dy:-16}),L("kirk","grund",5)],
-  plan:[["09:00","雷克雅維克取車（租車公司市區辦事處或送車到住處，要預先確認）","c"],["09:55–10:55","Costco（Garðabær）：入滿油，買幾日的早餐、零食和飲品","c"],["12:10–12:55","午餐：博爾加內斯 Settlement Center 餐廳（11:30 開）","m"],["14:05–14:30","Ytri Tunga 海豹沙灘"],["15:05–15:25","布迪爾黑教堂"],["16:15–16:50","Djúpalónssandur 黑沙灘","c"],["17:20–17:35","Ingjaldshóll 教堂筆直大道"],["18:20–18:50","草帽山瀑布","c"],["19:05","入住格倫達菲厄澤","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["全程最長的一天之一；如果進度落後，先刪 Djúpalónssandur，可以早約 1小時20分鐘到住處",1],["日落約 20:10，可以由住處或步行去看草帽山日落，不要開車"]]},
- {d:3,date:"9/14（二）",stay:"Hjalteyri／阿克雷里一帶",arrive:"17:20",legs:[L("grund","stykk",40,{c:1}),L("stykk","kolu",140,{c:1,via:["Búðardalur"]}),L("kolu","hjal",135)],
+ {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
+  plan:[["09:00–10:00","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["11:00–11:45","Laugavegur 購物街（星期日大多 11:00 後先開）","y"],["11:45–12:00","Sun Voyager 維京船雕塑","y"],["12:00–12:15","Harpa 音樂廳","y"],["12:15–12:35","午餐：Bæjarins Beztu 熱狗","y"],["12:45","由 BSÍ 坐巴士去藍湖（約 45 分鐘，班次要上 re.is 查）","y"],["上午","大隊抵達 KEF，喺機場取車（2 部）","c"],["12:00–12:45","大隊午餐：機場","m"],["約 13:00","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["13:30–15:45","藍湖（預約 13:30 時段）；全部人在這裡會合"],["16:15","開車去雷克雅維克；Dorcas 和 Tebe 喺藍湖會合後一齊上車","c"],["16:50–17:30","Costco（Garðabær，順路）：買早餐材料、零食和飲品（可選）"],["17:45","入住雷克雅維克住處","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  notes:[["改咗 9/12 喺 KEF 取車，慳返 D2 早上取車同去 Costco 的時間；租車要多計 1 日",1],["紫色虛線框的是Dorcas 和 Tebe的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
+ {d:2,date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"18:50",legs:[L("rvk","ytri",120,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",55,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",50,{c:1}),L("ingj","kirk",30,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
+  plan:[["出發前","早餐：酒店","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["11:30–12:15","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，啱啱好）"],["12:30–13:30","午餐：Hjá Góðu Fólki（9/13 係星期一，一定要先確認有冇開）","m"],["14:15–15:00","布迪爾黑教堂：影座落喺金黃秋季苔原同黑色熔岩原之間的木教堂"],["15:50–16:35","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:05–18:05","草帽山 Kirkjufell 與瀑布"],["18:50","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:30","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]],
+  notes:[["Hjá Góðu Fólki 網上資料只寫星期五至日開，Wanderlog 更顯示暫停營業；9/13 係星期一，出發前一定要打 +354 892 5667 確認。後備：布迪爾 Hótel Búðir 餐廳（下一站就到），或 Vegamót 一帶的 Hotel Snæfellsnes 咖啡餐廳",1],["改咗 09:30 出發：布迪爾去 Ingjaldshóll 要繞過斯奈山冰川，實際約 50 分鐘；提早出發後各站時間唔使縮短",1],["日落約 20:05；18:50 到住處，比日落早超過 1 個鐘"],["刪咗 Djúpalónssandur 黑沙灘（D9 有雷尼斯黑沙灘）；D2 唔再經格倫達菲厄澤 Grundarfjörður 過夜",1],["Hvalfjörður 海底隧道而家唔使收費"]]},
+ {d:3,date:"9/14（二）",stay:"Hjalteyri／阿克雷里一帶",arrive:"17:20",legs:[L("midh","stykk",40,{c:1}),L("stykk","kolu",140,{c:1,via:["Búðardalur"]}),L("kolu","hjal",135)],
   real:{arrive:"17:50",plan:[["09:30","退房出發","c"],["10:20–11:00","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）"],["11:00–12:10","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）"],["12:10–12:55","午餐：Búðardalur","m"],["12:55–14:35","經 59 號公路接 1 號公路，開往 Kolugljúfur"],["14:35–15:10","Kolugljúfur 峽谷"],["15:10–17:50","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:50","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]]},
   plan:[["09:00","退房出發","c"],["09:50–10:30","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","c"],["10:30–11:40","沿 54、60 號公路開往 Búðardalur（不回博爾加內斯）","c"],["11:40–12:25","午餐：Búðardalur","m"],["12:25–14:05","經 59 號公路接 1 號公路，開往 Kolugljúfur","c"],["14:05–14:40","Kolugljúfur 峽谷"],["14:40–17:20","經 Öxnadalsheiði 山口開往住處（Hjalteyri／阿克雷里一帶）"],["17:20","入住"],["19:00","晚餐：當地選擇可能不多，可先在阿克雷里買食材","m"]],
-  notes:[["Settlement Center 已在 D2 午餐時去過，D3 唔再經博爾加內斯",1]],
+  notes:[["由 Miðhraun 出發，經 56 號公路北上 Stykkishólmur（約 40 分鐘）",1]],
   opt:[{k:"hvit",t:"Hvítserkur 海蝕岩",add:"+約 2 小時（較緊）",d:"Vatnsnes 半島海邊一塊像飲水恐龍的玄武岩。由 Kolugljúfur 開去要走 711 號碎石路，之後再繞回 1 號公路去 Hjalteyri，整日會多約 2 小時，大約 19:20 先到住處，只比日落（約 19:46）早一點。只適合當日進度提早、天氣好；要確認租車保險包碎石路。"}]},
  {d:4,date:"9/15（三）",stay:"米湖區",arrive:"19:05",legs:[L("hjal","husa",80,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
   plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1小時20分鐘，通常 10:20 已到）","c"],["11:00–14:00","賞鯨（約 3 小時）"],["10:45–14:00","揀法一：GeoSea 海水溫泉，之後逛胡薩維克港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道 → 17:10 在 Hverir 同大隊會合","w"],["14:00–14:45","午餐：胡薩維克港口","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區（全部人會合）"],["17:45–18:40","米湖天然溫泉（未必去；唔去就直接入住休息）","c"],["19:05","到米湖區住處"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
@@ -480,17 +505,85 @@ const FULL={x:0,y:10,w:1000,h:690};
 let VB={...FULL},PD={},PRINT=false;
 const dotc=k=>pts[k][3]==="stay"?"var(--stay)":"var(--spot)";
 const lblEn=n=>{const x=n.replace(/（.*?）/g,"");const found=[];let rest=x;for(const [c,e] of ENN){if(rest.includes(c)&&!x.includes(e)){found.push([x.indexOf(c),e]);rest=rest.split(c).join("")}}return found.sort((p,q)=>p[0]-q[0]).map(f=>f[1]).join(" · ")};
+/* hand-drawn style illustrations for the map stations (32×32) and food badges (20×20) */
+const GR='<path d="M2 27.5H30" stroke="#93a993" stroke-width="1.4" stroke-linecap="round"/>';
+const ICONS={
+ volcano:'<path d="M4 26L12 12Q16 10 20 12L28 26Z" fill="#b89b84" stroke="#6b5a4c" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 12Q16 14 20 12" fill="none" stroke="#6b5a4c" stroke-width="1.2"/><path d="M13 8q-2-2 0-4q2-1 3 1q2-2 4 0q1 2-1 3" fill="#e2ddd5" stroke="#8a847b" stroke-width="1"/><path d="M14 19l3-3M18 22l2-2" stroke="#8e7563" stroke-width="1"/>'+GR,
+ lagoon:'<ellipse cx="16" cy="22" rx="12" ry="5" fill="#a8cbc8" stroke="#5f8682" stroke-width="1.2"/><path d="M9 21q3-1.5 6 0t6 0" stroke="#eef6f4" stroke-width="1.2" fill="none"/><path d="M11 15q-2-3 0-5q2-2 0-5M16 14q-2-3 0-5q2-2 0-5M21 15q-2-3 0-5q2-2 0-5" stroke="#9aa7a5" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+ peak:'<path d="M5 25L15 7Q16 6 17 7L27 25Z" fill="#93a993" stroke="#55665a" stroke-width="1.2" stroke-linejoin="round"/><path d="M14 9.5L16 7L18 9.5Q16 10.6 14 9.5Z" fill="#f4f1ea"/><path d="M11 18Q16 15 21 18" stroke="#55665a" stroke-width="1" fill="none"/><path d="M3 21h5l1 6H2z" fill="#bcd3d8" stroke="#6f8f96" stroke-width="1"/>'+GR,
+ canyon:'<path d="M3 27V12L10 10L13 27Z" fill="#c2a98d" stroke="#6b5a4c" stroke-width="1.2" stroke-linejoin="round"/><path d="M29 27V14L22 11L19 27Z" fill="#b39b80" stroke="#6b5a4c" stroke-width="1.2" stroke-linejoin="round"/><path d="M13 11h6l-1 16h-4z" fill="#bcd3d8" stroke="#6f8f96" stroke-width="1"/><path d="M15 13v12M17 13v12" stroke="#eef5f6" stroke-width="1"/>',
+ whale:'<path d="M4 18Q6 10 16 11Q24 12 25 17L29 13Q30 17 27 20Q29 23 29 25L25 21Q21 25 12 24Q5 23 4 18Z" fill="#8798ad" stroke="#4e5d70" stroke-width="1.2" stroke-linejoin="round"/><path d="M7 20Q14 23 22 20" stroke="#e3e9f0" stroke-width="1.2" fill="none"/><circle cx="9" cy="16" r="1" fill="#2f3a46"/><path d="M12 9q-1-3-3-4M12 9q1-3 3-4" stroke="#8fb3c6" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M2 28.5q3-2 6 0t6 0t6 0t6 0t6 0" stroke="#8fb3c6" stroke-width="1.2" fill="none"/>',
+ falls:'<path d="M2 9H30V13H2Z" fill="#a99a8a" stroke="#62574d" stroke-width="1.2"/><path d="M4 13H28L27 24H5Z" fill="#c8d8dc" stroke="#6f8f96" stroke-width="1"/><path d="M8 14v9M12 14v9M16 14v9M20 14v9M24 14v9" stroke="#f0f6f7" stroke-width="1.1"/><path d="M3 27q3-3 6 0q3-3 6 0q3-3 6 0q3-3 6 0" fill="#e6edef" stroke="#9fb4ba" stroke-width="1"/>',
+ lighthouse:'<path d="M13 26L14.5 10H17.5L19 26Z" fill="#f2ece2" stroke="#6b5f55" stroke-width="1.2" stroke-linejoin="round"/><path d="M13.7 21H18.3L18 17.5H14Z" fill="#c58f78"/><rect x="14" y="7" width="4" height="3" fill="#e9c97f" stroke="#6b5f55" stroke-width="1"/><path d="M13.5 7L16 4.5L18.5 7Z" fill="#c58f78" stroke="#6b5f55" stroke-width="1"/><path d="M19.5 8L26 6M19.5 9.5L26 11M12.5 8L6 6M12.5 9.5L6 11" stroke="#d9b56c" stroke-width="1.2" stroke-linecap="round"/><path d="M5 27.5Q16 24 27 27.5" stroke="#8a8f86" stroke-width="1.4" fill="none"/>',
+ iceberg:'<path d="M6 20L10 11L14 14L18 7L25 20Z" fill="#eef4f6" stroke="#6f8f96" stroke-width="1.2" stroke-linejoin="round"/><path d="M14 14L16 20M18 7L19 20" stroke="#b9d0d8" stroke-width="1"/><path d="M2 21H30" stroke="#8fb3c6" stroke-width="1.3"/><path d="M7 25Q16 28 25 25Q16 23.5 7 25Z" fill="#c9a27a" stroke="#6b5a4c" stroke-width="1"/><path d="M10 28.5L22 22" stroke="#6b5a4c" stroke-width="1.2"/><circle cx="16" cy="22.8" r="1.4" fill="#b5735f"/>',
+ glacier:'<path d="M2 26L9 14L13 18L19 9L30 26Z" fill="#e8f0f2" stroke="#6f8f96" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 22l2-3M18 23l1-4M22 21l2-2" stroke="#9fc0cc" stroke-width="1.2"/><path d="M24 6L26 14" stroke="#6b5a4c" stroke-width="1.4" stroke-linecap="round"/><path d="M22 6.5Q24.5 5 27 6" stroke="#6b5a4c" stroke-width="1.6" fill="none" stroke-linecap="round"/>'+GR,
+ stacks:'<path d="M8 24V12L10 9L12 12V24Z" fill="#6f6a66" stroke="#45413e" stroke-width="1"/><path d="M14 24V8L16.5 4L19 8V24Z" fill="#7a7470" stroke="#45413e" stroke-width="1"/><path d="M21 24V15L23 12L25 15V24Z" fill="#6f6a66" stroke="#45413e" stroke-width="1"/><path d="M2 25q3-2 6 0t6 0t6 0t6 0t6 0" stroke="#8fb3c6" stroke-width="1.3" fill="none"/><path d="M3 28.5H29" stroke="#55514d" stroke-width="2" stroke-linecap="round"/>',
+ horse:'<path d="M7 16Q3 18 4 23" stroke="#5e4636" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M10 20L9 27M13 21L13 27M18 21L19 27M21 19L22 27" stroke="#5e4636" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="15" cy="17" rx="8" ry="4.5" fill="#b08a6e" stroke="#5e4636" stroke-width="1.2"/><path d="M21 15L25 8Q27 7 28 9L27 11L24 12L22 17Z" fill="#b08a6e" stroke="#5e4636" stroke-width="1.2" stroke-linejoin="round"/><path d="M22 13Q23 9 25 7.5" stroke="#5e4636" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+GR,
+ geyser:'<path d="M14 26Q13 16 15 7Q16 5 17 7Q19 16 18 26Z" fill="#cfe0e4" stroke="#6f8f96" stroke-width="1"/><path d="M9 10q-2-3 1-4q2-3 5-1q3-2 5 1q3 1 1 4" fill="#eef2f2" stroke="#9fb4ba" stroke-width="1"/><ellipse cx="16" cy="26.5" rx="11" ry="2.5" fill="#c9bfae" stroke="#6b5f55" stroke-width="1"/>',
+ church:'<path d="M14 26V8L16 4L18 8V26Z" fill="#e7e1d6" stroke="#6b6359" stroke-width="1.1" stroke-linejoin="round"/><path d="M14 13H12V17H10V20.5H8V26H14Z" fill="#ddd5c8" stroke="#6b6359" stroke-width="1" stroke-linejoin="round"/><path d="M18 13H20V17H22V20.5H24V26H18Z" fill="#ddd5c8" stroke="#6b6359" stroke-width="1" stroke-linejoin="round"/><path d="M16 9.5v3" stroke="#6b6359" stroke-width="1"/>'+GR
+};
+const FOODI={
+ fish:'<path d="M3 10Q8 4 14 10Q8 16 3 10Z" fill="#e0a98a" stroke="#8a5a45" stroke-width="1"/><path d="M14 10L18 6.5V13.5Z" fill="#e0a98a" stroke="#8a5a45" stroke-width="1" stroke-linejoin="round"/><circle cx="6" cy="9.3" r=".8" fill="#4a2f25"/>',
+ soup:'<path d="M7 8q-1-2 0-4M10 8q-1-2 0-4M13 8q-1-2 0-4" stroke="#a8a29a" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M3 10H17Q16 16 10 16Q4 16 3 10Z" fill="#e6c79c" stroke="#8a6a45" stroke-width="1"/>',
+ pizza:'<path d="M3 5Q10 2 17 5L10 18Z" fill="#edc77e" stroke="#8a6a45" stroke-width="1" stroke-linejoin="round"/><circle cx="9" cy="7.5" r="1.2" fill="#c0634f"/><circle cx="12" cy="10" r="1.1" fill="#c0634f"/>',
+ burger:'<path d="M3 9Q10 2 17 9Z" fill="#d9a46b" stroke="#7a5536" stroke-width="1"/><path d="M3 10H17" stroke="#93a993" stroke-width="1.6"/><rect x="3" y="11" width="14" height="2.6" rx="1.2" fill="#7a5040"/><path d="M3 14.5H17Q16 17 10 17Q4 17 3 14.5Z" fill="#d9a46b" stroke="#7a5536" stroke-width="1"/>',
+ lobster:'<path d="M8.5 7Q5 5 4 3M11.5 7Q15 5 16 3" stroke="#7a4636" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="4" cy="3" r="1.6" fill="#d08a72" stroke="#7a4636" stroke-width=".8"/><circle cx="16" cy="3" r="1.6" fill="#d08a72" stroke="#7a4636" stroke-width=".8"/><path d="M10 6Q13 9 12 14Q10 17 8 14Q7 9 10 6Z" fill="#d08a72" stroke="#7a4636" stroke-width="1"/><path d="M8 16L10 18.5L12 16" fill="#d08a72" stroke="#7a4636" stroke-width=".8"/>',
+ tomato:'<circle cx="10" cy="11.5" r="6" fill="#d77a66" stroke="#8a4636" stroke-width="1"/><path d="M7 6Q10 8 13 6Q10 4.5 7 6Z" fill="#93a993" stroke="#55665a" stroke-width=".8"/>',
+ hotdog:'<path d="M2 11Q10 17 18 11Q18 15 10 16Q2 15 2 11Z" fill="#dcb07a" stroke="#7a5536" stroke-width="1"/><path d="M3 10.5Q10 13.5 17 10.5" stroke="#b56a50" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M5 10.8q1.5-1 3 0t3 0t3 0" stroke="#e8c45a" stroke-width=".9" fill="none"/>',
+ sandwich:'<path d="M3 15L17 15L10 4Z" fill="#ead7b0" stroke="#8a6a45" stroke-width="1" stroke-linejoin="round"/><path d="M4.2 13H15.8" stroke="#93a993" stroke-width="1.4"/>'
+};
+const FOODN={fish:"海鮮",soup:"湯",pizza:"薄餅",burger:"漢堡",lobster:"龍蝦",tomato:"番茄湯",hotdog:"熱狗",sandwich:"自備午餐"};
+/* one illustrated station per day; dx/dy = where the badge sits, in screen pixels from the spot */
+const ST=[
+ {d:0,lon:-21.70,lat:63.99,ic:"volcano",food:"fish",name:"火山內部",en:"Þríhnúkagígur",dx:-6,dy:42},
+ {d:1,k:"bl",ic:"lagoon",food:"fish",name:"藍湖",en:"Blue Lagoon",dx:-52,dy:-24},
+ {d:2,k:"kirk",ic:"peak",food:"soup",name:"草帽山",en:"Kirkjufell",dx:-6,dy:-58},
+ {d:3,k:"kolu",ic:"canyon",food:"pizza",name:"Kolugljúfur",en:"",dx:-14,dy:-58},
+ {d:4,k:"husa",ic:"whale",food:"fish",name:"賞鯨",en:"Húsavík",dx:-30,dy:-52},
+ {d:5,k:"dett",ic:"falls",food:"soup",name:"黛提瀑布",en:"Dettifoss",dx:34,dy:-52},
+ {d:6,k:"hvaln",ic:"lighthouse",food:"lobster",name:"Hvalnes 燈塔",en:"",dx:56,dy:6},
+ {d:7,k:"jok",ic:"iceberg",food:"soup",name:"冰河湖",en:"Jökulsárlón",dx:22,dy:-56},
+ {d:8,k:"skaf",ic:"glacier",food:"sandwich",name:"冰川健行",en:"Skaftafell",dx:-24,dy:-58},
+ {d:9,k:"reyn",ic:"stacks",food:"burger",name:"黑沙灘",en:"Reynisfjara",dx:20,dy:-62},
+ {d:10,k:"skal",ic:"horse",food:"fish",name:"騎馬",en:"Skálakot",dx:-8,dy:-60},
+ {d:11,k:"geys",ic:"geyser",food:"tomato",name:"間歇泉",en:"Geysir",dx:6,dy:-58},
+ {d:12,k:"rvk",ic:"church",food:"hotdog",name:"雷克雅維克",en:"Reykjavík",dx:-60,dy:-60}
+];
+/* Morandi day colours: sage → grey-teal → periwinkle → mauve → dusty rose → terracotta */
+const DCS=["#8faa92","#7f9fa3","#8796b3","#a08eae","#b78e98","#c2987c"];
+const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mix=(a,b,t)=>{const A=hex(a),B=hex(b);return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join("")};
+const colAt=t=>{t=Math.max(0,Math.min(1,t));const s=t*(DCS.length-1),i=Math.min(DCS.length-2,Math.floor(s));return mix(DCS[i],DCS[i+1],s-i)};
+const dayCol=d=>colAt(d/12);
+
+const wob=(a,seed,amp)=>{const out=[];for(let i=0;i<a.length;i++){const [x1,y1]=a[i],[x2,y2]=a[(i+1)%a.length],len=Math.hypot(x2-x1,y2-y1)||1,n=Math.max(1,Math.round(len/8)),nx=-(y2-y1)/len,ny=(x2-x1)/len;
+  for(let j=0;j<n;j++){const t=j/n,o=amp*Math.sin(i*12.9898+j*78.233+seed)*Math.cos(j*3.1+seed*.7);out.push([x1+(x2-x1)*t+nx*o,y1+(y2-y1)*t+ny*o])}}return out};
+const pathOf=a=>"M"+a.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L")+"Z";
+const GLAC=[[-16.75,64.42,1.2,.27],[-20.15,64.66,.36,.12],[-18.85,64.82,.3,.11],[-19.1,63.66,.3,.08],[-19.62,63.63,.12,.04],[-15.3,64.7,.2,.06]];
+const WAVES=[[-23.7,63.5],[-17.4,63.25],[-13.5,64.55],[-14.9,66.45],[-19.6,66.6],[-24.3,65.55],[-22.4,66.25],[-21.2,63.6]];
 function drawMap(){
   svg.textContent="";
   const D=days.map(R),ptDays={};
   D.forEach(day=>day.legs.forEach(l=>[l.a,l.b].forEach(k=>(ptDays[k]=ptDays[k]||new Set()).add(day.d))));
   const dd=k=>[...(ptDays[k]||[])].join(" ");PD=ptDays;
   el("rect",{x:-3000,y:-3000,width:7000,height:7000,fill:"var(--sea)"});
-  el("polygon",{points:coast.map(c=>P(...c).join(",")).join(" "),fill:"var(--land)",stroke:"var(--coast)","stroke-width":1.2,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
+  const defs=el("defs",{});
+  defs.innerHTML=`<pattern id="paper" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M2 4l3-1M10 12l3-1M13 3l2 1M4 14l2-1M8 7l1.5 .5" stroke="#8f9a8f" stroke-width=".6" opacity=".35" fill="none"/></pattern>`+Object.entries(ICONS).map(([k,v])=>`<symbol id="ic-${k}" viewBox="0 0 32 32">${v}</symbol>`).join("")+Object.entries(FOODI).map(([k,v])=>`<symbol id="fd-${k}" viewBox="0 0 20 20">${v}</symbol>`).join("");
+  WAVES.forEach(([lon,lat])=>{const [x,y]=P(lon,lat);el("path",{d:`M${x-12},${y}q3,-3 6,0t6,0t6,0t6,0`,fill:"none",stroke:"var(--coast)","stroke-width":1.1,opacity:.6,"stroke-linecap":"round","vector-effect":"non-scaling-stroke"})});
+  const cp=coast.map(c=>P(...c)),c1=pathOf(wob(cp,1.7,1.1)),c2=pathOf(wob(cp,5.3,1.4));
+  el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":9,opacity:.16,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
+  el("path",{d:c1,fill:"var(--land)"});el("path",{d:c1,fill:"url(#paper)"});
+  GLAC.forEach(([lon,lat,rx,ry],i)=>{const ring=[];for(let a=0;a<24;a++){const t=a/24*Math.PI*2,r=1+.12*Math.sin(t*3+i);ring.push(P(lon+Math.cos(t)*rx*r,lat+Math.sin(t)*ry*r))}
+    el("path",{d:pathOf(wob(ring,i+2,.8)),fill:"var(--ice)",stroke:"var(--coast)","stroke-width":1,"stroke-dasharray":"3 2",opacity:.95,"vector-effect":"non-scaling-stroke"})});
+  el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":1.4,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
+  el("path",{d:c2,fill:"none",stroke:"var(--coast)","stroke-width":.8,opacity:.5,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
   const pills=[];
-  D.forEach(day=>day.legs.forEach(g=>{
-    const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]);
-    el("line",{x1,y1,x2,y2,stroke:"var(--route)","stroke-width":2.6,"stroke-linecap":"round","stroke-dasharray":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke",opacity:.9,"data-day":day.d});
+  D.forEach(day=>day.legs.forEach((g,j,arr)=>{
+    const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]),id=`lg${day.d}_${j}`,n=arr.length;
+    const lg=el("linearGradient",{id,gradientUnits:"userSpaceOnUse",x1,y1,x2,y2},null,defs);
+    el("stop",{offset:0,"stop-color":colAt((day.d+j/n)/13)},null,lg);el("stop",{offset:1,"stop-color":colAt((day.d+(j+1)/n)/13)},null,lg);
+    el("line",{x1,y1,x2,y2,stroke:"var(--land)","stroke-width":7,"stroke-linecap":"round",opacity:.75,"vector-effect":"non-scaling-stroke","data-day":day.d});
+    el("line",{x1,y1,x2,y2,stroke:`url(#${id})`,"stroke-width":3.6,"stroke-linecap":"round","stroke-dasharray":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
     if(g.m>=30&&!g.hide)pills.push([(x1+x2)/2,(y1+y2)/2,short(dT(g.m)),day.d]);
   }));
   days.forEach(day=>(day.opt||[]).forEach(o=>{if(!o.k)return;const [name,lon,lat]=pts[o.k],[x,y]=P(lon,lat);
@@ -505,8 +598,21 @@ function drawMap(){
     const en=lblEn(name);el("tspan",{},name,lt);if(en){lt.dataset.en=1;el("tspan",{class:"en","font-weight":400},en,lt)}
   }
   pills.forEach(([x,y,t,d])=>{const g=el("g",{class:"pill","data-day":d,"data-x":x,"data-y":y,"data-n":[...t].reduce((n,c)=>n+(/[\u3400-\u9fff]/.test(c)?1.7:1),0)});
-    el("rect",{rx:5,fill:"var(--pill)",stroke:"var(--route)","stroke-width":1,"vector-effect":"non-scaling-stroke"},null,g);
+    el("rect",{rx:9,fill:"var(--pill)",stroke:dayCol(d),"stroke-width":1.4,"vector-effect":"non-scaling-stroke"},null,g);
     el("text",{"text-anchor":"middle","font-weight":500,fill:"var(--pill-fg)","font-family":"var(--sans)"},t,g);});
+  ST.forEach(st=>{if(st.d===0&&!days.some(x=>x.d===0))return;const [x,y]=st.k?P(pts[st.k][1],pts[st.k][2]):P(st.lon,st.lat),c=dayCol(st.d);
+    const g=el("g",{class:"st","data-day":st.d,"data-st":st.d,"data-x":x,"data-y":y,"data-dx":st.dx,"data-dy":st.dy,style:"cursor:pointer"});
+    el("title",{},`D${st.d} ${st.name}${st.en?" "+st.en:""}・${FOODN[st.food]}`,g);
+    el("line",{class:"sl",stroke:c,"stroke-width":1.3,"stroke-dasharray":"3 2.5","vector-effect":"non-scaling-stroke"},null,g);
+    el("circle",{class:"sp",fill:c,stroke:"var(--land)","stroke-width":1.2,"vector-effect":"non-scaling-stroke"},null,g);
+    el("circle",{class:"sb",fill:"#fbf7f0",stroke:c,"stroke-width":2.6,"vector-effect":"non-scaling-stroke"},null,g);
+    el("use",{class:"si",href:`#ic-${st.ic}`},null,g).setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",`#ic-${st.ic}`);
+    el("rect",{class:"sc",fill:c},null,g);el("text",{class:"sct","text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},`D${st.d}`,g);
+    el("circle",{class:"sf",fill:"#fffaf2",stroke:c,"stroke-width":1.4,"vector-effect":"non-scaling-stroke"},null,g);
+    el("use",{class:"sfi",href:`#fd-${st.food}`},null,g).setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",`#fd-${st.food}`);
+    el("text",{class:"sn","text-anchor":"middle",fill:"var(--fg)","font-weight":700,"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.name,g);
+    if(st.en)el("text",{class:"se","text-anchor":"middle",fill:"var(--muted)","paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.en,g);
+  });
   applyVB();
 }
 function applyVB(){
@@ -520,12 +626,22 @@ function applyVB(){
     const two=t.dataset.en,lx=+t.dataset.x+dx*k,ly=+t.dataset.y+dy*k-(two&&sd==="t"?fs*.95*k:0)-(two&&(sd==="r"||sd==="l")?fs*.45*k:0);t.setAttribute("x",lx);t.setAttribute("y",ly);
     if(two){const [a1,a2]=t.children;a1.setAttribute("x",lx);a2.setAttribute("x",lx);a2.setAttribute("dy",fs*1.0*k);a2.setAttribute("font-size",fs*.78*k)}
     const stay=t.classList.contains("stay"),dense=t.classList.contains("dense");
-    const show=sel===ALL?(stay?k<3.2:(!dense&&k<1.2)||k<0.55):(inDay(t)||(stay&&k<1.6));
-    t.style.display=show?"":"none";});
+    const show=sel===ALL?(stay?k<1.3:(!dense&&k<0.75)||k<0.5):(inDay(t)||(stay&&k<1.6));
+    const stHide=sel!==ALL&&ST.some(x=>x.d===sel&&x.k===t.dataset.key);
+    t.style.display=show&&!stHide?"":"none";});
   svg.querySelectorAll("g.pill").forEach(g=>{const x=+g.dataset.x,y=+g.dataset.y,n=+g.dataset.n,w=(n*7.4+12)*k,h=20*k;
     const r=g.firstChild,tx=g.lastChild;r.setAttribute("x",x-w/2);r.setAttribute("y",y-h/2);r.setAttribute("width",w);r.setAttribute("height",h);
     tx.setAttribute("x",x);tx.setAttribute("y",y+4.5*k);tx.setAttribute("font-size",12.5*k);
-    g.style.display=(sel===ALL?k<1.2:inDay(g))?"":"none";});
+    g.style.display=(sel===ALL?k<0.8:inDay(g))?"":"none";});
+  const A=(e,o)=>{for(const n in o)e.setAttribute(n,o[n])};
+  const ss=sel===ALL?Math.min(1,Math.max(.66,cw/760)):1;
+  svg.querySelectorAll("g.st").forEach(g=>{const kk=k*ss,x=+g.dataset.x,y=+g.dataset.y,cx=x+g.dataset.dx*kk,cy=y+g.dataset.dy*kk,R=19*kk,q=c=>g.querySelector(c);{const k=kk;
+    A(q(".sl"),{x1:x,y1:y,x2:cx,y2:cy});A(q(".sp"),{cx:x,cy:y,r:3.2*k});A(q(".sb"),{cx,cy,r:R});A(q(".si"),{x:cx-14*k,y:cy-14*k,width:28*k,height:28*k});
+    A(q(".sc"),{x:cx-R-6*k,y:cy-R-3*k,width:22*k,height:13*k,rx:6.5*k});A(q(".sct"),{x:cx-R+5*k,y:cy-R+6.6*k,"font-size":9*k});
+    A(q(".sf"),{cx:cx+R*.78,cy:cy+R*.72,r:9.5*k});A(q(".sfi"),{x:cx+R*.78-6.5*k,y:cy+R*.72-6.5*k,width:13*k,height:13*k});
+    const own=sel===ALL||+g.dataset.st===sel,sn=q(".sn"),se=q(".se");
+    A(sn,{x:cx,y:cy+R+13*k,"font-size":11.5*k,"stroke-width":3.5*k});sn.style.display=own?"":"none";
+    if(se){A(se,{x:cx,y:cy+R+24*k,"font-size":9*k,"stroke-width":3*k});se.style.display=own?"":"none"}}});
 }
 function aspect(){const r=svg.getBoundingClientRect();return r.width&&r.height?r.height/r.width:FULL.h/FULL.w}
 function fit(b){const a=aspect();let w=Math.max(b.w,b.h/a,120),h=w*a;VB={x:b.x+b.w/2-w/2,y:b.y+b.h/2-h/2,w,h};applyVB()}
@@ -535,7 +651,7 @@ function zoomDay(d){
   if(!ks.size){fit(FULL);return}
   const xy=[...ks].map(k=>P(pts[k][1],pts[k][2])),xs=xy.map(p=>p[0]),ys=xy.map(p=>p[1]);
   const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),pad=60;
-  fit({x:x0-pad,y:y0-pad,w:x1-x0+pad*2,h:y1-y0+pad*2});
+  fit({x:x0-pad,y:y0-pad-45,w:x1-x0+pad*2,h:y1-y0+pad*2+45});
 }
 function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect(),ux=VB.x+(cx-r.left)/r.width*VB.w,uy=VB.y+(cy-r.top)/r.height*VB.h;
   const w=Math.min(Math.max(VB.w*f,80),1600),h=w*VB.h/VB.w;VB={x:ux-(ux-VB.x)*w/VB.w,y:uy-(uy-VB.y)*h/VB.h,w,h};applyVB()}
@@ -548,7 +664,7 @@ function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect(),ux=VB.x+(cx-r.left)
     if(ptrs.size===1){const r=svg.getBoundingClientRect();VB.x-=dx/r.width*VB.w;VB.y-=dy/r.height*VB.h;applyVB()}
     else if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()],d=Math.hypot(a.x-b.x,a.y-b.y);if(d>0){zoomAt(pinch.d/d,(a.x+b.x)/2,(a.y+b.y)/2);pinch.d=d}}});
   const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;
-    if(e.type==="pointerup"&&moved<8&&ptrs.size===0){const t=document.elementFromPoint(e.clientX,e.clientY),h=t&&t.closest&&t.closest("[data-key]");if(h)showPop(h.dataset.key)}};
+    if(e.type==="pointerup"&&moved<8&&ptrs.size===0){const t=document.elementFromPoint(e.clientX,e.clientY),st=t&&t.closest&&t.closest("[data-st]"),h=t&&t.closest&&t.closest("[data-key]");if(st){select(+st.dataset.st,false);return}if(h)showPop(h.dataset.key)}};
   svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
   svg.addEventListener("wheel",e=>{e.preventDefault();zoomAt(e.deltaY>0?1.15:1/1.15,e.clientX,e.clientY)},{passive:false});
   svg.addEventListener("keydown",e=>{if(e.key==="+"||e.key==="=")zoomAt(.8,...ctr());else if(e.key==="-")zoomAt(1.25,...ctr())});
@@ -589,7 +705,7 @@ const aurora=d=>{
   if(city){s=Math.max(0,s-1);why.push("市區有光害，要開到郊外")}
   return {s,lv:["低","中","較高"][s],why:why.join("；")};
 };
-const sunKey={0:"rvk",1:"rvk",2:"grund",3:"hjal",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"hjok",9:"vik",10:"self",11:"rvk",12:"rvk"};
+const sunKey={0:"rvk",1:"rvk",2:"midh",3:"hjal",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"hjok",9:"vik",10:"self",11:"rvk",12:"rvk"};
 const isChg=day=>day.legs.some(l=>l.c)||(day.notes||[]).some(n=>n[1])||day.plan.some(r=>r[2]==="c");
 /* spotlight: t title, d intro, w cautions */
 const SP={
@@ -651,6 +767,20 @@ const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encode
 /* toilets: "有" = there is one at the spot; otherwise the nearest option */
 const WC={"bl": "有（入場後更衣室）", "graik": "有（店內，幫襯）", "icemem": "冇；用附近咖啡店", "hall": "附近咖啡店或餐廳（幫襯）", "nauth": "有（更衣室，入場用）", "volc": "有（集合點小屋）", "ytri": "唔肯定；最近較穩陣係 Vegamót 餐廳油站（54 號公路）", "budir": "冇公廁；Hótel Búðir（幫襯）", "djup": "有（停車場洗手間）", "ingj": "冇；最近係 Hellissandur 或 Ólafsvík 鎮", "kirk": "唔肯定；最近較穩陣係格倫達菲厄澤 Grundarfjörður 鎮上油站（約 5 分鐘）", "borg": "有（餐廳，幫襯）", "stykk": "教堂冇；鎮上港口一帶咖啡店或油站", "kolu": "冇；最近係 1 號公路 Víðigerði 油站", "husa": "有（港口賞鯨公司售票處）", "geosea": "有（入場後）", "leir": "有（Krafla 停車場洗手間）", "goda": "有（Fosshóll 一帶，收費或幫襯）", "hver": "有（停車場，收費）", "myvb": "有（入場後）", "dett": "有（西岸停車場）", "egil": "有（入場後）", "gufu": "冇；藍色教堂所在的 Seyðisfjörður 鎮上用", "fask": "有（餐廳，幫襯）", "egg": "雕塑旁冇；Djúpivogur 鎮上咖啡店或油站", "hvaln": "冇；上一個係 Djúpivogur，下一個係赫本 Höfn（約 45 分鐘）", "petra": "有（博物館內）", "seyd": "鎮上咖啡店或油站", "vest": "有（Viking Café，入場費已包）", "jok": "有（停車場，可能收費）", "diam": "冇；用對面冰河湖 Jökulsárlón 停車場", "fjall": "有（Frost 咖啡店旁）", "hof": "冇固定公廁；最近係斯卡夫塔山 Skaftafell 遊客中心", "skaf": "有（遊客中心）", "svart": "步道冇；出發前喺遊客中心去", "eld": "冇；最近係 Kirkjubæjarklaustur 油站", "fjad": "有（停車場，曾經有人遇到關閉）", "reyn": "有（Black Sand 餐廳旁，停車費已包）", "dyr": "有（停車場，收費約 200 ISK）", "solh": "有（停車場，可能收費）", "skog": "有（停車場旁，可能收費）", "skal": "有（馬場，參加者用）", "selj": "有（停車場，收費）", "gull": "有（上層遊客中心）", "geys": "有（Geysir Center 對面）", "silf": "有（P5 停車場）", "thing": "有（P1 遊客中心）", "skyl": "有（入場後）", "costco": "有（店內）"};
 for(const k in WC)if(SP[k])SP[k].wc=WC[k];
+/* sunrise outings (private version only): k = point used for the sunrise time */
+const SUNRISE={
+ 7:{k:"hofn",spot:"Ósland 小山（赫本 Höfn 港口出口）",q:"Ósland Höfn",pq:"Ósland Höfn parking",go:"06:10 由住處步行出發（市中心行過去約 15–20 分鐘；或者開車 3 分鐘到 Ósland 停車場）",back:"07:15 返住處食早餐",
+   d:"Ósland 係港口出口的小半島，有條環迴小徑同水手紀念碑。企喺小山上：東面睇日出，再轉身向西北望，太陽一出，瓦特納冰川 Vatnajökull 的冰川舌同山頂會染成粉紅色。",
+   w:["Ósland 係雀鳥保護區，跟住小徑行","海邊風大，帶帽同手套"]},
+ 9:{scen:"ok",k:"jok",spot:"鑽石沙灘 Diamond Beach（1 號公路橋東邊的海灘）",q:"Diamond Beach Iceland",pq:"Diamond Beach parking Iceland",go:"06:05 由 Hótel Jökulsárlón 開車出發（約 25 分鐘，1 號公路平直，但天未全光，慢慢開）",back:"07:20 離開，07:45 返酒店食早餐、退房；09:00 照常出發去維克",
+   d:"過咗冰河湖 Jökulsárlón 的橋，轉入海邊停車場。由停車場行落黑沙灘：太陽喺東面海上升起，前面係沖上岸的冰塊，逆光時冰塊會發光。",
+   w:["停車費和冰河湖分開計","唔好企上冰塊，亦唔好行近浪邊，大浪會突然沖上嚟","沙灘冇廁所；用對面冰河湖停車場","今日要開長途去維克，唔想太早起身就唔好去"]},
+ 8:{scen:"redo",k:"jok",spot:"鑽石沙灘 Diamond Beach（1 號公路橋東邊的海灘）",q:"Diamond Beach Iceland",pq:"Diamond Beach parking Iceland",go:"06:05 由 Hótel Jökulsárlón 開車出發（約 25 分鐘，1 號公路平直，但天未全光，慢慢開）",back:"07:20 離開，07:45 返酒店食早餐",
+   d:"冰川健行改咗去 D9 補做，所以日出改喺今日睇。由停車場行落黑沙灘：太陽喺東面海上升起，前面係沖上岸的冰塊，逆光時冰塊會發光。",
+   w:["停車費和冰河湖分開計","唔好企上冰塊，亦唔好行近浪邊","沙灘冇廁所；用對面冰河湖停車場"]}
+};
+const sunriseHTML=(day,Nd)=>{const x=SUNRISE[day.d];if(!REAL||!x||(x.scen&&x.scen!==scen))return"";const [,lon,lat]=pts[x.k],t=sunAt(Nd,lat,lon,1),g=q=>`https://www.google.com/maps/search/?api=1&query=${enc(q)}`;
+  return `<details class="sunr"><summary>日出推薦（自由參加）：${x.spot.replace(/（.*）/,"")}・日出約 ${t}</summary><div class="sunb"><p><b>地點：</b>${x.spot}</p><p><b>出發：</b>${x.go}</p><p><b>點睇：</b>${x.d}</p><p><b>返嚟：</b>${x.back}</p><ul>${x.w.map(w=>`<li>${w}</li>`).join("")}</ul><p>前一晚睇 vedur.is 雲量預報，雲多就唔使早起。</p><div class="popb"><a class="btn" href="${g(x.q)}" target="_blank" rel="noopener">Google Maps：日出位置</a><a class="btn ghostb" href="${g(x.pq)}" target="_blank" rel="noopener">導航去停車場</a></div></div></details>`};
 const SPF=[["park","停車"],["wc","廁所"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
 const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl></div>`};
 
@@ -694,10 +824,9 @@ const EAT={
  1:[["晚餐","Hlemmur Mathöll 美食廣場","7 個人揀自己想食的，最方便；9/12 係星期日，夜晚較靜，部分攤檔唔即做"],
     ["晚餐","Messinn","海鮮煎鍋，7 人要早啲打電話問位"],
     ["晚餐","住處自己煮","附近超市買材料；星期日 Vínbúðin 酒舖全日休息"]],
- 2:[["午餐","Settlement Center 餐廳（博爾加內斯）","每日 11:30–21:00；有自助午餐和湯"],
-    ["晚餐","Bjargarsteinn Mathús","海邊餐廳，用本地食材；9 月的營業時間要預先問（+354 438 6770）"],
-    ["晚餐","Kaffi 59","漢堡、薄餅、魚，價錢較親民"],
-    ["晚餐","Harbour Cafe","魚、羊、雞；營業時間要預先問"]],
+ 2:[["午餐","Hjá Góðu Fólki","Ytri Tunga 附近小咖啡店，魚湯、溫室菜湯、深盤薄餅；網上資料只係星期五至日開，9/13（一）要打 +354 892 5667 確認"],
+    ["午餐","Hótel Búðir 餐廳（後備）","下一站布迪爾黑教堂旁邊"],
+    ["晚餐","Hlaðan Veitingahús（Miðhraun 酒店餐廳）","住處餐廳，唔使再開車；訂房時一齊訂 7 人晚餐"]],
  3:[["午餐","Dalakot（Búðardalur）","薄餅、漢堡，每日 12:00–21:00，星期二有開"],
     ["晚餐","阿克雷里早啲食：Strikið 或 Rub 23","Strikið 五樓海鮮、望峽灣；Rub 23 壽司和燒烤。食完要在日落（約 19:46）前到住處"],
     ["晚餐","住處自己煮","經阿克雷里時去 Bónus 或 Krónan 買材料；Hjalteyri 本身選擇很少"]],
@@ -723,10 +852,11 @@ const EAT={
     ["晚餐","Hof-1 餐廳","每日 18:00–21:00"]],
  9:[["午餐","Freysnes 油站餐廳（斯卡夫塔山）","每日 09:00–20:00；湯、主菜，快而平"],
     ["晚餐","Suður Vík（維克）","每日 12:00–21:00，有薄餅；7 人建議預約"],
-    ["晚餐","Systrakaffi（維克）","每日 12:00–21:00；北極紅點鮭、薄餅、自家蛋糕"],
+    ["晚餐","Smiðjan Brugghús（維克）","Sunnubraut 15；厚漢堡、豬肋骨、自家釀啤酒"],
     ["晚餐","Halldórs Kaffi（維克）","每日 12:00–21:00"]],
  10:[["午餐","Mia's Country Grill（Skógar）","炸魚薯條餐車，每日 12:00–16:00，室外座位"],
      ["午餐","Hótel Skógafoss Bistro","非住客都可以食"],
+     ["晚餐","Mjólkurbúið Mathöll 美食廣場（塞爾福斯）","新市中心，多個攤檔，7 人各自揀最方便"],
      ["晚餐","Tryggvaskáli（塞爾福斯）","本地食材；星期二 16:00–21:00 有開"],
      ["晚餐","Kaffi Krús（塞爾福斯）","漢堡、薄餅、意粉；星期一至四 11:00–21:00"]],
  11:[["午餐","Friðheimar 番茄溫室餐廳","喺溫室入面食任添番茄湯；廚房每日 11:30–16:00，一定要預約；離間歇泉約 20 分鐘，要再預 Silfra 前的車程"],
@@ -767,10 +897,11 @@ function card(raw){
   const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`${REAL?"預留 ":"約 "}${fmt(buf(l.m))}${REAL?`<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`:l.was?`<span class="was">${l.was}</span>`:""}`}</b></a>`).join("");
   const notes=(day.notes||[]).map(n=>`<li>${hr(n[0])}</li>`).join("");
-  return `<article class="day">
+  return `<article class="day" style="--dc:${dayCol(day.d)}">
     <h3><span>Day ${day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     <div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a><a href="https://en.vedur.is/weather/forecasts/aurora/" target="_blank" rel="noopener">極光預報</a></div>
     <div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>
+    ${sunriseHTML(day,Nd)}
     ${REAL&&day.firmT?`<div class="golin"><span>話俾大家知：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}
     ${(()=>{const ks=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]&&WC[k].startsWith("有"));return day.legs.length?`<div class="dusk wcl">${ks.length?`沿途有廁所：${ks.map(k=>nm(k)).join("、")}`:"景點冇廁所：靠午餐地點同沿途油站（N1、Olís）"}</div>`:""})()}
     ${day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}
@@ -807,7 +938,7 @@ function setScen(s){
   $("sc-ok").setAttribute("aria-pressed",String(s==="ok"));$("sc-redo").setAttribute("aria-pressed",String(s==="redo"));
   drawMap();renderPanel();dim();
 }
-$("chips").innerHTML=[ALL,...days.map(x=>x.d)].map(d=>`<button type="button" data-d="${d}" aria-pressed="false">${d===ALL?"全部":`D${d}`}</button>`).join("");
+$("chips").innerHTML=[ALL,...days.map(x=>x.d)].map(d=>`<button type="button" data-d="${d}" aria-pressed="false"${d===ALL?"":` style="--dc:${dayCol(d)}"`}>${d===ALL?"全部":`<i class="cdot"></i>D${d}`}</button>`).join("");
 $("chips").addEventListener("click",e=>{const b=e.target.closest("button");if(b)select(+b.dataset.d)});
 $("panel").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)select(+b.dataset.go,true)});
 $("pop").addEventListener("click",e=>{if(e.target.closest(".popx")){$("pop").hidden=true;$("fnav").hidden=sel===ALL;return}
@@ -843,11 +974,11 @@ const SRC={
 /* scope: a = optional (only people ticked pay), p = every person, c = per car (shared), g = whole group (shared) */
 const B_=(id,name,price,qty,scope,o={})=>({id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false});
 const BUD=[
- ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("blbus","D1 巴士：機場→藍湖→市區",7000,1,"a",{est:1,src:"",note:"未取車要坐巴士；價錢待查"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
+ ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
  ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
- ["交通（每車，全組平均分攤）",[B_("car","租車（9/13 取車，11 日）",13000,11,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,11,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
- ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("air","Airbnb 整間屋（7 人）",65000,11,"g",{est:1,src:"",note:"每晚平均，已計服務費；雷克雅維克較貴，鄉郊較平"}),B_("clean","Airbnb 清潔費",10000,10,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房）",90000,11,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"})]]
+ ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 KEF 取車，12 日）",13000,12,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,12,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
+ ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，每人約 HKD 1,000）",108900,1,"g",{est:1,src:"",note:"按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；待確認"}),B_("air","Airbnb 整間屋（7 人，其餘 10 晚）",65000,10,"g",{est:1,src:"",note:"每晚平均，已計服務費；雷克雅維克較貴，鄉郊較平"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，其餘 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"})]]
 ];
 const FOOD={out:{lunch:11,cookL:0,dinner:10,cookD:0},cook:{lunch:9,cookL:2,dinner:2,cookD:8}};
 const fI=n=>Math.round(n).toLocaleString("en-US");
@@ -910,15 +1041,114 @@ calc();
 
 /* page tabs */
 $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2>`+TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("");
+/* guide page: money-saving tips, in-depth food picks, booking checklist */
+const SAVE=[
+ ["優惠券與折扣",[
+  ["Icelandic Coupons app","免費下載，有餐廳、酒吧、團體優惠，部分係 2 送 1；用之前睇清楚有效日期同條件。"],
+  ["油站優惠鎖匙扣","租車公司通常送 Olís／ÓB 或 Orkan 優惠鎖匙扣，取車時問；網上資料指 Orkan 卡每公升減約 12 ISK，Olís 卡每公升減幾 ISK 再送咖啡。"],
+  ["Costco 入油","冰島最平的油，但要出示會員卡。Costco 會籍一般全球通用，有澳洲 Costco 卡的人記得帶，出發前向 Costco Iceland 確認。"],
+  ["退稅（Tax Free）","同一張收據滿 12,000 ISK 可以申請退增值稅；買嘢時攞退稅表，離境前喺 KEF 機場蓋印同退款，貨品同收據要帶身。"],
+  ["溫泉早訂","藍湖 Blue Lagoon、Sky Lagoon 價錢按時段浮動，越早訂、揀非熱門時段通常越平。"],
+  ["Reykjavík City Card","包博物館、市內泳池同巴士；你哋喺市區時間短，通常唔抵。"],
+  ["Appy Hour app","雷克雅維克 Reykjavík 的 happy hour：啤酒約 800–1,100 ISK，平時約 1,200–1,600 ISK。"]]],
+ ["省錢小技巧",[
+  ["超市","Bónus（粉紅豬標誌，通常最平）、Krónan、Nettó；細鎮冇大超市，經博爾加內斯 Borgarnes、阿克雷里 Akureyri、埃伊爾斯塔濟 Egilsstaðir、赫本 Höfn、塞爾福斯 Selfoss 時一次過買。"],
+  ["飲水","水龍頭水可以直接飲，每人帶一個水樽，唔使買樽裝水。"],
+  ["酒","落機喺 KEF 到達大堂免稅店買最平；之後只有 Vínbúðin 賣酒，營業時間短，星期日唔開。"],
+  ["午餐出去食、晚餐自己煮","好多餐廳午餐有每日例牌或湯任添；湯配麵包約 1,500–2,200 ISK，熱狗約 800 ISK。晚餐揀有廚房的住處煮。"],
+  ["油站食物","N1、Olís 有熱狗、湯同三文治，比餐廳平又快。"],
+  ["7 人分工","買大包裝一齊分；兩部車各帶一個保冷袋；早餐材料、零食喺 Costco 一次過買。"],
+  ["入油","剩半缸就入；自助油站（Orkan、Atlantsolía、ÓB）較平；還車前喺 KEF 附近入滿。"],
+  ["租車總價","2026 年起冰島租車可能按公里另收道路費，比較報價時要睇總價。"],
+  ["刷卡","刷卡時揀用 ISK 付款，唔好揀港幣或澳元（貨幣轉換較貴）；用冇海外手續費的卡。"],
+  ["停車","兩部車都喺同一個停車 app 登記，避免漏繳被罰（罰款約停車費三至四倍）。"]]]
+];
+/* food: [day, meal, main pick, alternatives]; hours are 9-month estimates, check before going */
+const FD=(n,a,h,m,b,r)=>({n,a,h,m,b,r});
+const MESS=FD("Messinn","Lækjargata 6b, Reykjavík","每日約 11:30–22:00（週末 12:00 起）","北極紅點鮭煎鍋（Arctic char pan）、冰島魚肉薯蓉 plokkfiskur","約 5,000–6,000 ISK／人","7 人一定要訂：官網網上訂位或打電話；19:00–20:00 最多人");
+const HOTJ=FD("Hótel Jökulsárlón 酒店餐廳","住處","約 18:00–21:00","北極紅點鮭、冰島羊肉","約 7,000–9,000 ISK／人","訂房時一齊訂 7 人晚餐");
+const GFOOD=[
+ [1,"晚餐",MESS,[["Hlemmur Mathöll 美食廣場","Laugavegur 107；約 10 個攤檔，唔使訂，各自揀"],["Grandi Mathöll 美食廣場","Grandagarður 16；舊港口，有海鮮攤"]]],
+ [2,"午餐",FD("Hjá Góðu Fólki","Eyja- og Miklaholtshreppur（Ytri Tunga 附近，約 15 分鐘車程）","網上資料：星期五 13:00–17:00、星期六 14:00–19:00、星期日 13:00–19:00；有網站顯示暫停營業","魚湯、溫室蔬菜湯、深盤薄餅、自家蛋糕","約 3,000–4,500 ISK／人","9/13 係星期一，一定要打 +354 892 5667 確認有冇開，順便話 7 人"),[["Hótel Búðir 餐廳","布迪爾黑教堂旁，下一站就到；午餐時間要確認"],["Hotel Snæfellsnes 咖啡餐廳","Vegamót 一帶（前稱 Rjúkandi）；湯、漢堡"]]],
+ [2,"晚餐",FD("Hlaðan Veitingahús","Miðhraun 2, 342（Miðhraun - Lava Resort 酒店內）","晚餐時間要向酒店確認","冰島本地菜（餐牌以酒店為準）","約 6,000–8,000 ISK／人（估計）","訂房時一齊訂 7 人晚餐：+354 893 3333 或 info@lavaresort.is"),[["住處自己煮","4 房 apartment 如有廚房，可以喺雷克雅維克或 Costco 買定材料"]]],
+ [3,"午餐",FD("Dalakot","Dalbraut 2, Búðardalur","每日 12:00–21:00","薄餅、漢堡、魚","約 3,000–4,000 ISK／人","唔使訂，可以打電話話 7 人"),[["Búðardalur 小超市","買三文治、沙律自備"]]],
+ [3,"晚餐",FD("Strikið","Skipagata 14（5 樓），Akureyri","約 11:30–22:00","海鮮湯、羊肉、北極紅點鮭；望峽灣","約 6,000–8,000 ISK／人","建議網上訂 18:00；食完要喺日落前回到住處"),[["Rub23","Kaupvangsstræti 6, Akureyri；壽司同燒烤"],["住處自己煮","阿克雷里 Akureyri Bónus／Krónan 買材料；Hjalteyri 本身選擇很少"]]],
+ [4,"午餐",FD("Naustið","Ásgarðsvegur 1, Húsavík","約 12:00–21:00（9 月以官網為準）","魚湯、烤魚串、自家焗麵包","約 4,000–5,500 ISK／人","賞鯨後 14:00 去人較少；可以打電話留位"),[["Gamli Baukur","Hafnarstétt 9；港口木屋，本地魚同羊；9 月中開唔開要確認"],["Salka","Garðarsbraut 6；海鮮、薄餅"]]],
+ [4,"晚餐",FD("Vogafjós 牛棚餐廳","Vogafjós Farm Resort，米湖 Mývatn 東岸（1 號公路旁）","全年開；晚餐時間要預先問","煙燻鱒魚、羊膝、自家芝士、地熱焗黑麥麵包","約 6,000–8,000 ISK／人","建議預約：+354 464 3800"),[["Daddi's Pizza","Vogar 營地；薄餅，較平"],["住處自己煮","米湖區只有細超市，阿克雷里先買定"]]],
+ [5,"午餐",FD("Fjallakaffi（Möðrudalur 農場）","Möðrudalur á Fjöllum（1 號公路轉入約 8 km）","9 月時間要確認","冰島羊肉湯 kjötsúpa、炸麵包 kleinur","約 3,000–4,000 ISK／人","唔使訂"),[["自備午餐","米湖區或阿克雷里超市買定，喺車上食"]]],
+ [5,"晚餐",FD("Salt Café & Bistro","Miðvangur 2–4, Egilsstaðir","約 11:30–21:00","薄餅、咖喱、漢堡","約 3,500–5,000 ISK／人","唔使訂，7 人早啲去"),[["Askur Pizzeria","鎮上；薄餅可以自選配料"],["Glóð（Hotel Valaskjálf）","Skógarlönd 3；意粉、魚、肉"]]],
+ [6,"午餐",FD("Café Sumarlína","Búðavegur 59, Fáskrúðsfjörður","9 月時間要確認","湯、薄餅、魚","約 3,000–4,000 ISK／人","唔使訂"),[["Fosshótel Austfirðir 餐廳","Hafnargata 11–14；舊法國醫院改建，較穩陣有開"],["自備午餐","埃伊爾斯塔濟 Egilsstaðir Bónus 或 Nettó 早上買"]]],
+ [6,"晚餐",FD("Pakkhús","Krosseyjarvegur 3, Höfn","約 12:00–22:00","挪威海螯蝦（langoustine）：烤蝦尾、龍蝦湯","約 8,000–10,000 ISK／人（蝦尾按重量計）","唔接受訂位：17:30–18:00 到最穩陣，19:00–20:00 要排隊"),[["Hafnarbúðin","Ránarslóð 2；港口快餐店，龍蝦包較平"],["Kaffi Hornið","Hafnarbraut 42；木屋餐廳，龍蝦同漢堡"]]],
+ [7,"午餐",FD("The Café（冰河湖）","冰河湖 Jökulsárlón 停車場","6–9 月 09:00–19:00","海鮮湯、三文治","約 2,500–3,500 ISK／人","唔使訂；獨木舟前時間短，揀湯最快"),[["停車場餐車","炸魚薯條、龍蝦湯（有時開）"]]],
+ [7,"晚餐",HOTJ,[["Hof-1 酒店餐廳","每日 18:00–21:00；18:00 去，日落前返到住處"]]],
+ [8,"午餐",FD("自備午餐（喺冰川上食）","—","—","前一晚準備三文治、能量棒，保溫瓶裝熱飲","約 1,500 ISK／人","—"),[["Freysnes 油站餐廳","斯卡夫塔山 Skaftafell 附近；健行取消時用"]]],
+ [8,"晚餐",HOTJ,[["Hof-1 酒店餐廳","每日 18:00–21:00"]]],
+ [9,"午餐",FD("Freysnes 油站餐廳","Freysnes（斯卡夫塔山 Skaftafell 以東約 5 km）","每日 09:00–20:00","湯、主菜，快而平","約 2,500–3,500 ISK／人","唔使訂"),[["斯卡夫塔山遊客中心 Glacier Café","湯、三文治"],["Systrakaffi","Klausturvegur 13, Kirkjubæjarklaustur；順路，北極紅點鮭、薄餅，可以做遲午餐"]]],
+ [9,"晚餐",FD("Smiðjan Brugghús","Sunnubraut 15, Vík","以官網為準","厚漢堡、黑啤醬豬肋骨、自家釀啤酒","約 4,000–5,500 ISK／人","訂位方式要確認；7 人 18:30 前去"),[["Suður Vík","Suðurvíkurvegur 1；每日 12:00–21:00，有薄餅；7 人建議預約"],["Halldórs Kaffi","Víkurbraut 28；每日 12:00–21:00"]]],
+ [10,"午餐",FD("Mia's Country Grill","斯科加爾瀑布 Skógafoss 停車場旁（餐車）","約 12:00–16:00","炸魚薯條","約 3,000–3,500 ISK／人","唔使訂；室外座位"),[["Hótel Skógafoss Bistro","瀑布旁；非住客都可以食"]]],
+ [10,"晚餐",FD("Mjólkurbúið Mathöll 美食廣場","塞爾福斯 Selfoss 新市中心","約 11:00–21:00（以官網為準）","多個攤檔：薄餅、漢堡、亞洲菜、甜品","約 3,000–4,500 ISK／人","唔使訂；7 人各自揀最方便"),[["Tryggvaskáli","Austurvegur 1；河邊老房子，本地食材；建議預約"],["Kaffi Krús","Austurvegur 7；漢堡、薄餅、蛋糕"]]],
+ [11,"午餐",FD("Friðheimar 番茄溫室","Reykholt（間歇泉 Geysir 以南約 20 分鐘）","每日 12:00–16:00","番茄湯任添配自家麵包、番茄啤酒","約 3,000–4,500 ISK／人（網上舊資料湯約 2,600 ISK）","一定要訂：+354 486 8894 或官網"),[["Geysir Center 餐廳","間歇泉對面；湯、漢堡，最方便"]]],
+ [11,"晚餐",MESS,[["Hlemmur Mathöll 美食廣場","Laugavegur 107"],["Sægreifinn","Geirsgata 8；龍蝦湯"]]],
+ [12,"早餐",FD("Brauð & Co","Frakkastígur 16, Reykjavík","約 08:00 前後開","肉桂卷、酸種麵包","約 800–1,200 ISK／人","唔使訂"),[["Sandholt","Laugavegur 36；麵包店兼早餐"]]],
+ [12,"午餐",FD("Bæjarins Beztu Pylsur","Tryggvagata 1, Reykjavík","每日 09:00 開","全配料羊肉熱狗（eina með öllu）","約 800–1,000 ISK／人","唔使訂"),[["Sægreifinn","Geirsgata 8；龍蝦湯約 2,500–3,000 ISK"]]]
+];
+/* bookings: [name, when, how, lead time, note] */
+const BOOK=[
+ ["景點和體驗（必須預約）",[
+  ["藍湖 Blue Lagoon","D1 9/12 13:30","bluelagoon.com","4–6 星期","時段價錢浮動，越早越平；機場巴士要配合時段"],
+  ["Þríhnúkagígur 火山內部","D0 9/11 上午（Dorcas & Tebe）","insidethevolcano.com","1–2 個月","揀可以免費改期的方案"],
+  ["胡薩維克 Húsavík 賞鯨","D4 9/15 11:00","northsailing.is","2–4 星期","只係去觀鯨的人；揀大船、可改期"],
+  ["冰河湖 Jökulsárlón 獨木舟","D7 9/18 12:45","已揀的團公司官網","1–2 個月","確認 9/18 仲有團（列明 5–9 月）"],
+  ["6 小時冰川健行","D8 9/19 10:00","blueiceland.is","1–2 個月","確認天氣取消時可以改去 9/20"],
+  ["Skálakot 騎馬","D10 9/21 13:05","skalakot.com","2–4 星期","問清楚體重上限"],
+  ["Silfra 浮潛","D11 9/22 13:30","已揀的團公司官網","1–2 個月","要填健康聲明、會游水"],
+  ["Sky Lagoon","D11 9/22 17:30","skylagoon.com","2–4 星期","揀 17:30 時段"]]],
+ ["建議預約",[
+  ["Vök Baths","D5 9/16 16:00","vokbaths.is","1–2 星期",""],
+  ["GeoSea 海水溫泉","D4 9/15（唔觀鯨的人，可選）","geosea.is","1 星期",""],
+  ["米湖溫泉 Earth Lagoon Mývatn","D4 9/15（未必去）","官網","幾日前","決定去先訂"],
+  ["Fjallsárlón 坐船（可選）","D7／D8","官網","幾日前",""]]],
+ ["餐廳訂位",[
+  ["Messinn","D1、D11 晚餐","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
+  ["Friðheimar 番茄溫室","D11 午餐","+354 486 8894 或官網","2–4 星期","12:00–13:00 最多人"],
+  ["Hjá Góðu Fólki","D2 午餐","+354 892 5667","1–2 星期前打電話","網上資料星期一唔開，要確認"],
+  ["Hlaðan Veitingahús（Miðhraun 酒店）","D2 晚餐","訂房時一齊訂（info@lavaresort.is）","—",""],
+  ["Strikið","D3 晚餐（如去阿克雷里食）","官網","1 星期","訂 18:00"],
+  ["Vogafjós","D4 晚餐","+354 464 3800","幾日前","19:00 前後"],
+  ["Hótel Jökulsárlón 酒店餐廳","D7、D8 晚餐","訂房時一齊訂","—",""],
+  ["Suður Vík","D9 晚餐（後備）","電話","前一兩日",""],
+  ["Tryggvaskáli","D10 晚餐（後備）","官網或電話","幾日前",""],
+  ["唔接受訂位","Pakkhús、Sægreifinn、Bæjarins Beztu、美食廣場","早啲去","—","Pakkhús 17:30–18:00 到"]]],
+ ["其他要預先訂",[
+  ["租車 2 部","9/12 KEF 機場取車、9/23 KEF 還車","租車公司","越早越好","碎石路保險、7 人行李空間、停車繳費系統"],
+  ["住宿","全程","Airbnb／酒店","越早越好","冰河湖一帶要連住兩晚"],
+  ["旅遊保險","出發前","—","訂機票後","包取消、醫療、租車自負額"],
+  ["safetravel.is 行程登記","出發前","safetravel.is","出發前一星期","免費"]]]
+];
+function renderGuide(){
+  const tbl=(h,rows)=>`<h3 class="tiph">${h}</h3><div class="gtw"><table class="gt"><thead><tr><th>項目</th><th>日子／時間</th><th>點訂</th><th>提早幾耐</th><th>備註</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c||"—"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const food=GFOOD.map(([d,meal,m,alts])=>{const day=days.find(x=>x.d===d);return `<article class="gfood" style="--dc:${dayCol(d)}"><div class="gfh"><span class="gfd">D${d}</span><span>${day?day.date:""}・${meal}</span></div>
+   <div class="gfn">${m.n}</div><dl class="gfdl"><dt>地址</dt><dd>${m.a}</dd><dt>營業時間</dt><dd>${m.h}</dd><dt>必點</dt><dd>${m.m}</dd><dt>預算</dt><dd>${m.b}</dd><dt>訂位</dt><dd>${m.r}</dd></dl>
+   ${m.a!=="—"&&m.a!=="住處"?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.n+" "+m.a)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}
+   <div class="gfalt"><b>替代方案（店休或客滿）</b><ul>${alts.map(([n,t])=>`<li><b>${n}</b>${t?"："+t:""}</li>`).join("")}</ul></div></article>`}).join("");
+  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-save">省錢攻略</a><a href="#g-food">美食推薦</a><a href="#g-book">訂位與預約清單</a></nav>
+   <section id="g-save"><h2>省錢攻略</h2>${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
+   <section id="g-food"><h2>美食推薦</h2><p class="bnote">營業時間同價錢係網上資料或估計，9 月可能縮短，出發前一星期再上官網或 Google Maps 確認。預算係每人約數。</p><div class="gfgrid">${food}</div></section>
+   <section id="g-book"><h2>訂位與預約清單</h2>${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
+  $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
+}
+renderGuide();
 function view(v){
-  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";
-  ["trip","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
+  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";$("guide").hidden=v!=="guide";
+  ["trip","tips","guide","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
   
   window.scrollTo(0,0);
 }
 $("tab-trip").addEventListener("click",()=>view("trip"));
 $("tab-budget").addEventListener("click",()=>view("budget"));
 $("tab-tips").addEventListener("click",()=>view("tips"));
+$("tab-guide").addEventListener("click",()=>view("guide"));
+if(location.hash==="#guide")view("guide");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
 if(/simple/.test(location.hash)){
