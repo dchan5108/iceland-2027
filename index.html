@@ -165,6 +165,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .opts a{font-size:12.5px;color:var(--route)}
 .tipsdl{display:grid;grid-template-columns:6em minmax(0,1fr);gap:10px 14px;max-width:760px;font-size:14.5px;margin:0}
 .tipsdl dt{font-weight:700;color:var(--route)}
+.tiph{font-size:1rem;font-weight:700;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);max-width:760px}
 .tipsdl dd{margin:0}
 .print .tabs,.print .topbar,.print .chips,.print .daynav,.print #changes,.print .links,.print .legend + details summary{display:none!important}
 .print .day{max-width:none;break-inside:auto;margin:0 0 14px}
@@ -192,7 +193,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
   <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 12 天 · 7 人 2 車</p>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
-    <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">出發前必讀</button>
+    <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
   </nav>
 
@@ -475,20 +476,28 @@ const SP={
  hall:{t:"哈爾格林姆大教堂・熱狗",d:"雷克雅維克地標，塔高約 74.5 米，登塔要買票。附近的 Bæjarins Beztu 熱狗攤是著名小吃。",w:["9 月起 10:00–17:00，塔頂到 16:45；成人登塔 1,500 ISK，只可即日在教堂商店買","星期日 10:30–12:30 左右因崇拜關閉；星期四中午 11:45–12:45 大堂關閉"]}
 };
 const TIPS=[
- ["時間原則","每日 09:00 後出發；所有車程要在日落前完成，日落後不開車；晚餐在住處自己煮或去步行可到的餐廳。"],
- ["駕駛","離開道路駕駛違法，罰款很重；一般速限是柏油路 90、碎石路 80、市區 50 公里；單線橋讓先到的車；路上常有羊；不要在路中停車拍照。"],
- ["強風","開車門要抓緊，車門被風吹壞通常不在租車保險範圍內。"],
- ["加油","東部和北部油站較少，剩半缸就加；很多油站是自助的，要用有 PIN 碼的信用卡。"],
- ["兩部車","每部車都要有能開車的人，約好會合點；有些路段沒有電話訊號。"],
- ["溫泉禮儀","入池前要赤身淋浴，再穿泳衣。"],
- ["安全","緊急電話 112；出發前在 safetravel.is 登記行程；每日出發前看天氣、路況和警告。"],
- ["衣著","洋蔥式穿法，帶防風防水外套、防水鞋、帽子和手套。"],
- ["其他","幾乎全部可以刷卡；小費不是必須；自來水可以直接喝。"]
+ ["駕駛",[
+  ["時間原則","每日 09:00 後出發；所有車程要在日落前完成，日落後不開車；晚餐在住處自己煮或去步行可到的餐廳。"],
+  ["交通規則","離開道路駕駛違法，罰款很重；一般速限是柏油路 90、碎石路 80、市區 50 公里；單線橋讓先到的車；路上常有羊；不要在路中停車拍照。"],
+  ["加油","東部和北部油站較少，剩半缸就加；很多油站是自助的，要用有 PIN 碼的信用卡。"],
+  ["兩部車","每部車都要有能開車的人，約好會合點；有些路段沒有電話訊號。"],
+  ["路況","每日出發前看 umferdin.is；碎石路要慢駛，確認租車保險包碎石路。"]]],
+ ["天氣／溫度",[
+  ["氣溫","9 月中下旬雷克雅維克日間大約 8–11°C、晚上 3–6°C；北部和東部再凍少少；冰川上接近 0°C，風大時體感更凍。"],
+  ["日照","日出大約 06:30–07:10，日落大約 19:20–20:10，越後越早黑。"],
+  ["強風","開車門要抓緊，車門被風吹壞通常不在租車保險範圍內；風速超過約 15 m/s 要小心駕駛。"],
+  ["衣著","洋蔥式穿法，帶防風防水外套、防水褲、防水鞋、帽子和手套。"],
+  ["查天氣","每日出發前看 vedur.is（天氣）和 safetravel.is（警告），天氣會變得好快。"]]],
+ ["其他",[
+  ["安全","緊急電話 112；出發前在 safetravel.is 登記行程。"],
+  ["溫泉禮儀","入池前要赤身淋浴，再穿泳衣。"],
+  ["付款","幾乎全部可以刷卡，刷卡時揀用 ISK 付款；小費不是必須。"],
+  ["飲水","自來水可以直接喝，自備水壺。"]]]
 ];
 const spotsOf=day=>{const s=stopsOf(day).filter(k=>!k.startsWith("via:")).filter((k,i)=>day.d===1||i>0).filter(k=>SP[k]);if(day.d===12)s.unshift("hall");if(day.d===0)s.push("volc","nauth");if(day.d===1)s.unshift("graik");if(day.d===11)s.push("thing");if(day.d===4)s.push("geosea","leir");return [...new Set(s)]};
 const spotHTML=day=>{const ks=spotsOf(day);if(!ks.length)return"";
   return `<div class="sub2">景點介紹和注意事項</div><div class="spots">${ks.map(k=>`<details data-spot="${k}"><summary>${SP[k].t}</summary><p>${SP[k].d}</p>${SP[k].w.length?`<ul>${SP[k].w.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}</details>`).join("")}</div>`};
-const tipsHTML=()=>`<details class="tips"><summary>出發前必讀：注意事項</summary><dl>${TIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></details>`;
+const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl>${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</details>`;
 
 
 const TAGS={y:"你同朋友",n:"唔浮潛的人",w:"唔觀鯨的人"};
@@ -632,7 +641,7 @@ $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href=
 calc();
 
 /* page tabs */
-$("tips").innerHTML=`<h2 style="margin-top:0">出發前必讀：注意事項</h2><dl class="tipsdl">${TIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+$("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2>`+TIPS.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("");
 function view(v){
   $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";
   ["trip","tips","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
