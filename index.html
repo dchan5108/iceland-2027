@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="冰島 2027">
 <style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>2027 冰島（暫定行程）</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
 /* Layout: header + stat chips, tabs (trip / tips / budget); trip view = toggles, sticky day bar, zoomable map, overview or one day card as a timeline, floating day nav */
 :root{
@@ -32,7 +32,7 @@
   --stay:#ff6a62; --spot:#e4eceb; --chg:#c3a2ff; --chg-bg:#2a2140; --meal:#e6b660; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
 .wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:20px 40px}
-h1{font-family:var(--serif);font-weight:600;font-size:1.7rem;margin:0;text-wrap:balance}
+h1{font-family:var(--sans);font-weight:600;font-size:1.7rem;margin:0;text-wrap:balance}
 h2{font-size:1.05rem;font-weight:700;margin:22px 0 8px}
 .sub{color:var(--muted);margin:4px 0 12px}
 button{font:inherit}
@@ -243,7 +243,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .btn.ghostb{background:transparent;color:var(--route)}
 .legend{margin:10px 2px 2px}
 .day{background:var(--card);border:0;border-radius:18px;box-shadow:var(--shadow);padding:18px 20px;max-width:780px}
-.day h3{font-family:var(--serif);font-size:1.25rem;align-items:baseline;margin-bottom:8px}
+.day h3{font-family:var(--sans);font-size:1.25rem;align-items:baseline;margin-bottom:8px}
 .day h3 small{font-family:var(--sans)}
 .dnote{background:var(--bg);border-radius:10px;border:0;border-left:4px solid var(--stay)}
 .sched.rich{grid-template-columns:5.6em minmax(0,1fr);row-gap:0;margin-top:6px}
@@ -294,13 +294,22 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .gfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .gfood{background:var(--card);border-radius:14px;box-shadow:var(--shadow);border-top:4px solid var(--dc);padding:12px 14px;font-size:13.5px}
 .gfh{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12.5px}.gfd{background:var(--dc);color:#fff;border-radius:999px;padding:0 8px;font-weight:700}
-.gfn{font-family:var(--serif);font-size:1.08rem;font-weight:600;margin:4px 0 6px}
+.gfn{font-family:var(--sans);font-size:1.08rem;font-weight:600;margin:4px 0 6px}
 .gfdl{display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:3px 8px;margin:0 0 6px}.gfdl dt{color:var(--muted)}.gfdl dd{margin:0}
 .gfalt{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line)}.gfalt ul{margin:4px 0 0;padding-left:18px}
 .gtw{overflow-x:auto;max-width:100%}.gt{border-collapse:collapse;font-size:13px;min-width:620px;width:100%;background:var(--card);border-radius:10px;overflow:hidden}
 .gt th,.gt td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}.gt th{background:var(--sea);font-weight:700;font-size:12.5px}.gt .gn{font-weight:600}
 .btable tr.cat td{cursor:pointer;user-select:none}.btable tr.cat .cari{display:inline-block;width:1.2em;color:var(--muted)}
 .must{color:var(--meal);font-size:12.5px}
+/* one typeface everywhere */
+:root{--serif:var(--sans)}
+body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
+.gstay{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.gst{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;font-size:13.5px}
+.gsth{display:flex;justify-content:space-between;align-items:center;gap:8px}.gsts{font-size:12px;border-radius:999px;padding:1px 9px;background:var(--sea);color:var(--muted);white-space:nowrap}
+.gsts.ok{background:#e3ece2;color:#4d6b52}.gsts.chg{background:#f3e2da;color:#9a5a45}
+.gsta{color:var(--route);font-weight:600;margin-top:2px}.gstw{margin:4px 0 6px;color:var(--muted)}
+.gstl ul{margin:2px 0 6px;padding-left:18px}.gstl>b{font-size:12.5px;color:var(--meal)}
 </style>
 
 </head>
@@ -1145,13 +1154,30 @@ const BOOK=[
   ["旅遊保險","出發前","—","訂機票後","包取消、醫療、租車自負額"],
   ["safetravel.is 行程登記","出發前","safetravel.is","出發前一星期","免費"]]]
 ];
+/* accommodation ideas per night: [night, area, status, why, cheaper options, convenient options] */
+const STAYS=[
+ ["9/12（D1）","雷克雅維克 Reykjavík","未訂","藍湖之後入住，第二朝去斯奈山半島",[["市中心 Airbnb 整間公寓（3–4 房）","7 人分攤通常最平，有廚房"],["Loft HI Hostel（Bankastræti 7）","青年旅舍私人房，市中心"]],[["揀有免費泊車位的住處","市中心路邊停車要收費，兩部車揀 101 區外圍（例如 Laugardalur）較易泊"]]],
+ ["9/13（D2）","Miðhraun（斯奈山半島）","已揀","Miðhraun - Lava Resort，4 房 apartment，酒店有餐廳",[],[]],
+ ["9/14（D3）","阿克雷里 Akureyri","已揀","K16 Apartments，市區，行路去食飯同超市",[],[]],
+ ["9/15（D4）","米湖 Mývatn","未訂","Hverir、米湖溫泉、D5 去黛提瀑布都近",[["Hlíð 營地小屋（Reykjahlíð）","最平，有共用廚房；鎮上有超市同油站"],["Airbnb／農莊小屋","米湖區選擇少，要早訂"]],[["Vogafjós Farm Resort","有餐廳（Vogafjós 牛棚餐廳），晚餐唔使開車"],["Dimmuborgir Guesthouse","湖邊小屋，近 Dimmuborgir"]]],
+ ["9/16（D5）","埃伊爾斯塔濟 Egilsstaðir","未訂","Vök Baths 喺附近，D6 去藍色教堂順路",[["Airbnb 整間屋","鎮上選擇多，有 Bónus、Nettó 超市"]],[["Lake Hotel Egilsstaðir","湖邊酒店，有餐廳"]]],
+ ["9/17（D6）","赫本 Höfn","未訂","晚餐行路去 Pakkhús，第二朝 Ósland 睇日出",[["Höfn HI Hostel","青年旅舍家庭房，有廚房"],["港口附近 Airbnb","行路去餐廳同港口"]],[["港口一帶酒店／民宿","晚餐、日出都唔使開車"]]],
+ ["9/18–9/20（D7–D8，連住 2 晚）","冰河湖以西：Hof／Svínafell／斯卡夫塔山 Skaftafell","建議改","網頁車程按呢個位置計；D8 去冰川健行最近，D9 唔使走回頭路",[["Nónhamar Cottages（Hof）","獨立小木屋，有廚房；2 間大屋（每間 3 人）＋ 1 間細屋（2 人）"],["Litla-Hof Guesthouse（Hof）","平價民宿，共用浴室，另有小屋"]],[["Adventure Hotel Hof","三星酒店，包早餐，喺 Hofskirkja 隔籬"],["Hotel Skaftafell（Freysnes）／Svínafell 一帶民宿","離健行集合點最近"]]],
+ ["9/20（D9）","維克 Vík","未訂","雷尼斯黑沙灘、迪霍拉里之後入住；鎮上有超市同餐廳",[["Vík HI Hostel（Norður-Vík）","青年旅舍家庭房，有廚房"],["Airbnb 整間屋","7 人分攤"]],[["鎮中心酒店／民宿","行路去 Smiðjan Brugghús 等餐廳"]]],
+ ["9/21（D10）","塞爾福斯 Selfoss","未訂","騎馬、水簾洞瀑布之後入住；D11 去黃金圈近",[["Airbnb 整間屋","塞爾福斯同 Hveragerði 選擇多，較雷克雅維克平"]],[["鎮中心住處","行路去 Mjólkurbúið 美食廣場"]]],
+ ["9/22（D11）","雷克雅維克 Reykjavík","未訂","最後一晚；第二朝市區半日遊再去機場",[["Airbnb 整間公寓","同 D1 一樣，揀有泊車位的"]],[["市中心酒店","行路去 Hallgrímskirkja、熱狗同購物街"]]]
+];
+const STAYTIPS=[["點樣最平","7 人訂整間屋（3–4 房、有廚房）通常比 4 間酒店房平好多；可以每晚自己煮晚餐"],["點樣最方便","揀有免費泊車位、可以自助入住（key box）的住處；兩部車都要泊到"],["訂房","9 月仍係旺季，揀「免費取消」先訂住，之後再慢慢比較；冰河湖一帶最早滿"],["睡床","睇清楚係咪真床，唔好太多梳化床；問清楚毛巾同床單有冇包"],["Hof／米湖一帶","附近冇大超市，入住前喺大鎮（赫本 Höfn、阿克雷里 Akureyri）買定食物"]];
 function renderGuide(){
   const tbl=(h,rows)=>`<h3 class="tiph">${h}</h3><div class="gtw"><table class="gt"><thead><tr><th>項目</th><th>日子／時間</th><th>點訂</th><th>提早幾耐</th><th>備註</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c||"—"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   const food=GFOOD.map(([d,meal,m,alts])=>{const day=days.find(x=>x.d===d);return `<article class="gfood" style="--dc:${dayCol(d)}"><div class="gfh"><span class="gfd">D${d}</span><span>${day?day.date:""}・${meal}</span></div>
    <div class="gfn">${m.n}</div><dl class="gfdl"><dt>地址</dt><dd>${m.a}</dd><dt>營業時間</dt><dd>${m.h}</dd><dt>必點</dt><dd>${m.m}</dd><dt>預算</dt><dd>${m.b}</dd><dt>訂位</dt><dd>${m.r}</dd></dl>
    ${m.a!=="—"&&m.a!=="住處"?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.n+" "+m.a)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}
    <div class="gfalt"><b>替代方案（店休或客滿）</b><ul>${alts.map(([n,t])=>`<li><b>${n}</b>${t?"："+t:""}</li>`).join("")}</ul></div></article>`}).join("");
-  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-save">省錢攻略</a><a href="#g-book">訂位與預約清單</a></nav>
+  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-stay">住宿建議</a><a href="#g-save">省錢攻略</a><a href="#g-book">訂位與預約清單</a></nav>
+   <section id="g-stay"><h2>住宿建議</h2><p class="bnote">價錢以訂房網站 9 月實價為準；7 人建議訂整間屋或者幾間相連的房。</p>
+    <div class="gstay">${STAYS.map(([n,a,st,why,cheap,conv])=>`<article class="gst"><div class="gsth"><b>${n}</b><span class="gsts ${st==="已揀"?"ok":st==="建議改"?"chg":""}">${st}</span></div><div class="gsta">${a}</div><p class="gstw">${why}</p>${cheap.length?`<div class="gstl"><b>平啲</b><ul>${cheap.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}${conv.length?`<div class="gstl"><b>方便啲</b><ul>${conv.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}</article>`).join("")}</div>
+    <h3 class="tiph">點揀住宿</h3><dl class="tipsdl">${STAYTIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></section>
    <section id="g-save"><h2>省錢攻略</h2>${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
    <section id="g-book"><h2>訂位與預約清單</h2>${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
   $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
