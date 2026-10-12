@@ -290,7 +290,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .day[style] h3{color:var(--fg)}
 #map g.st{transition:opacity .2s}
 .gnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}.gnav a{font-size:13.5px;padding:5px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--route);text-decoration:none}
-#guide section{scroll-margin-top:12px}#guide h2{margin-top:26px}
+#guide section,#bookp section{scroll-margin-top:12px}#guide h2,#bookp h2{margin-top:26px}
 .gfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .gfood{background:var(--card);border-radius:14px;box-shadow:var(--shadow);border-top:4px solid var(--dc);padding:12px 14px;font-size:13.5px}
 .gfh{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12.5px}.gfd{background:var(--dc);color:#fff;border-radius:999px;padding:0 8px;font-weight:700}
@@ -332,6 +332,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
     <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
     <button type="button" role="tab" id="tab-guide" aria-selected="false" aria-controls="guide">攻略</button>
+    <button type="button" role="tab" id="tab-book" aria-selected="false" aria-controls="bookp">預訂</button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
   </nav>
 
@@ -373,6 +374,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
   <section id="guide" role="tabpanel" aria-labelledby="tab-guide" hidden></section>
+  <section id="bookp" role="tabpanel" aria-labelledby="tab-book" hidden></section>
 
   <section class="budget" id="budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
     <h2 style="margin-top:0">預算估算</h2>
@@ -508,15 +510,13 @@ const PRE=[
  {d:-5,date:"9/6（一）",only:DTO,stay:"雷克雅維克 Reykjavík（自行預訂）",legs:[],summary:"落機 → 雷克雅維克 → 徒步準備",
   plan:[["07:50","AY991 抵達 KEF（9/5 香港 20:55 起飛，經赫爾辛基）","c"],["約 09:00","坐 Flybus 去雷克雅維克 BSÍ 巴士站（約 45 分鐘；班次上 re.is 查）","c"],["10:00","去住處放行李（入住時間要確認，唔得就先寄存）"],["10:30–11:30","早午餐：Brauð & Co 肉桂卷或者 Sandholt","m"],["11:30–13:30","買徒步補給：Bónus 超市乾糧、零食；戶外用品店補裝備（行山氣罐唔可以帶上機，要喺冰島先買）"],["14:00–15:30","Sundhöllin 市中心泳池：地熱熱水池，舒緩長途機"],["16:00","返住處休息、執背囊，早啲瞓調時差"],["18:30","晚餐：Messinn 或 Hlemmur Mathöll 美食廣場","m"]],
   notes:[["香港快冰島 8 個鐘，今日下晝會好眼瞓；瞓個短覺最多 30 分鐘，夜晚早啲瞓"],["徒步唔帶的行李，可以寄存喺住處或 BSÍ 行李寄存處"]]},
- {d:-4,date:"9/7（二）",only:DTO,stay:"高地山屋／營地（徒步第 1 晚）",legs:[],summary:"休息 → 19:00 高地徒步出發",
-  plan:[["上午","休息、最後執裝備；睇 safetravel.is 同 vedur.is 天氣警告"],["中午","午餐：市中心","m"],["下晝","寄存唔帶上山的行李；去超市買埋最後補給"],["19:00","高地徒步出發（集合地點同交通按徒步團或巴士安排）","c"]],
-  notes:[["出發前喺 safetravel.is 登記行程"],["高地好多地方冇電話訊號，同大隊講好幾時再聯絡"]]},
- {d:-3,date:"9/8（三）",only:DTO,stay:"高地山屋／營地",legs:[],summary:"高地徒步",plan:[["全日","高地徒步（第 2 日）","c"]]},
- {d:-2,date:"9/9（四）",only:DTO,stay:"高地山屋／營地",legs:[],summary:"高地徒步",plan:[["全日","高地徒步（第 3 日）","c"]]},
- {d:-1,date:"9/10（五）",only:DTO,stay:"雷克雅維克 Reykjavík（自行預訂）",legs:[],summary:"高地徒步 → 21:00 返雷克雅維克",plan:[["全日","高地徒步（最後一日）","c"],["21:00","徒步完結，返到雷克雅維克住處","c"]]}
+ {d:-4,date:"9/7（二）– 9/10（五）",only:DTO,stay:"高地山屋／營地（9/7–9/9）；9/10 返雷克雅維克 Reykjavík",legs:[],summary:"高地徒步（4 日）",
+  plan:[["9/7 上午","休息、最後執裝備；睇 safetravel.is 同 vedur.is 天氣警告"],["9/7 中午","午餐：市中心","m"],["9/7 下晝","寄存唔帶上山的行李；去超市買埋最後補給"],["9/7 19:00","高地徒步出發（集合地點同交通按徒步團或巴士安排）","c"],["9/8","高地徒步（第 2 日）","c"],["9/9","高地徒步（第 3 日）","c"],["9/10","高地徒步（最後一日）","c"],["9/10 21:00","徒步完結，返到雷克雅維克住處","c"]],
+  notes:[["出發前喺 safetravel.is 登記行程"],["高地好多地方冇電話訊號，同大隊講好幾時再聯絡"]]}
 ];
 if(DT){days.unshift(...PRE);const v=+(store.get("iceland-day2")??ALL);if(days.some(x=>x.d===v))sel=v}
-const dLab=d=>d<0?(days.find(x=>x.d===d)||{date:""}).date.replace(/（.*）/,""):`D${d}`;
+else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.some(x=>x.d===sel))sel=ALL}
+const dLab=d=>d<0?(days.find(x=>x.d===d)||{date:""}).date.replace(/（[^）]*）/g,"").replace(/\s/g,""):`D${d}`;
 const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-OFS;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
 const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
 const hr=s=>REAL?s:s.replace(/（實際車程約[^）]*）/g,"").replace(/，實際約 ?[\d小時分鐘 ]+/g,"");
@@ -1222,18 +1222,20 @@ function renderGuide(){
   const FL=[["墨爾本 → 香港","9/4（六）","QF29","10:15 → 17:55","直航，9 小時 40 分鐘"],["香港 → 冰島 KEF","9/5（日）","AY100＋AY991","20:55 → 9/6（一）07:50","經赫爾辛基，18 小時 55 分鐘"],["冰島 KEF → 香港","9/23（四）","AY994＋AY99","17:15 → 9/24（五）17:40","經赫爾辛基，16 小時 25 分鐘"],["香港 → 墨爾本","9/25（六）","QF30","20:05 → 9/26（日）07:20","直航，9 小時 15 分鐘"]];
   const flights=DT?`<section id="g-fly"><h2>機票（Dorcas）</h2><div class="gtw"><table class="gt"><thead><tr><th>航段</th><th>日期</th><th>航班</th><th>時間（當地）</th><th>備註</th></tr></thead><tbody>${FL.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
    <dl class="tipsdl"><dt>積分</dt><dd>香港來回冰島：103,600 分＋HKD 951（Economy Classic Reward）；墨爾本來回香港：86,900 分＋AUD 329（回程係 Classic Plus）</dd><dt>改期</dt><dd>有 Classic Plus 的訂單取消只可以退款，唔可以留做 Flight Credit；改期要補差價</dd><dt>Tebe</dt><dd>香港飛冰島（暫定，航班待確認）</dd></dl></section>`:"";
-  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav">${DT?`<a href="#g-fly">機票</a>`:""}<a href="#g-stay">住宿建議</a><a href="#g-save">省錢攻略</a><a href="#g-book">訂位與預約清單</a></nav>
-   ${flights}<section id="g-stay"><h2>住宿建議</h2><p class="bnote">價錢以訂房網站 9 月實價為準；7 人建議訂整間屋或者幾間相連的房。</p>
+  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-stay">住宿建議</a><a href="#g-save">省錢攻略</a></nav>
+   <section id="g-stay"><h2>住宿建議</h2><p class="bnote">價錢以訂房網站 9 月實價為準；7 人建議訂整間屋或者幾間相連的房。</p>
     <div class="gstay">${STAYS.map(([n,a,st,why,cheap,conv])=>`<article class="gst"><div class="gsth"><b>${n}</b><span class="gsts ${st==="已揀"?"ok":st==="建議改"?"chg":""}">${st}</span></div><div class="gsta">${a}</div><p class="gstw">${why}</p>${cheap.length?`<div class="gstl"><b>平啲</b><ul>${cheap.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}${conv.length?`<div class="gstl"><b>方便啲</b><ul>${conv.map(([x,y])=>`<li><b>${x}</b>：${y}</li>`).join("")}</ul></div>`:""}</article>`).join("")}</div>
     <h3 class="tiph">點揀住宿</h3><dl class="tipsdl">${STAYTIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></section>
    <section id="g-save"><h2>省錢攻略</h2>${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
-   <section id="g-book"><h2>訂位與預約清單</h2>${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
+`;
+  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
+  $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
   $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
 renderGuide();
 function view(v){
-  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";$("guide").hidden=v!=="guide";
-  ["trip","tips","guide","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
+  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";$("guide").hidden=v!=="guide";$("bookp").hidden=v!=="book";
+  ["trip","tips","guide","book","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
   
   window.scrollTo(0,0);
 }
@@ -1241,6 +1243,8 @@ $("tab-trip").addEventListener("click",()=>view("trip"));
 $("tab-budget").addEventListener("click",()=>view("budget"));
 $("tab-tips").addEventListener("click",()=>view("tips"));
 $("tab-guide").addEventListener("click",()=>view("guide"));
+$("tab-book").addEventListener("click",()=>view("book"));
+if(location.hash==="#book")view("book");
 if(location.hash==="#guide")view("guide");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
