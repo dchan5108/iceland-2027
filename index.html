@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>html{color-scheme:light}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>2027 冰島（暫定行程）</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap">
 <style>
-/* Layout: page tabs (trip / budget); trip view = backup-plan switch, day chips, schematic map with south-coast inset, then either a compact 12-day overview or one selected day's card */
+/* Layout: header + stat chips, tabs (trip / tips / budget); trip view = toggles, sticky day bar, zoomable map, overview or one day card as a timeline, floating day nav */
 :root{
   --bg:#f6f8f8; --fg:#1d2a2e; --muted:#5d6d72; --line:#d6dfe1;
   --sea:#e3eef2; --land:#eef0ea; --coast:#b9c7c4;
@@ -203,13 +203,81 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sday .sched{font-size:11px;grid-template-columns:5.2em minmax(0,1fr);row-gap:1px}
 .sday .ytag{font-size:9.5px}
 .sday .stayline{margin-top:4px;font-size:11px}
+/* redesign: icy palette, cards, sticky day bar, interactive map, timeline schedule, floating day nav */
+:root{--bg:#eef3f4;--card:#ffffff;--fg:#14242c;--muted:#5a6c73;--line:#d8e2e5;--sea:#d6e6ec;--land:#f5f3ec;--coast:#a7bbb7;--route:#1d6e8a;--pill:#ffffff;--pill-fg:#15506a;--stay:#c43f2c;--spot:#14242c;--meal:#94600d;--chg:#6d45c6;--chg-bg:#f0eafc;--shadow:0 1px 2px rgba(20,36,44,.06),0 6px 18px rgba(20,36,44,.07)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f171b;--card:#172228;--fg:#e3ecec;--muted:#97a9ad;--line:#26353b;--sea:#13232b;--land:#22302f;--coast:#3b4e4f;--route:#78c3dc;--pill:#172228;--pill-fg:#b6e2ef;--stay:#ff6b5c;--spot:#e3ecec;--meal:#e3b25c;--chg:#c0a0ff;--chg-bg:#2a2140;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f171b;--card:#172228;--fg:#e3ecec;--muted:#97a9ad;--line:#26353b;--sea:#13232b;--land:#22302f;--coast:#3b4e4f;--route:#78c3dc;--pill:#172228;--pill-fg:#b6e2ef;--stay:#ff6b5c;--spot:#e3ecec;--meal:#e3b25c;--chg:#c0a0ff;--chg-bg:#2a2140;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);color-scheme:dark}
+body{background:var(--bg)}
+.wrap{max-width:1100px;padding-block:22px 110px}
+h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
+.sub{margin:2px 0 10px}
+.stats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.stats span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px;color:var(--muted)}
+.stats b{color:var(--fg);font-variant-numeric:tabular-nums}
+.tabs{border:0;gap:6px;background:var(--card);padding:4px;border-radius:12px;box-shadow:var(--shadow);width:fit-content;max-width:100%}
+.tabs button{border:0;border-radius:9px;margin:0;padding:7px 14px}
+.tabs button[aria-selected="true"]{background:var(--route);color:var(--card)}
+.topbar{gap:8px 16px;margin:4px 0 8px}
+.chips{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--bg);flex-wrap:nowrap;overflow-x:auto;padding:8px 2px;margin:0 -2px 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:0 0 auto;background:var(--card);border-color:var(--line);padding:6px 13px}
+.mapbox{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.mapbox svg{width:100%;min-width:0;height:clamp(300px,64vw,700px);touch-action:none;cursor:grab;outline:none}
+.mapbox svg:active{cursor:grabbing}
+.mapctl{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px}
+.mapctl button{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:18px;line-height:1;cursor:pointer;box-shadow:var(--shadow)}
+.maphint{position:absolute;left:10px;bottom:10px;font-size:11.5px;color:var(--muted);background:var(--card);border-radius:8px;padding:2px 8px;opacity:.92;pointer-events:none}
+.pop{background:var(--card);border-radius:14px;box-shadow:var(--shadow);border-left:4px solid var(--route);padding:12px 14px;margin:10px 0 4px;font-size:14px}
+.poph{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.popx{border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
+.pop p{margin:4px 0 10px}
+.popb{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-block;font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--route);color:var(--card);text-decoration:none;border:1px solid var(--route);cursor:pointer}
+.btn.ghostb{background:transparent;color:var(--route)}
+.legend{margin:10px 2px 2px}
+.day{background:var(--card);border:0;border-radius:18px;box-shadow:var(--shadow);padding:18px 20px;max-width:780px}
+.day h3{font-family:var(--serif);font-size:1.25rem;align-items:baseline;margin-bottom:8px}
+.day h3 small{font-family:var(--sans)}
+.dnote{background:var(--bg);border-radius:10px;border:0;border-left:4px solid var(--stay)}
+.sched.rich{grid-template-columns:5.6em minmax(0,1fr);row-gap:0;margin-top:6px}
+.sched.rich .t{padding:6px 0;font-size:13px}
+.sched.rich .a{position:relative;padding:6px 0 8px 16px;border-left:2px solid var(--line)}
+.sched.rich .a::before{content:"";position:absolute;left:-7px;top:.85em;width:12px;height:12px;border-radius:50%;background:var(--card);border:2.5px solid var(--route)}
+.sched.rich .a.m::before{border-color:var(--meal)}
+.sched.rich .a.y{border-left:2px dashed var(--chg);padding-left:16px}
+.sched.rich .a.y::before{border-color:var(--chg)}
+.spd{background:var(--bg);border:0;border-radius:10px;padding:10px 12px;margin-top:8px}
+.eatbox{background:var(--bg);border-radius:10px;padding:8px 12px}
+.ov{gap:8px}
+.ovrow{background:var(--card);border:0;border-radius:14px;box-shadow:var(--shadow);padding:10px 14px}
+.daynav{max-width:780px}
+.fnav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;gap:4px;background:var(--card);border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.18);padding:5px}
+.fnav[hidden],.pop[hidden]{display:none}
+.fnav button{border:0;background:transparent;color:var(--fg);font-size:14px;font-weight:500;padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.fnav button:not(:disabled):hover{background:var(--bg)}
+.fnav button:disabled{opacity:.35;cursor:default}
+.fnav #fall{color:var(--route)}
+#tips,.budget{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px 20px}
+.btable .item{background:var(--card)}
+@media (max-width:560px){
+  .wrap{padding-inline:12px}
+  .day{padding:14px 14px;border-radius:16px}
+  .sched.rich{grid-template-columns:4.7em minmax(0,1fr)}
+  .sched.rich .t{font-size:12px}
+  .tabs{width:100%}.tabs button{flex:1}
+  .mapctl button{width:40px;height:40px}
+}
+.print .fnav,.print .mapctl,.print .maphint,.print .pop,.print .stats{display:none!important}
+.print .mapbox svg{height:auto;aspect-ratio:1000/690}
+.print .day,.print .ovrow{box-shadow:none;border:1px solid var(--line)}
 </style>
 
 </head>
 <body>
 <div class="wrap">
   <h1>2027 冰島（暫定行程）</h1>
-  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 12 天 · 7 人 2 車</p>
+  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島</p>
+  <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span><span>9/23 <b>17:15</b> 起飛</span></div>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
     <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
@@ -230,20 +298,25 @@ details.more p{margin:6px 0 0;max-width:80ch}
     </div>
 
     <div class="chips" id="chips" role="group" aria-label="選擇日子"></div>
-    <div class="mapbox"><svg id="map" viewBox="0 0 1000 785" role="img" aria-label="2027 冰島路線圖"></svg></div>
+    <div class="mapbox"><svg id="map" viewBox="0 10 1000 690" tabindex="0" role="img" aria-label="2027 冰島路線圖，可以拖動和縮放"></svg>
+      <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button></div>
+      <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div>
+    </div>
+    <div id="pop" class="pop" hidden></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--stay)"></i>住宿</span>
       <span><i class="dot" style="background:var(--spot)"></i>景點</span>
-      <span><i class="bar"></i>路線 · 方框為車程</span>
+      <span><i class="bar"></i>路線（放大後顯示車程）</span>
       <span><i class="dot" style="background:var(--land);border:2px dashed var(--meal);width:9px;height:9px"></i>推薦可選（名稱見每日卡片）</span>
     </div>
     <details class="more">
       <summary>地圖說明和極光</summary>
-      <p>車程和時間表已按實際車程多預留約兩成（每段至少多 10 分鐘），地圖方框顯示的是預留時間。車程為約數，不含停留時間；地圖上的路線是直線示意，不是實際道路。南岸景點太密，在左下角放大顯示。少於 30 分鐘的短程只列在每日車程裡。手機可左右滑動地圖。每段車程都可以按一下，用 Google Maps 開實際路線。</p>
+      <p>車程和時間表已按實際車程多預留約兩成（每段至少多 10 分鐘），地圖方框顯示的是預留時間。車程為約數，不含停留時間；地圖上的路線是直線示意，不是實際道路。揀日子時地圖會自動放大到當日路線；可以兩隻手指縮放、拖動，撳景點會彈出簡介和 Google Maps 連結。少於 30 分鐘的短程只列在每日車程裡。每段車程都可以按一下，用 Google Maps 開實際路線。</p>
       <p>極光：9 月中天黑後已有機會看到，條件是天黑、無雲、極光活動夠強。每晚 21:00 後按「極光預報」看雲量和極光指數。2027 年 9 月 15 日前後是滿月，月光會令極光變淡；行程後半段月光漸弱，機會較好。每日卡片上的「極光機會」只按月光和市區光害估算，不是預報；真正的機率要出發前兩三天看冰島氣象局的極光預報（雲量和極光指數）。</p>
     </details>
 
     <div id="panel" aria-live="polite"></div>
+    <nav class="fnav" id="fnav" aria-label="日子導航" hidden><button type="button" id="fprev">‹ 前一日</button><button type="button" id="fall">全部日子</button><button type="button" id="fnext">後一日 ›</button></nav>
   </div>
 
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
@@ -367,58 +440,88 @@ const fmt=m=>m<60?`${m} 分`:(m%60?`${Math.floor(m/60)} 小時 ${m%60} 分`:`${m
 const short=m=>m<60?`${m}分`:(m%60?`${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}`:`${m/60}h`);
 const NS="http://www.w3.org/2000/svg", svg=$("map");
 const el=(t,a,txt,par=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;par.appendChild(e);return e};
-const OFF={r:[11,4,"start"],l:[-11,4,"end"],t:[0,-11,"middle"],b:[0,18,"middle"]};
-const label=(x,y,side,name,stay,c0,par)=>{const o=OFF[side],c=0;return el("text",{x:x+o[0],y:y+o[1],"text-anchor":o[2],"font-size":stay?14:12.5,"font-weight":stay||c?700:500,fill:stay?"var(--stay)":(c?"var(--chg)":"var(--fg)"),"paint-order":"stroke",stroke:"var(--land)","stroke-width":3.5,"stroke-linejoin":"round","font-family":"var(--sans)"},name,par)};
+/* interactive map: pan / pinch / wheel zoom, labels and pills keep a constant on-screen size */
+const OFF={r:[0,0,"start"],l:[0,0,"end"],t:[0,0,"middle"],b:[0,0,"middle"]};
+const FULL={x:0,y:10,w:1000,h:690};
+let VB={...FULL},PD={},PRINT=false;
 const dotc=k=>pts[k][3]==="stay"?"var(--stay)":"var(--spot)";
-const legStyle=(g,d)=>({stroke:"var(--route)","stroke-width":2.2,"stroke-linecap":"round","stroke-dasharray":(d===1||d===12)?"5 4":"none",opacity:.9});
-const RG={x0:395,y0:625,x1:515,y1:700},S=2.2,IX=20,IY=600,IW=(RG.x1-RG.x0)*S,IH=(RG.y1-RG.y0)*S;
-const T=([x,y])=>[IX+(x-RG.x0)*S,IY+(y-RG.y0)*S];
-
-let PD={};
 function drawMap(){
   svg.textContent="";
-  const D=days.map(R);
-  const ptDays={};
+  const D=days.map(R),ptDays={};
   D.forEach(day=>day.legs.forEach(l=>[l.a,l.b].forEach(k=>(ptDays[k]=ptDays[k]||new Set()).add(day.d))));
   const dd=k=>[...(ptDays[k]||[])].join(" ");PD=ptDays;
-  el("polygon",{points:coast.map(c=>P(...c).join(",")).join(" "),fill:"var(--land)",stroke:"var(--coast)","stroke-width":1.2,"stroke-linejoin":"round"});
+  el("rect",{x:-3000,y:-3000,width:7000,height:7000,fill:"var(--sea)"});
+  el("polygon",{points:coast.map(c=>P(...c).join(",")).join(" "),fill:"var(--land)",stroke:"var(--coast)","stroke-width":1.2,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
   const pills=[];
   D.forEach(day=>day.legs.forEach(g=>{
     const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]);
-    el("line",{x1,y1,x2,y2,...legStyle(g,day.d),"data-day":day.d});
-    if(g.m>=30&&!g.hide)pills.push([(x1+x2)/2+(g.dx||0),(y1+y2)/2+(g.dy||0),short(dT(g.m)),g.c,day.d]);
+    el("line",{x1,y1,x2,y2,stroke:"var(--route)","stroke-width":2.6,"stroke-linecap":"round","stroke-dasharray":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke",opacity:.9,"data-day":day.d});
+    if(g.m>=30&&!g.hide)pills.push([(x1+x2)/2,(y1+y2)/2,short(dT(g.m)),day.d]);
   }));
-  el("rect",{x:RG.x0,y:RG.y0,width:RG.x1-RG.x0,height:RG.y1-RG.y0,fill:"none",stroke:"var(--muted)","stroke-width":1,"stroke-dasharray":"3 3",rx:4});
+  days.forEach(day=>(day.opt||[]).forEach(o=>{if(!o.k)return;const [name,lon,lat]=pts[o.k],[x,y]=P(lon,lat);
+    const c=el("circle",{cx:x,cy:y,class:"pt opt","data-r":5.5,fill:"var(--card)",stroke:"var(--meal)","stroke-width":2,"stroke-dasharray":"2 2","vector-effect":"non-scaling-stroke","data-days":String(day.d),"data-key":o.k});
+    el("title",{},name+"（可選）",c);PD[o.k]=PD[o.k]||new Set([day.d])}));
   for(const k in pts){
     if(!ptDays[k])continue;
-    const [name,lon,lat,type,side,c]=pts[k],[x,y]=P(lon,lat),stay=type==="stay";
-    el("circle",{cx:x,cy:y,r:stay?(side?7:5):(side?4.4:3),fill:dotc(k),stroke:"var(--land)","stroke-width":stay?2:1.2,"data-days":dd(k),"data-key":k});
-    if(side){const t=label(x,y,side,name,stay,c);t.setAttribute("data-days",dd(k));t.setAttribute("data-key",k)}
+    const [name,lon,lat,type,side,,iside]=pts[k],[x,y]=P(lon,lat),stay=type==="stay";
+    el("circle",{cx:x,cy:y,class:"pt"+(stay?" stay":""),"data-r":stay?7:4.6,fill:dotc(k),stroke:"var(--land)","stroke-width":stay?2:1.4,"vector-effect":"non-scaling-stroke","data-days":dd(k),"data-key":k});
+    const sd=side||iside;if(!sd)continue;
+    el("text",{class:"lbl"+(stay?" stay":"")+(side?"":" dense"),"data-x":x,"data-y":y,"data-side":sd,"data-fs":stay?14:12.5,"text-anchor":OFF[sd][2],"font-weight":stay?700:500,fill:stay?"var(--stay)":"var(--fg)","paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)","data-days":dd(k),"data-key":k},name);
   }
-  pills.forEach(([x,y,t,c,d])=>{
-    const w=t.length*7.6+12;
-    el("rect",{x:x-w/2,y:y-10,width:w,height:20,rx:5,fill:"var(--pill)",stroke:"var(--route)","stroke-width":1,"data-day":d});
-    el("text",{x,y:y+4.5,"text-anchor":"middle","font-size":12.5,"font-weight":500,fill:"var(--pill-fg)","font-family":"var(--sans)","data-day":d},t);
-  });
-  days.forEach(day=>(day.opt||[]).forEach(o=>{if(!o.k)return;const [name,lon,lat]=pts[o.k],[x,y]=P(lon,lat);
-    const c=el("circle",{cx:x,cy:y,r:5.5,fill:"var(--land)",stroke:"var(--meal)","stroke-width":2,"stroke-dasharray":"2 2","data-days":String(day.d),"data-key":o.k});
-    el("title",{},name+"（可選）",c);PD[o.k]=new Set([day.d])}));
-  el("text",{x:IX,y:IY-7,"font-size":12.5,"font-weight":700,fill:"var(--muted)","font-family":"var(--sans)"},"南岸放大（D9–D10）");
-  const defs=el("defs",{}),cp=el("clipPath",{id:"inset"},null,defs);el("rect",{x:IX,y:IY,width:IW,height:IH},null,cp);
-  const g=el("g",{"clip-path":"url(#inset)"});
-  el("rect",{x:IX,y:IY,width:IW,height:IH,fill:"var(--sea)"},null,g);
-  el("polygon",{points:coast.map(c=>T(P(...c)).join(",")).join(" "),fill:"var(--land)",stroke:"var(--coast)","stroke-width":1.2},null,g);
-  D.forEach(day=>day.legs.forEach(l=>{
-    const [x1,y1]=T(P(pts[l.a][1],pts[l.a][2])),[x2,y2]=T(P(pts[l.b][1],pts[l.b][2]));
-    el("line",{x1,y1,x2,y2,...legStyle(l,day.d),"data-day":day.d},null,g);
-  }));
-  el("rect",{x:IX,y:IY,width:IW,height:IH,fill:"none",stroke:"var(--muted)","stroke-width":1,rx:4});
-  for(const k in pts){
-    const [name,lon,lat,type,,c,iside]=pts[k];if(!iside||!ptDays[k])continue;
-    const [x,y]=T(P(lon,lat)),stay=type==="stay";
-    el("circle",{cx:x,cy:y,r:stay?7:4.6,fill:dotc(k),stroke:"var(--land)","stroke-width":stay?2:1.4,"data-days":dd(k),"data-key":k});
-    const t=label(x,y,iside,name,stay,c);t.setAttribute("data-days",dd(k));t.setAttribute("data-key",k);
-  }
+  pills.forEach(([x,y,t,d])=>{const g=el("g",{class:"pill","data-day":d,"data-x":x,"data-y":y,"data-n":t.length});
+    el("rect",{rx:5,fill:"var(--pill)",stroke:"var(--route)","stroke-width":1,"vector-effect":"non-scaling-stroke"},null,g);
+    el("text",{"text-anchor":"middle","font-weight":500,fill:"var(--pill-fg)","font-family":"var(--sans)"},t,g);});
+  applyVB();
+}
+function applyVB(){
+  svg.setAttribute("viewBox",`${VB.x} ${VB.y} ${VB.w} ${VB.h}`);
+  const cw=svg.clientWidth||1000,k=PRINT?1:VB.w/cw,inDay=e=>sel!==ALL&&(e.dataset.days||e.dataset.day||"").split(" ").includes(String(sel));
+  svg.querySelectorAll("circle.pt").forEach(c=>c.setAttribute("r",+c.dataset.r*k));
+  svg.querySelectorAll("text.lbl").forEach(t=>{
+    const fs=+t.dataset.fs,sd=t.dataset.side,gap=t.classList.contains("stay")?11:9;
+    const dx={r:gap,l:-gap,t:0,b:0}[sd],dy={r:fs*.35,l:fs*.35,t:-gap,b:gap+fs*.8}[sd];
+    t.setAttribute("font-size",fs*k);t.setAttribute("stroke-width",3.5*k);
+    t.setAttribute("x",+t.dataset.x+dx*k);t.setAttribute("y",+t.dataset.y+dy*k);
+    const stay=t.classList.contains("stay"),dense=t.classList.contains("dense");
+    const show=sel===ALL?(stay?k<3.2:(!dense&&k<1.2)||k<0.55):(inDay(t)||(stay&&k<1.6));
+    t.style.display=show?"":"none";});
+  svg.querySelectorAll("g.pill").forEach(g=>{const x=+g.dataset.x,y=+g.dataset.y,n=+g.dataset.n,w=(n*7.4+12)*k,h=20*k;
+    const r=g.firstChild,tx=g.lastChild;r.setAttribute("x",x-w/2);r.setAttribute("y",y-h/2);r.setAttribute("width",w);r.setAttribute("height",h);
+    tx.setAttribute("x",x);tx.setAttribute("y",y+4.5*k);tx.setAttribute("font-size",12.5*k);
+    g.style.display=(sel===ALL?k<1.2:inDay(g))?"":"none";});
+}
+function aspect(){const r=svg.getBoundingClientRect();return r.width&&r.height?r.height/r.width:FULL.h/FULL.w}
+function fit(b){const a=aspect();let w=Math.max(b.w,b.h/a,120),h=w*a;VB={x:b.x+b.w/2-w/2,y:b.y+b.h/2-h/2,w,h};applyVB()}
+function zoomDay(d){
+  if(d===ALL){fit(FULL);return}
+  const ks=new Set();R(days.find(x=>x.d===d)).legs.forEach(l=>{ks.add(l.a);ks.add(l.b)});
+  if(!ks.size){fit(FULL);return}
+  const xy=[...ks].map(k=>P(pts[k][1],pts[k][2])),xs=xy.map(p=>p[0]),ys=xy.map(p=>p[1]);
+  const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),pad=60;
+  fit({x:x0-pad,y:y0-pad,w:x1-x0+pad*2,h:y1-y0+pad*2});
+}
+function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect(),ux=VB.x+(cx-r.left)/r.width*VB.w,uy=VB.y+(cy-r.top)/r.height*VB.h;
+  const w=Math.min(Math.max(VB.w*f,80),1600),h=w*VB.h/VB.w;VB={x:ux-(ux-VB.x)*w/VB.w,y:uy-(uy-VB.y)*h/VB.h,w,h};applyVB()}
+(function(){
+  const ptrs=new Map();let moved=0,last=null,pinch=null;
+  svg.addEventListener("pointerdown",e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=0;
+    if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)}}});
+  svg.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const p=ptrs.get(e.pointerId),dx=e.clientX-p.x,dy=e.clientY-p.y;
+    ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved+=Math.abs(dx)+Math.abs(dy);
+    if(ptrs.size===1){const r=svg.getBoundingClientRect();VB.x-=dx/r.width*VB.w;VB.y-=dy/r.height*VB.h;applyVB()}
+    else if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()],d=Math.hypot(a.x-b.x,a.y-b.y);if(d>0){zoomAt(pinch.d/d,(a.x+b.x)/2,(a.y+b.y)/2);pinch.d=d}}});
+  const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;
+    if(e.type==="pointerup"&&moved<8&&ptrs.size===0){const t=document.elementFromPoint(e.clientX,e.clientY),h=t&&t.closest&&t.closest("[data-key]");if(h)showPop(h.dataset.key)}};
+  svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
+  svg.addEventListener("wheel",e=>{e.preventDefault();zoomAt(e.deltaY>0?1.15:1/1.15,e.clientX,e.clientY)},{passive:false});
+  svg.addEventListener("keydown",e=>{if(e.key==="+"||e.key==="=")zoomAt(.8,...ctr());else if(e.key==="-")zoomAt(1.25,...ctr())});
+  window.addEventListener("resize",()=>zoomDay(sel));
+})();
+function ctr(){const r=svg.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]}
+function showPop(k){
+  const p=SP[k],ds=[...(PD[k]||[])].sort((a,b)=>a-b),name=pts[k][0].replace(/（.*）/,"");
+  $("pop").innerHTML=`<div class="poph"><b>${p?p.t:name}</b><button type="button" class="popx" aria-label="關閉">×</button></div>${p?`<p>${p.d}</p>`:""}<div class="popb"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=${enc(Q[k]||name)}" target="_blank" rel="noopener">Google Maps 打開</a>${ds.map(d=>`<button type="button" class="btn ghostb" data-pd="${d}" data-pk="${k}">看 D${d} 行程</button>`).join("")}</div>`;
+  $("pop").hidden=false;$("fnav").hidden=true;try{$("pop").scrollIntoView({block:"nearest"})}catch(e){}
 }
 
 /* Google Maps directions, sunrise/sunset, moon */
@@ -623,12 +726,15 @@ function overview(){
 function dim(){
   svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",sel!==ALL&&+e.dataset.day!==sel));
   svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",sel!==ALL&&!e.dataset.days.split(" ").includes(String(sel))));
+  applyVB();
 }
 function renderPanel(){$("panel").innerHTML=sel===ALL?overview():card(days.find(x=>x.d===sel))}
 function select(d,scroll){
   sel=d;store.set("iceland-day2",String(d));
   $("chips").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.d===d)));
-  renderPanel();dim();
+  renderPanel();zoomDay(d);dim();$("pop").hidden=true;
+  const nav=$("fnav");nav.hidden=d===ALL;if(d!==ALL){$("fprev").disabled=d<=0;$("fnext").disabled=d>=12;$("fprev").textContent=d>0?`‹ D${d-1}`:"‹";$("fnext").textContent=d<12?`D${d+1} ›`:"›"}
+  const cb=$("chips").querySelector(`[data-d="${d}"]`);if(cb&&cb.scrollIntoView)try{cb.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
   if(scroll){const rm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;$("chips").scrollIntoView({behavior:rm?"auto":"smooth",block:"start"})}
 }
 function setScen(s){
@@ -639,9 +745,11 @@ function setScen(s){
 $("chips").innerHTML=[ALL,...days.map(x=>x.d)].map(d=>`<button type="button" data-d="${d}" aria-pressed="false">${d===ALL?"全部":`D${d}`}</button>`).join("");
 $("chips").addEventListener("click",e=>{const b=e.target.closest("button");if(b)select(+b.dataset.d)});
 $("panel").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)select(+b.dataset.go,true)});
-svg.addEventListener("click",e=>{const t=e.target.closest("[data-key]");if(!t)return;const k=t.dataset.key,ds=[...(PD[k]||[])];if(!ds.length)return;
-  const d=sel!==ALL&&ds.includes(sel)?sel:ds[0];select(d);
-  const det=$("panel").querySelector(`details[data-spot="${k}"]`);if(det){det.open=true;det.scrollIntoView({block:"nearest"})}});
+$("pop").addEventListener("click",e=>{if(e.target.closest(".popx")){$("pop").hidden=true;$("fnav").hidden=sel===ALL;return}
+  const b=e.target.closest("[data-pd]");if(!b)return;const k=b.dataset.pk;select(+b.dataset.pd);
+  const det=$("panel").querySelector(`details[data-spot="${k}"]`);if(det){det.open=true;det.scrollIntoView({block:"center"})}else $("panel").scrollIntoView({block:"start"})});
+$("zin").addEventListener("click",()=>zoomAt(.7,...ctr()));$("zout").addEventListener("click",()=>zoomAt(1.4,...ctr()));$("zfit").addEventListener("click",()=>zoomDay(sel));
+$("fprev").addEventListener("click",()=>{if(sel>0)select(sel-1,true)});$("fnext").addEventListener("click",()=>{if(sel<12)select(sel+1,true)});$("fall").addEventListener("click",()=>select(ALL,true));
 $("sc-ok").addEventListener("click",()=>setScen("ok"));
 $("sc-redo").addEventListener("click",()=>setScen("redo"));
 function setDrv(v){drv=v;store.set("iceland-drv",v);$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));drawMap();renderPanel();dim()}
@@ -750,7 +858,7 @@ if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
 if(/simple/.test(location.hash)){
   document.documentElement.classList.add("print","simple");
-  drv="raw";sel=ALL;drawMap();dim();
+  drv="raw";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
   const mini=raw=>{const day=R(raw),tot=day.legs.reduce((a,l)=>a+l.m,0);
     return `<article class="sday"><h3>D${day.d} · ${day.date}<small>${day.bus?"坐巴士":tot?"車程約 "+fmt(tot):"不用開車"}</small></h3>${rows(day.plan.filter(r=>r[2]!=="y"))}${day.stay?`<div class="stayline">住：${day.stay}</div>`:""}</article>`};
   $("panel").innerHTML=`<div class="sgrid">${days.filter(x=>x.d!==0).map(mini).join("")}</div>`;
@@ -758,7 +866,7 @@ if(/simple/.test(location.hash)){
 }
 if(/print/.test(location.hash)){
   document.documentElement.classList.add("print");
-  drv=/raw/.test(location.hash)?"raw":"buf";sel=ALL;drawMap();dim();
+  drv=/raw/.test(location.hash)?"raw":"buf";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
   $("panel").innerHTML=tipsHTML()+days.map(card).join("");
   document.querySelectorAll("#panel details,details.more").forEach(x=>x.open=true);
   document.querySelector(".sub").textContent="2027 年 9 月 11–23 日 · 7 人 2 車 · "+(drv==="raw"?"實際車程版：車程未加預留時間（時間表本身已留有空檔）":"預留時間版")+" · 健行順利版";
