@@ -299,6 +299,8 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .gfalt{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line)}.gfalt ul{margin:4px 0 0;padding-left:18px}
 .gtw{overflow-x:auto;max-width:100%}.gt{border-collapse:collapse;font-size:13px;min-width:620px;width:100%;background:var(--card);border-radius:10px;overflow:hidden}
 .gt th,.gt td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}.gt th{background:var(--sea);font-weight:700;font-size:12.5px}.gt .gn{font-weight:600}
+.btable tr.cat td{cursor:pointer;user-select:none}.btable tr.cat .cari{display:inline-block;width:1.2em;color:var(--muted)}
+.must{color:var(--meal);font-size:12.5px}
 </style>
 
 </head>
@@ -423,7 +425,7 @@ const days=[
   notes:[["9/10、9/11 兩晚住宿要另外訂，未計入預算；可考慮直接訂 9/12 大隊在雷克雅維克附近的住處",1],["火山內部有季節性（5 月 5 日至 10 月 30 日），會因天氣取消，揀可以免費改期的時段"]],
   opt:[{t:"較平或較輕鬆的選擇",add:"代替火山內部",d:"Raufarhólshellir 熔岩隧道（雷克雅維克附近，約 1 小時，有接送）；ATV 越野車（約 1–2 小時，有接送）；或免費的 Reykjadalur 溫泉河（行山單程約 1 小時）。"}]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
-  plan:[["09:00–10:00","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–11:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["11:00–11:45","Laugavegur 購物街（星期日大多 11:00 後先開）","y"],["11:45–12:00","Sun Voyager 維京船雕塑","y"],["12:00–12:15","Harpa 音樂廳","y"],["12:15–12:35","午餐：Bæjarins Beztu 熱狗","y"],["12:45","由 BSÍ 坐巴士去藍湖（約 45 分鐘，班次要上 re.is 查）","y"],["上午","大隊抵達 KEF，喺機場取車（2 部）","c"],["12:00–12:45","大隊午餐：機場","m"],["約 13:00","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["13:30–15:45","藍湖（預約 13:30 時段）；全部人在這裡會合"],["16:15","開車去雷克雅維克；Dorcas 和 Tebe 喺藍湖會合後一齊上車","c"],["16:50–17:30","Costco（Garðabær，順路）：買早餐材料、零食和飲品（可選）"],["17:45","入住雷克雅維克住處","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  plan:[["08:00–08:45","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","y"],["08:45–09:30","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","y"],["09:30–09:50","Bæjarins Beztu 熱狗（09:00 開）","y"],["10:00–10:30","哈爾格林姆大教堂登塔（星期日 10:30–12:30 因崇拜關閉，一開門就上）","y"],["10:30–10:45","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","y"],["10:45","行去 BSÍ 巴士站（約 15 分鐘，或者坐的士 5 分鐘）","y"],["11:00","由 BSÍ 巴士站坐 Flybus 去 KEF 機場（約 45 分鐘，行李一齊帶；班次上 re.is 查）","y"],["約 11:45","喺 KEF 同大隊會合，一齊去拎車","y"],["上午","大隊抵達 KEF；全部人一齊喺機場取車（2 部）","c"],["12:00–12:45","午餐：機場（全部人）","m"],["約 13:00","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["13:30–15:45","藍湖（預約 13:30 時段）"],["16:15","開車去雷克雅維克","c"],["16:50–17:30","Costco（Garðabær，順路）：買早餐材料、零食和飲品（可選）"],["17:45","入住雷克雅維克住處","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["改咗 9/12 喺 KEF 取車，慳返 D2 早上取車同去 Costco 的時間；租車要多計 1 日",1],["紫色虛線框的是Dorcas 和 Tebe的行程，不是大隊活動",1],["大隊時間按實際航班調整"]]},
  {d:2,date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"18:50",legs:[L("rvk","ytri",120,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",55,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",50,{c:1}),L("ingj","kirk",30,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
   plan:[["出發前","早餐：酒店","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["11:30–12:15","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，啱啱好）"],["12:30–13:30","午餐：Hjá Góðu Fólki","m"],["14:15–15:00","布迪爾黑教堂：影座落喺金黃秋季苔原同黑色熔岩原之間的木教堂"],["15:50–16:35","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:05–18:05","草帽山 Kirkjufell 與瀑布"],["18:50","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:30","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
@@ -845,7 +847,7 @@ const EAT={
     ["晚餐","Hafnarbúðin（赫本）","港口細小快餐店，龍蝦包較平；營業時間要確認"]],
  7:[["午餐","The Café（冰河湖）","全年開，6–9 月 09:00–19:00；海鮮湯、三文治"],
     ["晚餐","住處餐廳","冰河湖一帶選擇少，入住時順便訂位"],
-    ["晚餐","Hali Country Hotel","晚餐約 18:00–21:00（冬季到 20:00）"]],
+    ["晚餐","Hof-1 餐廳","每日 18:00–21:00；18:00 去，日落前返到住處"]],
  8:[["午餐","自備午餐","6 小時冰川健行，前一晚準備好三文治和小食"],
     ["晚餐","住處餐廳","健行後唔使再開車"],
     ["晚餐","Hof-1 餐廳","每日 18:00–21:00"]],
@@ -866,8 +868,17 @@ const EAT={
      ["午餐","Bæjarins Beztu 熱狗","每日 09:00 開"],
      ["午餐","Sægreifinn","龍蝦湯，唔接受訂位"]]
 };
+/* must-order dishes shown under each restaurant */
+const MUST={"Hlemmur Mathöll 美食廣場":"冰島魚肉薯蓉 plokkfiskur、各攤招牌菜","Sægreifinn（Sea Baron）":"龍蝦湯、烤魚串","Sægreifinn":"龍蝦湯、烤魚串","Messinn":"北極紅點鮭煎鍋、plokkfiskur 煎鍋","Grandi Mathöll 美食廣場":"海鮮攤的挪威海螯蝦",
+ "Hjá Góðu Fólki":"魚湯、深盤薄餅、自家蛋糕","Dalakot（Búðardalur）":"薄餅","阿克雷里早啲食：Strikið 或 Rub 23":"Strikið 海鮮湯、羊肉；Rub 23 壽司","Naustið（胡薩維克）":"魚湯、烤魚串","Gamli Baukur（胡薩維克）":"海鮮湯、羊肉",
+ "Vogafjós Cowshed Café（米湖）":"煙燻鱒魚、羊膝、地熱焗黑麥麵包","Daddi's Pizza（米湖）":"薄餅","Fjallakaffi（Möðrudalur 農場）":"冰島羊肉湯 kjötsúpa、炸麵包 kleinur","Askur Pizzeria（埃伊爾斯塔濟）":"自選配料薄餅",
+ "Salt Café & Bistro（埃伊爾斯塔濟）":"薄餅、咖喱","Glóð（Hotel Valaskjálf）":"薄餅、當日魚","Café Sumarlína（Fáskrúðsfjörður）":"湯、當日魚","Langabúð（Djúpivogur）":"自家蛋糕","Pakkhús（赫本）":"挪威海螯蝦：烤蝦尾、龍蝦湯",
+ "Hafnarbúðin（赫本）":"龍蝦包","The Café（冰河湖）":"海鮮湯","Freysnes 油站餐廳（斯卡夫塔山）":"當日湯","Suður Vík（維克）":"薄餅、羊肉","Smiðjan Brugghús（維克）":"厚漢堡、黑啤醬豬肋骨、自家啤酒","Halldórs Kaffi（維克）":"湯、漢堡",
+ "Mia's Country Grill（Skógar）":"炸魚薯條","Tryggvaskáli（塞爾福斯）":"當日魚、冰島羊肉","Kaffi Krús（塞爾福斯）":"漢堡、自家蛋糕","Friðheimar 番茄溫室餐廳":"番茄湯任添配自家麵包、番茄啤酒","Geysir 遊客中心":"冰島羊肉湯",
+ "Brauð & Co":"肉桂卷","Bæjarins Beztu 熱狗":"全配料熱狗（eina með öllu）"};
+const mustTxt=n=>MUST[n]?`<br><span class="must">必點：${MUST[n]}</span>`:"";
 const eatHTML=d=>{const e=EAT[d];if(!e)return"";const g={};e.forEach(([m,n,t])=>(g[m]=g[m]||[]).push([n,t]));
-  return `<div class="sub2">推薦食肆（揀一間就得）</div><div class="eat">${Object.entries(g).map(([m,xs])=>`<div class="eatm">${m}</div><ul>${xs.map(([n,t])=>`<li><b>${n}</b>：${t}</li>`).join("")}</ul>`).join("")}</div>`};
+  return `<div class="sub2">推薦食肆（揀一間就得）</div><div class="eat">${Object.entries(g).map(([m,xs])=>`<div class="eatm">${m}</div><ul>${xs.map(([n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`).join("")}</div>`};
 
 const spotsOf=day=>{const s=stopsOf(day).filter(k=>!k.startsWith("via:")).filter((k,i)=>day.d===1||i>0).filter(k=>SP[k]);if(day.d===12)s.unshift("hall");if(day.d===0)s.push("volc","nauth");if(day.d===1)s.unshift("graik","icemem");if(day.d===11)s.push("thing");if(day.d===4)s.push("geosea","leir");return [...new Set(s)]};
 const spotHTML=day=>{const ks=spotsOf(day);if(!ks.length)return"";
@@ -884,7 +895,7 @@ function richRows(day){
   const meals=EAT[day.d]||[],done=new Set();
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0]));
-  const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}</li>`).join("")}</ul></div>`;
+  const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
@@ -972,8 +983,14 @@ const SRC={
 };
 /* scope: a = optional (only people ticked pay), p = every person, c = per car (shared), g = whole group (shared) */
 const B_=(id,name,price,qty,scope,o={})=>({id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false});
+/* budget categories can be collapsed; remembered on this device */
+let BCOL=new Set();try{BCOL=new Set(JSON.parse(store.get("iceland-bcol")||"[]"))}catch(e){}
+const bToggle=tr=>{const ci=+tr.dataset.ci,open=BCOL.has(ci);if(open)BCOL.delete(ci);else BCOL.add(ci);store.set("iceland-bcol",JSON.stringify([...BCOL]));
+  tr.setAttribute("aria-expanded",String(open));tr.querySelector(".cari").textContent=open?"▾":"▸";document.querySelectorAll(`#budget tr[data-ci="${ci}"]:not(.cat)`).forEach(r=>r.hidden=!open)};
+document.addEventListener("click",e=>{const tr=e.target.closest&&e.target.closest("#budget tr.cat");if(tr)bToggle(tr)});
+document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const tr=e.target.closest&&e.target.closest("#budget tr.cat");if(tr){e.preventDefault();bToggle(tr)}});
 const BUD=[
- ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("myv","米湖溫泉 Earth Lagoon（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
+ ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("myv","米湖溫泉（D4）",7900,1,"a",{note:"起價；未必去"}),B_("vok","Vök Baths（D5）",7690,1,"a"),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
  ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨（D4）",12990,1,"a"),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"}),B_("volc","火山內部 Þríhnúkagígur（D0，連接送）",56500,1,"a",{def:false,src:"volc",note:"只限 9/11 先到的人；51,000 + 接送約 5,500"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 KEF 取車，12 日）",13000,12,"c",{est:1,src:"",note:"每日價錢，待報價；7 人可能要較大的車"}),B_("km","里程稅",1550,12,"c",{note:"以 Blue Car Rental 每日收費為例"}),B_("fuel","油費（約 2,000 公里）",41000,1,"c",{est:1,src:"km",note:"按約 280 ISK/L、每百公里 7 公升；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
@@ -996,7 +1013,7 @@ function build(ppl){
   actRows.forEach(r=>{const x=join[r.id];while(x.length<ppl)x.push(r.def);join[r.id]=x.slice(0,ppl)});
   const P_=[...Array(ppl).keys()],cols=6+ppl;
   const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th>${P_.map(i=>`<th class="pc"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
-  const body=BUD.map(([cat,rs])=>`<tr class="cat"><td colspan="${cols}">${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}"><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td><td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td><td class="num" id="bs-${r.id}"></td>${P_.map(i=>r.scope==="a"?`<td class="pc ck"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
+  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}" data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td><td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td><td class="num" id="bs-${r.id}"></td>${P_.map(i=>r.scope==="a"?`<td class="pc ck"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
   const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td>${P_.map(i=>`<td class="pc num" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td>${P_.map(i=>`<td class="pc num" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
   $("b-table").innerHTML=head+`<tbody>${body}</tbody>`+foot;built=ppl;
 }
@@ -1130,9 +1147,8 @@ function renderGuide(){
    <div class="gfn">${m.n}</div><dl class="gfdl"><dt>地址</dt><dd>${m.a}</dd><dt>營業時間</dt><dd>${m.h}</dd><dt>必點</dt><dd>${m.m}</dd><dt>預算</dt><dd>${m.b}</dd><dt>訂位</dt><dd>${m.r}</dd></dl>
    ${m.a!=="—"&&m.a!=="住處"?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.n+" "+m.a)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}
    <div class="gfalt"><b>替代方案（店休或客滿）</b><ul>${alts.map(([n,t])=>`<li><b>${n}</b>${t?"："+t:""}</li>`).join("")}</ul></div></article>`}).join("");
-  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-save">省錢攻略</a><a href="#g-food">美食推薦</a><a href="#g-book">訂位與預約清單</a></nav>
+  $("guide").innerHTML=`<h2 style="margin-top:0">攻略</h2><nav class="gnav"><a href="#g-save">省錢攻略</a><a href="#g-book">訂位與預約清單</a></nav>
    <section id="g-save"><h2>省錢攻略</h2>${SAVE.map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
-   <section id="g-food"><h2>美食推薦</h2><p class="bnote">營業時間同價錢係網上資料或估計，9 月可能縮短，出發前一星期再上官網或 Google Maps 確認。預算係每人約數。</p><div class="gfgrid">${food}</div></section>
    <section id="g-book"><h2>訂位與預約清單</h2>${BOOK.map(([h,rows])=>tbl(h,rows)).join("")}</section>`;
   $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
