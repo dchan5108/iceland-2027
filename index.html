@@ -299,7 +299,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .print .day,.print .ovrow{box-shadow:none;border:1px solid var(--line)}
 @media (max-width:560px){.tabs button{padding:7px 6px;font-size:13.5px;white-space:nowrap}}
 /* Morandi theme: soft muted palette, warm paper map, day colours */
-:root{--bg:#f4f1ec;--card:#fffdf9;--fg:#2f3437;--muted:#76797a;--line:#e4ddd2;--sea:#d8e1df;--land:#f4eee3;--coast:#9fada6;--route:#5f8189;--pill:#fffdf9;--pill-fg:#4c646a;--stay:#b06d58;--spot:#4a4f52;--meal:#9c7445;--ice:#fbfcfa;--shadow:0 1px 2px rgba(80,70,60,.06),0 6px 18px rgba(80,70,60,.07)}
+:root{--bg:#f4f1ec;--card:#fffdf9;--fg:#2f3437;--muted:#76797a;--line:#e4ddd2;--sea:#bfe0ef;--land:#f8f5ec;--coast:#86bcd8;--route:#5f8189;--pill:#fffdf9;--pill-fg:#4c646a;--stay:#b06d58;--spot:#4a4f52;--meal:#9c7445;--ice:#ffffff;--shadow:0 1px 2px rgba(80,70,60,.06),0 6px 18px rgba(80,70,60,.07)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
 :root[data-theme="dark"]{--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
 .mapbox{background:var(--sea)}
@@ -400,6 +400,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <div class="legend">
       <span><i class="dot" style="background:var(--stay)"></i>住宿</span>
       <span><i class="dot" style="background:var(--spot)"></i>景點</span>
+      <span><i class="dot" style="background:#e8a317"></i>早／午／晚餐（揀咗日子先顯示）</span>
       <span><i class="bar"></i>路線（放大後顯示車程）</span>
       <span><i class="dot" style="background:var(--land);border:2px dashed var(--meal);width:9px;height:9px"></i>推薦可選（名稱見每日卡片）</span>
     </div>
@@ -451,6 +452,23 @@ let RECP={};try{RECP=JSON.parse(store.get("iceland-recp")||"{}")}catch(e){RECP={
 const P=(lon,lat)=>[(lon+24.6)*88+8,(66.65-lat)*208+10];
 /* Reykjavík city layer: only visible when zoomed right in (button 市區) */
 const CITY=[["哈爾格林姆大教堂",-21.9266,64.1417],["Harpa 音樂廳",-21.9326,64.1504],["Sun Voyager",-21.9223,64.1476],["Bæjarins Beztu 熱狗",-21.9405,64.1484],["Grótta 燈塔",-22.0222,64.1647],["BSÍ 巴士站",-21.9365,64.1374],["Hlemmur 美食廣場",-21.9150,64.1430],["Grandi 美食廣場",-21.9515,64.1555],["Messinn",-21.9372,64.1463],["Perlan",-21.919,64.129],["Lava Show",-21.951,64.157],["Laugardalslaug",-21.878,64.146],["Nakano",-21.877,64.130],["Nauthólsvík",-21.931,64.122]];
+/* meal stops shown on the map for the selected day: [day, 早/午/晚, name, lon, lat, google search] */
+const MEALC="#e8a317";
+const MEALS=[[-5,"午","Sandholt 麵包店",-21.9300,64.1453,"Sandholt Laugavegur 36"],[-5,"晚","Svarta Kaffið",-21.9255,64.1440,"Svarta Kaffið Reykjavík"],
+ [0,"早","Grái Kötturinn",-21.9333,64.1468,"Grái Kötturinn Hverfisgata 16"],[0,"晚","Messinn",-21.9372,64.1463,"Messinn Lækjargata Reykjavík"],
+ [1,"午","Blue Café（藍湖）",-22.447,63.879,"Blue Lagoon Iceland"],[1,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
+ [2,"午","Hjá Góðu Fólki",-23.10,64.805,"Hjá Góðu Fólki Snæfellsnes"],
+ [3,"午","Settlement Center／Dirty Burger",-21.925,64.536,"Settlement Center Borgarnes"],[3,"晚","Strikið（阿克雷里）",-18.088,65.6825,"Strikið Akureyri"],
+ [4,"午","Naustið（胡薩維克）",-17.343,66.046,"Naustið Húsavík"],[4,"晚","Vogafjós",-16.917,65.611,"Vogafjós Mývatn"],
+ [5,"午","黛提瀑布野餐",-16.392,65.807,"Dettifoss west parking"],[5,"晚","Salt Café（埃伊爾斯塔濟）",-14.395,65.264,"Salt Café Egilsstaðir"],
+ [6,"午","Café Sumarlína",-14.012,64.931,"Café Sumarlína Fáskrúðsfjörður"],[6,"晚","Pakkhús 小龍蝦",-15.209,64.252,"Pakkhús Höfn"],
+ [7,"午","The Café（冰河湖）",-16.18,64.048,"Jökulsárlón Café"],
+ [8,"午","斯卡夫塔山遊客中心",-16.966,64.016,"Skaftafell Visitor Centre"],
+ [9,"午","斯卡夫塔山遊客中心",-16.966,64.016,"Skaftafell Visitor Centre"],[9,"晚","Suður Vík",-19.0086,63.4194,"Suður Vík"],
+ [10,"午","Mia's Country Grill（Skógar）",-19.50,63.527,"Mia's Country Grill Skógar"],[10,"晚","Mjólkurbúið 美食廣場",-21.0002,63.9366,"Mjólkurbúið Mathöll Selfoss"],
+ [11,"午","Friðheimar 番茄溫室",-20.4067,64.1758,"Friðheimar"],[11,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
+ [12,"早","Brauð & Co",-21.9262,64.1451,"Brauð & Co Frakkastígur"],[12,"午","Bæjarins Beztu 熱狗",-21.9405,64.1484,"Bæjarins Beztu Pylsur"]];
+const mealUrl=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+", Iceland")}`;
 const CITYDT=[["Grái Kötturinn",-21.9333,64.1468],["書店酒吧",-21.9285,64.1454]];
 const coast=[[-22.72,63.82],[-22.72,64.02],[-22.4,64.08],[-22.05,64.07],[-21.95,64.18],[-21.75,64.2],[-21.9,64.3],[-22.1,64.34],[-22.0,64.5],[-22.6,64.70],[-23.4,64.72],[-24.1,64.86],[-23.85,64.96],[-23.6,64.97],[-23.0,64.96],[-22.5,65.06],[-22.0,65.15],[-22.6,65.4],[-23.4,65.45],[-24.53,65.5],[-24.2,65.8],[-23.6,66.05],[-23.1,66.18],[-22.4,66.45],[-21.6,66.1],[-21.4,65.75],[-21.15,65.2],[-20.95,65.45],[-20.65,65.7],[-20.4,65.6],[-20.2,66.1],[-19.5,65.75],[-18.8,66.15],[-18.45,66.1],[-18.17,65.85],[-18.1,65.68],[-17.95,65.85],[-18.0,66.05],[-17.75,66.15],[-17.55,65.98],[-17.38,66.05],[-17.1,66.2],[-16.6,66.0],[-16.1,66.55],[-15.95,66.45],[-14.55,66.38],[-14.9,66.1],[-14.7,65.75],[-14.0,65.55],[-13.5,65.27],[-13.6,65.0],[-14.0,64.8],[-14.28,64.65],[-14.6,64.4],[-15.2,64.22],[-15.8,64.08],[-16.2,64.0],[-16.6,63.8],[-17.4,63.75],[-18.0,63.6],[-19.0,63.38],[-19.13,63.38],[-19.6,63.47],[-20.3,63.66],[-21.0,63.82],[-21.4,63.85],[-22.0,63.83],[-22.4,63.83]];
 /* name, lon, lat, type, main label side, changed, inset label side (inset points get no label on the main map) */
@@ -676,7 +694,7 @@ const ST=[
  {d:12,k:"rvk",ic:"church",food:"hotdog",name:"雷克雅維克",en:"Reykjavík",dx:-60,dy:-60}
 ];
 /* Morandi day colours: sage → grey-teal → periwinkle → mauve → dusty rose → terracotta */
-const DCS=["#8faa92","#7f9fa3","#8796b3","#a08eae","#b78e98","#c2987c"];
+const DCS=["#4fae7b","#2fa6b8","#4a8fd8","#8a6fd1","#d9689e","#ef8a3c"];
 const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const mix=(a,b,t)=>{const A=hex(a),B=hex(b);return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join("")};
 const colAt=t=>{t=Math.max(0,Math.min(1,t));const s=t*(DCS.length-1),i=Math.min(DCS.length-2,Math.floor(s));return mix(DCS[i],DCS[i+1],s-i)};
@@ -695,20 +713,20 @@ function drawMap(){
   el("rect",{x:-3000,y:-3000,width:7000,height:7000,fill:"var(--sea)"});
   const defs=el("defs",{});
   defs.innerHTML=`<pattern id="paper" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M2 4l3-1M10 12l3-1M13 3l2 1M4 14l2-1M8 7l1.5 .5" stroke="#8f9a8f" stroke-width=".6" opacity=".35" fill="none"/></pattern>`+Object.entries(ICONS).map(([k,v])=>`<symbol id="ic-${k}" viewBox="0 0 32 32">${v}</symbol>`).join("")+Object.entries(FOODI).map(([k,v])=>`<symbol id="fd-${k}" viewBox="0 0 20 20">${v}</symbol>`).join("");
-  WAVES.forEach(([lon,lat])=>{const [x,y]=P(lon,lat);el("path",{d:`M${x-12},${y}q3,-3 6,0t6,0t6,0t6,0`,fill:"none",stroke:"var(--coast)","stroke-width":1.1,opacity:.6,"stroke-linecap":"round","vector-effect":"non-scaling-stroke"})});
-  const cp=coast.map(c=>P(...c)),c1=pathOf(wob(cp,1.7,1.1)),c2=pathOf(wob(cp,5.3,1.4));
+  if(0)WAVES.forEach(([lon,lat])=>{const [x,y]=P(lon,lat);el("path",{d:`M${x-12},${y}q3,-3 6,0t6,0t6,0t6,0`,fill:"none",stroke:"var(--coast)","stroke-width":1.1,opacity:.6,"stroke-linecap":"round","vector-effect":"non-scaling-stroke"})});
+  const cp=coast.map(c=>P(...c)),c1=pathOf(wob(cp,1.7,.25)),c2=c1;
   el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":9,opacity:.16,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
-  el("path",{d:c1,fill:"var(--land)"});el("path",{d:c1,fill:"url(#paper)"});
+  el("path",{d:c1,fill:"var(--land)"});
   GLAC.forEach(([lon,lat,rx,ry],i)=>{const ring=[];for(let a=0;a<24;a++){const t=a/24*Math.PI*2,r=1+.12*Math.sin(t*3+i);ring.push(P(lon+Math.cos(t)*rx*r,lat+Math.sin(t)*ry*r))}
-    el("path",{d:pathOf(wob(ring,i+2,.8)),fill:"var(--ice)",stroke:"var(--coast)","stroke-width":1,"stroke-dasharray":"3 2",opacity:.95,"vector-effect":"non-scaling-stroke"})});
+    el("path",{d:pathOf(wob(ring,i+2,.15)),fill:"var(--ice)",stroke:"#b7d6e6","stroke-width":1.2,"stroke-dasharray":"none",opacity:.95,"vector-effect":"non-scaling-stroke"})});
   el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":1.4,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
-  el("path",{d:c2,fill:"none",stroke:"var(--coast)","stroke-width":.8,opacity:.5,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
+  
   const pills=[];
   D.forEach(day=>day.legs.forEach((g,j,arr)=>{
     const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]),id=`lg${day.d}_${j}`,n=arr.length;
     const lg=el("linearGradient",{id,gradientUnits:"userSpaceOnUse",x1,y1,x2,y2},null,defs);
     el("stop",{offset:0,"stop-color":colAt((day.d+j/n)/13)},null,lg);el("stop",{offset:1,"stop-color":colAt((day.d+(j+1)/n)/13)},null,lg);
-    el("line",{x1,y1,x2,y2,stroke:"var(--land)","stroke-width":7,"stroke-linecap":"round",opacity:.75,"vector-effect":"non-scaling-stroke","data-day":day.d});
+    el("line",{x1,y1,x2,y2,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
     el("line",{x1,y1,x2,y2,stroke:g.c2||g.pk?"var(--ok)":`url(#${id})`,"stroke-width":g.c2?3:3.6,"stroke-linecap":"round","stroke-dasharray":g.c2?"2 5":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
     if(g.m>=30&&!g.hide&&!g.city)pills.push([(x1+x2)/2,(y1+y2)/2,short(dT(g.m)),day.d]);
   }));
@@ -734,6 +752,11 @@ function drawMap(){
   }
   D.forEach(day=>{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));sq.forEach((k,i)=>{if(!pts[k]||(i===sq.length-1&&k===sq[0]&&i>0))return;const [x,y]=P(pts[k][1],pts[k][2]);
     const g=el("g",{class:"numb","data-nd":day.d,"data-x":x,"data-y":y});el("circle",{fill:dayCol(day.d),stroke:"#fff","stroke-width":1.5,"vector-effect":"non-scaling-stroke"},null,g);el("text",{"text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},String(i+1),g)})});
+  MEALS.forEach(([d,m,n,lon,lat,q])=>{if(!days.some(x=>x.d===d))return;const [x,y]=P(lon,lat);
+    const g=el("g",{class:"meal","data-md":d,"data-x":x,"data-y":y,style:"cursor:pointer"});el("title",{},`${m}餐：${n}（撳開 Google Maps）`,g);
+    el("circle",{fill:MEALC,stroke:"#fff","stroke-width":1.6,"vector-effect":"non-scaling-stroke"},null,g);el("text",{"text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},m,g);
+    el("text",{class:"mln","text-anchor":"start",fill:"#a36d00","font-weight":600,"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},n,g);
+    g.addEventListener("click",ev=>{ev.stopPropagation();window.open(mealUrl(q),"_blank","noopener")})});
   if(REAL)D.forEach(day=>{const lg=day.legs.filter(l=>!l.c2),l=lg[lg.length-1],k=sunKey[day.d];if(!l||!day.arrive||!k)return;
     const ss=sunAt(254+day.d,pts[k][2],pts[k][1],0),[h1,m1]=ss.split(":").map(Number),[h2,m2]=day.arrive.split(":").map(Number),gap=h1*60+m1-(h2*60+m2);if(gap>=30)return;
     const [x1,y1]=P(pts[l.a][1],pts[l.a][2]),[x2,y2]=P(pts[l.b][1],pts[l.b][2]);
@@ -748,10 +771,10 @@ function drawMap(){
     el("title",{},`D${st.d} ${st.name}${st.en?" "+st.en:""}・${FOODN[st.food]}`,g);
     el("line",{class:"sl",stroke:c,"stroke-width":1.3,"stroke-dasharray":"3 2.5","vector-effect":"non-scaling-stroke"},null,g);
     el("circle",{class:"sp",fill:c,stroke:"var(--land)","stroke-width":1.2,"vector-effect":"non-scaling-stroke"},null,g);
-    el("circle",{class:"sb",fill:"#fbf7f0",stroke:c,"stroke-width":2.6,"vector-effect":"non-scaling-stroke"},null,g);
-    el("use",{class:"si",href:`#ic-${st.ic}`},null,g).setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",`#ic-${st.ic}`);
-    el("rect",{class:"sc",fill:c},null,g);el("text",{class:"sct","text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},`D${st.d}`,g);
-    el("circle",{class:"sf",fill:"#fffaf2",stroke:c,"stroke-width":1.4,"vector-effect":"non-scaling-stroke"},null,g);
+    el("circle",{class:"sb",fill:c,stroke:"#ffffff","stroke-width":2.6,"vector-effect":"non-scaling-stroke"},null,g);
+    el("use",{class:"si",href:`#ic-${st.ic}`,style:"filter:brightness(0) invert(1)"},null,g).setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",`#ic-${st.ic}`);
+    el("rect",{class:"sc",fill:"#ffffff",stroke:c,"stroke-width":1.2,"vector-effect":"non-scaling-stroke"},null,g);el("text",{class:"sct","text-anchor":"middle",fill:c,"font-weight":700,"font-family":"var(--sans)"},`D${st.d}`,g);
+    el("circle",{class:"sf",fill:"#ffffff",stroke:c,"stroke-width":1.8,"vector-effect":"non-scaling-stroke"},null,g);
     el("use",{class:"sfi",href:`#fd-${st.food}`},null,g).setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",`#fd-${st.food}`);
     el("text",{class:"sn","text-anchor":"middle",fill:"var(--fg)","font-weight":700,"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.name,g);
     if(st.en)el("text",{class:"se","text-anchor":"middle",fill:"var(--muted)","paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.en,g);
@@ -774,6 +797,9 @@ function applyVB(){
     t.style.display=show&&!stHide?"":"none";});
   svg.querySelectorAll("g.numb").forEach(g=>{const on=sel!==ALL&&+g.dataset.nd===sel;g.style.display=on?"":"none";if(!on)return;const x=+g.dataset.x-9*k,y=+g.dataset.y-9*k;
     g.firstChild.setAttribute("cx",x);g.firstChild.setAttribute("cy",y);g.firstChild.setAttribute("r",7.5*k);g.lastChild.setAttribute("x",x);g.lastChild.setAttribute("y",y+3.4*k);g.lastChild.setAttribute("font-size",9.5*k)});
+  svg.querySelectorAll("g.meal").forEach(g=>{const on=sel!==ALL&&+g.dataset.md===sel;g.style.display=on?"":"none";if(!on)return;const x=+g.dataset.x+10*k,y=+g.dataset.y+10*k,[c,t,lb]=g.children[1]?[g.querySelector("circle"),g.querySelectorAll("text")[0],g.querySelectorAll("text")[1]]:[];
+    c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r",8*k);t.setAttribute("x",x);t.setAttribute("y",y+3.6*k);t.setAttribute("font-size",10*k);
+    lb.setAttribute("x",x+11*k);lb.setAttribute("y",y+4*k);lb.setAttribute("font-size",10.5*k);lb.setAttribute("stroke-width",3*k)});
   svg.querySelectorAll("circle.city").forEach(c=>c.style.display=k<0.12?"":"none");
   svg.querySelectorAll("text.ctl").forEach(t=>{const on=k<0.12;t.style.display=on?"":"none";if(!on)return;t.setAttribute("x",+t.dataset.x+6*k);t.setAttribute("y",+t.dataset.y+4*k);t.setAttribute("font-size",11*k);t.setAttribute("stroke-width",3*k)});
   svg.querySelectorAll("g.pill").forEach(g=>{const x=+g.dataset.x,y=+g.dataset.y,n=+g.dataset.n,w=(n*7.4+12)*k,h=20*k;
@@ -1297,6 +1323,9 @@ function gmDraw(){
       (raw.rec||[]).filter(o=>o.k&&ids.includes(o.id)&&pts[o.k]).forEach(o=>{mk(o.k,{fill:OK,label:"✓",z:6});b.extend(ll(o.k))});
       if(raw.wpick&&ids.includes("c:nowhale"))raw.wpick.filter(w=>ids.includes("w:"+w.id)&&pts[w.id]).forEach(w=>{mk(w.id,{fill:OK,label:"✓",z:6});b.extend(ll(w.id))});}
   });
+  if(sel!==ALL)MEALS.filter(x=>x[0]===sel).forEach(([d,m,n,lon,lat,q])=>{const mm=new g.Marker({position:{lat,lng:lon},map:GM,title:`${m}餐：${n}`,zIndex:7,
+      icon:{path:g.SymbolPath.CIRCLE,scale:10,fillColor:MEALC,fillOpacity:1,strokeColor:"#ffffff",strokeWeight:2},label:{text:m,color:"#ffffff",fontSize:"11px",fontWeight:"700"}});
+    mm.addListener("click",()=>window.open(mealUrl(q),"_blank","noopener"));gmObjs.push(mm)});
   if(!b.isEmpty())GM.fitBounds(b,48);else if(sel!==ALL){GM.setCenter({lat:64.142,lng:-21.93});GM.setZoom(12)}
   if(gmMe)gmMe.setMap(GM);
 }
