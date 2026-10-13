@@ -182,7 +182,8 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .cfb.fix{cursor:default}.cfb:not(.fix)[aria-pressed="true"]{background:var(--card);color:var(--ok)}.cfb[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)!important}.cfb[aria-pressed="true"]::after{content:"✓";font-weight:700}.cfcopy{margin-left:auto}
 .sched.rich .a.cf{border-left-color:var(--ok);border-left-style:solid}.sched.rich .t.cf{color:var(--ok);font-weight:600}
 .cfbar{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:8px}.cfc{color:var(--ok);font-weight:500}
-.ver{font-size:11px;color:var(--muted);white-space:nowrap;margin-left:4px}.rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
+.ver{font-size:11px;color:var(--muted);white-space:nowrap;margin-left:4px}.spots.rec{position:relative}.recpick{display:inline-flex;align-items:center;gap:4px;float:right;margin:8px 0 0 8px;font-size:12px;font-weight:600;color:var(--ok);cursor:pointer}.recpick input{width:18px;height:18px;accent-color:var(--ok)}
+.rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
 :root{--ok:#4f7d5c}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ok:#8cc29a}}:root[data-theme="dark"]{--ok:#8cc29a}
 .sched.rich details summary{cursor:pointer;list-style:none}
 .sched.rich details summary::-webkit-details-marker{display:none}
@@ -465,15 +466,15 @@ const days=[
   plan:[["08:30–09:30","早餐：Grái Kötturinn（地下室咖啡店，Hverfisgata 16，08:00 開）","m"],["10:00–18:00","自由活動：喺下面「推薦行程」揀幾樣"],["18:00–19:15","晚餐：市中心","m"],["19:30–20:30","Grótta 燈塔睇日落（日落約 20:10；Kvika 地熱浸腳池）"],["21:00","Hús máls og menningar 書店酒吧","c"]],
   notes:[["9/10、9/11 兩晚住宿要另外訂，已計入預算（只計 Dorcas & Tebe）",1],["冇車：用 Strætó 巴士（Klappið app 買票）或者的士；景點之間大多 10–15 分鐘"],["Reykjavík City Card 24 小時 6,100 ISK 唔抵：泳池約 1,400＋幾程巴士（每程約 650–700）＋Lava Show 9 折，加埋都唔夠；除非再去兩間博物館（例如國家博物館）"],["唔建議：藍湖（D1 會去）、Sky Lagoon（D11）、出海賞鯨（D4）、騎馬（D10）；9 月已經冇海鸚；9/11 前後月光好光，極光團唔抵"]],
   recT:"10:00–18:00",recHint:"例如：Perlan → Grandi 午餐 → Lava Show → Nakano 文具店 → 地熱泳池（Nakano 同泳池相距約 1.5 公里）；Lava Show 要預約場次，其他唔使。",
-  rec:[{t:"Perlan 博物館（冰洞、火山展覽、觀景台）",add:"約 2 小時",k:"perlan"},
-   {t:"午餐：Grandi Mathöll 美食廣場／Sægreifinn",add:"約 1 小時",meal:"午餐"},
-   {t:"Lava Show 熔岩秀（Grandi，要預約）",add:"約 1 小時",k:"lavash"},
-   {t:"Laugardalslaug 地熱泳池",add:"1–1.5 小時",k:"laugd"},
-   {t:"Nakano 日本文具店（Grensásvegur 16，2 樓後面）",add:"30 分鐘–1 小時",k:"nakano"},
-   {t:"Raufarhólshellir 熔岩隧道（半日團）",add:"約 3–4 小時（連接送）",d:"跟團行入火山熔岩管，有燈同步道，唔辛苦；酒店接送，唔使搭巴士。揀呢個就唔夠時間去 Perlan。"},
-   {t:"雷克雅維克美食徒步團（Food Walk，代替午餐）",add:"約 3 小時",d:"導遊帶住行市中心，一次過試羊肉湯、熱狗、魚、冰島乳酪等。"},
-   {t:"Nauthólsvík 地熱海灘（代替泳池）",add:"1–1.5 小時",k:"nauth"},
-   {t:"市區散步（D1 下晝都有得行）",add:"約 2 小時",d:"哈爾格林姆大教堂登塔、彩虹街、Laugavegur、Harpa、Sun Voyager、熱狗。"}]},
+  rec:[{id:"perlan",dur:120,ord:2,row:"Perlan 博物館：冰洞、冰川同火山展覽，頂樓觀景台",t:"Perlan 博物館（冰洞、火山展覽、觀景台）",add:"約 2 小時",k:"perlan"},
+   {id:"lunch",dur:60,ord:5,open:"11:30",lunch:1,f:"m",row:"午餐：Grandi Mathöll 美食廣場／Sægreifinn（舊港口）",t:"午餐：Grandi Mathöll 美食廣場／Sægreifinn",add:"約 1 小時",meal:"午餐"},
+   {id:"lava",dur:60,ord:6,open:"11:00",row:"Lava Show 熔岩秀（Grandi；按揀到的場次預約）",t:"Lava Show 熔岩秀（Grandi，要預約）",add:"約 1 小時",k:"lavash"},
+   {id:"laugd",dur:90,ord:9,row:"Laugardalslaug 地熱泳池",t:"Laugardalslaug 地熱泳池",add:"1–1.5 小時",k:"laugd"},
+   {id:"nakano",dur:45,ord:8,open:"11:00",close:"17:00",row:"Nakano 日本文具店（Grensásvegur 16，2 樓後面）",t:"Nakano 日本文具店（Grensásvegur 16，2 樓後面）",add:"30 分鐘–1 小時",k:"nakano"},
+   {id:"raufar",dur:240,ord:1,row:"Raufarhólshellir 熔岩隧道半日團（連接送）",t:"Raufarhólshellir 熔岩隧道（半日團）",add:"約 3–4 小時（連接送）",d:"跟團行入火山熔岩管，有燈同步道，唔辛苦；酒店接送，唔使搭巴士。揀呢個就唔夠時間去 Perlan。"},
+   {id:"foodw",dur:180,ord:4,open:"11:00",lunch:1,row:"雷克雅維克美食徒步團 Food Walk（食到飽，唔使另外食晏）",t:"雷克雅維克美食徒步團（Food Walk，代替午餐）",add:"約 3 小時",d:"導遊帶住行市中心，一次過試羊肉湯、熱狗、魚、冰島乳酪等。"},
+   {id:"nauth",dur:90,ord:3,open:"11:00",close:"16:00",row:"Nauthólsvík 地熱海灘",t:"Nauthólsvík 地熱海灘（代替泳池）",add:"1–1.5 小時",k:"nauth"},
+   {id:"walk",dur:120,ord:7,row:"市區散步：哈爾格林姆大教堂、彩虹街、Laugavegur、Harpa、Sun Voyager",t:"市區散步（D1 下晝都有得行）",add:"約 2 小時",d:"哈爾格林姆大教堂登塔、彩虹街、Laugavegur、Harpa、Sun Voyager、熱狗。"}]},
  {d:1,date:"9/12（日）",stay:"雷克雅維克",legs:[L("kef","bl",20,{c:1}),L("bl","costco",35),L("costco","rvk",15)],
   plan:[["07:30","坐 Flybus 由 BSÍ 巴士站去 KEF 機場（約 45 分鐘；唔帶行李，行李寄存喺 BSÍ 行李寄存處或住處；班次上 re.is 查）","y"],["08:00","大隊落機 KEF；過關、攞行李","c"],["09:00–09:30","全部人一齊喺機場取車（2 部）","c"],["09:30","開車去藍湖（約 20 分鐘）；行李放車尾，貴重物品唔好放喺車上顯眼位置","c"],["10:00–12:15","藍湖（預約 10:00 時段）"],["12:15–13:00","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00","開車去雷克雅維克","c"],["13:45–14:15","Costco（Garðabær，順路，要會員卡）：買早餐材料、零食和飲品；冇卡可以去隔籬 IKEA 或 Bónus","o"],["14:30","到雷克雅維克住處放行李（入住時間要同住處確認）；Dorcas & Tebe 順路去 BSÍ 攞返行李","c"],["15:00–15:30","哈爾格林姆大教堂 Hallgrímskirkja 登塔（星期日 12:30 後開放）","o"],["15:30–16:00","沿 Skólavörðustígur 彩虹街落山；途經 Iceland Memories（20 號）買黑綿羊磁貼","o"],["16:00–16:45","Laugavegur 購物街","o"],["16:45–17:15","Harpa 音樂廳、沿海邊行去 Sun Voyager 維京船雕塑","o"],["17:15–17:35","Bæjarins Beztu 熱狗","o"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["大隊 08:00 落機，藍湖改訂 10:00 時段；下晝市區景點全部係可選，攰就喺住處休息",1],["虛線框係分組或者可選的行程",1]]},
@@ -551,9 +552,9 @@ const EP=plan=>plan.filter(r=>DT||r[2]!=="y").map(([t,a,f])=>[shiftClock(t),hr(s
 const depI=pl=>{const f=rx=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1]));const i=f(/出發|取車/);return i>=0?i:f(/退房/)};
 const toM=t=>{const [h,m]=t.split(":").map(Number);return h*60+m},toT=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
 const R0=day0=>{const day=REAL&&day0.real?{...day0,...day0.real}:day0;const x=day.v?day.v[scen]:null;if(!x)return day;return {...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]}};
-/* departure: firm = when the cars really leave; told = what everyone is told, always at least 15 minutes earlier */
+/* departure: firm = when the cars really leave; told = what everyone is told, always at least 30 minutes earlier */
 const R=day0=>{const d=R0(day0),x=day0.v?day0.v[scen]:null,firmPl=x&&x.plan?x.plan:(day0.real?day0.real.plan:day0.plan),toldPl=x&&x.plan?x.plan:day0.plan;
-  const fi=depI(firmPl),ti=depI(toldPl);if(fi<0||ti<0)return d;const firm=firmPl[fi][0],told=toT(Math.min(toM(toldPl[ti][0]),toM(firm)-15));
+  const fi=depI(firmPl),ti=depI(toldPl);if(fi<0||ti<0)return d;const firm=firmPl[fi][0],told=toT(Math.min(toM(toldPl[ti][0]),toM(firm)-30));
   if(REAL)return {...d,firmT:firm,toldT:told};const di=depI(d.plan);if(di<0)return d;const plan=d.plan.map((r,i)=>i===di?[told,...r.slice(1)]:r);return {...d,plan}};
 
 const buf=m=>Math.max(m+10,Math.ceil(m*1.2/5)*5);
@@ -839,7 +840,7 @@ perlan:{t:"Perlan 博物館",park:"Perlan 門口停車場；冇車就坐巴士�
  costco:{t:"Costco（Garðabær）",park:"Costco 門口大停車場，免費；油站在停車場旁",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"唔使",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 };
 /* which timetable rows a spot attaches to */
-const SPKW={k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const SPKW={nakano:/^Nakano/,k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,myvb:/米湖溫泉/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/西角山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
 const PQ={grab:"Grábrók parking",glaum:"Glaumbær museum parking",klaus:"Kirkjubæjarklaustur",gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",myvb:"Earth Lagoon Mývatn",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
 /* toilets: "有" = there is one at the spot; otherwise the nearest option */
@@ -1000,8 +1001,30 @@ function richRows(day){
   return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
+/* D0 (Dorcas & Tebe): picked recommendations become the 10:00–18:00 timetable; picks saved on this device */
+let RECP={};try{RECP=JSON.parse(store.get("iceland-recp")||"{}")}catch(e){RECP={}}
+const recPicked=raw=>(RECP[raw.d]||[]).filter(id=>(raw.rec||[]).some(o=>o.id===id));
+function recPlan(raw,day){
+  if(!DT||!raw.rec)return day;const ids=recPicked(raw);if(!ids.length)return day;
+  const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+  const sel=raw.rec.filter(o=>ids.includes(o.id)).sort((a,b)=>a.ord-b.ord),hasLunch=sel.some(o=>o.lunch);
+  let t=tm("10:00"),rows=[],warn=[];const END=tm("18:00"),GAP=15;
+  const push=(a,b,txt,f,note)=>{rows.push([`${tt(a)}–${tt(b)}`,txt+(note?`（${note}）`:""),f||""])};
+  sel.forEach((o,i)=>{
+    if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t>=tm("12:00")){push(t,t+60,"午餐：附近揀一間（見下面推薦食肆）","m");t+=60+GAP}
+    let st=t;if(o.open&&st<tm(o.open))st=tm(o.open);if(st+o.dur>END){warn.push(o.row.split("（")[0].split("：")[0]);return}t=st;
+    const end=t+o.dur;push(t,end,o.row,o.f,o.close&&end>tm(o.close)?`⚠ ${o.close} 關門，要早啲去`:"");
+    t=end+GAP});
+  if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t<=tm("14:30")){push(t,t+60,"午餐：附近揀一間（見下面推薦食肆）","m");t+=60+GAP}
+  if(warn.length)rows.push(["⚠",`時間唔夠，排唔落：${warn.join("、")}（18:00 前做唔晒，可以減其他項目）`,""]);
+  if(t-GAP<END-30)rows.push([`${tt(t-GAP)}–18:00`,"自由時間／返住處休息",""]);
+  const i=day.plan.findIndex(r=>/^自由活動/.test(r[1]));if(i<0)return day;
+  const plan=[...day.plan];plan.splice(i,1,...rows);return {...day,plan,recAuto:1};
+}
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const [d,id]=c.dataset.recpick.split("|");const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;delete RECP[b.dataset.recclear];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
 function card(raw){
-  const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
+  const day=recPlan(raw,R(raw)),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`${REAL?"預留 ":"約 "}${fmt(buf(l.m))}${REAL?`<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`:l.was?`<span class="was">${l.was}</span>`:""}`}</b></a>`).join("");
   const notes=(day.notes||[]).map(n=>`<li>${hr(n[0])}</li>`).join("");
   return `<article class="day" style="--dc:${dayCol(day.d)}">
@@ -1015,7 +1038,7 @@ function card(raw){
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
-    ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
+    ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
     ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div><div class="spots opts">${raw.opt.map(o=>`<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":(REAL?"車程（已多預留約兩成，按一下開 Google Maps）":"車程（按一下開 Google Maps）")}</div>${legs}`:""}
     ${day.stay?`<div class="stayline">住宿（未確定）：${day.stay}</div>`:""}
