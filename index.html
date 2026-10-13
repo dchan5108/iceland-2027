@@ -466,6 +466,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .pk .add{display:flex;gap:6px;margin-top:6px}.pk .add input{flex:1;min-width:0;font:inherit;font-size:13.5px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
 .pkx{border:0;background:transparent;color:var(--muted);cursor:pointer;margin-left:auto;font-size:13px}
 .pkprog{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:0 0 12px}.pkprog .bar{flex:1;height:8px;margin:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+html.pub .bnav,html.pub details.more{display:none!important}
 </style>
 
 </head>
@@ -1761,6 +1762,8 @@ let ME=(()=>{const v=parseInt(store.get("iceland-me"),10);return Number.isIntege
 let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD",BMODE=store.get("iceland-bmode")==="full"?"full":"simple";
 let ACT=st.act&&typeof st.act==="object"?{...st.act}:{};
 const RO=!REAL&&!DT;
+/* 大眾版：只顯示每日行程 */
+if(RO)document.documentElement.classList.add("pub");
 const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`${CUR} ${fI(x*rate())}`;
 function setMe(i){ME=i;store.set("iceland-me",String(i));let st2=document.getElementById("bme-css");if(!st2){st2=document.createElement("style");st2.id="bme-css";document.head.appendChild(st2)}
   st2.textContent=`@media (max-width:760px){#b-table .pc:not(.p${i}){display:none}}`}
@@ -2134,11 +2137,15 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 function renderPrep(){if(!DT)return;$("prep-fly").innerHTML=FLIGHTS?`<div class="card2">${FLIGHTS.replace(' id="g-fly"',"")}</div>`:"";
   $("prep").querySelectorAll(".prepnav a").forEach(a=>{a.onclick=e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}})}
 renderStays();if(DT){renderPack();renderPrep();$("tab-prep").hidden=false}
+/* 大眾版：只顯示行程同住宿 */
+if(RO){$("tab-tips").hidden=true;$("tab-budget").hidden=true}
 /* map can be collapsed; remembered on this device */
 function mapTog(open){$("view-trip").classList.toggle("nomap",!open);$("maptog").setAttribute("aria-expanded",String(open));$("maptog").querySelector("span").textContent=open?"收起地圖":"顯示地圖";store.set("iceland-mapc",open?"":"1")}
 $("maptog").addEventListener("click",()=>{const open=$("view-trip").classList.contains("nomap");mapTog(open);if(open){drawMap();dim()}});
 if(store.get("iceland-mapc")==="1")mapTog(false);
 function view(v){
+  if(RO&&(v==="tips"||v==="budget"||v==="guide"))v="trip";
+  if(RO)v="trip";
   document.querySelector(".hero").classList.toggle("compact",v!=="trip");
   let jump=null;if(v==="book"||v==="pack"){jump=v==="book"?"bookp":"pack";v="prep"}if(v==="prep"&&!DT)v="trip";
   const SEC={trip:"view-trip",prep:"prep",stay:"stays",budget:"budget",tips:"tips"};
