@@ -369,6 +369,22 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .bkprog{max-width:760px;font-size:14px;margin:4px 0}.bkprog .bkbar{height:8px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bkprog .bkbar i{display:block;height:100%;background:var(--route);border-radius:99px}
 .btable td.pay select{font-size:12px;max-width:7.5em;padding:2px}.payh{font-size:12px}
 .bsettle{max-width:760px;margin-top:14px}
+.tsec{max-width:760px;margin:0}.tsec>summary.tiph{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 0;padding-bottom:6px}
+.tsec>summary.tiph::-webkit-details-marker{display:none}.tsec>summary.tiph::after{content:"+";font-weight:400;color:var(--muted);font-size:20px;line-height:1;flex:0 0 auto}
+.tsec[open]>summary.tiph::after{content:"−"}.tsec[open]>summary.tiph{margin-bottom:8px}.tsec>summary.tiph:focus-visible{outline:2px solid var(--route);outline-offset:3px;border-radius:4px}
+.tsec .tsec{margin-left:0}
+.bbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:4px 0 10px;font-size:13.5px}.bbar select{font:inherit;padding:3px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg)}
+#budget.bsimple .donly{display:none!important}.mobonly{display:none}@media (max-width:760px){.mobonly{display:inline}}
+@media (max-width:560px){#budget .btot{display:grid;grid-template-columns:1fr 1fr;gap:8px}#budget .btot .you{grid-column:1/-1}#budget .btot b{font-size:18px}}
+.btot .you{background:var(--route);color:var(--card)}.btot .you small{color:inherit;opacity:.85}
+.tag.tagok{background:var(--okbg);color:var(--ok2)}
+.bduo{display:grid;gap:12px;margin:12px 0;align-items:start}
+@media (min-width:900px){.bduo{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}}
+.bsec{background:var(--card);border-radius:16px;box-shadow:var(--shadow);min-width:0}
+.bsec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:12px 16px;font-weight:700;font-size:15px}
+.bsec>summary::-webkit-details-marker{display:none}.bsec>summary::before{content:"▸";color:var(--muted);font-size:12px;transition:transform .15s}.bsec[open]>summary::before{transform:rotate(90deg)}
+.bsec>summary span{margin-left:auto;font-weight:600;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bsec .bme,.bsec .bpie{box-shadow:none;margin:0;padding:0 16px 14px;max-width:none;background:transparent;border-radius:0}
 .bme{max-width:760px;margin:12px 0;background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:6px 14px 10px}.meh{display:flex;justify-content:space-between;align-items:center;gap:8px}.meh select{font:inherit;padding:3px 6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
 .metot b{font-size:22px;display:block}.metot small{color:var(--muted);font-size:12.5px}
 .mecat{border-top:1px solid var(--line);padding:6px 0}.mecat summary{cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}.mecat summary span{margin-left:auto;font-variant-numeric:tabular-nums}.mecat i{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
@@ -388,25 +404,102 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
   #panel .day{margin-top:0}
   #fnav{display:none!important}
 }
+
+/* ---- 2027 refresh: aurora header, knit strip, bottom nav, new pages ---- */
+:root{--aur1:#3fc79a;--aur2:#6f86e0;--star:#9fb6c0;--mt1:#c9d8d6;--mt2:#9fb3b4;--snow:#ffffff;--turf:#6f9a5b;--house:#e9e2d2;--door:#8a5a3c;--knit:#1d6e8a;--ok2:#2f8a57;--warn:#b5523b;--warnbg:#f8e6df;--okbg:#e3f1e8;--nav:rgba(255,255,255,.92)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}}
+:root[data-theme="dark"]{--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}
+.hero{position:relative;padding:6px 0 4px;isolation:isolate}
+.heroart{position:absolute;right:-16px;top:-22px;width:min(70%,520px);height:170px;z-index:-1;opacity:.95}
+.heroart .aur path{animation:aurw 9s ease-in-out infinite alternate;transform-origin:center}.heroart .aur .aur2{animation-duration:12s}
+@keyframes aurw{from{transform:translateY(0) scaleY(1)}to{transform:translateY(-4px) scaleY(1.12)}}
+@media (prefers-reduced-motion:reduce){.heroart .aur path{animation:none}}
+.eyebrow{margin:0 0 2px;font-size:12px;letter-spacing:.14em;color:var(--route);font-weight:700}
+.hero h1,.hero .sub,.hero .stats{max-width:62%}
+@media (max-width:640px){.heroart{width:78%;opacity:.55;top:-12px;right:0}.hero.compact .stats,.hero.compact .sub,.hero.compact .eyebrow{display:none}.hero h1,.hero .sub,.hero .stats{max-width:none}}
+.more{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0 4px;font-size:13px}.more span{color:var(--muted);font-size:12px;letter-spacing:.08em}
+.more button{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:3px 12px;cursor:pointer;font-size:13px}
+.more button[aria-selected="true"]{background:var(--route);border-color:var(--route);color:var(--card)}
+.knit{height:12px;margin:10px 0 14px;background:var(--knit);opacity:.55;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M0 6h2M22 6h2M4 4h2v4H4zM18 4h2v4h-2zM12 0l3 3-3 3-3-3zM12 6l3 3-3 3-3-3zM8 6h1M15 6h1' fill='black' stroke='black' stroke-width='1'/%3E%3C/svg%3E") repeat-x center/24px 12px;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M0 6h2M22 6h2M4 4h2v4H4zM18 4h2v4h-2zM12 0l3 3-3 3-3-3zM12 6l3 3-3 3-3-3zM8 6h1M15 6h1' fill='black' stroke='black' stroke-width='1'/%3E%3C/svg%3E") repeat-x center/24px 12px}
+.tabs{display:none!important}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--nav);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+.bnav button{border:0;background:transparent;color:var(--muted);display:grid;justify-items:center;gap:1px;padding:5px 2px;font-size:11.5px;cursor:pointer;border-radius:12px;position:relative}
+.bnav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bnav button[aria-selected="true"]{color:var(--route);font-weight:700}
+.bnav button[aria-selected="true"]::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--route)}
+@media (min-width:760px){.bnav{left:50%;right:auto;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(560px,92vw);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:4px}
+  .bnav button{grid-auto-flow:column;align-items:center;gap:6px;font-size:13.5px;padding:8px 4px}.bnav button[aria-selected="true"]{background:var(--bg)}.bnav button[aria-selected="true"]::before{display:none}}
+.wrap{padding-block:22px 150px}
+.fnav{bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+@media (min-width:760px){.fnav{bottom:calc(82px + env(safe-area-inset-bottom,0px))}}
+.maptog{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer}
+.maptog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+#view-trip.nomap .mapcol{display:none}
+@media screen and (min-width:1000px){#view-trip.nomap{grid-template-columns:minmax(0,1fr)}#view-trip.nomap #panel{grid-column:1;max-width:820px}}
+.prepnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;background:var(--bg);padding:8px 0;margin-bottom:6px}.prepnav a{flex:1;text-align:center;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 10px;font-size:13.5px;color:var(--fg);text-decoration:none;font-weight:600}
+#prep #bookp,#prep #pack{scroll-margin-top:56px;margin-top:22px}#prep-fly{scroll-margin-top:56px}
+.pg{max-width:880px}.pg h2{margin-top:0}
+.pghead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin-bottom:6px}.pghead p{margin:0;color:var(--muted);font-size:13.5px}
+.card2{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:12px 16px;margin:0 0 12px}
+.card2 h3{margin:0 0 6px;font-size:15.5px}
+.drv{width:100%;border-collapse:collapse;font-size:14px}.drv th{font-size:12px;color:var(--muted);text-align:left;font-weight:600;padding:4px 6px;border-bottom:1px solid var(--line)}
+.drv td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}.drv tr[data-d]{cursor:pointer}.drv tr[data-d]:hover td{background:var(--bg)}
+.drv .dd{display:inline-block;min-width:2.6em;text-align:center;color:#fff;background:var(--dc);border-radius:6px;font-size:12.5px;font-weight:700;padding:0 5px}
+.drv .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.drv small{color:var(--muted);display:block;font-size:12px}
+.drv tfoot td{font-weight:700;border:0}
+.bar{height:6px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--dc,var(--route));border-radius:99px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:0 0 12px}.facts div{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:10px 12px}.facts small{display:block;color:var(--muted);font-size:12px}.facts b{font-size:17px;font-variant-numeric:tabular-nums}
+.stl2{display:grid;gap:10px}
+.night{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:12px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.night .nd{grid-row:span 3;text-align:center;min-width:3.6em}.night .nd b{display:block;font-size:18px;color:var(--dc,var(--route));line-height:1.2}.night .nd small{color:var(--muted);font-size:11.5px}
+.night h3{margin:0;font-size:15.5px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.st{font-size:11.5px;font-weight:700;border-radius:999px;padding:1px 9px}.st.ok{background:var(--okbg);color:var(--ok2)}.st.todo{background:var(--warnbg);color:var(--warn)}.st.chg{background:var(--chg-bg);color:var(--chg)}
+.night p{margin:0;font-size:13.5px;color:var(--muted)}
+.night .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 14px;font-size:13px;grid-column:2}.night .opts b{font-size:12px;color:var(--muted);display:block}.night .opts ul{margin:2px 0 0;padding-left:16px}
+.night .act .bkb{margin:0;flex-basis:100%}.bkb .muted{color:var(--muted)}.bkb input{width:7.5em}
+.night .act{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}.night .act label{display:inline-flex;gap:6px;align-items:center;cursor:pointer;font-weight:600}.night .act input{width:17px;height:17px;accent-color:var(--route)}
+@media (max-width:480px){.night{grid-template-columns:minmax(0,1fr)}.night .nd{grid-row:auto;text-align:left;display:flex;gap:8px;align-items:baseline}.night .opts,.night .act{grid-column:1}}
+.pkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;align-items:start}
+.pk h3{display:flex;justify-content:space-between;align-items:baseline}.pk h3 small{font-weight:500;color:var(--muted);font-size:12px}
+.pk ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}.pk li label{display:flex;gap:9px;align-items:flex-start;padding:5px 2px;cursor:pointer;font-size:14px}.pk li input{width:17px;height:17px;margin-top:2px;accent-color:var(--route);flex:0 0 auto}
+.pk li small{display:block;color:var(--muted);font-size:12px}.pk li.done span{text-decoration:line-through;color:var(--muted)}
+.pk .add{display:flex;gap:6px;margin-top:6px}.pk .add input{flex:1;min-width:0;font:inherit;font-size:13.5px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.pkx{border:0;background:transparent;color:var(--muted);cursor:pointer;margin-left:auto;font-size:13px}
+.pkprog{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:0 0 12px}.pkprog .bar{flex:1;height:8px;margin:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
 </style>
 
 </head>
 <body>
 <div class="wrap">
+  <header class="hero">
+  <svg class="heroart" viewBox="0 0 420 150" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false">
+    <defs><linearGradient id="aur" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--aur1)" stop-opacity="0"/><stop offset=".35" stop-color="var(--aur1)" stop-opacity=".75"/><stop offset=".75" stop-color="var(--aur2)" stop-opacity=".55"/><stop offset="1" stop-color="var(--aur2)" stop-opacity="0"/></linearGradient>
+    <linearGradient id="aurv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="1"/></linearGradient><mask id="aurm"><rect width="420" height="150" fill="url(#aurv)"/></mask></defs>
+    <g class="aur" mask="url(#aurm)"><path d="M60 70 C120 20 170 60 230 34 S330 10 410 40 L410 78 C330 52 290 80 230 70 S120 92 60 96Z" fill="url(#aur)"/><path class="aur2" d="M120 58 C180 30 240 52 290 30 S370 24 420 44 L420 60 C370 44 320 62 280 56 S190 66 120 74Z" fill="url(#aur)" opacity=".7"/></g>
+    <g fill="var(--star)"><circle cx="150" cy="16" r="1.1"/><circle cx="212" cy="10" r=".9"/><circle cx="276" cy="20" r="1.2"/><circle cx="338" cy="12" r=".9"/><circle cx="392" cy="24" r="1"/><circle cx="104" cy="30" r=".8"/></g>
+    <path d="M150 150 L218 92 L246 112 L292 70 L340 108 L372 88 L420 120 L420 150Z" fill="var(--mt2)"/>
+    <path d="M281 80 L292 70 L304 80 L297 78 L292 84 L286 79Z" fill="var(--snow)"/><path d="M211 98 L218 92 L226 98 L220 97Z" fill="var(--snow)"/>
+    <path d="M90 150 C160 122 210 118 262 128 C300 120 350 112 420 132 L420 150Z" fill="var(--mt1)"/>
+    <g transform="translate(316 118)"><path d="M0 14 L13 2 L26 14Z" fill="var(--turf)"/><rect x="3" y="14" width="20" height="10" fill="var(--house)"/><rect x="10" y="17" width="6" height="7" fill="var(--door)"/><path d="M26 14 L37 4 L48 14Z" fill="var(--turf)"/><rect x="29" y="14" width="16" height="10" fill="var(--house)"/><rect x="34" y="16" width="5" height="4" fill="var(--door)"/></g>
+  </svg>
+  <p class="eyebrow">Ísland · 64°N · 2027 年 9 月</p>
   <h1>2027 冰島（暫定行程）<span class="vbadge" id="vbadge">大眾版</span></h1>
-  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 <span class="ver">更新：10/13 18:40</span></p>
+  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 <span class="ver">更新：10/13 19:50</span></p>
   <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span></div>
-  <nav class="tabs" role="tablist" aria-label="頁面">
-    <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
-    <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">注意事項</button>
-    <button type="button" role="tab" id="tab-guide" aria-selected="false" aria-controls="guide">攻略</button>
-    <button type="button" role="tab" id="tab-book" aria-selected="false" aria-controls="bookp">預訂</button>
-    <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget">預算</button>
+  </header>
+  <div class="knit" aria-hidden="true"></div>
+  <nav class="bnav" aria-label="主要頁面">
+    <button type="button" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><span>每日行程</span></button>
+    <button type="button" id="tab-prep" aria-selected="false" aria-controls="prep" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M5 12h14"/><path d="M10 15.5l1.5 1.5 3-3"/></svg><span>出發準備</span></button>
+    <button type="button" id="tab-stay" aria-selected="false" aria-controls="stays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-8 9 8"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg><span>住宿</span></button>
+    <button type="button" id="tab-tips" aria-selected="false" aria-controls="tips"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg><span>注意事項</span></button>
+    <button type="button" id="tab-budget" aria-selected="false" aria-controls="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.7 2.5 1.7-1 1.4-2.5 1.6-2.5.7-2.5 1.7 1 1.7 2.5 1.7 2.5-.6 2.5-1.6"/></svg><span>預算</span></button>
   </nav>
 
   <div id="view-trip" role="tabpanel" aria-labelledby="tab-trip">
 
     <div class="topbar">
+      <button type="button" class="maptog" id="maptog" aria-expanded="true" aria-controls="mapcol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>收起地圖</span></button>
       <div class="scen" id="drvgrp" role="group" aria-label="車程顯示" hidden>
         <span>車程</span>
         <div class="seg"><button type="button" id="dv-buf" aria-pressed="true">預留時間</button><button type="button" id="dv-raw" aria-pressed="false">實際車程</button></div>
@@ -418,7 +511,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     </div>
 
     <div class="chips" id="chips" role="group" aria-label="選擇日子"></div>
-    <div class="mapcol">
+    <div class="mapcol" id="mapcol">
     <div class="mapbox"><svg id="map" viewBox="0 10 1000 690" tabindex="0" role="img" aria-label="2027 冰島路線圖，可以拖動和縮放"></svg>
       <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button><button type="button" id="zcity" aria-label="雷克雅維克市區" class="zc">市區</button><button type="button" id="zgm" aria-label="切換 Google 實景地圖" class="zc">實景</button><button type="button" id="zme" aria-label="顯示我嘅位置" hidden>◎</button></div>
       <div id="gmap" hidden></div><div id="gmmsg" class="gmmsg" hidden></div>
@@ -444,14 +537,26 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <nav class="fnav" id="fnav" aria-label="日子導航" hidden><button type="button" id="fprev">‹ 前一日</button><button type="button" id="fall">全部日子</button><button type="button" id="fnext">後一日 ›</button></nav>
   </div>
 
+  <section id="stays" class="pg" role="tabpanel" aria-labelledby="tab-stay" hidden></section>
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
-  <section id="guide" role="tabpanel" aria-labelledby="tab-guide" hidden></section>
-  <section id="bookp" role="tabpanel" aria-labelledby="tab-book" hidden></section>
+  <section id="prep" class="pg" role="tabpanel" aria-labelledby="tab-prep" hidden>
+    <div class="pghead"><h2>出發準備</h2><p>只喺 Dorcas & Tebe 版顯示</p></div>
+    <nav class="prepnav" aria-label="出發準備"><a href="#prep-fly">機票</a><a href="#bookp">預訂清單</a><a href="#pack">行李</a></nav>
+    <div id="prep-fly"></div>
+    <div id="bookp"></div>
+    <div id="pack"></div>
+  </section>
 
   <section class="budget" id="budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
     <h2 style="margin-top:0">預算估算</h2>
-    <p class="bnote">價錢主要來自 2026 年的官網或訂票網站，2027 年可能會調整；標「估」的是粗略估計，標「待填」的請自行輸入。所有數字都可以直接修改；修改只會儲存在你這部裝置。</p>
-    <div class="bctl">
+    <p class="bnote rwnote">價錢主要來自 2026 年的官網或訂票網站，2027 年可能會調整；標「估」的是粗略估計，標「待填」的請自行輸入。所有數字都可以直接修改；修改只會儲存在你這部裝置。</p>
+    <div class="bbar">
+      <div class="seg" role="group" aria-label="顯示方式"><button type="button" data-bmode="simple" aria-pressed="true">簡易</button><button type="button" data-bmode="full" aria-pressed="false">詳細</button></div>
+      <label for="b-who">我係 <select id="b-who"></select></label>
+      <label for="b-cur">顯示 <select id="b-cur"><option value="HKD">HKD</option><option value="AUD">AUD</option></select></label>
+    </div>
+    <p class="bnote ronote" hidden>大眾版只供睇：數字由 Dorcas 更新。你可以揀「我係」睇自己要俾幾多，同埋喺「個人開支」自己嗰格填自己的開支（只存喺你部機）。</p>
+    <div class="bctl donly">
       <label for="b-people">人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
       <label for="b-cars">車數 <input type="number" id="b-cars" min="1" max="5" step="1" value="2"></label>
       <label for="b-food">飲食 <select id="b-food"><option value="cook">晚餐大部分自己煮</option><option value="out">出外食為主</option></select></label>
@@ -460,12 +565,14 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
       <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label>
     </div>
     <div class="btot" id="b-tot"></div>
-    <div class="bme" id="b-me"></div>
-    <div class="bpie" id="b-pie"></div>
-    <p class="bnote" style="margin-top:12px">表格右邊每人一欄：溫泉和活動預設全部人參加，可以逐格取消，或用「全選／清除」一次改整行；其他項目會自動計算每人應付的份額。最底一行是每個人各自的總額。名字可以直接改。</p>
-    <div class="bwrap"><table class="btable" id="b-table"></table></div>
+    <div class="bduo">
+      <details class="bsec" id="bs-me" open><summary>個人明細<span id="bs-me-s"></span></summary><div class="bme" id="b-me"></div></details>
+      <details class="bsec" id="bs-pie" open><summary>預算分佈<span id="bs-pie-s"></span></summary><div class="bpie" id="b-pie"></div></details>
+    </div>
+    <p class="bnote donly" style="margin-top:12px"><span class="mobonly">手機只顯示「我係」嗰個人一欄；轉人就改上面。</span>表格右邊每人一欄：溫泉和活動預設全部人參加，可以逐格取消，或用「全選／清除」一次改整行；其他項目會自動計算每人應付的份額。最底一行是每個人各自的總額。名字可以直接改。</p>
+    <div class="bwrap donly"><table class="btable" id="b-table"></table></div>
     <div class="bsettle" id="b-settle"></div>
-    <p class="bsrc" id="b-src"></p>
+    <p class="bsrc donly" id="b-src"></p>
   </section>
 </div>
 
@@ -599,7 +706,7 @@ const days=[
    plan:[["08:00","早餐、退房","m"],["09:15","出發","c"],["10:15–16:15","補做 6 小時冰川健行（自備午餐）","c"],["16:25","直接開往維克","c"],["17:35–17:45","埃爾德熔岩原（路邊停一停）"],["18:45","到維克、入住"],["19:15","晚餐：住處或步行可到的餐廳","m"]],
    notes:[["為了日落前到維克，Kirkjubæjarklaustur 要放棄；黑沙灘移到 D10 早上",1]]}},
   opt:[{id:"stjo",leg:{a:"klaus",b:"reyn",to:"stjo",m1:5,m2:70},ins:{anchor:/^Kirkjubæjarklaustur/,gap:0,dur:20,row:"Stjórnarfoss 瀑布（Kirkjubæjarklaustur 鎮旁）",shift:20},k:"stjo",t:"Stjórnarfoss 瀑布",add:"+20 分鐘",d:"喺 Kirkjubæjarklaustur 鎮旁，從停車處短步行即到。只適合健行順利版。"}]},
- {d:10,wx:"落雨時水簾洞瀑布後面條路好濕滑，要著防水衫褲；騎馬因天氣取消可以改去 Hvolsvöllur 嘅 Lava Centre 火山展覽館。",date:"9/21（二）",stay:"塞爾福斯",v:{
+ {d:10,wx:"落雨時水簾洞瀑布後面條路好濕滑，要著防水衫褲；騎馬因天氣取消可以改去 Hvolsvöllur 嘅 Lava Centre 火山展覽館。",date:"9/21（二）",stay:"Mr Iceland 農場（Efri-Úlfsstaðir）",v:{
   ok:{tag:"健行順利版",arrive:"17:05",legs:[L("vik","solh",25,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1})],
    plan:[["08:30","早餐","m"],["09:30","退房出發","c"],["10:05–10:50","Sólheimajökull 冰川觀景步道（免費，不上冰）","c"],["11:15–12:00","斯科加爾瀑布（可行樓梯上頂）"],["12:00–12:45","午餐：Skógar","m"],["13:05–14:35","Skálakot 騎馬（預約 13:05）","c"],["15:00–15:50","水簾洞瀑布＋Gljúfrabúi 隱藏瀑布","c"],["17:05","到塞爾福斯、入住","c"],["19:00","晚餐：住處自己煮或步行可到的餐廳","m"]]},
   redo:{tag:"補做健行版",arrive:"18:05",legs:[L("vik","reyn",15),L("reyn","dyr",20,{c:1}),L("dyr","solh",20,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1})],
@@ -636,7 +743,7 @@ const DTO="只限 Dorcas & Tebe";
 /* ---- optional shared sync through a Google Sheet + Apps Script web app (set up under ⋯ 工具) ----
    synced: booking ticks, free-cancel dates, pre-departure checklist, emergency numbers, budget (incl. who paid) */
 const SYNC={url:PV?"":(store.get("iceland-sync-url")||""),pass:store.get("iceland-sync-pass")||"",ready:0,boot:1};setTimeout(()=>{SYNC.boot=0},0);
-const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|budget-v\d+)$/;
+const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|budget-v\d+)$/;
 let SYNCT={};try{SYNCT=JSON.parse(localStorage.getItem("iceland-sync-t")||"{}")}catch(e){}
 const syncQ=new Set();let syncTm=null,SYNCST={s:"",m:""};
 const hhmm=()=>new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -1217,7 +1324,7 @@ const TAGS={v:"待大家決定",o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人"
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 /* confirmed marks: tap the timeline dot (real versions only); saved on this device */
 /* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
-const CONFIRMED={"-4":true,1:[/坐 Flybus 由 BSÍ/,/大隊落機 KEF/,/全部人一齊喺機場取車/],2:true,3:true,7:[/冰河湖獨木舟/]};
+const CONFIRMED={"-4":true,1:[/坐 Flybus 由 BSÍ/,/大隊落機 KEF/,/全部人一齊喺機場取車/],2:true,3:true,7:[/冰河湖獨木舟/],10:[/^早餐$/,/^退房出發$/,/Sólheimajökull 冰川觀景步道/,/^斯科加爾瀑布（可行樓梯上頂）/,/^午餐：Skógar/,/Skálakot 騎馬（預約 13:05）/,/^水簾洞瀑布＋Gljúfrabúi/,/^到塞爾福斯、入住/,/^晚餐：住處自己煮或步行可到的餐廳/]};
 const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const isConf=(d,a,f)=>{const c=CONFIRMED[d];if(c===true)return f!=="y";return (c||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")))};
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
@@ -1572,8 +1679,10 @@ function gmLocate(){
   gmWatch=navigator.geolocation.watchPosition(p=>{const pos={lat:p.coords.latitude,lng:p.coords.longitude};
     if(!gmMe){gmMe=new google.maps.Marker({position:pos,map:GM,zIndex:9,title:"你而家喺度",icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:"#1a73e8",fillOpacity:1,strokeColor:"#ffffff",strokeWeight:3}});GM.panTo(pos);GM.setZoom(Math.max(GM.getZoom(),11))}else gmMe.setPosition(pos)},
     ()=>gmMsg("攞唔到位置：要允許定位權限"),{enableHighAccuracy:true,maximumAge:30000})}
+/* bottom-nav label: "D1 9/12" for one day, 每日行程 for all */
+function navLab(){const b=$("tab-trip")&&$("tab-trip").querySelector("span");if(!b)return;const dd=sel!==ALL&&days.find(x=>x.d===sel);b.textContent=dd?`${dLab(sel)} ${dd.date.replace(/（[^）]*）/g,"").replace(/\s/g,"")}`:"每日行程"}
 function select(d,scroll){
-  sel=d;store.set("iceland-day2",String(d));
+  sel=d;store.set("iceland-day2",String(d));navLab();
   $("chips").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.d===d)));
   renderPanel();zoomDay(d);dim();$("pop").hidden=true;if(gmOn)gmDraw();
   const nav=$("fnav");nav.hidden=d===ALL;if(d!==ALL){const i=days.findIndex(x=>x.d===d),pv=days[i-1],nx=days[i+1];$("fprev").disabled=!pv;$("fnext").disabled=!nx;$("fprev").textContent=pv?`‹ ${dLab(pv.d)}`:"‹";$("fnext").textContent=nx?`${dLab(nx.d)} ›`:"›"}
@@ -1631,7 +1740,7 @@ const BUD=[
  ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨・快艇 RIB（D4）",22990,1,"a",{note:"Gentle Giants 2027 年成人價，約 2 小時"}),B_("geosea","GeoSea 海水溫泉（D4，唔觀鯨的人，或者全部人；待決定）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("myv","米湖溫泉 Earth Lagoon（D4 傍晚，待決定）",7900,1,"a",{def:false,note:"Earth Essential 起價；全部人傍晚去"}),B_("kayak","冰河湖獨木舟（D7，確定）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/18 有團"}),B_("glac","6 小時冰川健行（D8）",24900,1,"a",{src:"",note:"你清單上 Blue Iceland 的價錢"}),B_("horse","Skálakot 騎馬（D10）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D11）",22900,1,"a",{note:"現場集合，不含接送"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 KEF 取車，12 日）",18000,12,"c",{est:1,src:"",note:"每日價錢，9 月下旬 SUV／大旅行車估價，待報價；7 人加行李要較大的車"}),B_("carins","租車保險（SCDW＋碎石 GP＋沙塵 SAAP）",4500,12,"c",{est:1,src:"",note:"每日；碎石同沙塵係冰島最常見損壞，唔好慳；有啲公司已包喺日租，比較時睇總價"}),B_("drv2","第二司機",1000,12,"c",{est:1,src:"",note:"每日；有啲公司免費，取車時加名；每部車最少 2 個人可以揸"}),B_("km","道路里程費（每公里）",7,2000,"c",{src:"km",note:"2026 年起每公里約 6.95 ISK，數量 = 公里；有啲租車公司已計入日租，咁就剔走"}),B_("fuel","油費（約 2,000 公里）",29000,1,"c",{est:1,src:"km",note:"約 2,000 km × 每百公里 7 公升 × 約 205 ISK/L（2026 年油稅減咗）；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("parka","Parka 月費",490,1,"c",{src:"",note:"每部車開一個月費，免每次約 89 ISK 手續費；用完取消續訂"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
- ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；揀有泊車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已揀）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 米湖區",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；選擇少，要早訂"}),B_("air5","D5 9/16 埃伊爾斯塔濟 Egilsstaðir",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7–D8 9/18–9/19 冰河湖以西（Hof／Skaftafell）2 晚",70000,2,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；每晚；數量 2"}),B_("air9","D9 9/20 維克 Vík",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 塞爾福斯 Selfoss",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；比雷克雅維克平"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...(DT?[B_("dts6","Dorcas & Tebe：9/6 雷克雅維克（落機當晚）",12500,1,"a",{est:1,src:"",dt:1,note:"每人；市中心民宿或酒店雙人房約 25,000 ISK 兩人分"}),B_("dthut","Dorcas & Tebe：9/7–9/9 高地山屋 3 晚（如自助徒步）",11000,3,"a",{est:1,src:"",dt:1,note:"每人每晚；跟團的話團費通常已包，就剔走"}),B_("dts10","Dorcas & Tebe：9/10–9/11 雷克雅維克 2 晚",12500,2,"a",{est:1,src:"",dt:1,note:"每人每晚；可以直接續住到 9/12 大隊入住"})]:[])]],
+ ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；揀有泊車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已揀）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 米湖區",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；選擇少，要早訂"}),B_("air5","D5 9/16 埃伊爾斯塔濟 Egilsstaðir",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7–D8 9/18–9/19 冰河湖以西（Hof／Skaftafell）2 晚",70000,2,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；每晚；數量 2"}),B_("air9","D9 9/20 維克 Vík",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 Mr Iceland 農場（Efri-Úlfsstaðir）",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；比雷克雅維克平"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...(DT?[B_("dts6","Dorcas & Tebe：9/6 雷克雅維克（落機當晚）",12500,1,"a",{est:1,src:"",dt:1,note:"每人；市中心民宿或酒店雙人房約 25,000 ISK 兩人分"}),B_("dthut","Dorcas & Tebe：9/7–9/9 高地山屋 3 晚（如自助徒步）",11000,3,"a",{est:1,src:"",dt:1,note:"每人每晚；跟團的話團費通常已包，就剔走"}),B_("dts10","Dorcas & Tebe：9/10–9/11 雷克雅維克 2 晚",12500,2,"a",{est:1,src:"",dt:1,note:"每人每晚；可以直接續住到 9/12 大隊入住"})]:[])]],
  ["出發前（每人）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"})]],
  ["個人開支（每人自己填）",[B_("flight","機票",0,1,"i",{src:"",note:"每人航線唔同，喺自己嗰格填（ISK）；用積分就填稅項"}),B_("pocket","個人零用（購物、手信、零食、咖啡）",15000,1,"i",{est:1,src:"",note:"每人自己估，喺自己嗰格改"}),B_("own","其他自己的開支",0,1,"i",{src:"",note:"例如自己加的活動、行李超重"})]]
 ];
@@ -1648,16 +1757,22 @@ let PAY=st.pay&&typeof st.pay==="object"?{...st.pay}:{};
 const join={};actRows.forEach(r=>{join[r.id]=Array.isArray((st.join||{})[r.id])?st.join[r.id].slice():[]});
 const scopeTxt={p:"每人 × 人數",c:"每車 × 車數",g:"全組平均分攤",i:"各自填"};
 const indRows=rowsAll.filter(r=>r.scope==="i"),IND={};indRows.forEach(r=>{IND[r.id]=Array.isArray((st.ind||{})[r.id])?st.ind[r.id].slice():[]});
-let ME=Number.isInteger(st.me)?st.me:0;
+let ME=(()=>{const v=parseInt(store.get("iceland-me"),10);return Number.isInteger(v)?v:Number.isInteger(st.me)?st.me:0})();
+let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD",BMODE=store.get("iceland-bmode")==="full"?"full":"simple";
+let ACT=st.act&&typeof st.act==="object"?{...st.act}:{};
+const RO=!REAL&&!DT;
+const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`${CUR} ${fI(x*rate())}`;
+function setMe(i){ME=i;store.set("iceland-me",String(i));let st2=document.getElementById("bme-css");if(!st2){st2=document.createElement("style");st2.id="bme-css";document.head.appendChild(st2)}
+  st2.textContent=`@media (max-width:760px){#b-table .pc:not(.p${i}){display:none}}`}
 let built=0;
 function build(ppl){
   const DEF=["Dorcas","Tebe"];while(names.length<ppl)names.push(DEF[names.length]||`成員 ${names.length+1}`);names=names.slice(0,ppl);
   actRows.forEach(r=>{const x=join[r.id];while(x.length<ppl)x.push(r.dt?x.length<2:r.def);join[r.id]=x.slice(0,ppl)});
   indRows.forEach(r=>{const x=IND[r.id];while(x.length<ppl)x.push(r.price);IND[r.id]=x.slice(0,ppl)});if(ME>=ppl)ME=0;
   const P_=[...Array(ppl).keys()],cols=7+ppl;Object.keys(PAY).forEach(k=>{if(+PAY[k]>=ppl)delete PAY[k]});
-  const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th><th class="payh">邊個俾咗</th>${P_.map(i=>`<th class="pc"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
-  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}" data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td>${r.scope==="i"?`<td class="num muted" colspan="2">右邊每人一格<input type="hidden" id="bp-${r.id}" value="${r.price}"><input type="hidden" id="bq-${r.id}" value="1"></td>`:`<td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td>`}<td class="num" id="bs-${r.id}"></td><td class="pay">${r.scope==="i"?`<span class="muted">自己俾</span><input type="hidden" id="by-${r.id}" value="">`:`<select id="by-${r.id}" aria-label="${r.name}：邊個俾咗錢"><option value="">未俾</option>${P_.map(i=>`<option value="${i}"${PAY[r.id]!=null&&+PAY[r.id]===i?" selected":""}>${esc(names[i])}</option>`).join("")}</select>`}</td>${P_.map(i=>r.scope==="i"?`<td class="pc"><input type="number" class="ind" id="mi-${r.id}-${i}" min="0" step="500" value="${IND[r.id][i]}" aria-label="${esc(names[i])}：${r.name}（ISK）"></td>`:r.scope==="a"?`<td class="pc ck"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
-  const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td><td></td>${P_.map(i=>`<td class="pc num" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td><td></td>${P_.map(i=>`<td class="pc num" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
+  const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th><th class="payh">邊個俾咗</th>${P_.map(i=>`<th class="pc p${i}"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
+  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}" data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${ACT[r.id]?'<span class="tag tagok">已訂</span>':r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td>${r.scope==="i"?`<td class="num muted" colspan="2">右邊每人一格<input type="hidden" id="bp-${r.id}" value="${r.price}"><input type="hidden" id="bq-${r.id}" value="1"></td>`:`<td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td>`}<td class="num" id="bs-${r.id}"></td><td class="pay">${r.scope==="i"?`<span class="muted">自己俾</span><input type="hidden" id="by-${r.id}" value="">`:`<select id="by-${r.id}" aria-label="${r.name}：邊個俾咗錢"><option value="">未俾</option>${P_.map(i=>`<option value="${i}"${PAY[r.id]!=null&&+PAY[r.id]===i?" selected":""}>${esc(names[i])}</option>`).join("")}</select>`}</td>${P_.map(i=>r.scope==="i"?`<td class="pc p${i}"><input type="number" class="ind" id="mi-${r.id}-${i}" min="0" step="500" value="${IND[r.id][i]}" aria-label="${esc(names[i])}：${r.name}（ISK）"></td>`:r.scope==="a"?`<td class="pc ck p${i}"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share p${i}" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
+  const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td><td></td>${P_.map(i=>`<td class="pc num p${i}" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item" id="fh-lab">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td><td></td>${P_.map(i=>`<td class="pc num p${i}" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
   $("b-table").innerHTML=head+`<tbody>${body}</tbody>`+foot;built=ppl;
 }
 /* budget donut: share of the group total by category (visible legend doubles as the table view) */
@@ -1670,25 +1785,30 @@ function drawPie(ppl,hkd){
   tot.forEach((v,i)=>{if(!v)return;const a1=a0+v/sum*Math.PI*2,big=a1-a0>Math.PI?1:0,[x0,y0]=pt(a0,R),[x1,y1]=pt(a1,R),[x2,y2]=pt(a1,r),[x3,y3]=pt(a0,r);
     const d=v===sum?`M${cx-R},${cy}a${R},${R} 0 1,0 ${2*R},0a${R},${R} 0 1,0 ${-2*R},0M${cx-r},${cy}a${r},${r} 0 1,1 ${2*r},0a${r},${r} 0 1,1 ${-2*r},0Z`:`M${x0},${y0}A${R},${R} 0 ${big} 1 ${x1},${y1}L${x2},${y2}A${r},${r} 0 ${big} 0 ${x3},${y3}Z`;
     paths+=`<path d="${d}" fill="var(--pc${i})" stroke="var(--card)" stroke-width="2" data-i="${i}"><title>${names[i]}：${fI(v)} ISK（${Math.round(v/sum*100)}%）</title></path>`;a0=a1});
-  $("b-pie").innerHTML=`<h3 class="tiph">預算分佈（全組，已勾選項目）</h3><div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}<text x="90" y="84" text-anchor="middle" class="pct1">平均每人</text><text x="90" y="104" text-anchor="middle" class="pct2">${fI(sum/ppl)}</text><text x="90" y="120" text-anchor="middle" class="pct1">ISK</text></svg>
-   <ul class="plg">${tot.map((v,i)=>`<li data-i="${i}"><i style="background:var(--pc${i})"></i><span class="pn">${names[i]}</span><span class="pv">${Math.round(v/sum*100)}%</span><span class="pa">${fI(v)} ISK<small>每人約 ${fI(v/ppl)} ISK・HKD ${fI(v/ppl*hkd)}</small></span></li>`).join("")}</ul></div>`;
+  const ps=$("bs-pie-s");if(ps)ps.textContent=`全組 ${fI(sum)} ISK`;
+  $("b-pie").innerHTML=`<div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}<text x="90" y="84" text-anchor="middle" class="pct1">平均每人</text><text x="90" y="104" text-anchor="middle" class="pct2">${fI(sum/ppl)}</text><text x="90" y="120" text-anchor="middle" class="pct1">ISK</text></svg>
+   <ul class="plg">${tot.map((v,i)=>`<li data-i="${i}"><i style="background:var(--pc${i})"></i><span class="pn">${names[i]}</span><span class="pv">${Math.round(v/sum*100)}%</span><span class="pa">${fI(v)} ISK<small>每人約 ${fI(v/ppl)} ISK・${cvx(v/ppl)}</small></span></li>`).join("")}</ul></div>`;
   const hl=i=>{$("b-pie").querySelectorAll("[data-i]").forEach(e=>e.classList.toggle("fade",i!=null&&e.dataset.i!==i))};
   $("b-pie").querySelectorAll("[data-i]").forEach(e=>{e.addEventListener("pointerenter",()=>hl(e.dataset.i));e.addEventListener("pointerleave",()=>hl(null))});
 }
 /* 個人明細: one person's own total, by category, with every item they pay for */
 function meCard(ppl,mine,per,hkd,aud){const box=$("b-me");if(!box)return;const i=Math.min(ME,ppl-1),cats=BUD.map(([c])=>c.replace(/（.*）/,""));
   const byC=BUD.map(()=>[]);mine[i].forEach(x=>byC[x[0]].push(x));
-  box.innerHTML=`<div class="meh"><h3 class="tiph">個人明細</h3><label>睇 <select id="b-mesel">${names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===i?" selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
-   <div class="metot"><b>${fI(per[i])} ISK</b><small>約 HKD ${fI(per[i]*hkd)} · AUD ${fI(per[i]*aud)}（已計佢參加的活動、應分攤的車同住宿、自己填的個人開支）</small></div>
+  const ss=$("bs-me-s");if(ss)ss.textContent=`${names[i]}：${fI(per[i])} ISK`;
+  box.innerHTML=`<div class="meh"><label>睇 <select id="b-mesel">${names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===i?" selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
+   <div class="metot"><b>${fI(per[i])} ISK</b><small>約 ${cvx(per[i])}（已計佢參加的活動、應分攤的車同住宿、自己填的個人開支）</small></div>
    ${byC.map((xs,c)=>xs.length?`<details class="mecat"><summary><i style="background:var(--pc${c})"></i>${cats[c]}<span>${fI(xs.reduce((a,x)=>a+x[2],0))}</span></summary><ul>${xs.map(x=>`<li>${x[1]}<span>${fI(x[2])}</span></li>`).join("")}</ul></details>`:"").join("")}`}
-document.addEventListener("change",e=>{if(e.target.id!=="b-mesel")return;ME=+e.target.value;calc()});
+["bs-me","bs-pie"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="0")d.open=false;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
+document.addEventListener("change",e=>{const id=e.target.id;if(id==="b-mesel"||id==="b-who"){setMe(+e.target.value);calc()}else if(id==="b-cur"){CUR=e.target.value;store.set("iceland-cur",CUR);calc()}});
+function bMode(m){BMODE=m;store.set("iceland-bmode",m);$("budget").classList.toggle("bsimple",m==="simple");document.querySelectorAll("[data-bmode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.bmode===m)))}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bmode]");if(b)bMode(b.dataset.bmode)});
 /* who-paid settlement: balance = paid − own share of the rows that have a payer; greedy transfers */
 function settle(ppl,paid,owe,paidTot,hkd){const box=$("b-settle");if(!box)return;
   if(!paidTot){box.innerHTML=`<h3 class="tiph">夾數</h3><p class="bnote">喺表格「邊個俾咗」揀邊個先墊支（例如 Dorcas 俾咗租車），呢度會自動計邊個要過數畀邊個。</p>`;return}
   const bal=paid.map((p,i)=>Math.round(p-owe[i])),cr=bal.map((v,i)=>[i,v]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]),db=bal.map((v,i)=>[i,-v]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]),T=[];
   let a=0,b=0;while(a<db.length&&b<cr.length){const x=Math.min(db[a][1],cr[b][1]);if(x>=1)T.push([db[a][0],cr[b][0],x]);db[a][1]-=x;cr[b][1]-=x;if(db[a][1]<1)a++;if(cr[b][1]<1)b++}
   box.innerHTML=`<h3 class="tiph">夾數（只計已揀「邊個俾咗」的項目：${fI(paidTot)} ISK）</h3><div class="gtw"><table class="gt stl"><thead><tr><th>成員</th><th class="num">已墊支</th><th class="num">應付份額</th><th class="num">差額</th></tr></thead><tbody>${bal.map((v,i)=>`<tr><td class="gn">${esc(names[i])}</td><td class="num">${fI(paid[i])}</td><td class="num">${fI(owe[i])}</td><td class="num ${v>0?"pos":v<0?"neg":""}">${v>0?"+":""}${fI(v)}</td></tr>`).join("")}</tbody></table></div>
-   ${T.length?`<ul class="stlx">${T.map(([f,t,x])=>`<li><b>${esc(names[f])}</b> → <b>${esc(names[t])}</b>：${fI(x)} ISK<small>約 HKD ${fI(x*hkd)}</small></li>`).join("")}</ul>`:`<p class="bnote">已經夾清，唔使過數。</p>`}`}
+   ${T.length?`<ul class="stlx">${T.map(([f,t,x])=>`<li><b>${esc(names[f])}</b> → <b>${esc(names[t])}</b>：${fI(x)} ISK<small>約 ${cvx(x)}</small></li>`).join("")}</ul>`:`<p class="bnote">已經夾清，唔使過數。</p>`}`}
 function calc(){
   const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1)),hkd=+$("b-hkd").value||0,aud=+$("b-aud").value||0;
   if(built!==ppl)build(ppl);
@@ -1705,19 +1825,22 @@ function calc(){
     $("bs-"+r.id).textContent=fI(sub);$("br-"+r.id).classList.toggle("off",!r.on);if(r.on)total+=sub;
     const pv=$("by-"+r.id).value;if(pv==="")delete PAY[r.id];else PAY[r.id]=+pv;
     if(r.on&&pv!==""&&sub>0){paid[+pv]+=sub;paidTot+=sub;if(r.scope==="a")join[r.id].forEach((j,i)=>{if(j)owe[i]+=unit});else for(let i=0;i<ppl;i++)owe[i]+=share}});
-  per.forEach((x,i)=>{$("mt-"+i).textContent=fI(x);$("mh-"+i).textContent=fI(x*hkd)});
-  $("ft-all").textContent=fI(total);$("fh-all").textContent=fI(total*hkd);
+  const rt=rate();per.forEach((x,i)=>{$("mt-"+i).textContent=fI(x);$("mh-"+i).textContent=fI(x*rt)});
+  $("ft-all").textContent=fI(total);$("fh-all").textContent=fI(total*rt);$("fh-lab").textContent="約 "+CUR;
   const g=id=>rowsAll.find(r=>r.id===id),u=r=>r.price*r.qty,airPP=(rowsAll.filter(r=>/^air\d/.test(r.id)).reduce((a,r)=>a+u(r),0)+u(g("clean")))/ppl,hotPP=u(g("hotel"))/ppl;
   const avg=total/ppl,lo=Math.min(...per),hi=Math.max(...per);
-  $("b-tot").innerHTML=`<div><small>全組總額（${ppl} 人・${cars} 車）</small><b>${fI(total)} ISK</b><small>約 HKD ${fI(total*hkd)} · AUD ${fI(total*aud)}</small></div><div><small>平均每人</small><b>${fI(avg)} ISK</b><small>約 HKD ${fI(avg*hkd)} · AUD ${fI(avg*aud)}</small></div><div><small>每人由低至高</small><b>${fI(lo)} – ${fI(hi)}</b><small>按各人勾選的活動，見表格右邊</small></div><div><small>住宿每人：Airbnb／酒店</small><b>${fI(airPP)} / ${fI(hotPP)}</b><small>未計飲食差異；酒店通常要多出外食</small></div>`;
+  const me=Math.min(ME,ppl-1);
+  $("b-tot").innerHTML=`<div class="you"><small>${esc(names[me])} 要俾</small><b>${fI(per[me])} ISK</b><small>約 ${cvx(per[me])}</small></div><div><small>全組總額（${ppl} 人・${cars} 車）</small><b>${fI(total)} ISK</b><small>約 ${cvx(total)}</small></div><div><small>平均每人</small><b>${fI(avg)} ISK</b><small>約 ${cvx(avg)}</small></div><div class="donly"><small>每人由低至高</small><b>${fI(lo)} – ${fI(hi)}</b><small>按各人勾選的活動，見表格右邊</small></div><div><small>住宿每人：Airbnb／酒店</small><b>${fI(airPP)} / ${fI(hotPP)}</b><small>未計飲食差異；酒店通常要多出外食</small></div>`.replace('<div><small>住宿每人','<div class="donly"><small>住宿每人');
+  const who=$("b-who");if(who){who.innerHTML=names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===me?" selected":""}>${esc(n)}</option>`).join("")}
+  if(RO)$("budget").querySelectorAll("#b-table input,#b-table select,#b-table button,.bctl input,.bctl select").forEach(el=>{if(el.classList.contains("ind")&&el.id.endsWith("-"+me))return;el.disabled=true});
   drawPie(ppl,hkd);settle(ppl,paid,owe,paidTot,hkd);meCard(ppl,mine,per,hkd,aud);
-  store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,pay:PAY,ind:IND,me:ME,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
+  store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,pay:PAY,ind:IND,act:ACT,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 $("budget").addEventListener("click",e=>{const btn=e.target.closest("[data-all]");if(!btn)return;const id=btn.dataset.all;
   const boxes=names.map((_,i)=>$(`mj-${id}-${i}`)),all=boxes.every(x=>x.checked);
   boxes.forEach((x,i)=>{x.checked=!all;});calc()});
 $("budget").addEventListener("change",e=>{
-  const t=e.target;
+  const t=e.target;if(/^(b-who|b-cur|b-mesel)$/.test(t.id))return;
   if(t.id==="b-food"){const f=FOOD[t.value];for(const k in f)$("bq-"+k).value=f[k]}
   if(t.id==="b-stay"){const h=t.value==="hotel";rowsAll.filter(r=>/^air\d/.test(r.id)).forEach(r=>$("bc-"+r.id).checked=!h);$("bc-clean").checked=!h;$("bc-hotel").checked=h;
     if(h&&$("b-food").value!=="out"){$("b-food").value="out";const f=FOOD.out;for(const k in f)$("bq-"+k).value=f[k]}}
@@ -1728,6 +1851,7 @@ $("budget").addEventListener("input",e=>{
   if(m){names[+m[1]]=e.target.value.trim()||(["Dorcas","Tebe"][+m[1]]||`成員 ${+m[1]+1}`);document.querySelectorAll(`#b-table select[id^="by-"] option[value="${m[1]}"]`).forEach(o=>o.textContent=names[+m[1]]);calc();return}
   if(e.target.type==="number")calc();
 });
+setMe(ME);$("b-cur").value=CUR;bMode(BMODE);if(RO){document.querySelector(".ronote").hidden=false;document.querySelector(".rwnote").hidden=true}
 const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
 $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率按你清單上的 HKD 換算，AUD 為約數，可自行修改。";
 calc();
@@ -1735,7 +1859,7 @@ calc();
 /* page tabs */
 /* 注意事項: tickable pre-departure checklist, day-of rules, emergency info (editable numbers saved on this device) */
 const PRECHK=[
- ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填落下面「緊急資料」"],
+ ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「注意事項 → 緊急資料」"],
  ["駕駛執照","揸車的人帶實體車牌；香港／澳洲車牌有英文就用得，租車公司要國際車牌（IDP）的話先申請"],
  ["信用卡","主司機名義的信用卡（租車押金預授權）；記得 4 位 PIN（無人油站要用）；用冇海外手續費的卡"],
  ["取車檢查","車身 360° 影片同相片；問清楚停車繳費系統、油站優惠鎖匙扣；確認保險包碎石同沙塵"],
@@ -1760,16 +1884,28 @@ const EMFIX=[
  ["澳洲",`Smartraveller 24 小時領事緊急中心：${TEL("+61 2 6261 3305")}`]];
 const EMIN=[["rent1","租車 24 小時（車 1）"],["rent2","租車 24 小時（車 2）"],["ins","保險緊急援助"],["pol","保單號碼"]];
 let PREK={},EMV={};try{PREK=JSON.parse(store.get("iceland-pre")||"{}")}catch(e){}try{EMV=JSON.parse(store.get("iceland-emer")||"{}")}catch(e){}
-function renderTips(){const done=PRECHK.filter((_,i)=>PREK["p"+i]).length;
-  $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2><nav class="gnav"><a href="#t-pre">出發前清單</a><a href="#t-day">當日注意</a><a href="#t-sos" class="sos">🆘 緊急資料</a></nav>
-   <section id="t-pre"><h3 class="tiph bkday">出發前清單<span class="bkc">${done}/${PRECHK.length}</span></h3><ul class="bkchk">${PRECHK.map(([a,b],i)=>`<li class="${PREK["p"+i]?"done":""}"><label><input type="checkbox" data-pre="p${i}"${PREK["p"+i]?" checked":""}><span class="bkn">${a}</span></label><div class="bkm">${b}</div></li>`).join("")}</ul></section>
-   <section id="t-day"><h2>當日注意</h2>${TIPS.filter(([h])=>REAL||h!=="廁所").map(([h,items])=>`<h3 class="tiph">${h}</h3><dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</section>
-   <section id="t-sos" class="sosbox"><h2>🆘 緊急資料</h2><dl class="tipsdl">${EMFIX.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>
-    <h3 class="tiph">自己填（只儲存喺呢部裝置${SYNC.url?"，會同步":""}）</h3><div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div></section>`;
+function renderTips(){
+  /* every subtitle is a <details>; keep whatever the user already opened when re-rendering */
+  const keep=new Set([...$("tips").querySelectorAll("details[open][data-k]")].map(d=>d.dataset.k));
+  const sec=(k,h,body)=>`<details class="tsec" data-k="${escA(k)}"${keep.has(k)?" open":""}><summary class="tiph">${h}</summary>${body}</details>`;
+  const dl=rows=>`<dl class="tipsdl">${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+  const saveTop=`<ol class="tsave">${TOPSAVE.map(([a,amt,b])=>`<li><b>${a}</b><span class="amt">${amt}</span><small>${b}</small></li>`).join("")}</ol>`;
+  const saveGroups=SAVE.map(([h,items])=>{const it=items.filter(([a])=>!SAVEDUP.test(a)&&!SAVELOW.test(a));return it.length?sec("s:"+h,h==="優惠券與折扣"?"其他優惠":"其他小技巧",dl(it)):""}).join("");
+  const low=SAVE.flatMap(([,items])=>items).filter(([a])=>SAVELOW.test(a));
+  const giftDl=`<dl class="tipsdl">${GIFT.map(([n,pr,cheap,note])=>`<dt>${n}</dt><dd>${pr!=="—"?`<b>價錢：</b>${pr}<br>`:""}<b>${cheap.startsWith("最平")?"":"提提你："}</b>${cheap}<br><small>${note}</small></dd>`).join("")}</dl>`;
+  $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2><nav class="gnav"><a href="#t-day">當日注意</a><a href="#t-save">省錢攻略</a><a href="#t-sos" class="sos">🆘 緊急資料</a></nav>${DT?`<p class="bnote">出發前清單喺「出發準備 → 行李」。</p>`:""}
+   <section id="t-day">${TIPS.filter(([h])=>(REAL||h!=="廁所")).map(([h,items])=>sec("t:"+h,h,dl(items))).join("")}</section>
+   <section id="t-save"><h2>省錢攻略</h2>
+    ${sec("s:top","最慳錢的幾招（按慳得多排先）",saveTop)}
+    ${saveGroups}
+    ${low.length?sec("s:low","唔太抵／唔使理",dl(low)):""}
+    ${sec("s:food","美食推介（每日餐廳，附替代方案）",FOODH)}
+    ${DT?sec("s:gift","特色手信（只喺 Dorcas & Tebe 版）",`<p class="bnote">價錢係參考，以店內為準。</p>${giftDl}`):""}
+   </section>
+   <section id="t-sos" class="sosbox">${sec("sos","🆘 緊急資料",`<dl class="tipsdl">${EMFIX.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>${sec("sos-own",`自己填（只儲存喺呢部裝置${SYNC.url?"，會同步":""}）`,`<div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div>`)}`)}</section>`;
   $("tips").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}))}
-document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.pre){if(t.checked)PREK[t.dataset.pre]=1;else delete PREK[t.dataset.pre];store.set("iceland-pre",JSON.stringify(PREK));renderTips()}
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.pre){if(t.checked)PREK[t.dataset.pre]=1;else delete PREK[t.dataset.pre];store.set("iceland-pre",JSON.stringify(PREK));const y=window.scrollY;if(typeof renderPack==="function")renderPack();try{window.scrollTo(0,y)}catch(err){}}
   else if(t.dataset&&t.dataset.em){const v=t.value.trim();if(v)EMV[t.dataset.em]=v;else delete EMV[t.dataset.em];store.set("iceland-emer",JSON.stringify(EMV));renderTips()}});
-renderTips();
 /* guide page: money-saving tips, in-depth food picks, booking checklist */
 const GIFT=[
  ["姆明杯 Moomin mug","約 EUR 27–30 一隻（約 4,000–4,500 ISK）","最平：赫爾辛基機場非申根區 Moomin Shop（近 Gate 40，另一間近 21–22 閘口），價錢同芬蘭市面差唔多，非歐盟居民仲可以免稅","芬蘭 Arabia 出品；回程 KEF → 赫爾辛基 → 香港會經過。易碎，放手提行李。"],
@@ -1888,12 +2024,22 @@ const STAYS=[
  ["9/17（D6）","赫本 Höfn","未訂","晚餐行路去 Pakkhús，第二朝 Ósland 睇日出",[["Höfn HI Hostel","青年旅舍家庭房，有廚房"],["港口附近 Airbnb","行路去餐廳同港口"]],[["港口一帶酒店／民宿","晚餐、日出都唔使開車"]]],
  ["9/18–9/20（D7–D8，連住 2 晚）","冰河湖以西：Hof／Svínafell／斯卡夫塔山 Skaftafell","建議改","網頁車程按呢個位置計；D8 去冰川健行最近，D9 唔使走回頭路",[["Nónhamar Cottages（Hof）","獨立小木屋，有廚房；2 間大屋（每間 3 人）＋ 1 間細屋（2 人）"],["Litla-Hof Guesthouse（Hof）","平價民宿，共用浴室，另有小屋"]],[["Adventure Hotel Hof","三星酒店，包早餐，喺 Hofskirkja 隔籬"],["Hotel Skaftafell（Freysnes）／Svínafell 一帶民宿","離健行集合點最近"]]],
  ["9/20（D9）","維克 Vík","未訂","雷尼斯黑沙灘、迪霍拉里之後入住；鎮上有超市同餐廳",[["Vík HI Hostel（Norður-Vík）","青年旅舍家庭房，有廚房"],["Airbnb 整間屋","7 人分攤"]],[["鎮中心酒店／民宿","行路去 Smiðjan Brugghús 等餐廳"]]],
- ["9/21（D10）","塞爾福斯 Selfoss","未訂","騎馬、水簾洞瀑布之後入住；D11 去黃金圈近",[["Airbnb 整間屋","塞爾福斯同 Hveragerði 選擇多，較雷克雅維克平"]],[["鎮中心住處","行路去 Mjólkurbúið 美食廣場"]]],
+ ["9/21（D10）","Mr Iceland - Luxury farm stay & Icelandic horseback riding tours（Efri-Úlfsstaðir）","已揀","農場住宿兼冰島馬騎行；入住前車程以地圖為準",[],[],"https://maps.google.com/?q=Mr+Iceland+-+Luxury+farm+stay+%26+Icelandic+horseback+riding+tours,+Efri-Úlfsstaðir,+861冰島&ftid=0x48d677526abfa879:0xafc476a1d5c06af0&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,100821555,47071704,94218641,94282134,100835699,94286869,100820247,100822504,100838877,121816461&g_ep=CAISEjI2LjM5LjAuOTg0OTU2MzcwMBgAIIgnKnssOTQyOTc2OTksOTQyMzExODgsOTQyODA1NjgsMTAwODIxNTU1LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDEwMDgzNTY5OSw5NDI4Njg2OSwxMDA4MjAyNDcsMTAwODIyNTA0LDEwMDgzODg3NywxMjE4MTY0NjFCAkFV&skid=e72c9a93-dc08-4fde-9b92-1a61a8acb054&g_st=iw"],
  ["9/22（D11）","雷克雅維克 Reykjavík","未訂","最後一晚；第二朝市區半日遊再去機場",[["Airbnb 整間公寓","同 D1 一樣，揀有泊車位的"]],[["市中心酒店","行路去 Hallgrímskirkja、熱狗同購物街"]]]
 ];
 const STAYTIPS=[["點樣最平","7 人訂整間屋（3–4 房、有廚房）通常比 4 間酒店房平好多；可以每晚自己煮晚餐"],["點樣最方便","揀有免費泊車位、可以自助入住（key box）的住處；兩部車都要泊到"],["訂房","9 月仍係旺季，揀「免費取消」先訂住，之後再慢慢比較；冰河湖一帶最早滿"],["睡床","睇清楚係咪真床，唔好太多梳化床；問清楚毛巾同床單有冇包"],["Hof／米湖一帶","附近冇大超市，入住前喺大鎮（赫本 Höfn、阿克雷里 Akureyri）買定食物"]];
 /* booking checklist: ticks are saved on this device */
 let BKC={};try{BKC=JSON.parse(store.get("iceland-bkc")||"{}")}catch(e){BKC={}}
+/* booking → budget: once ticked, type the real price and who paid; the budget row switches from 估 to 已訂 */
+const BKBUD=[[/^藍湖/,"bl"],[/^胡薩維克.*賞鯨/,"whale"],[/^冰河湖 Jökulsárlón 獨木舟/,"kayak"],[/^6 小時冰川健行/,"glac"],[/^Skálakot 騎馬/,"horse"],[/^Silfra/,"silf"],[/^Sky Lagoon/,"sky"],[/^Vök/,"vok"],[/^GeoSea/,"geosea"],[/^米湖溫泉/,"myv"],[/^租車/,"car"],[/^旅遊保險/,"tins"]];
+const STAYBUD=["air1","midh","air3","air4","air5","air6","air7","air9","air10","air11"];
+const bkBud=n=>{const m=BKBUD.find(([rx])=>rx.test(String(n).trim()));return m?m[1]:null};
+function actHTML(bid){const r=rowsAll.find(x=>x.id===bid);if(!r||RO)return "";const lab=r.scope==="c"?"每部車實際總價":r.scope==="g"?(r.qty>1?"每晚實際價錢":"實際總價"):"每人實際價錢";
+  return `<div class="bkx bkb"><label>${lab} <input type="number" min="0" step="100" data-act="${bid}" value="${ACT[bid]?r.price:""}" placeholder="估 ${fI(r.price)}" aria-label="${lab}"> ISK</label><label>邊個俾 <select data-actp="${bid}" aria-label="邊個俾咗"><option value="">未俾</option>${names.map((n,i)=>`<option value="${i}"${PAY[bid]!=null&&+PAY[bid]===i?" selected":""}>${esc(n)}</option>`).join("")}</select></label>${ACT[bid]?'<span class="tag tagok">已入預算</span>':'<span class="muted">填咗會自動更新預算同夾數</span>'}</div>`}
+document.addEventListener("change",e=>{const t=e.target,bid=t.dataset&&(t.dataset.act||t.dataset.actp);if(!bid)return;const r=rowsAll.find(x=>x.id===bid);if(!r)return;
+  if(t.dataset.act){if(t.value===""){delete ACT[bid]}else{r.price=Math.max(0,+t.value||0);if(r.scope==="c")r.qty=1;ACT[bid]=1;r.on=true}}
+  else{if(t.value==="")delete PAY[bid];else PAY[bid]=+t.value}
+  built=0;calc();const w=t.closest(".bkb");if(w&&w.isConnected&&w.parentNode)try{w.outerHTML=actHTML(bid)}catch(err){}});
 /* free-cancellation date per booking (bk id → yyyy-mm-dd) and latest-booking-date view */
 let CANC={};try{CANC=JSON.parse(store.get("iceland-bcancel")||"{}")}catch(e){CANC={}}
 let BKV=store.get("iceland-bkv")==="dl"?"dl":"day";
@@ -1911,7 +2057,7 @@ document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.datas
 function bkProg(){const all=[...document.querySelectorAll("#bookp input[data-bk]")],done=all.filter(x=>x.checked).length;
   document.querySelectorAll("#bookp .bkc").forEach(c=>{const xs=[...c.closest("h3").nextElementSibling.querySelectorAll("input")];c.textContent=`${xs.filter(x=>x.checked).length}/${xs.length}`});
   const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${done}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(done/all.length*100):0}%"></i></div>`}
-document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.bk;if(!id)return;if(e.target.checked)BKC[id]=1;else delete BKC[id];store.set("iceland-bkc",JSON.stringify(BKC));e.target.closest("li").classList.toggle("done",e.target.checked);bkProg()});
+document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.bk;if(!id)return;if(e.target.checked)BKC[id]=1;else delete BKC[id];store.set("iceland-bkc",JSON.stringify(BKC));const li=e.target.closest("li");li.classList.toggle("done",e.target.checked);const bid=bkBud((li.querySelector(".bkn")||{}).textContent||""),ex=li.querySelector(".bkb");if(bid){if(e.target.checked&&!ex)li.insertAdjacentHTML("beforeend",actHTML(bid));if(!e.target.checked&&ex)ex.remove()}bkProg()});
 /* group booking items by the first day number in their date text; ids stay bk{category}_{row} so old ticks survive */
 const BOOKDT=["Dorcas & Tebe",[
   ["Lava Show 熔岩秀（如去）","D0 9/11","icelandiclavashow.com","1–2 星期","揀 Reykjavík（Grandi）場次；決定咗先訂"],
@@ -1920,16 +2066,18 @@ function bkDays(){const cats=DT?[...BOOK,BOOKDT]:BOOK,g=new Map(),pre=[],walk=[]
   cats.forEach(([h,rows],ci)=>rows.forEach((r,ri)=>{const it={r,ci,ri,h};if(r[0]==="唔接受訂位"){walk.push(it);return}
     const m=String(r[1]).match(/D(\d+)/);if(!m){pre.push(it);return}const d=+m[1];if(!g.has(d))g.set(d,[]);g.get(d).push(it)}));
   const tag=h=>h.replace(/（.*）/,"");
-  const li=({r,ci,ri,h})=>{const id=`bk${ci}_${ri}`,on=!!BKC[id],due=bkDue(r);return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span><span class="bktag">${tag(h)}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,due&&(due.asap?"<b>最遲：越早越好</b>":`<b>最遲：${due.d.getUTCFullYear()}/${mdD(due.d)}</b>`),r[4]].filter(Boolean).join("　")}</div>${r[0]==="唔接受訂位"?"":cxHTML(id)}</li>`};
+  const li=({r,ci,ri,h})=>{const id=`bk${ci}_${ri}`,on=!!BKC[id],due=bkDue(r);return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span><span class="bktag">${tag(h)}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,due&&(due.asap?"<b>最遲：越早越好</b>":`<b>最遲：${due.d.getUTCFullYear()}/${mdD(due.d)}</b>`),r[4]].filter(Boolean).join("　")}</div>${r[0]==="唔接受訂位"?"":cxHTML(id)}${on&&bkBud(r[0])?actHTML(bkBud(r[0])):""}</li>`};
   const grp=(head,items,col)=>items.length?`<h3 class="tiph bkday"${col?` style="--dc:${col}"`:""}>${head}<span class="bkc"></span></h3><ul class="bkchk">${items.map(li).join("")}</ul>`:"";
   if(BKV==="dl"){const asap=[],mon=new Map(),none=[];cats.forEach(([h,rows],ci)=>rows.forEach((r,ri)=>{if(r[0]==="唔接受訂位")return;const it={r,ci,ri,h},due=bkDue(r);
       if(!due)none.push(it);else if(due.asap)asap.push(it);else{it.t=+due.d;const k=due.d.getUTCFullYear()*100+due.d.getUTCMonth()+1;if(!mon.has(k))mon.set(k,[]);mon.get(k).push(it)}}));
     return grp("越早越好（而家就訂）",asap)+[...mon.keys()].sort((a,b)=>a-b).map(k=>grp(`${Math.floor(k/100)} 年 ${k%100} 月前要訂`,mon.get(k).sort((a,b)=>a.t-b.t))).join("")+grp("唔使預早訂",none)}
   return grp("出發前",pre)+[...g.keys()].sort((a,b)=>a-b).map(d=>{const day=days.find(x=>x.d===d);return grp(`<span class="bkd">D${d}</span>${day?day.date:""}`,g.get(d),dayCol(d))}).join("")+grp("唔使訂（早啲去）",walk)}
+let FLIGHTS="";
+let FOODH="";
 function renderGuide(){
   const bkl=(h,rows,ci)=>`<h3 class="tiph">${h}<span class="bkc" data-ci="${ci}"></span></h3><ul class="bkchk">${rows.map((r,ri)=>{const id=`bk${ci}_${ri}`,on=!!BKC[id];return `<li class="${on?"done":""}"><label><input type="checkbox" data-bk="${id}"${on?" checked":""}><span class="bkn">${r[0]}</span></label><div class="bkm">${[r[1]&&`日子：${r[1]}`,r[2]&&r[2]!=="—"&&`點訂：${r[2]}`,r[3]&&r[3]!=="—"&&`提早：${r[3]}`,r[4]].filter(Boolean).join("　")}</div></li>`}).join("")}</ul>`;
   const tbl=(h,rows)=>`<h3 class="tiph">${h}</h3><div class="gtw"><table class="gt"><thead><tr><th>項目</th><th>日子／時間</th><th>點訂</th><th>提早幾耐</th><th>備註</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' class="gn"':""}>${c||"—"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-  const food=GFOOD.map(([d,meal,m,alts])=>{const day=days.find(x=>x.d===d);return `<article class="gfood" style="--dc:${dayCol(d)}"><div class="gfh"><span class="gfd">D${d}</span><span>${day?day.date:""}・${meal}</span></div>
+  FOODH=GFOOD.map(([d,meal,m,alts])=>{const day=days.find(x=>x.d===d);return `<article class="gfood" style="--dc:${dayCol(d)}"><div class="gfh"><span class="gfd">D${d}</span><span>${day?day.date:""}・${meal}</span></div>
    <div class="gfn">${m.n}</div><dl class="gfdl"><dt>地址</dt><dd>${m.a}</dd><dt>營業時間</dt><dd>${m.h}</dd><dt>必點</dt><dd>${m.m}</dd><dt>預算</dt><dd>${m.b}</dd><dt>訂位</dt><dd>${m.r}</dd></dl>
    ${m.a!=="—"&&m.a!=="住處"?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.n+" "+m.a)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}
    <div class="gfalt"><b>替代方案（店休或客滿）</b><ul>${alts.map(([n,t])=>`<li><b>${n}</b>${t?"："+t:""}</li>`).join("")}</ul></div></article>`}).join("");
@@ -1937,32 +2085,76 @@ function renderGuide(){
   const TB={"香港 → 冰島 KEF":"暫定：香港飛冰島（航班待確認）","冰島 KEF → 香港":"待確認"};
   const flights=DT?`<section id="g-fly"><h2>機票</h2><div class="gtw"><table class="gt flt"><thead><tr><th>航段</th><th>Dorcas</th><th>Tebe</th></tr></thead><tbody>${FL.map(([seg,dt,no,tm,nt])=>`<tr><td class="gn">${seg}</td><td><b>${dt}・${no}</b><br>${tm}<br><small>${nt}</small></td><td>${TB[seg]||"—"}</td></tr>`).join("")}</tbody></table></div>
    <dl class="tipsdl"><dt>積分</dt><dd>香港來回冰島：103,600 分＋HKD 951（Economy Classic Reward）；墨爾本來回香港：86,900 分＋AUD 329（回程係 Classic Plus）</dd><dt>改期</dt><dd>有 Classic Plus 的訂單取消只可以退款，唔可以留做 Flight Credit；改期要補差價</dd></dl></section>`:"";
-  $("guide").innerHTML=`${DT?`<nav class="gnav"><a href="#g-save">省錢攻略</a><a href="#g-gift">特色手信</a></nav>`:""}<h2 id="g-save-h" style="margin-top:${DT?8:0}px">省錢攻略</h2>
-
-   <section id="g-save"><h3 class="tiph">最慳錢的幾招（按慳得多排先）</h3><ol class="tsave">${TOPSAVE.map(([a,amt,b])=>`<li><b>${a}</b><span class="amt">${amt}</span><small>${b}</small></li>`).join("")}</ol>
-   ${SAVE.map(([h,items])=>{const it=items.filter(([a])=>!SAVEDUP.test(a)&&!SAVELOW.test(a));return it.length?`<h3 class="tiph">${h==="優惠券與折扣"?"其他優惠":"其他小技巧"}</h3><dl class="tipsdl">${it.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`:""}).join("")}
-   <details class="low"><summary>唔太抵／唔使理（撳開睇原因）</summary><dl class="tipsdl">${SAVE.flatMap(([,items])=>items).filter(([a])=>SAVELOW.test(a)).map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></details></section>
-   ${DT?`<section id="g-gift"><h2>特色手信</h2><p class="bnote">只喺 Dorcas & Tebe 版顯示；價錢係參考，以店內為準。</p><dl class="tipsdl">${GIFT.map(([n,pr,cheap,note])=>`<dt>${n}</dt><dd>${pr!=="—"?`<b>價錢：</b>${pr}<br>`:""}<b>${cheap.startsWith("最平")?"":"提提你："}</b>${cheap}<br><small>${note}</small></dd>`).join("")}</dl></section>`:""}
-`;
-  $("bookp").innerHTML=`<h2 style="margin-top:0">預訂</h2>${DT?`<nav class="gnav"><a href="#g-fly">機票</a><a href="#g-book">訂位與預約清單</a></nav>`:""}${flights}<section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}<div class="bkprog" id="bkprog"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按最遲幾時要訂</button></div><p class="bnote">剔低已經訂好的項目，可以填埋免費取消的最後日期（14 日內到期會提你）。「最遲」按「提早幾耐」推算。記錄${SYNC.url?"會同步到共用 Google Sheet":"只會儲存喺呢部裝置"}。</p>${bkDays()}</section>`;bkProg();
+  FLIGHTS=flights;$("bookp").innerHTML=`<h2 style="margin-top:0">預訂清單</h2><section id="g-book">${DT?"<h2>訂位與預約清單</h2>":""}<div class="bkprog" id="bkprog"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按最遲幾時要訂</button></div><p class="bnote">剔低已經訂好的項目，可以填埋免費取消的最後日期（14 日內到期會提你）。「最遲」按「提早幾耐」推算。記錄${SYNC.url?"會同步到共用 Google Sheet":"只會儲存喺呢部裝置"}。</p>${bkDays()}</section>`;bkProg();
   $("bookp").querySelectorAll("[data-bkv]").forEach(b=>b.addEventListener("click",()=>{BKV=b.dataset.bkv;store.set("iceland-bkv",BKV);const y=window.scrollY;renderGuide();try{window.scrollTo(0,y)}catch(e){}}));
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
-  $("guide").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
-renderGuide();
+renderGuide();renderTips();
+/* ---- 住宿 ---- */
+const DTNIGHTS=[["9/6","雷克雅維克 Reykjavík","未訂","落機當晚；市中心民宿或酒店雙人房"],["9/7–9/9","高地山屋（如自助徒步）","未訂","跟團的話團費通常已包"],["9/10–9/11","雷克雅維克 Reykjavík","未訂","可以直接續住到 9/12 大隊入住"]];
+function renderStays(){
+  const st=x=>x==="已揀"?"ok":x==="建議改"?"chg":"todo",booked=i=>!!BKC["stay"+i];
+  const dn=n=>{const m=String(n).match(/D(\d+)/);return m?+m[1]:null};
+  const done=STAYS.filter((_,i)=>booked(i)).length;
+  $("stays").innerHTML=`<div class="pghead"><h2>住宿</h2><p>${STAYS.length} 段 · 已訂 ${done} 段</p></div>
+   <div class="pkprog"><div class="bar"><i style="width:${Math.round(done/STAYS.length*100)}%"></i></div><span>${done}/${STAYS.length}</span></div>
+   ${DT?`<div class="card2"><h3>Dorcas & Tebe 自己的晚上</h3><ul style="margin:0;padding-left:18px;font-size:14px">${DTNIGHTS.map(([d,a,s2,n])=>`<li><b>${d}</b> ${a}　<span class="st todo">${s2}</span><br><small style="color:var(--muted)">${n}</small></li>`).join("")}</ul></div>`:""}
+   <div class="stl2">${STAYS.map(([night,area,status,why,cheap,conv,murl],i)=>{const d=dn(night),col=d!=null?dayCol(d):"var(--route)",b=booked(i),q=encodeURIComponent(area.replace(/：.*/,"").split("／")[0]+" Iceland");
+     return `<article class="night" style="--dc:${col}"><div class="nd"><b>${night.replace(/（.*）/,"")}</b><small>${(night.match(/（(.*)）/)||["",""])[1]}</small></div>
+      <h3>${area}<span class="st ${b?"ok":st(status)}">${b?"已訂":status}</span></h3><p>${why}</p>
+      ${cheap.length||conv.length?`<div class="opts">${cheap.length?`<div><b>最平</b><ul>${cheap.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}</div>`:""}
+      <div class="act"><label><input type="checkbox" data-stay="${i}"${b?" checked":""}>已訂好</label>${b&&STAYBUD[i]?actHTML(STAYBUD[i]):""}<a href="${murl?escA(murl):"https://www.google.com/maps/search/?api=1&query="+q}" target="_blank" rel="noopener">Google Maps ↗</a>${murl?"":`<a href="https://www.airbnb.com/s/${encodeURIComponent(area.split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7" target="_blank" rel="noopener">Airbnb ↗</a>`}</div></article>`}).join("")}</div>
+   <div class="card2" style="margin-top:12px"><h3>訂房提提你</h3><dl class="tipsdl">${STAYTIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></div>`}
+document.addEventListener("change",e=>{const i=e.target.dataset&&e.target.dataset.stay;if(i==null)return;if(e.target.checked)BKC["stay"+i]=1;else delete BKC["stay"+i];store.set("iceland-bkc",JSON.stringify(BKC));const y=window.scrollY;renderStays();try{window.scrollTo(0,y)}catch(err){}});
+/* ---- 行李 ---- */
+const PACK=[
+ ["證件同錢",[["護照","有效期要超過回程後 3 個月"],["實體駕駛執照","揸車的人"],["信用卡","主司機名義（押金）＋一張後備卡；記得 PIN"],["旅遊保險單","電子版＋截圖"],["預訂確認","離線儲存"]]],
+ ["衣服（洋蔥式）",[["排汗底層衫褲","美利奴羊毛最好，2–3 套"],["中層保暖","抓毛衫或輕羽絨"],["防風防水外套","有帽"],["防水褲","瀑布水花、落雨"],["防水行山鞋","高筒、硬底；冰川健行要用"],["羊毛襪","4 對或以上"],["冷帽、手套、頸巾","手套最好防水"],["日常衫褲","市區、晚餐"]]],
+ ["溫泉",[["泳衣",""],["快乾毛巾","藍湖、Sky Lagoon 有得租，其他未必"],["拖鞋",""],["防水袋","裝濕泳衣"],["護髮素","地熱水會令頭髮乾"]]],
+ ["活動",[["太陽眼鏡同防曬","冰川反光好勁"],["Silfra 浮潛：厚底層衫褲同羊毛襪","著喺乾衣入面"],["頭燈","夜晚睇極光、行停車場"],["小背囊","冰川健行、行山用"]]],
+ ["電子",[["歐洲兩腳插（Type C／F）","230V"],["尿袋",""],["車用 USB 充電線","兩部車各一條"],["相機同後備電池","凍天耗電快"]]],
+ ["藥物同日用",[["個人藥物","放手提行李"],["暈浪藥","賞鯨快艇"],["潤唇膏、潤膚霜","天氣好乾"],["膠布、止痛藥",""]]],
+ ["車上",[["保冷袋","每部車一個"],["水樽","水喉水可以直接飲"],["零食",""],["垃圾袋、濕紙巾",""]]]];
+let PKS={};try{PKS=JSON.parse(store.get("iceland-pack")||"{}")}catch(e){}if(!Array.isArray(PKS.custom))PKS.custom=[];if(!PKS.t)PKS.t={};
+const pkSave=()=>store.set("iceland-pack",JSON.stringify(PKS));
+function renderPack(){const all=PACK.flatMap(([,xs],g)=>xs.map((_,i)=>`${g}_${i}`)).concat(PKS.custom.map((_,i)=>"c"+i)),pre=PRECHK.map((_,i)=>"p"+i);
+  const n=all.filter(k=>PKS.t[k]).length+pre.filter(k=>PREK[k]).length,N=all.length+pre.length;
+  const li=(k,a,b,on,attr)=>`<li class="${on?"done":""}"><label><input type="checkbox" ${attr}="${k}"${on?" checked":""}><span>${a}${b?`<small>${b}</small>`:""}</span></label></li>`;
+  $("pack").innerHTML=`<div class="pghead"><h2>行李</h2><p>9 月中下旬：日間約 8–11°C，晚上 3–6°C，冰川上接近 0°C</p></div>
+   <div class="pkprog"><div class="bar"><i style="width:${Math.round(n/N*100)}%"></i></div><span>${n}/${N}</span></div>
+   <div class="pkgrid">
+   <div class="card2 pk"><h3>出發前要做<small>${pre.filter(k=>PREK[k]).length}/${pre.length}</small></h3><ul>${PRECHK.map(([a,b],i)=>li("p"+i,a,b,!!PREK["p"+i],"data-pre")).join("")}</ul></div>
+   ${PACK.map(([h,xs],g)=>`<div class="card2 pk"><h3>${h}<small>${xs.filter((_,i)=>PKS.t[`${g}_${i}`]).length}/${xs.length}</small></h3><ul>${xs.map(([a,b],i)=>li(`${g}_${i}`,a,b,!!PKS.t[`${g}_${i}`],"data-pk")).join("")}</ul></div>`).join("")}
+   <div class="card2 pk"><h3>自己加<small>${PKS.custom.length} 件</small></h3><ul>${PKS.custom.map((a,i)=>`<li class="${PKS.t["c"+i]?"done":""}" style="display:flex"><label style="flex:1"><input type="checkbox" data-pk="c${i}"${PKS.t["c"+i]?" checked":""}><span>${escA(a)}</span></label><button type="button" class="pkx" data-pkdel="${i}" aria-label="刪除 ${escA(a)}">✕</button></li>`).join("")}</ul>
+    <form class="add" id="pkadd"><input id="pkin" placeholder="例如：保溫瓶" maxlength="40" aria-label="新物品"><button type="submit" class="mini">加</button></form></div>
+   </div><p class="bnote">${SYNC.url?"剔咗嘅會同步到共用 Google Sheet。":"剔咗嘅只會記喺呢部裝置。"}</p>`}
+document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.pk;if(!k)return;if(e.target.checked)PKS.t[k]=1;else delete PKS.t[k];pkSave();const y=window.scrollY;renderPack();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("submit",e=>{if(e.target.id!=="pkadd")return;e.preventDefault();const v=$("pkin").value.trim();if(!v)return;PKS.custom.push(v);pkSave();renderPack();$("pkin").focus()});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-pkdel]");if(!b)return;const i=+b.dataset.pkdel;PKS.custom.splice(i,1);const t={};Object.keys(PKS.t).forEach(k=>{const m=/^c(\d+)$/.exec(k);if(!m)t[k]=1;else if(+m[1]<i)t[k]=1;else if(+m[1]>i)t["c"+(+m[1]-1)]=1});PKS.t=t;pkSave();renderPack()});
+function renderPrep(){if(!DT)return;$("prep-fly").innerHTML=FLIGHTS?`<div class="card2">${FLIGHTS.replace(' id="g-fly"',"")}</div>`:"";
+  $("prep").querySelectorAll(".prepnav a").forEach(a=>{a.onclick=e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}})}
+renderStays();if(DT){renderPack();renderPrep();$("tab-prep").hidden=false}
+/* map can be collapsed; remembered on this device */
+function mapTog(open){$("view-trip").classList.toggle("nomap",!open);$("maptog").setAttribute("aria-expanded",String(open));$("maptog").querySelector("span").textContent=open?"收起地圖":"顯示地圖";store.set("iceland-mapc",open?"":"1")}
+$("maptog").addEventListener("click",()=>{const open=$("view-trip").classList.contains("nomap");mapTog(open);if(open){drawMap();dim()}});
+if(store.get("iceland-mapc")==="1")mapTog(false);
 function view(v){
-  $("view-trip").hidden=v!=="trip";$("budget").hidden=v!=="budget";$("tips").hidden=v!=="tips";$("guide").hidden=v!=="guide";$("bookp").hidden=v!=="book";
-  ["trip","tips","guide","book","budget"].forEach(k=>$("tab-"+k).setAttribute("aria-selected",String(v===k)));
-  
+  document.querySelector(".hero").classList.toggle("compact",v!=="trip");
+  let jump=null;if(v==="book"||v==="pack"){jump=v==="book"?"bookp":"pack";v="prep"}if(v==="prep"&&!DT)v="trip";
+  const SEC={trip:"view-trip",prep:"prep",stay:"stays",budget:"budget",tips:"tips"};
+  for(const k in SEC){$(SEC[k]).hidden=v!==k;$("tab-"+k).setAttribute("aria-selected",String(v===k))}
+  if(v==="stay")renderStays();if(v==="prep"){renderPack();renderPrep()}
+  const fn=$("fnav");if(fn)fn.hidden=v!=="trip"||sel===ALL;
   window.scrollTo(0,0);
+  if(jump)setTimeout(()=>{const t=$(jump);if(t)t.scrollIntoView({block:"start"})},0);
 }
 $("tab-trip").addEventListener("click",()=>view("trip"));
 $("tab-budget").addEventListener("click",()=>view("budget"));
 $("tab-tips").addEventListener("click",()=>view("tips"));
-$("tab-guide").addEventListener("click",()=>view("guide"));
-$("tab-book").addEventListener("click",()=>view("book"));
-if(location.hash==="#book")view("book");
-if(location.hash==="#guide")view("guide");
+["prep","stay"].forEach(k=>$("tab-"+k).addEventListener("click",()=>view(k)));
+if(location.hash==="#prep")view("prep");if(location.hash==="#stay")view("stay");if(location.hash==="#pack")view("pack");
+if(location.hash==="#book")view("book");if(location.hash==="#transport")view("trip");
+if(location.hash==="#guide")view("tips");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
 if(/simple/.test(location.hash)){
