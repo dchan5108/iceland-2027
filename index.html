@@ -227,6 +227,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 body{background:var(--bg)}
 .wrap{max-width:1100px;padding-block:22px 110px}
 h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
+.pvbar{font-size:12.5px;color:var(--muted);margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}.pvbar a{color:var(--route);font-weight:600}.pvbar.on{background:#fff4d6;color:#5b4300;border:1px solid #e8cf8a;border-radius:8px;padding:6px 10px}
 .vbadge{display:inline-block;vertical-align:middle;margin-left:10px;font-size:13px;font-weight:600;letter-spacing:0;padding:2px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
 .sub{margin:2px 0 10px}
 .stats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
@@ -487,12 +488,13 @@ const days=[
   plan:[["07:30","早餐：酒店自己解決（早啲食）","y"],["08:15","開一部車去 Stykkishólmur（約 40 分鐘）","y"],["08:55–09:45","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","y"],["09:45","開返 Miðhraun（約 40 分鐘）","y"],["約 10:30","返到酒店，11:00 同大家一齊出發","y"],
    ["出發前","早餐：酒店","m"],["11:00","退房出發","c"],["12:00–12:45","Bónus 補給物資（博爾加內斯 Borgarnes）"],["13:00–14:00","午餐：Dirty Burger and Ribs／Settlement Center","m"],["16:00–17:00","巨人峽谷 Kolugljúfur"],["19:15","入住 K16 Apartments（阿克雷里 Akureyri）","c"],["晚上","晚餐：市區食或者自己煮","m"]]},
  {d:4,choice:{label:"觀唔觀鯨（揀一個）",opts:[
-   {id:"whale",t:"去觀鯨（快艇 RIB）",drop:[/^揀法/]},
-   {id:"alt1",t:"唔觀鯨・揀法一：GeoSea 海水溫泉＋逛胡薩維克港口",drop:[/^胡薩維克碼頭報到/,/^賞鯨：/,/^揀法二/],norm:[/^揀法一/]},
-   {id:"alt2",t:"唔觀鯨・揀法二：開第二部車先去米湖區",drop:[/^胡薩維克碼頭報到/,/^賞鯨：/,/^揀法一/,/^午餐：胡薩維克/,/^眾神瀑布/],swap:{re:/^揀法二/,rows:[["10:45","開第二部車由胡薩維克出發","c"],["11:35–12:05","眾神瀑布"],["12:20–12:40","Skútustaðagígar 假火山口"],["12:50–13:35","午餐：米湖區","m"],["13:45–15:15","Leirhnjúkur 熔岩原步道＋Víti 火山口湖"],["15:45–16:45","Dimmuborgir 熔岩迷宮"],["17:10","喺 Hverir 同大隊會合","c"]]}}]},
+   {id:"whale",t:"去觀鯨（快艇 RIB）",drop:[/^開第二部車：/]},
+   {id:"nowhale",t:"唔觀鯨（開第二部車，下面再揀想去邊）",drop:[/^胡薩維克碼頭報到/,/^賞鯨：/],build:"w4"}]},
+  wpick:[{id:"geosea",at:"h",dur:90,row:"GeoSea 海水溫泉"},{id:"harbour",at:"h",dur:45,row:"逛胡薩維克 Húsavík 港口"},
+   {id:"skutu",at:"m",dur:20,row:"Skútustaðagígar 假火山口"},{id:"leir",at:"m",dur:90,row:"Leirhnjúkur 熔岩原步道＋Víti 火山口湖"},{id:"dimmu",at:"m",dur:60,row:"Dimmuborgir 熔岩迷宮"}],
   date:"9/15（三）",stay:"米湖區",arrive:"18:05",legs:[L("akur","husa",60,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
-  plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時，通常 10:00 前已到）","c"],["11:00–13:00","賞鯨：快艇 RIB（約 2 小時，要提早換保暖衣）"],["10:45–13:15","揀法一：GeoSea 海水溫泉，之後逛胡薩維克 Húsavík 港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:20 Skútustaðagígar 假火山口 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道＋Víti 火山口湖 → 15:45–16:45 Dimmuborgir 熔岩迷宮 → 17:10 喺 Hverir 同大隊會合","w"],["13:15–14:45","午餐：胡薩維克港口（時間充裕，可以順便逛港口）","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區"],["17:50–19:15","全部人去米湖溫泉 Earth Lagoon Mývatn（Hverir 開車約 5 分鐘），19:25 前到住處","v"],["18:05","到米湖區住處（唔去溫泉的話）"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["隧道費要在 24 小時內上網繳"],["賞鯨係坐快艇 RIB：腰背或心臟有問題、懷孕的人唔可以坐；最少 8 歲、130 cm；風浪大好顛同好凍，船公司提供保暖連身衣",1],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，17:10 喺 Hverir 會合",1],["米湖溫泉同 GeoSea 未決定，大家睇完再揀；日落約 19:37，浸溫泉要 19:15 準時走",1]],
+  plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時，通常 10:00 前已到）","c"],["11:00–13:00","賞鯨：快艇 RIB（約 2 小時，要提早換保暖衣）"],["10:45–17:10","開第二部車：GeoSea 海水溫泉、逛胡薩維克 Húsavík 港口、Skútustaðagígar 假火山口、Leirhnjúkur 熔岩原步道＋Víti 火山口湖、Dimmuborgir 熔岩迷宮；17:10 喺 Hverir 同大隊會合","w"],["13:15–14:45","午餐：胡薩維克港口（時間充裕，可以順便逛港口）","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區"],["17:50–19:15","全部人去米湖溫泉 Earth Lagoon Mývatn（Hverir 開車約 5 分鐘），19:25 前到住處","v"],["18:05","到米湖區住處（唔去溫泉的話）"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
+  notes:[["隧道費要在 24 小時內上網繳"],["賞鯨係坐快艇 RIB：腰背或心臟有問題、懷孕的人唔可以坐；最少 8 歲、130 cm；風浪大好顛同好凍，船公司提供保暖連身衣",1],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["唔觀鯨的人開第二部車，17:10 喺 Hverir 同大隊會合；只去 GeoSea 同港口的話，可以 13:15 同大隊一齊午餐，之後一齊行",1],["米湖溫泉同 GeoSea 未決定，大家睇完再揀；日落約 19:37，浸溫泉要 19:15 準時走",1]],
   opt:[{id:"geosea",ins:{anchor:/^午餐：胡薩維克/,at:"14:45–16:15",row:"GeoSea 海水溫泉（全部人；之後直接開去 Hverir）",remove:/^眾神瀑布/,shift:0},t:"GeoSea 海水溫泉（全部人，待大家決定）",add:"要刪眾神瀑布",d:"賞鯨後 14:45–16:15 全部人去胡薩維克 Húsavík 的 GeoSea，之後直接開去 Hverir，大約 18:30 到住處。要刪眾神瀑布先夠時間，因為之後幾日都唔經過。"}]},
  {d:5,date:"9/16（四）",stay:"埃伊爾斯塔濟",arrive:"18:15",legs:[L("myv","dett",50,{dx:-6,dy:-14}),L("dett","egil",120,{c:1})],
   real:{plan:[["09:30","出發","c"],["10:30–11:30","黛提瀑布（西側，可順道走到 Selfoss 瀑布）"],["11:30–12:10","午餐：自備野餐（米湖區或阿克雷里超市買定），喺黛提瀑布停車場食","m"],["14:20","到埃伊爾斯塔濟、入住"],["16:00–18:00","Vök Baths"],["18:15","回到住處"],["18:45","晚餐：住處自己煮或步行可到的餐廳","m"]]},
@@ -542,8 +544,17 @@ let REAL=isRealUrl();try{if(REAL)store.set("iceland-mode","r");else REAL=store.g
 /* Dorcas & Tebe version (private link #dt5x): real times plus their own days before the group trip */
 const DT_KEY="dt5x";const isDtUrl=()=>{try{return location.hash.replace("#","")===DT_KEY||new URLSearchParams(location.search).has(DT_KEY)}catch(e){return false}};
 let DT=isDtUrl();try{if(DT)store.set("iceland-mode","d");else DT=store.get("iceland-mode")==="d"}catch(e){}if(DT)REAL=true;
-window.addEventListener("hashchange",()=>{if((!REAL&&isRealUrl())||(!DT&&isDtUrl())){try{store.set("iceland-mode",isDtUrl()?"d":"r")}catch(e){}location.reload()}});
-const DTO="只限 Dorcas & Tebe";try{document.getElementById("vbadge").textContent=DT?"Dorcas & Tebe 版":REAL?"真實版":"大眾版"}catch(e){}
+/* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
+const PV=(()=>{try{const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
+if(PV){REAL=PV==="real";DT=false;store.set=()=>{}}
+const HASH0=location.hash;
+window.addEventListener("hashchange",()=>{const h=location.hash.replace("#","");if(location.hash===HASH0)return;
+  if(h==="n8f3"||h==="dt5x"){try{localStorage.setItem("iceland-mode",h==="dt5x"?"d":"r")}catch(e){}location.reload()}
+  else if(h==="dt5x-pub"||h==="dt5x-real")location.reload()});
+const DTO="只限 Dorcas & Tebe";try{document.getElementById("vbadge").textContent=(DT?"Dorcas & Tebe 版":REAL?"真實版":"大眾版")+(PV?"（預覽）":"");
+  if(DT||PV){const b=document.createElement("div");b.className="pvbar"+(PV?" on":"");
+    b.innerHTML=PV?`👀 你而家預覽緊「${PV==="pub"?"大眾版":"真實版"}」：只供睇，唔會儲存任何改動　<a href="#dt5x">返回 Dorcas & Tebe 版</a><a href="#dt5x-${PV==="pub"?"real":"pub"}">睇${PV==="pub"?"真實版":"大眾版"}</a>`:`預覽其他人睇到嘅版本（只供睇）：<a href="#dt5x-pub">大眾版</a><a href="#dt5x-real">真實版</a>`;
+    document.querySelector("h1").insertAdjacentElement("afterend",b)}}catch(e){}
 const PRE=[
  {d:-5,date:"9/6（一）",only:DTO,stay:"雷克雅維克 Reykjavík（自行預訂）",legs:[],summary:"落機 → 雷克雅維克 → 徒步準備",
   plan:[["07:50","AY991 抵達 KEF（9/5 香港 20:55 起飛，經赫爾辛基）","c"],["約 09:00","坐 Flybus 去雷克雅維克 BSÍ 巴士站（約 45 分鐘；班次上 re.is 查）","c"],["10:00","去住處放行李（入住時間要確認，唔得就先寄存）"],["10:30–11:30","早午餐：Sandholt 麵包店","m"],["11:30–13:30","買徒步補給：戶外用品店補裝備、氣罐（行山氣罐唔可以帶上機，要喺冰島先買）；Bónus 超市買乾糧、零食"],["14:00–15:30","Sundhöllin 市中心泳池：地熱熱水池，舒緩長途機"],["16:00","返住處休息、執好背囊（明朝 07:00 集合）"],["18:00","晚餐：Svarta Kaffið 麵包碗湯，或者 Noodle Station 湯麵（早啲食，早啲瞓）","m"]],
@@ -978,7 +989,7 @@ const spotHTML=day=>{const ks=spotsOf(day);if(!ks.length)return"";
 const tipsHTML=()=>`<details class="tips"><summary>注意事項</summary>${TIPS.filter(([h])=>REAL||h!=="廁所").map(([h,items])=>`<h3 class="tiph">${h}</h3><dl>${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`).join("")}</details>`;
 
 
-const TAGS={v:"待大家決定",o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨的人",g:"若不能去冰川健行"};
+const TAGS={v:"待大家決定",o:"可選",y:"Dorcas & Tebe",n:"唔浮潛的人",w:"唔觀鯨（可選）",g:"若不能去冰川健行"};
 const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐機場巴士)/;
 /* confirmed marks: tap the timeline dot (real versions only); saved on this device */
 /* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
@@ -1040,15 +1051,35 @@ function choicePlan(raw,day){
   let plan=day.plan.filter(r=>!(o.drop||[]).some(re=>re.test(r[1])));
   plan=plan.map(r=>(o.norm||[]).some(re=>re.test(r[1]))?[r[0],r[1].replace(/^揀法[一二]：/,""),"pk"]:r);
   if(o.swap){const i=plan.findIndex(r=>o.swap.re.test(r[1]));if(i>=0)plan.splice(i,1,...o.swap.rows.map(r=>[r[0],r[1],r[2]||"pk"]))}
+  if(o.build&&raw.wpick){
+    const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+    const ids=(RECP[raw.d]||[]).filter(x=>x.startsWith("w:")).map(x=>x.slice(2)),sel=raw.wpick.filter(w=>ids.includes(w.id));
+    const H=sel.filter(w=>w.at==="h"),M=sel.filter(w=>w.at==="m"),rows=[],warn=[];let t=tm("10:45");const MEET=tm("17:10");
+    const push=(a,b,txt,f)=>rows.push([b==null?tt(a):`${tt(a)}–${tt(b)}`,txt,f||"pk"]);
+    if(!sel.length)push(t,MEET,"唔觀鯨：自由活動，喺下面揀想去的","");
+    H.forEach(w=>{push(t,t+w.dur,w.row);t+=w.dur+15});
+    if(sel.length&&!M.length){/* stay in Húsavík, rejoin the group for lunch */}
+    else if(M.length){let lunch=false;
+      if(t>=tm("12:15")){push(t,t+45,"午餐：胡薩維克港口","m");t+=60;lunch=true}
+      push(t,null,"開第二部車去米湖區（約 55 分鐘）","c");t+=55;
+      M.forEach(w=>{if(!lunch&&t>=tm("12:00")){push(t,t+45,"午餐：米湖區","m");t+=60;lunch=true}
+        if(t+w.dur+15>MEET){warn.push(w.row);return}push(t,t+w.dur,w.row);t+=w.dur+15});
+      if(!lunch&&t+45+15<=MEET){push(t,t+45,"午餐：米湖區","m");t+=60}
+      if(warn.length)rows.push(["⚠",`17:10 前做唔晒，排唔落：${warn.join("、")}`,""]);
+      rows.push(["17:10","喺 Hverir 同大隊會合","c"])}
+        if(M.length)plan=plan.filter(r=>!/^午餐：胡薩維克|^眾神瀑布/.test(r[1]));
+    const k=plan.findIndex(r=>/^開第二部車：/.test(r[1]));if(k>=0)plan.splice(k,1,...rows);
+  }
   return {...day,plan};
 }
 function oPlan(raw,day){
-  const picks=oPicked(raw);if(!DT||!picks.length||!day.plan.some(r=>r[2]==="o"))return day;
+  const picks=oPicked(raw);if(!DT||!day.plan.some(r=>r[2]==="o"))return day;
   const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
   const rng=r=>{const m=String(r[0]).match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);return m?[tm(m[1]),tm(m[2])]:null};
   const P=day.plan,out=[];let i=0;
   while(i<P.length){if(P[i][2]!=="o"){out.push(P[i]);i++;continue}
     let j=i;while(j<P.length&&P[j][2]==="o")j++;const grp=P.slice(i,j),a=rng(grp[0]),b=rng(grp[grp.length-1]);let t=a?a[0]:null;
+    if(!picks.length){out.push([a&&b?`${tt(a[0])}–${tt(b[1])}`:grp[0][0],"自由活動：喺下面「可選行程」揀想去的",""]);i=j;continue}
     grp.filter(r=>picks.includes(oKey(r[1]))).forEach(r=>{const g=rng(r);if(t==null||!g){out.push([r[0],r[1],"pk"]);return}const d=g[1]-g[0];out.push([`${tt(t)}–${tt(t+d)}`,r[1],"pk"]);t+=d});
     if(t!=null&&b&&t<b[1])out.push([`${tt(t)}–${tt(b[1])}`,"自由時間／休息",""]);
     i=j}
@@ -1091,9 +1122,9 @@ function card(raw){
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
-    ${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>`:""}
+    ${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>${raw.wpick&&cPicked(raw)==="nowhale"?`<div class="sub2">唔觀鯨想去邊（可選，可以揀幾樣）</div><ul class="opick">${raw.wpick.map(w=>{const on=(RECP[raw.d]||[]).includes("w:"+w.id);return `<li><label><input type="checkbox" data-recpick="${raw.d}|w:${w.id}"${on?" checked":""}><span>${w.row}</span><small>${w.at==="h"?"胡薩維克":"米湖區"}・約 ${w.dur} 分鐘</small></label></li>`}).join("")}</ul>`:""}`:""}
     ${(()=>{if(!DT)return "";const os=R(raw).plan.filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
-      return `<div class="sub2">可選行程（自己揀）</div><p class="rhint"><b>剔選想去的，上面日程表會自動排好時間；冇剔的會刪走</b>（只存喺呢部機；一樣都唔剔就照原本顯示）${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
+      return `<div class="sub2">可選行程（自己揀）</div><p class="rhint"><b>剔選想去的，上面日程表會自動排好時間；冇剔的會刪走</b>（只存喺呢部機）${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
     ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
     ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div>${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動加入同順延時間</b>（只存喺呢部機）${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":(REAL?"車程（已多預留約兩成，按一下開 Google Maps）":"車程（按一下開 Google Maps）")}</div>${legs}`:""}
