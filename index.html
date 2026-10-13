@@ -647,7 +647,7 @@ const pts={
  hjal:["Hjalteyri（D3）",-18.22,65.85,"stay","l"], husa:["胡薩維克 賞鯨",-17.34,66.04,"spot","t"],
  goda:["眾神瀑布",-17.55,65.68,"spot","b",1],
  hver:["Hverir 地熱區",-16.80,65.63,"spot","r"],
- myv:["米湖（D4）",-16.92,65.645,"stay","b"], dett:["黛提瀑布",-16.38,65.81,"spot","r"], hallg:["哈爾格林姆大教堂",-21.9266,64.1417,"spot","r"], tjor:["Tjörnin 池塘",-21.9335,64.1464,"spot","r"],
+ myv:["米湖（D4）",-16.92,65.645,"stay","b"], dett:["黛提瀑布",-16.38,65.81,"spot","r"], myvb:["米湖溫泉 Earth Lagoon",-16.92,65.62,"spot","l"], hallg:["哈爾格林姆大教堂",-21.9266,64.1417,"spot","r"], tjor:["Tjörnin 池塘",-21.9335,64.1464,"spot","r"],
  vok:["Vök Baths",-14.36,65.29,"spot","t"], walter:["《白日夢冒險王》滑板公路",-13.99,65.265,"spot","b"],
  egil:["埃伊爾斯塔濟",-14.4,65.27,"spot","b"], djst:["Djúpivogur（D5 住宿）",-14.2917,64.6786,"stay","l"], seyd:["藍色教堂",-14.01,65.26,"spot","t",1],
  gufu:["Gufufoss 瀑布",-14.08,65.245,"spot",null,1], fask:["Fáskrúðsfjörður",-14.0,64.93,"spot","l"],
@@ -704,7 +704,7 @@ const days=[
   date:"9/15（三）",stay:"米湖區",arrive:"18:05",legs:[L("akur","husa",60,{dx:-14,dy:-6,c:1}),L("husa","dett",70,{dx:-30,c:1}),L("dett","hver",50,{dy:-16,c:1}),L("hver","myv",15)],
   plan:[["07:30–08:15","早餐：K16 住處自己煮（08:15 前出發）","m"],["09:00","出發，經 Vaðlaheiðargöng 隧道⟦（未能 10:00 出發：10:40 要喺胡薩維克碼頭報到，由阿克雷里開車約 1 小時，10:00 出發會遲到）⟧","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時，通常 10:00 前已到）","c"],["11:00–13:00","賞鯨：快艇 RIB（約 2 小時，要提早換保暖衣）"],["10:45–17:10","開第二部車：GeoSea 海水溫泉、逛胡薩維克 Húsavík 港口、Skútustaðagígar 假火山口、Leirhnjúkur 熔岩原步道＋Víti 火山口湖、Dimmuborgir 熔岩迷宮；17:10 喺 Hverir 同大隊會合","w"],["13:15–14:45","午餐：胡薩維克港口（時間充裕，可以順便逛港口）","m"],["15:00–16:00","黛提瀑布 Dettifoss（西側）","c"],["17:10–17:40","Hverir 地熱區"],["18:05","到米湖區住處"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["隧道費要在 24 小時內上網繳"],["賞鯨係坐快艇 RIB：腰背或心臟有問題、懷孕的人唔可以坐；最少 8 歲、130 cm；風浪大好顛同好凍，船公司提供保暖連身衣",1],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["唔觀鯨的人開第二部車，17:10 喺 Hverir 同大隊會合；只去 GeoSea 同港口的話，可以 13:15 同大隊一齊午餐，之後一齊行",1],["GeoSea 未決定，大家睇完再揀；日落約 19:37",1]],
-  opt:[{id:"goda",k:"goda",t:"眾神瀑布 Goðafoss",add:"+約 40 分鐘",d:"1 號公路旁嘅大瀑布，順路可以停一停；揀咗之後下晝行程順延約 40 分鐘。",leg:{a:"akur",b:"husa",to:"goda",m1:40,m2:25},ins:{anchor:/^午餐：胡薩維克港口/,at:"15:00–15:40",row:"眾神瀑布 Goðafoss（可選）",shift:40}},{id:"geosea",ins:{anchor:/^午餐：胡薩維克/,at:"14:45–16:15",row:"GeoSea 海水溫泉（全部人；之後直接開去 Hverir）",remove:/^眾神瀑布/,shift:0},t:"GeoSea 海水溫泉（全部人，待大家決定）",add:"要刪眾神瀑布",d:"賞鯨後 14:45–16:15 全部人去胡薩維克 Húsavík 的 GeoSea，之後直接開去 Hverir，大約 18:30 到住處。要刪眾神瀑布先夠時間，因為之後幾日都唔經過。"}]},
+  opt:[{id:"goda",k:"goda",t:"眾神瀑布 Goðafoss",add:"+約 40 分鐘",d:"1 號公路旁嘅大瀑布，順路可以停一停；揀咗之後下晝行程順延約 40 分鐘。",leg:{a:"akur",b:"husa",to:"goda",m1:40,m2:25},ins:{anchor:/^午餐：胡薩維克港口/,at:"14:50–15:20",row:"眾神瀑布 Goðafoss（可選）",shift:40}},{id:"geosea",ins:{anchor:/^午餐：胡薩維克/,at:"14:45–16:15",row:"GeoSea 海水溫泉（全部人；之後去 Dettifoss，再去 Hverir）",shift:145},t:"GeoSea 海水溫泉（全部人，待大家決定）",add:"+約 2 小時 25 分鐘",d:"賞鯨後 14:45–16:15 全部人去胡薩維克 Húsavík 的 GeoSea，之後先去 Dettifoss，再去 Hverir，大約 20:30 到住處（晚餐會順延）。眾神瀑布可以同 GeoSea 一齊揀，順序係先去 Goðafoss，再去胡薩維克。"},{id:"earth",k:"myvb",t:"米湖溫泉 Earth Lagoon Mývatn",add:"+約 80 分鐘",d:"Hverir 開車約 5 分鐘；揀咗之後到住處由 18:05 順延到約 19:25，溫泉要 19:15 準時走（日落約 19:37）。",leg:{a:"hver",b:"myv",to:"myvb",m1:5,m2:10},ins:{anchor:/^Hverir 地熱區/,at:"17:50–19:15",row:"米湖溫泉 Earth Lagoon Mývatn（可選）",shift:80}}]},
  {d:5,wx:"Möðrudalsöræfi 高原（1 號公路最高段）可能大風雪：出發前睇 umferdin.is。",date:"9/16（四）",stay:"Djúpivogur",arrive:"16:20",legs:[L("myv","egil",165,{c:1}),L("egil","seyd",30,{c:1}),L("seyd","egil",30,{c:1}),L("egil","djst",110,{c:1})],
   real:{plan:[["08:30–09:30","早餐：米湖住處自己解決","m"],["10:00","出發，經 1 號公路東行，穿越 Möðrudalsöræfi 高原（約 2 小時 45 分鐘）","c"],["12:00–12:45","午餐：自備野餐（米湖區或阿克雷里超市買定），喺高原安全路邊或車上食","m"],["12:50–13:20","沿 93 號公路北上去 Seyðisfjörður（約 30 分鐘）","c"],["13:20–14:00","藍色教堂 Seyðisfjarðarkirkja（彩虹街同峽灣小鎮，約 40 分鐘）","c"],["14:00–14:30","返回埃伊爾斯塔濟補給（Bónus 或加油站，約 20 分鐘）","c"],["14:30–16:20","沿 1 號公路南下去 Djúpivogur（約 1 小時 50 分鐘，途經 Stöðvarfjörður、Breiðdalsvík）","c"],["16:20","到 Djúpivogur、入住","c"],["18:45","晚餐：住處自己煮或鎮上餐廳（見餐廳建議）","m"]]},
   plan:[["08:30–09:30","早餐：米湖住處自己解決","m"],["10:00","出發，經 1 號公路東行，穿越 Möðrudalsöræfi 高原（約 2 小時 45 分鐘）","c"],["12:00–12:45","午餐：自備野餐（米湖區或阿克雷里超市買定），喺高原安全路邊或車上食","m"],["12:50–13:20","沿 93 號公路北上去 Seyðisfjörður（約 30 分鐘）","c"],["13:20–14:00","藍色教堂 Seyðisfjarðarkirkja（彩虹街同峽灣小鎮，約 40 分鐘）","c"],["14:00–14:30","返回埃伊爾斯塔濟補給（Bónus 或加油站，約 20 分鐘）","c"],["14:30–16:20","沿 1 號公路南下去 Djúpivogur（約 1 小時 50 分鐘，途經 Stöðvarfjörður、Breiðdalsvík）","c"],["16:20","到 Djúpivogur、入住","c"],["18:45","晚餐：住處自己煮或鎮上餐廳（見餐廳建議）","m"]],
@@ -1466,7 +1466,7 @@ function optPlan(raw,day){
   const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
   const sh=(x,n)=>n?String(x).replace(/\b(\d{2}):(\d{2})\b/g,(_,h,m)=>tt(+h*60+ +m+n)):x;
   let plan=[...day.plan],arrive=day.arrive,miss=[];
-  raw.opt.filter(o=>ids.includes(o.id)&&o.ins).forEach(o=>{const s=o.ins,i=plan.findIndex(r=>s.anchor.test(r[1]));if(i<0){miss.push(o.t.split("（")[0]);return}
+  const noW=cPicked(raw)==="nowhale";raw.opt.filter(o=>ids.includes(o.id)&&o.ins&&!(noW&&(o.id==="goda"||o.id==="geosea"))).reverse().forEach(o=>{const s=o.ins,i=plan.findIndex(r=>s.anchor.test(r[1]));if(i<0){miss.push(o.t.split("（")[0]);return}
     let lab=s.at||s.label||"途中";if(!s.at&&s.dur!=null){const ends=String(plan[i][0]).match(/(\d{2}:\d{2})(?!.*\d{2}:\d{2})/);if(ends){const st=tm(ends[1])+(s.gap||0);lab=`${tt(st)}–${tt(st+s.dur)}`}}
     const row=[lab,s.row,"pk"];
     if(s.replace)plan.splice(i,1,row);else plan.splice(i+1,0,row);
@@ -1489,7 +1489,7 @@ function choicePlan(raw,day){
   if(o.build&&raw.wpick){
     const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
     const ids=(RECP[raw.d]||[]).filter(x=>x.startsWith("w:")).map(x=>x.slice(2)),sel=raw.wpick.filter(w=>ids.includes(w.id));
-    const H=sel.filter(w=>w.at==="h"),M=sel.filter(w=>w.at==="m"),rows=[],warn=[],direct=!H.length;let t=tm(direct?"09:00":"10:45");const MEET=tm("17:10");
+    const H=sel.filter(w=>w.at==="h"),M=sel.filter(w=>w.at==="m"),rows=[],warn=[],direct=!H.length;let t=tm(direct?"09:00":"10:45");const MEET=tm("17:10");const gP=(RECP[raw.d]||[]).includes("goda");
     const push=(a,b,txt,f)=>rows.push([b==null?tt(a):`${tt(a)}–${tt(b)}`,txt,f||"pk"]);
     const mvn=(lunch=false)=>{
       M.forEach(w=>{if(!lunch&&t>=tm("12:00")){push(t,t+45,"午餐：米湖區","m");t+=60;lunch=true}
@@ -1500,8 +1500,8 @@ function choicePlan(raw,day){
       rows.push(["17:10","喺 Hverir 同大隊會合","c"])};
     if(direct){/* no Húsavík extras: car 2 drives straight from Akureyri, Goðafoss is on the way */
       push(t,null,"第二部車由阿克雷里直接開去米湖區（唔使去胡薩維克）","c");t+=45;
-      push(t,t+30,"眾神瀑布（順路）");t+=30+10;push(t,null,"開去米湖區（約 35 分鐘）","c");t+=35;mvn()}
-    else{H.forEach(w=>{push(t,t+w.dur,w.row);t+=w.dur+15});
+      if(gP){push(t,t+30,"眾神瀑布 Goðafoss（可選，順路）");t+=30+10}push(t,null,"開去米湖區（約 35 分鐘）","c");t+=35;mvn()}
+    else{if(gP){push(tm("09:00"),null,"第二部車由阿克雷里出發，經 1 號公路去眾神瀑布","c");push(tm("09:45"),tm("09:45")+30,"眾神瀑布 Goðafoss（可選，順路）")}H.forEach(w=>{push(t,t+w.dur,w.row);t+=w.dur+15});
       if(M.length){let ate=false;if(t>=tm("12:15")){push(t,t+45,"午餐：胡薩維克港口","m");t+=60;ate=true}
         push(t,null,"開第二部車去米湖區（約 55 分鐘）","c");t+=55;mvn(ate)}}
     if(direct||M.length)plan=plan.filter(r=>!/^午餐：胡薩維克|^眾神瀑布/.test(r[1]));
