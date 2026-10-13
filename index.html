@@ -185,6 +185,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sched.rich .a.cf{border-left-color:var(--ok);border-left-style:solid}.sched.rich .t.cf{color:var(--ok);font-weight:600}
 .cfbar{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:8px}.cfc{color:var(--ok);font-weight:500}
 .ver{font-size:11px;color:var(--muted);white-space:nowrap;margin-left:4px}.spots.rec{position:relative}.recpick{display:inline-flex;align-items:center;gap:4px;float:right;margin:8px 0 0 8px;font-size:12px;font-weight:600;color:var(--ok);cursor:pointer}.recpick input{width:18px;height:18px;accent-color:var(--ok)}
+.opick{list-style:none;padding:0;margin:4px 0 8px;display:grid;gap:4px}.opick label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13px}.opick input{width:18px;height:18px;accent-color:var(--ok);flex:0 0 auto;margin-top:1px}.opick small{margin-left:auto;color:var(--muted);white-space:nowrap}
 .rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
 :root{--ok:#4f7d5c}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ok:#8cc29a}}:root[data-theme="dark"]{--ok:#8cc29a}
 .sched.rich details summary{cursor:pointer;list-style:none}
@@ -485,7 +486,11 @@ const days=[
  {d:3,date:"9/14（二）",stay:"K16 Apartments（阿克雷里 Akureyri，Kaupvangsstræti 16）",arrive:"19:15",legs:[L("midh","borg",60,{c:1,via:["54 號公路"]}),L("borg","kolu",105,{c:1}),L("kolu","akur",135,{c:1})],
   plan:[["07:30","早餐：酒店自己解決（早啲食）","y"],["08:15","開一部車去 Stykkishólmur（約 40 分鐘）","y"],["08:55–09:45","Stykkishólmskirkja 教堂＋Súgandisey 燈塔小山（看港口）","y"],["09:45","開返 Miðhraun（約 40 分鐘）","y"],["約 10:30","返到酒店，11:00 同大家一齊出發","y"],
    ["出發前","早餐：酒店","m"],["11:00","退房出發","c"],["12:00–12:45","Bónus 補給物資（博爾加內斯 Borgarnes）"],["13:00–14:00","午餐：Dirty Burger and Ribs／Settlement Center","m"],["16:00–17:00","巨人峽谷 Kolugljúfur"],["19:15","入住 K16 Apartments（阿克雷里 Akureyri）","c"],["晚上","晚餐：市區食或者自己煮","m"]]},
- {d:4,date:"9/15（三）",stay:"米湖區",arrive:"18:05",legs:[L("akur","husa",60,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
+ {d:4,choice:{label:"觀唔觀鯨（揀一個）",opts:[
+   {id:"whale",t:"去觀鯨（快艇 RIB）",drop:[/^揀法/]},
+   {id:"alt1",t:"唔觀鯨・揀法一：GeoSea 海水溫泉＋逛胡薩維克港口",drop:[/^胡薩維克碼頭報到/,/^賞鯨：/,/^揀法二/],norm:[/^揀法一/]},
+   {id:"alt2",t:"唔觀鯨・揀法二：開第二部車先去米湖區",drop:[/^胡薩維克碼頭報到/,/^賞鯨：/,/^揀法一/,/^午餐：胡薩維克/,/^眾神瀑布/],swap:{re:/^揀法二/,rows:[["10:45","開第二部車由胡薩維克出發","c"],["11:35–12:05","眾神瀑布"],["12:20–12:40","Skútustaðagígar 假火山口"],["12:50–13:35","午餐：米湖區","m"],["13:45–15:15","Leirhnjúkur 熔岩原步道＋Víti 火山口湖"],["15:45–16:45","Dimmuborgir 熔岩迷宮"],["17:10","喺 Hverir 同大隊會合","c"]]}}]},
+  date:"9/15（三）",stay:"米湖區",arrive:"18:05",legs:[L("akur","husa",60,{dx:-14,dy:-6,c:1}),L("husa","goda",40,{dx:-30,c:1}),L("goda","hver",45,{dy:-16,c:1}),L("hver","myv",15)],
   plan:[["09:00","出發，經 Vaðlaheiðargöng 隧道","c"],["10:40","胡薩維克碼頭報到（實際車程約 1 小時，通常 10:00 前已到）","c"],["11:00–13:00","賞鯨：快艇 RIB（約 2 小時，要提早換保暖衣）"],["10:45–13:15","揀法一：GeoSea 海水溫泉，之後逛胡薩維克 Húsavík 港口，同大隊一齊午餐","w"],["10:45–17:10","揀法二：開第二部車先走 → 11:35 眾神瀑布 → 12:20 Skútustaðagígar 假火山口 → 12:50 米湖區午餐 → 13:45–15:15 Leirhnjúkur 熔岩原步道＋Víti 火山口湖 → 15:45–16:45 Dimmuborgir 熔岩迷宮 → 17:10 喺 Hverir 同大隊會合","w"],["13:15–14:45","午餐：胡薩維克港口（時間充裕，可以順便逛港口）","m"],["15:35–16:15","眾神瀑布","c"],["17:10–17:40","Hverir 地熱區"],["17:50–19:15","全部人去米湖溫泉 Earth Lagoon Mývatn（Hverir 開車約 5 分鐘），19:25 前到住處","v"],["18:05","到米湖區住處（唔去溫泉的話）"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[["隧道費要在 24 小時內上網繳"],["賞鯨係坐快艇 RIB：腰背或心臟有問題、懷孕的人唔可以坐；最少 8 歲、130 cm；風浪大好顛同好凍，船公司提供保暖連身衣",1],["想報到時間更寬鬆，可以改訂 13:00 開船的班次",1],["揀法二要分開兩部車：觀鯨的人用一部，唔觀鯨的人開另一部，17:10 喺 Hverir 會合",1],["米湖溫泉同 GeoSea 未決定，大家睇完再揀；日落約 19:37，浸溫泉要 19:15 準時走",1]],
   opt:[{id:"geosea",ins:{anchor:/^午餐：胡薩維克/,at:"14:45–16:15",row:"GeoSea 海水溫泉（全部人；之後直接開去 Hverir）",remove:/^眾神瀑布/,shift:0},t:"GeoSea 海水溫泉（全部人，待大家決定）",add:"要刪眾神瀑布",d:"賞鯨後 14:45–16:15 全部人去胡薩維克 Húsavík 的 GeoSea，之後直接開去 Hverir，大約 18:30 到住處。要刪眾神瀑布先夠時間，因為之後幾日都唔經過。"}]},
@@ -517,7 +522,10 @@ const days=[
   redo:{tag:"補做健行版",arrive:"18:05",legs:[L("vik","reyn",15),L("reyn","dyr",20,{c:1}),L("dyr","solh",20,{c:1}),L("solh","skog",15,{c:1}),L("skog","skal",10,{c:1}),L("skal","selj",15,{c:1}),L("selj","self",60,{c:1})],
    plan:[["08:00","早餐","m"],["09:00","退房出發","c"],["09:25–10:05","雷尼斯黑沙灘（先看 safetravel.is）","c"],["10:35–11:05","迪霍拉里","c"],["11:35–12:05","Sólheimajökull 冰川觀景步道（免費，不上冰）","c"],["12:30–13:15","午餐：Skógar","m"],["13:15–13:50","斯科加爾瀑布"],["14:10–15:40","Skálakot 騎馬（預約 14:10）","c"],["16:05–16:45","水簾洞瀑布","c"],["18:05","到塞爾福斯、入住"],["19:00","晚餐：住處","m"]]}},
   notes:[["刪走冰川滑索後，這天輕鬆很多，日落前約 1.5–2.5 小時已到住處",1],["騎馬後備：Hveragerði 也有馬場，離塞爾福斯約 15 分鐘"]]},
- {d:11,date:"9/22（三）",stay:"雷克雅維克",arrive:"19:00",legs:[L("self","gull",60,{c:1}),L("gull","geys",10),L("geys","silf",60,{dx:8,dy:8,c:1}),L("silf","rvk",50,{dx:-4,dy:-8,c:1,via:["Sky Lagoon"]})],
+ {d:11,choice:{label:"浮唔浮潛（揀一個）",opts:[
+   {id:"silfra",t:"去 Silfra 浮潛",drop:[/^Þingvellir 國家公園/]},
+   {id:"nosilfra",t:"唔浮潛：行 Þingvellir 國家公園步道",drop:[/^Silfra 浮潛/],norm:[/^Þingvellir 國家公園/]}]},
+  date:"9/22（三）",stay:"雷克雅維克",arrive:"19:00",legs:[L("self","gull",60,{c:1}),L("gull","geys",10),L("geys","silf",60,{dx:8,dy:8,c:1}),L("silf","rvk",50,{dx:-4,dy:-8,c:1,via:["Sky Lagoon"]})],
   plan:[["09:00","退房出發","c"],["10:15–10:55","黃金瀑布"],["11:15–11:45","間歇泉"],["11:45–12:30","午餐：Geysir 遊客中心，或預約 Friðheimar 番茄溫室（見推薦食肆）","m"],["13:30–16:30","Silfra 浮潛（確定去；預約 13:30，連講解和換裝約 3 小時）","c"],["13:30–16:30","Þingvellir 國家公園：Almannagjá 大裂谷步道 → Öxarárfoss 瀑布 → 遊客中心觀景台","n"],["17:30–18:45","Sky Lagoon（預約 17:30）","c"],["19:00","到雷克雅維克住處（日落約 19:30）","c"],["19:30","晚餐：住處或步行可到的餐廳","m"]],
   notes:[["Silfra 沒有後備日，但較少因天氣取消；如果取消，全部人一齊行 Þingvellir 步道，然後早啲去 Sky Lagoon"],["預約 Silfra 要先填健康聲明；唔浮潛的人預算表記得剔走 Silfra"]],
   opt:[{id:"hvamm",ins:{anchor:/^Sky Lagoon/,replace:1,at:"17:20–18:30",row:"Hvammsvík 溫泉（取代 Sky Lagoon；18:30 前一定要走）",shift:20},k:"hvamm",t:"Hvammsvík 溫泉（取代 Sky Lagoon）",add:"車程 +約 20 分鐘",d:"海邊的天然溫泉池，受潮汐影響，比較少人，途經《權力遊戲》取景的 Þórufoss 瀑布。去的話要在 18:30 前離開，才可以在日落前回到雷克雅維克，所以只能泡約 1 小時。要預約。"}]},
@@ -1023,8 +1031,31 @@ function optPlan(raw,day){
   if(miss.length)plan.push(["⚠",`呢個版本排唔到：${miss.join("、")}`,""]);
   return {...day,plan,arrive};
 }
+/* optional (可選) rows inside the timetable: picked ones are packed back to back, the rest dropped (Dorcas & Tebe version) */
+const oKey=a=>"o:"+String(a).replace(/<[^>]*>/g,"").slice(0,24);
+const oPicked=raw=>(RECP[raw.d]||[]).filter(x=>x.startsWith("o:"));
+const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
+function choicePlan(raw,day){
+  const id=cPicked(raw),o=DT&&raw.choice&&raw.choice.opts.find(x=>x.id===id);if(!o)return day;
+  let plan=day.plan.filter(r=>!(o.drop||[]).some(re=>re.test(r[1])));
+  plan=plan.map(r=>(o.norm||[]).some(re=>re.test(r[1]))?[r[0],r[1].replace(/^揀法[一二]：/,""),"pk"]:r);
+  if(o.swap){const i=plan.findIndex(r=>o.swap.re.test(r[1]));if(i>=0)plan.splice(i,1,...o.swap.rows.map(r=>[r[0],r[1],r[2]||"pk"]))}
+  return {...day,plan};
+}
+function oPlan(raw,day){
+  const picks=oPicked(raw);if(!DT||!picks.length||!day.plan.some(r=>r[2]==="o"))return day;
+  const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+  const rng=r=>{const m=String(r[0]).match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);return m?[tm(m[1]),tm(m[2])]:null};
+  const P=day.plan,out=[];let i=0;
+  while(i<P.length){if(P[i][2]!=="o"){out.push(P[i]);i++;continue}
+    let j=i;while(j<P.length&&P[j][2]==="o")j++;const grp=P.slice(i,j),a=rng(grp[0]),b=rng(grp[grp.length-1]);let t=a?a[0]:null;
+    grp.filter(r=>picks.includes(oKey(r[1]))).forEach(r=>{const g=rng(r);if(t==null||!g){out.push([r[0],r[1],"pk"]);return}const d=g[1]-g[0];out.push([`${tt(t)}–${tt(t+d)}`,r[1],"pk"]);t+=d});
+    if(t!=null&&b&&t<b[1])out.push([`${tt(t)}–${tt(b[1])}`,"自由時間／休息",""]);
+    i=j}
+  return {...day,plan:out};
+}
 function recPlan(raw,day){
-  day=optPlan(raw,day);
+  day=optPlan(raw,oPlan(raw,choicePlan(raw,day)));
   if(!DT||!raw.rec)return day;const ids=recPicked(raw);if(!ids.length)return day;
   const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
   const sel=raw.rec.filter(o=>ids.includes(o.id)).sort((a,b)=>a.ord-b.ord),hasLunch=sel.some(o=>o.lunch);
@@ -1041,7 +1072,9 @@ function recPlan(raw,day){
   const i=day.plan.findIndex(r=>/^自由活動/.test(r[1]));if(i<0)return day;
   const plan=[...day.plan];plan.splice(i,1,...rows);return {...day,plan,recAuto:1};
 }
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const [d,id]=c.dataset.recpick.split("|");const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const k=c.dataset.recpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;delete RECP[b.dataset.recclear];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}});
 function card(raw){
   const day=recPlan(raw,R(raw)),tot=day.legs.reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
@@ -1058,6 +1091,9 @@ function card(raw){
     ${au?`<div class="au"><span class="aub s${au.s}">極光機會（估）：${au.lv}</span><span>${au.why}。實際要看出發前幾天的極光預報和雲量。</span></div>`:""}
     ${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}
     ${richRows(day)}
+    ${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>`:""}
+    ${(()=>{if(!DT)return "";const os=R(raw).plan.filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
+      return `<div class="sub2">可選行程（自己揀）</div><p class="rhint"><b>剔選想去的，上面日程表會自動排好時間；冇剔的會刪走</b>（只存喺呢部機；一樣都唔剔就照原本顯示）${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
     ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
     ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div>${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動加入同順延時間</b>（只存喺呢部機）${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}
     ${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":(REAL?"車程（已多預留約兩成，按一下開 Google Maps）":"車程（按一下開 Google Maps）")}</div>${legs}`:""}
@@ -1238,6 +1274,8 @@ const SAVE=[
   ["油站食物","N1、Olís 有熱狗、湯同三文治，比餐廳平又快。"],
   ["7 人分工","買大包裝一齊分；兩部車各帶一個保冷袋；早餐材料、零食一次過買（有 Costco 會員卡就去 Costco，冇就 Bónus）。"],
   ["入油","剩半缸就入；自助油站（Orkan、Atlantsolía、ÓB）較平；還車前喺 KEF 附近入滿。"],
+  ["N1 預付卡","唔會平啲：每公升價錢同用信用卡一樣，N1 本身仲唔係最平嗰間。佢只係幫到唔記得信用卡 PIN 的人（無人油站要 PIN），同避開銀行海外手續費；餘額唔退，買 3,000／5,000／10,000 ISK 就要用晒。用冇海外手續費、知 PIN 的信用卡就唔使買。"],
+  ["油桶","唔抵：冰島各油站油價差唔多，買個油桶都要錢；車廂放汽油有危險，租車公司亦未必准。環島 1 號公路沿途油站夠多，剩半缸就入就得。"],
   ["租車總價","2026 年起冰島租車可能按公里另收道路費，比較報價時要睇總價。"],
   ["刷卡","刷卡時揀用 ISK 付款，唔好揀港幣或澳元（貨幣轉換較貴）；用冇海外手續費的卡。"],
   ["停車","兩部車都喺同一個停車 app 登記，避免漏繳被罰（罰款約停車費三至四倍）。"],
