@@ -350,9 +350,9 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .gsts.ok{background:#e3ece2;color:#4d6b52}.gsts.chg{background:#f3e2da;color:#9a5a45}
 .gsta{color:var(--route);font-weight:600;margin-top:2px}.gstw{margin:4px 0 6px;color:var(--muted)}
 .gstl ul{margin:2px 0 6px;padding-left:18px}.gstl>b{font-size:12.5px;color:var(--meal)}
-:root{--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4;--pc5:#8a6fd1}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0}}
-:root[data-theme="dark"]{--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0}
+:root{--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4;--pc5:#8a6fd1;--pc6:#6b8f86}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c}}
+:root[data-theme="dark"]{--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c}
 .bpie{max-width:760px}.bpw{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}.bpw svg{width:180px;height:180px;flex:0 0 auto}
 .bpw .pct1{font-size:10px;fill:var(--muted)}.bpw .pct2{font-size:17px;font-weight:700;fill:var(--fg)}
 .plg{list-style:none;margin:0;padding:0;display:grid;gap:6px;flex:1 1 260px;font-size:13.5px}
@@ -368,7 +368,12 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .bkc{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
 .bkprog{max-width:760px;font-size:14px;margin:4px 0}.bkprog .bkbar{height:8px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bkprog .bkbar i{display:block;height:100%;background:var(--route);border-radius:99px}
 .btable td.pay select{font-size:12px;max-width:7.5em;padding:2px}.payh{font-size:12px}
-.bsettle{max-width:760px;margin-top:14px}.stl .num{text-align:right;font-variant-numeric:tabular-nums}.stl .pos{color:#2f8a57;font-weight:700}.stl .neg{color:#b5523b;font-weight:700}
+.bsettle{max-width:760px;margin-top:14px}
+.bme{max-width:760px;margin:12px 0;background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:6px 14px 10px}.meh{display:flex;justify-content:space-between;align-items:center;gap:8px}.meh select{font:inherit;padding:3px 6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.metot b{font-size:22px;display:block}.metot small{color:var(--muted);font-size:12.5px}
+.mecat{border-top:1px solid var(--line);padding:6px 0}.mecat summary{cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}.mecat summary span{margin-left:auto;font-variant-numeric:tabular-nums}.mecat i{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+.mecat ul{list-style:none;margin:4px 0 0;padding:0 0 0 18px;font-size:13px;color:var(--muted)}.mecat li{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+.btable td.muted,.btable .muted{color:var(--muted);font-size:12px}.btable input.ind{width:6.5em}.stl .num{text-align:right;font-variant-numeric:tabular-nums}.stl .pos{color:#2f8a57;font-weight:700}.stl .neg{color:#b5523b;font-weight:700}
 .stlx{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}.stlx li{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:8px 12px}.stlx small{margin-left:8px;color:var(--muted)}
 .gt.flt td{min-width:9em}.gt.flt small{color:var(--muted)}
 
@@ -389,7 +394,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 <body>
 <div class="wrap">
   <h1>2027 冰島（暫定行程）<span class="vbadge" id="vbadge">大眾版</span></h1>
-  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 <span class="ver">更新：10/13 17:58</span></p>
+  <p class="sub">2027 年 9 月 12–23 日 · 順時針環島 <span class="ver">更新：10/13 18:40</span></p>
   <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span></div>
   <nav class="tabs" role="tablist" aria-label="頁面">
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip">行程地圖</button>
@@ -417,7 +422,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <div class="mapbox"><svg id="map" viewBox="0 10 1000 690" tabindex="0" role="img" aria-label="2027 冰島路線圖，可以拖動和縮放"></svg>
       <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button><button type="button" id="zcity" aria-label="雷克雅維克市區" class="zc">市區</button><button type="button" id="zgm" aria-label="切換 Google 實景地圖" class="zc">實景</button><button type="button" id="zme" aria-label="顯示我嘅位置" hidden>◎</button></div>
       <div id="gmap" hidden></div><div id="gmmsg" class="gmmsg" hidden></div>
-      <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors</div>
+      <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors · 路線 OSRM</div>
     </div>
     <div id="pop" class="pop" hidden></div>
     <div class="legend">
@@ -430,7 +435,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <p class="kmlp" id="kmlp" hidden><a class="btn ghostb" href="iceland-2027.kml" download>下載 Google Maps 地圖檔（KML）</a><span>匯入 Google My Maps 後，可以喺 Google Maps app 睇晒所有景點同導航</span></p>
     <details class="more">
       <summary>地圖說明和極光</summary>
-      <p><span class="rawonly" hidden>車程和時間表已按實際車程多預留約兩成（每段至少多 10 分鐘），地圖方框顯示的是預留時間。</span>車程為約數，不含停留時間；地圖上的路線是直線示意，不是實際道路。揀日子時地圖會自動放大到當日路線；可以兩隻手指縮放、拖動，撳景點會彈出簡介和 Google Maps 連結。少於 30 分鐘的短程只列在每日車程裡。每段車程都可以按一下，用 Google Maps 開實際路線。</p>
+      <p><span class="rawonly" hidden>車程和時間表已按實際車程多預留約兩成（每段至少多 10 分鐘），地圖方框顯示的是預留時間。</span>車程為約數，不含停留時間；地圖上的路線按真實道路畫（OpenStreetMap 資料，經 OSRM 計），第一次開要幾秒載入，之後會記住；載入唔到就暫時用直線。揀日子時地圖會自動放大到當日路線；可以兩隻手指縮放、拖動，撳景點會彈出簡介和 Google Maps 連結。少於 30 分鐘的短程只列在每日車程裡。每段車程都可以按一下，用 Google Maps 開實際路線。</p>
       <p>極光：9 月中天黑後已有機會看到，條件是天黑、無雲、極光活動夠強。每晚 21:00 後按「極光預報」看雲量和極光指數。2027 年 9 月 15 日前後是滿月，月光會令極光變淡；行程後半段月光漸弱，機會較好。每日卡片上的「極光機會」只按月光和市區光害估算，不是預報；真正的機率要出發前兩三天看冰島氣象局的極光預報（雲量和極光指數）。</p>
     </details>
     </div>
@@ -455,6 +460,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
       <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label>
     </div>
     <div class="btot" id="b-tot"></div>
+    <div class="bme" id="b-me"></div>
     <div class="bpie" id="b-pie"></div>
     <p class="bnote" style="margin-top:12px">表格右邊每人一欄：溫泉和活動預設全部人參加，可以逐格取消，或用「全選／清除」一次改整行；其他項目會自動計算每人應付的份額。最底一行是每個人各自的總額。名字可以直接改。</p>
     <div class="bwrap"><table class="btable" id="b-table"></table></div>
@@ -799,6 +805,21 @@ const wob=(a,seed,amp)=>{const out=[];for(let i=0;i<a.length;i++){const [x1,y1]=
 const pathOf=a=>"M"+a.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L")+"Z";
 const GLAC=[[-16.75,64.42,1.2,.27],[-20.15,64.66,.36,.12],[-18.85,64.82,.3,.11],[-19.1,63.66,.3,.08],[-19.62,63.63,.12,.04],[-15.3,64.7,.2,.06]];
 const WAVES=[[-23.7,63.5],[-17.4,63.25],[-13.5,64.55],[-14.9,66.45],[-19.6,66.6],[-24.3,65.55],[-22.4,66.25],[-21.2,63.6]];
+/* real road shapes from the free OSRM router (OpenStreetMap data, no key); each leg fetched once, kept on this device */
+const decPoly=e=>{const out=[];let i=0,la=0,ln=0;while(i<e.length){for(const k of [0,1]){let b,sh=0,r=0;do{b=e.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32);const d=r&1?~(r>>1):r>>1;if(k)ln+=d;else la+=d}out.push({lat:la/1e5,lng:ln/1e5})}return out};
+const VIAC={"Mosfellsbær":[-21.700,64.167],"博爾加內斯":[-21.920,64.540],"Hjá Góðu Fólki（午餐）":[-22.74126,64.84925],"Sky Lagoon":[-21.955,64.116]};
+const rtKey=l=>"iceland-osrm1-"+[l.a,...(l.via||[]).filter(v=>VIAC[v]),l.b].join(">");
+const RTC={};let rtQ=[],rtBusy=false,rtFail=0,rtRedraw=null;
+function rtCached(l){const k=rtKey(l);if(RTC[k])return RTC[k];let c=null;try{c=localStorage.getItem(k)}catch(e){}return c?(RTC[k]=decPoly(c)):null}
+function rtWant(l,prio){if(rtFail>=3||rtCached(l)||!pts[l.a]||!pts[l.b])return;const k=rtKey(l);if(rtQ.some(x=>x.k===k)){if(prio)rtQ=[rtQ.find(x=>x.k===k),...rtQ.filter(x=>x.k!==k)];return}
+  const it={k,l};if(prio)rtQ.unshift(it);else rtQ.push(it);rtRun()}
+function rtFetch(l){const c=[[pts[l.a][1],pts[l.a][2]],...(l.via||[]).filter(v=>VIAC[v]).map(v=>VIAC[v]),[pts[l.b][1],pts[l.b][2]]].map(([x,y])=>`${x.toFixed(5)},${y.toFixed(5)}`).join(";");
+  return fetch(`https://router.project-osrm.org/route/v1/driving/${c}?overview=full&geometries=polyline`).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+    .then(j=>{const g=j.routes&&j.routes[0]&&j.routes[0].geometry;if(!g)throw new Error("no route");try{localStorage.setItem(rtKey(l),g)}catch(e){}RTC[rtKey(l)]=decPoly(g);return RTC[rtKey(l)]})}
+function rtRun(){if(rtBusy||!rtQ.length)return;rtBusy=true;const {l}=rtQ.shift();
+  rtFetch(l).then(()=>{rtFail=0;clearTimeout(rtRedraw);rtRedraw=setTimeout(()=>{if(EDITING==null&&!PRINT){drawMap();dim();if(typeof gmOn!=="undefined"&&gmOn)gmDraw()}},900)})
+    .catch(()=>{rtFail++}).finally(()=>{rtBusy=false;setTimeout(rtRun,350)})}
+const rtPts=l=>{const r=rtCached(l);if(!r)return null;const step=Math.max(1,Math.floor(r.length/160)),o=[];for(let i=0;i<r.length;i+=step)o.push(P(r[i].lng,r[i].lat));const e=r[r.length-1];o.push(P(e.lng,e.lat));return o};
 function drawMap(){
   svg.textContent="";
   const D=days.map(R),ptDays={};
@@ -821,9 +842,12 @@ function drawMap(){
     const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]),id=`lg${day.d}_${j}`,n=arr.length;
     const lg=el("linearGradient",{id,gradientUnits:"userSpaceOnUse",x1,y1,x2,y2},null,defs);
     el("stop",{offset:0,"stop-color":colAt((day.d+j/n)/13)},null,lg);el("stop",{offset:1,"stop-color":colAt((day.d+(j+1)/n)/13)},null,lg);
-    el("line",{x1,y1,x2,y2,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
-    el("line",{x1,y1,x2,y2,stroke:g.c2||g.pk?"var(--ok)":`url(#${id})`,"stroke-width":g.c2?3:3.6,"stroke-linecap":"round","stroke-dasharray":g.c2?"2 5":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
-    if(g.m>=30&&!g.hide&&!g.city)pills.push([(x1+x2)/2,(y1+y2)/2,short(dT(g.m)),day.d]);
+    const rp=rtPts(g);if(!rp)rtWant(g,sel===day.d);
+    const shp=rp?{tag:"path",a:{d:"M"+rp.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L"),fill:"none","stroke-linejoin":"round"}}:{tag:"line",a:{x1,y1,x2,y2}};
+    el(shp.tag,{...shp.a,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
+    el(shp.tag,{...shp.a,stroke:g.c2||g.pk?"var(--ok)":`url(#${id})`,"stroke-width":g.c2?3:3.6,"stroke-linecap":"round","stroke-dasharray":g.c2?"2 5":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
+    const mid=rp?rp[Math.floor(rp.length/2)]:[(x1+x2)/2,(y1+y2)/2];
+    if(g.m>=30&&!g.hide&&!g.city)pills.push([mid[0],mid[1],short(dT(g.m)),day.d]);
   }));
   const PK=d=>DT&&typeof RECP!=="undefined"?(RECP[d]||[]):[];
   const pickDot=(k,d)=>{if(!pts[k])return;const [name,lon,lat]=pts[k],[x,y]=P(lon,lat);
@@ -1516,20 +1540,8 @@ function gmSet(on){
   const h=document.querySelector(".maphint");if(h)h.hidden=on;
   if(!on){if(gmWatch!=null&&navigator.geolocation)navigator.geolocation.clearWatch(gmWatch);gmWatch=null;return}
   gmLoad(()=>{if(!GM)GM=new google.maps.Map($("gmap"),{center:{lat:64.9,lng:-18.6},zoom:6,styles:SILVER,disableDefaultUI:true,zoomControl:true,gestureHandling:"greedy",clickableIcons:false});gmDraw()})}
-/* real road shapes from Google Routes API; each leg fetched once then kept on this device */
-const decPoly=e=>{const out=[];let i=0,la=0,ln=0;while(i<e.length){for(const k of [0,1]){let b,sh=0,r=0;do{b=e.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32);const d=r&1?~(r>>1):r>>1;if(k)ln+=d;else la+=d}out.push({lat:la/1e5,lng:ln/1e5})}return out};
-const RTMEM={};let gmRtWarn=false,gmRtOff=false;
-function gmRoute(l){
-  const via=(l.via||[]).filter(v=>!/[\u3400-\u9fff]/.test(v)),key="iceland-rt1-"+[l.a,...via,l.b].join(">");
-  if(RTMEM[key])return RTMEM[key];
-  let c=null;try{c=localStorage.getItem(key)}catch(e){}
-  if(c)return RTMEM[key]=Promise.resolve(decPoly(c));
-  if(gmRtOff)return Promise.reject(new Error("off"));
-  const P_=k=>({location:{latLng:{latitude:pts[k][2],longitude:pts[k][1]}}});
-  return RTMEM[key]=fetch("https://routes.googleapis.com/directions/v2:computeRoutes",{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":GMAPS_KEY,"X-Goog-FieldMask":"routes.polyline.encodedPolyline"},
-    body:JSON.stringify({origin:P_(l.a),destination:P_(l.b),intermediates:via.map(v=>({address:v+", Iceland"})),travelMode:"DRIVE"})})
-    .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(j=>{const enc=j.routes&&j.routes[0]&&j.routes[0].polyline&&j.routes[0].polyline.encodedPolyline;if(!enc)throw new Error("no route");try{localStorage.setItem(key,enc)}catch(e){}return decPoly(enc)})
-    .catch(err=>{delete RTMEM[key];if(/HTTP 40[13]/.test(err.message))gmRtOff=true;if(!gmRtWarn){gmRtWarn=true;gmMsg(`畫唔到真實道路（${err.message}）：要喺 Google Cloud 開「Routes API」，並加入 API key 嘅 API restrictions；暫時用直線`,15000)}throw err})}
+/* Google map uses the same OSRM road shapes */
+function gmRoute(l){const c=rtCached(l);if(c)return Promise.resolve(c);if(rtFail>=3)return Promise.reject(new Error("off"));return rtFetch(l)}
 function gmDraw(){
   if(!GM||!gmOn)return;gmObjs.forEach(o=>o.setMap(null));gmObjs=[];
   const g=google.maps,ll=k=>({lat:pts[k][2],lng:pts[k][1]}),b=new g.LatLngBounds(),OK=getComputedStyle(document.documentElement).getPropertyValue("--ok").trim()||"#4f7d5c";
@@ -1620,7 +1632,8 @@ const BUD=[
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D7）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外食）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外食）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D6）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 KEF 取車，12 日）",18000,12,"c",{est:1,src:"",note:"每日價錢，9 月下旬 SUV／大旅行車估價，待報價；7 人加行李要較大的車"}),B_("carins","租車保險（SCDW＋碎石 GP＋沙塵 SAAP）",4500,12,"c",{est:1,src:"",note:"每日；碎石同沙塵係冰島最常見損壞，唔好慳；有啲公司已包喺日租，比較時睇總價"}),B_("drv2","第二司機",1000,12,"c",{est:1,src:"",note:"每日；有啲公司免費，取車時加名；每部車最少 2 個人可以揸"}),B_("km","道路里程費（每公里）",7,2000,"c",{src:"km",note:"2026 年起每公里約 6.95 ISK，數量 = 公里；有啲租車公司已計入日租，咁就剔走"}),B_("fuel","油費（約 2,000 公里）",29000,1,"c",{est:1,src:"km",note:"約 2,000 km × 每百公里 7 公升 × 約 205 ISK/L（2026 年油稅減咗）；Costco 入油較平（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("parka","Parka 月費",490,1,"c",{src:"",note:"每部車開一個月費，免每次約 89 ISK 手續費；用完取消續訂"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
  ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；揀有泊車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已揀）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 米湖區",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；選擇少，要早訂"}),B_("air5","D5 9/16 埃伊爾斯塔濟 Egilsstaðir",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7–D8 9/18–9/19 冰河湖以西（Hof／Skaftafell）2 晚",70000,2,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；每晚；數量 2"}),B_("air9","D9 9/20 維克 Vík",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 塞爾福斯 Selfoss",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；比雷克雅維克平"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...(DT?[B_("dts6","Dorcas & Tebe：9/6 雷克雅維克（落機當晚）",12500,1,"a",{est:1,src:"",dt:1,note:"每人；市中心民宿或酒店雙人房約 25,000 ISK 兩人分"}),B_("dthut","Dorcas & Tebe：9/7–9/9 高地山屋 3 晚（如自助徒步）",11000,3,"a",{est:1,src:"",dt:1,note:"每人每晚；跟團的話團費通常已包，就剔走"}),B_("dts10","Dorcas & Tebe：9/10–9/11 雷克雅維克 2 晚",12500,2,"a",{est:1,src:"",dt:1,note:"每人每晚；可以直接續住到 9/12 大隊入住"})]:[])]],
- ["出發前（每人）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"}),B_("flight","機票（自己填）",0,1,"p",{src:"",note:"每人航線唔同，自己填；Dorcas & Tebe 用積分可以填稅項"})]]
+ ["出發前（每人）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"})]],
+ ["個人開支（每人自己填）",[B_("flight","機票",0,1,"i",{src:"",note:"每人航線唔同，喺自己嗰格填（ISK）；用積分就填稅項"}),B_("pocket","個人零用（購物、手信、零食、咖啡）",15000,1,"i",{est:1,src:"",note:"每人自己估，喺自己嗰格改"}),B_("own","其他自己的開支",0,1,"i",{src:"",note:"例如自己加的活動、行李超重"})]]
 ];
 const FOOD={out:{lunch:11,cookL:0,dinner:10,cookD:0},cook:{lunch:9,cookL:2,dinner:2,cookD:8}};
 const fI=n=>Math.round(n).toLocaleString("en-US");
@@ -1633,21 +1646,24 @@ rowsAll.forEach(r=>{const x=(st.rows||{})[r.id];if(x){r.price=x.price;r.qty=x.qt
 let names=Array.isArray(st.names)?st.names.slice():[];
 let PAY=st.pay&&typeof st.pay==="object"?{...st.pay}:{};
 const join={};actRows.forEach(r=>{join[r.id]=Array.isArray((st.join||{})[r.id])?st.join[r.id].slice():[]});
-const scopeTxt={p:"每人 × 人數",c:"每車 × 車數",g:"全組平均分攤"};
+const scopeTxt={p:"每人 × 人數",c:"每車 × 車數",g:"全組平均分攤",i:"各自填"};
+const indRows=rowsAll.filter(r=>r.scope==="i"),IND={};indRows.forEach(r=>{IND[r.id]=Array.isArray((st.ind||{})[r.id])?st.ind[r.id].slice():[]});
+let ME=Number.isInteger(st.me)?st.me:0;
 let built=0;
 function build(ppl){
   const DEF=["Dorcas","Tebe"];while(names.length<ppl)names.push(DEF[names.length]||`成員 ${names.length+1}`);names=names.slice(0,ppl);
   actRows.forEach(r=>{const x=join[r.id];while(x.length<ppl)x.push(r.dt?x.length<2:r.def);join[r.id]=x.slice(0,ppl)});
+  indRows.forEach(r=>{const x=IND[r.id];while(x.length<ppl)x.push(r.price);IND[r.id]=x.slice(0,ppl)});if(ME>=ppl)ME=0;
   const P_=[...Array(ppl).keys()],cols=7+ppl;Object.keys(PAY).forEach(k=>{if(+PAY[k]>=ppl)delete PAY[k]});
   const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th><th class="payh">邊個俾咗</th>${P_.map(i=>`<th class="pc"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
-  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}" data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td><td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td><td class="num" id="bs-${r.id}"></td><td class="pay"><select id="by-${r.id}" aria-label="${r.name}：邊個俾咗錢"><option value="">未俾</option>${P_.map(i=>`<option value="${i}"${PAY[r.id]!=null&&+PAY[r.id]===i?" selected":""}>${esc(names[i])}</option>`).join("")}</select></td>${P_.map(i=>r.scope==="a"?`<td class="pc ck"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
+  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}" data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td>${r.scope==="i"?`<td class="num muted" colspan="2">右邊每人一格<input type="hidden" id="bp-${r.id}" value="${r.price}"><input type="hidden" id="bq-${r.id}" value="1"></td>`:`<td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td>`}<td class="num" id="bs-${r.id}"></td><td class="pay">${r.scope==="i"?`<span class="muted">自己俾</span><input type="hidden" id="by-${r.id}" value="">`:`<select id="by-${r.id}" aria-label="${r.name}：邊個俾咗錢"><option value="">未俾</option>${P_.map(i=>`<option value="${i}"${PAY[r.id]!=null&&+PAY[r.id]===i?" selected":""}>${esc(names[i])}</option>`).join("")}</select>`}</td>${P_.map(i=>r.scope==="i"?`<td class="pc"><input type="number" class="ind" id="mi-${r.id}-${i}" min="0" step="500" value="${IND[r.id][i]}" aria-label="${esc(names[i])}：${r.name}（ISK）"></td>`:r.scope==="a"?`<td class="pc ck"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
   const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td><td></td>${P_.map(i=>`<td class="pc num" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td><td></td>${P_.map(i=>`<td class="pc num" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
   $("b-table").innerHTML=head+`<tbody>${body}</tbody>`+foot;built=ppl;
 }
 /* budget donut: share of the group total by category (visible legend doubles as the table view) */
 const RCI=Object.fromEntries(BUD.flatMap(([,rs],ci)=>rs.map(r=>[r.id,ci])));
 function drawPie(ppl,hkd){
-  const tot=BUD.map(()=>0);rowsAll.forEach(r=>{if(!r.on)return;const unit=r.price*r.qty;const sub=r.scope==="a"?unit*join[r.id].filter(Boolean).length:r.scope==="p"?unit*ppl:unit*(r.scope==="c"?(+$("b-cars").value||1):1);tot[RCI[r.id]]+=sub});
+  const tot=BUD.map(()=>0);rowsAll.forEach(r=>{if(!r.on)return;const unit=r.price*r.qty;const sub=r.scope==="i"?IND[r.id].reduce((a,b)=>a+b,0):r.scope==="a"?unit*join[r.id].filter(Boolean).length:r.scope==="p"?unit*ppl:unit*(r.scope==="c"?(+$("b-cars").value||1):1);tot[RCI[r.id]]+=sub});
   const sum=tot.reduce((a,b)=>a+b,0);if(!sum){$("b-pie").innerHTML="";return}
   const names=BUD.map(([c])=>c.replace(/（.*）/,"")),R=70,r=44,cx=90,cy=90;let a0=-Math.PI/2,paths="";
   const pt=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];
@@ -1659,6 +1675,13 @@ function drawPie(ppl,hkd){
   const hl=i=>{$("b-pie").querySelectorAll("[data-i]").forEach(e=>e.classList.toggle("fade",i!=null&&e.dataset.i!==i))};
   $("b-pie").querySelectorAll("[data-i]").forEach(e=>{e.addEventListener("pointerenter",()=>hl(e.dataset.i));e.addEventListener("pointerleave",()=>hl(null))});
 }
+/* 個人明細: one person's own total, by category, with every item they pay for */
+function meCard(ppl,mine,per,hkd,aud){const box=$("b-me");if(!box)return;const i=Math.min(ME,ppl-1),cats=BUD.map(([c])=>c.replace(/（.*）/,""));
+  const byC=BUD.map(()=>[]);mine[i].forEach(x=>byC[x[0]].push(x));
+  box.innerHTML=`<div class="meh"><h3 class="tiph">個人明細</h3><label>睇 <select id="b-mesel">${names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===i?" selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
+   <div class="metot"><b>${fI(per[i])} ISK</b><small>約 HKD ${fI(per[i]*hkd)} · AUD ${fI(per[i]*aud)}（已計佢參加的活動、應分攤的車同住宿、自己填的個人開支）</small></div>
+   ${byC.map((xs,c)=>xs.length?`<details class="mecat"><summary><i style="background:var(--pc${c})"></i>${cats[c]}<span>${fI(xs.reduce((a,x)=>a+x[2],0))}</span></summary><ul>${xs.map(x=>`<li>${x[1]}<span>${fI(x[2])}</span></li>`).join("")}</ul></details>`:"").join("")}`}
+document.addEventListener("change",e=>{if(e.target.id!=="b-mesel")return;ME=+e.target.value;calc()});
 /* who-paid settlement: balance = paid − own share of the rows that have a payer; greedy transfers */
 function settle(ppl,paid,owe,paidTot,hkd){const box=$("b-settle");if(!box)return;
   if(!paidTot){box.innerHTML=`<h3 class="tiph">夾數</h3><p class="bnote">喺表格「邊個俾咗」揀邊個先墊支（例如 Dorcas 俾咗租車），呢度會自動計邊個要過數畀邊個。</p>`;return}
@@ -1670,12 +1693,14 @@ function calc(){
   const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1)),hkd=+$("b-hkd").value||0,aud=+$("b-aud").value||0;
   if(built!==ppl)build(ppl);
   actRows.forEach(r=>{for(let i=0;i<ppl;i++)join[r.id][i]=$(`mj-${r.id}-${i}`).checked});
-  const per=new Array(ppl).fill(0),paid=new Array(ppl).fill(0),owe=new Array(ppl).fill(0);let total=0,paidTot=0;
+  const per=new Array(ppl).fill(0),paid=new Array(ppl).fill(0),owe=new Array(ppl).fill(0),mine=[...Array(ppl)].map(()=>[]);let total=0,paidTot=0;
+  indRows.forEach(r=>{for(let i=0;i<ppl;i++)IND[r.id][i]=Math.max(0,+$(`mi-${r.id}-${i}`).value||0)});
   rowsAll.forEach(r=>{
     r.on=$("bc-"+r.id).checked;r.price=Math.max(0,+$("bp-"+r.id).value||0);r.qty=Math.max(0,+$("bq-"+r.id).value||0);
     const unit=r.price*r.qty;let sub,share=null;
-    if(r.scope==="a"){sub=unit*join[r.id].filter(Boolean).length;if(r.on)join[r.id].forEach((j,i)=>{if(j)per[i]+=unit})}
-    else{sub=r.scope==="p"?unit*ppl:unit*(r.scope==="c"?cars:1);share=r.scope==="p"?unit:sub/ppl;if(r.on)per.forEach((_,i)=>per[i]+=share);
+    if(r.scope==="i"){sub=IND[r.id].reduce((a,b)=>a+b,0);if(r.on)IND[r.id].forEach((v,i)=>{per[i]+=v;if(v)mine[i].push([RCI[r.id],r.name,v])})}
+    else if(r.scope==="a"){sub=unit*join[r.id].filter(Boolean).length;if(r.on)join[r.id].forEach((j,i)=>{if(j){per[i]+=unit;if(unit)mine[i].push([RCI[r.id],r.name,unit])}})}
+    else{sub=r.scope==="p"?unit*ppl:unit*(r.scope==="c"?cars:1);share=r.scope==="p"?unit:sub/ppl;if(r.on)per.forEach((_,i)=>{per[i]+=share;if(share)mine[i].push([RCI[r.id],r.name,share])});
       for(let i=0;i<ppl;i++)$(`ms-${r.id}-${i}`).textContent=r.on?fI(share):"–"}
     $("bs-"+r.id).textContent=fI(sub);$("br-"+r.id).classList.toggle("off",!r.on);if(r.on)total+=sub;
     const pv=$("by-"+r.id).value;if(pv==="")delete PAY[r.id];else PAY[r.id]=+pv;
@@ -1685,8 +1710,8 @@ function calc(){
   const g=id=>rowsAll.find(r=>r.id===id),u=r=>r.price*r.qty,airPP=(rowsAll.filter(r=>/^air\d/.test(r.id)).reduce((a,r)=>a+u(r),0)+u(g("clean")))/ppl,hotPP=u(g("hotel"))/ppl;
   const avg=total/ppl,lo=Math.min(...per),hi=Math.max(...per);
   $("b-tot").innerHTML=`<div><small>全組總額（${ppl} 人・${cars} 車）</small><b>${fI(total)} ISK</b><small>約 HKD ${fI(total*hkd)} · AUD ${fI(total*aud)}</small></div><div><small>平均每人</small><b>${fI(avg)} ISK</b><small>約 HKD ${fI(avg*hkd)} · AUD ${fI(avg*aud)}</small></div><div><small>每人由低至高</small><b>${fI(lo)} – ${fI(hi)}</b><small>按各人勾選的活動，見表格右邊</small></div><div><small>住宿每人：Airbnb／酒店</small><b>${fI(airPP)} / ${fI(hotPP)}</b><small>未計飲食差異；酒店通常要多出外食</small></div>`;
-  drawPie(ppl,hkd);settle(ppl,paid,owe,paidTot,hkd);
-  store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,pay:PAY,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
+  drawPie(ppl,hkd);settle(ppl,paid,owe,paidTot,hkd);meCard(ppl,mine,per,hkd,aud);
+  store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,pay:PAY,ind:IND,me:ME,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 $("budget").addEventListener("click",e=>{const btn=e.target.closest("[data-all]");if(!btn)return;const id=btn.dataset.all;
   const boxes=names.map((_,i)=>$(`mj-${id}-${i}`)),all=boxes.every(x=>x.checked);
