@@ -881,7 +881,12 @@ function legAdj(raw,d){
   if(raw.rec){const sel=raw.rec.filter(o=>o.k&&pts[o.k]&&ids.includes(o.id)).sort((a,b)=>a.ord-b.ord).map(o=>o.k);
     if(sel.length){const ch=["rvk",...sel,"rvk"];legs=ch.slice(1).map((k,i)=>L(ch[i],k,estM(ch[i],k,1),{pk:1,city:1}));extra.bus=1}}
   if(raw.wpick&&ids.includes("c:nowhale")){const M=raw.wpick.filter(w=>w.at==="m"&&ids.includes("w:"+w.id)).map(w=>w.id),Hn=raw.wpick.some(w=>w.at==="h"&&ids.includes("w:"+w.id));
-    const ch=!Hn?["akur","goda",...M,"hver"]:M.length?["husa",...M,"hver"]:null;if(ch)ch.slice(1).forEach((k,i)=>legs.push(L(ch[i],k,ch[i]==="akur"?45:estM(ch[i],k),{c2:1})))}
+    const ch=!Hn?["akur","goda",...M,"hver"]:M.length?["husa",...M,"hver"]:null;
+    if(ch){/* 唔觀鯨：replace the whale-day legs from the first stop to Hverir (keep the legs before it and the Hverir→Mývatn leg) */
+      const a0=legs.findIndex(l=>l.a===ch[0]),hv=legs.findIndex(l=>l.a==="hver");
+      const pre=a0>=0?legs.slice(0,a0):legs.slice(0,0),post=hv>=0?legs.slice(hv):[];
+      const mid=ch.slice(1).map((k,i)=>L(ch[i],k,ch[i]==="akur"?45:estM(ch[i],k),{c2:1}));
+      legs=[...pre,...mid,...post]}}
   return {...d,legs,...extra};
 }
 const R=day0=>legAdj(day0,R1(day0));
