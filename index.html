@@ -235,7 +235,7 @@ details.sec{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;back
 body{background:var(--bg)}
 .wrap{max-width:1100px;padding-block:22px 110px}
 h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
-.pvbar{font-size:12.5px;color:var(--muted);margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}.pvbar a{color:var(--route);font-weight:600}.pvbar.on{background:#fff4d6;color:#5b4300;border:1px solid #e8cf8a;border-radius:8px;padding:6px 10px}
+.pvbar{font-size:12.5px;color:var(--muted);margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;position:relative;z-index:60}.pvbar a{color:var(--route);font-weight:600}.pvbar.on{background:#fff4d6;color:#5b4300;border:1px solid #e8cf8a;border-radius:8px;padding:6px 10px}
 .vbadge{display:inline-block;vertical-align:middle;margin-left:10px;font-size:13px;font-weight:600;letter-spacing:0;padding:2px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
 .sub{margin:2px 0 10px}
 .stats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
@@ -251,7 +251,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .mapbox{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
 .mapbox svg{width:100%;min-width:0;height:clamp(300px,64vw,700px);touch-action:none;cursor:grab;outline:none}
 .mapbox svg:active{cursor:grabbing}
-#gmap{position:absolute;inset:0;z-index:1}.mapctl{z-index:2}.gmmsg{position:absolute;left:10px;bottom:10px;z-index:3;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12.5px;box-shadow:var(--shadow)}
+.mapctl{z-index:2}
 .mapattr{position:absolute;left:6px;top:4px;font-size:9.5px;color:#666;background:rgba(255,255,255,.75);padding:1px 5px;border-radius:4px;z-index:1;pointer-events:none}
 .mapctl .zc{font-size:12px;font-weight:700;width:auto;padding:0 8px}
 .mapctl{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px}
@@ -410,7 +410,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 :root{--aur1:#3fc79a;--aur2:#6f86e0;--star:#9fb6c0;--mt1:#c9d8d6;--mt2:#9fb3b4;--snow:#ffffff;--turf:#6f9a5b;--house:#e9e2d2;--door:#8a5a3c;--knit:#1d6e8a;--ok2:#2f8a57;--warn:#b5523b;--warnbg:#f8e6df;--okbg:#e3f1e8;--nav:rgba(255,255,255,.92)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}}
 :root[data-theme="dark"]{--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}
-.hero{position:relative;padding:6px 0 4px;isolation:isolate}
+.hero{position:relative;z-index:40;padding:6px 0 4px;isolation:isolate}
 .heroart{position:absolute;right:-16px;top:-22px;width:min(70%,520px);height:170px;z-index:-1;opacity:.95}
 .heroart .aur path{animation:aurw 9s ease-in-out infinite alternate;transform-origin:center}.heroart .aur .aur2{animation-duration:12s}
 @keyframes aurw{from{transform:translateY(0) scaleY(1)}to{transform:translateY(-4px) scaleY(1.12)}}
@@ -515,8 +515,7 @@ html.pub details.more{display:none!important}
     <div class="chips" id="chips" role="group" aria-label="選擇日子"></div>
     <div class="mapcol" id="mapcol">
     <div class="mapbox"><svg id="map" viewBox="0 10 1000 690" tabindex="0" role="img" aria-label="2027 冰島路線圖，可以拖動和縮放"></svg>
-      <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button><button type="button" id="zcity" aria-label="雷克雅維克市區" class="zc">市區</button><button type="button" id="zgm" aria-label="切換 Google 實景地圖" class="zc">實景</button><button type="button" id="zme" aria-label="顯示我嘅位置" hidden>◎</button></div>
-      <div id="gmap" hidden></div><div id="gmmsg" class="gmmsg" hidden></div>
+      <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button><button type="button" id="zcity" aria-label="雷克雅維克市區" class="zc">市區</button></div>
       <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors · 路線 OSRM</div>
     </div>
     <div id="pop" class="pop" hidden></div>
@@ -646,7 +645,7 @@ const pts={
  hjal:["Hjalteyri（D3）",-18.22,65.85,"stay","l"], husa:["胡薩維克 賞鯨",-17.34,66.04,"spot","t"],
  goda:["眾神瀑布",-17.55,65.68,"spot","b",1],
  hver:["Hverir 地熱區",-16.80,65.63,"spot","r"],
- myv:["米湖（D4）",-16.92,65.645,"stay","b"], dett:["黛提瀑布",-16.38,65.81,"spot","r"], myvb:["米湖溫泉 Earth Lagoon",-16.92,65.62,"spot","l"],
+ myv:["米湖（D4）",-16.92,65.645,"stay","b"], dett:["黛提瀑布",-16.38,65.81,"spot","r"], myvb:["米湖溫泉 Earth Lagoon",-16.92,65.62,"spot","l"], hallg:["哈爾格林姆大教堂",-21.9266,64.1417,"spot","r"], tjor:["Tjörnin 池塘",-21.9335,64.1464,"spot","r"],
  vok:["Vök Baths",-14.36,65.29,"spot","t"], walter:["《白日夢冒險王》滑板公路",-13.99,65.265,"spot","b"],
  egil:["埃伊爾斯塔濟（D5）",-14.4,65.27,"stay","b"], seyd:["藍色教堂",-14.01,65.26,"spot","t",1],
  gufu:["Gufufoss 瀑布",-14.08,65.245,"spot",null,1], fask:["Fáskrúðsfjörður",-14.0,64.93,"spot","l"],
@@ -881,7 +880,7 @@ function legAdj(raw,d){
   const pk=oPicked(raw),rows=[...(raw.plan||[]),...((raw.real&&raw.real.plan)||[])];
   (OLEG[raw.d]||[]).forEach(g=>{const r=rows.find(x=>g.rx.test(x[1]));if(!r)return;const on=pk.includes(oKey(r[1]));
     if(g.skip){if(on)return;const i=legs.findIndex(l=>l.a===g.skip.a&&l.b===g.skip.via),j=legs.findIndex(l=>l.a===g.skip.via&&l.b===g.skip.b);if(i<0||j<0)return;legs.splice(i,j-i+1,L(g.skip.a,g.skip.b,g.skip.m,{c:1}));return}
-    if(!on)return;const i=legs.findIndex(l=>l.a===g.a&&l.b===g.b);if(i<0)return;legs.splice(i,1,L(g.a,g.to,g.m1,{c:1,pk:1}),L(g.to,g.b,g.m2,{c:1,pk:1}))});
+    if(!on)return;const i=legs.findIndex(l=>l.b===g.b);if(i<0)return;const l0=legs[i];legs.splice(i,1,L(l0.a,g.to,g.m1,{c:1,pk:1}),L(g.to,g.b,g.m2,{c:1,pk:1}))});
   if(!ids.length)return {...d,legs};
   (raw.opt||[]).forEach(o=>{const g=o.leg;if(!g||!ids.includes(o.id))return;const i=legs.findIndex(l=>l.a===g.a&&l.b===g.b);if(i<0)return;const l=legs[i];
     legs.splice(i,1,L(g.a,g.to,g.m1,{c:1,pk:1,via:g.via1}),L(g.to,g.b,g.m2,{c:1,pk:1,via:g.nov?undefined:l.via}))});
@@ -899,7 +898,8 @@ function legAdj(raw,d){
 const OLEG={5:[{rx:/^Vök Baths/,a:"myv",b:"egil",to:"vok",m1:145,m2:10}],
   6:[{rx:/^《白日夢冒險王》/,a:"seyd",b:"gufu",to:"walter",m1:10,m2:5},
      {rx:/^Djúpivogur 蛋雕塑/,skip:{a:"fask",via:"egg",b:"hvaln",m:105}},
-     {rx:/^蝙蝠山 Vestrahorn/,a:"hvaln",b:"hofn",to:"vest",m1:30,m2:20}]};
+     {rx:/^蝙蝠山 Vestrahorn/,a:"hvaln",b:"hofn",to:"vest",m1:30,m2:20}],
+  12:[{rx:/^推薦：哈爾格林姆/,a:"rvk",b:"costco",to:"hallg",m1:10,m2:10},{rx:/^推薦：Perlan/,a:"rvk",b:"costco",to:"perlan",m1:10,m2:10},{rx:/^推薦：Tjörnin/,a:"rvk",b:"costco",to:"tjor",m1:10,m2:10}]};
 const R=day0=>legAdj(day0,R1(day0));
 const R1=day0=>{const d=R0(day0),x=day0.v?day0.v[scen]:null,firmPl=x&&x.plan?x.plan:(day0.real?day0.real.plan:day0.plan),toldPl=x&&x.plan?x.plan:day0.plan;
   const fi=depI(firmPl),ti=depI(toldPl);if(fi<0||ti<0)return d;const firm=firmPl[fi][0],told=toT(Math.min(toM(toldPl[ti][0]),toM(firm)-30));
@@ -988,7 +988,7 @@ function rtFetch(l){const c=[[pts[l.a][1],pts[l.a][2]],...(l.via||[]).filter(v=>
   return fetch(`https://router.project-osrm.org/route/v1/driving/${c}?overview=full&geometries=polyline`).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
     .then(j=>{const g=j.routes&&j.routes[0]&&j.routes[0].geometry;if(!g)throw new Error("no route");try{localStorage.setItem(rtKey(l),g)}catch(e){}RTC[rtKey(l)]=decPoly(g);return RTC[rtKey(l)]})}
 function rtRun(){if(rtBusy||!rtQ.length)return;rtBusy=true;const {l}=rtQ.shift();
-  rtFetch(l).then(()=>{rtFail=0;clearTimeout(rtRedraw);rtRedraw=setTimeout(()=>{if(EDITING==null&&!PRINT){drawMap();dim();if(typeof gmOn!=="undefined"&&gmOn)gmDraw()}},900)})
+  rtFetch(l).then(()=>{rtFail=0;clearTimeout(rtRedraw);rtRedraw=setTimeout(()=>{if(EDITING==null&&!PRINT){drawMap();dim();}},900)})
     .catch(()=>{rtFail++}).finally(()=>{rtBusy=false;setTimeout(rtRun,350)})}
 const rtPts=l=>{const r=rtCached(l);if(!r)return null;const step=Math.max(1,Math.floor(r.length/160)),o=[];for(let i=0;i<r.length;i+=step)o.push(P(r[i].lng,r[i].lat));const e=r[r.length-1];o.push(P(e.lng,e.lat));return o};
 function drawMap(){
@@ -1524,10 +1524,10 @@ function recPlan(raw,day){
   const i=day.plan.findIndex(r=>/^自由活動/.test(r[1]));if(i<0)return day;
   const plan=[...day.plan];plan.splice(i,1,...rows);return {...day,plan,recAuto:1};
 }
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const k=c.dataset.recpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();if(gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();if(gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();if(gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;delete RECP[b.dataset.recclear];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();if(gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const k=c.dataset.recpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;delete RECP[b.dataset.recclear];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 /* collapsible sections in each day card; open state remembered on this device */
 let SECOPEN=new Set();try{SECOPEN=new Set(JSON.parse(store.get("iceland-sec")||"[]"))}catch(e){}
 const SEC=(id,title,inner)=>String(inner).replace(/\s+/g,"")?`<details class="sec" data-sec="${id}"${SECOPEN.has(id)?" open":""}><summary>${title}</summary><div class="secb">${inner}</div></details>`:"";
@@ -1636,7 +1636,7 @@ document.addEventListener("change",e=>{const t=e.target;if(t.id==="edauto"){EDAU
     const dEnd=oe&&ne?tmE(ne[1])-tmE(oe[1]):d;ev[i][0]=nv;if(EDAUTO&&dEnd){for(let j=i+1;j<ev.length;j++)ev[j][0]=shiftT(ev[j][0],dEnd)}}
   if(t.classList.contains("ea"))ev[i][1]=t.value;
   if(t.classList.contains("ek"))ev[i][3]=t.value;
-  OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();if(typeof gmOn!=="undefined"&&gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
+  OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-ed]");if(!b)return;const act=b.dataset.ed;
   const raw=days.find(x=>x.d===(b.dataset.d!=null?+b.dataset.d:EDITING));
   if(act==="start")edStart(raw);
@@ -1653,7 +1653,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
     if(act==="down"&&i<ev.length-1)[ev[i+1],ev[i]]=[ev[i],ev[i+1]];
     if(act==="del")ev.splice(i,1);
     if(act==="add"){const lt=ev.length?tmE(String(ev[ev.length-1][0]).split(/[–-]/).pop()):null;ev.push([lt!=null?ttE(lt+15):"",'新行程',"",""])}}
-  edSave();const y=window.scrollY;drawMap();renderPanel();dim();if(typeof gmOn!=="undefined"&&gmOn)gmDraw();try{window.scrollTo(0,y)}catch(err){}});
+  edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 function card(raw){
   const day=edPlan(raw,recPlan(raw,R(raw))),tot=day.legs.filter(l=>!l.c2).reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day),au=aurora(day.d);
   const SQ=stopsOf(day).filter(k=>!k.startsWith("via:")),NB=k=>{const i=SQ.indexOf(k);return i>=0&&i<20?String.fromCharCode(0x2460+i)+" ":""};
@@ -1690,67 +1690,13 @@ function dim(){
   applyVB();
 }
 function renderPanel(){if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;$("panel").innerHTML=sel===ALL?overview():card(days.find(x=>x.d===sel))}
-/* Google 實景地圖 (silver style). Straight lines between stops are a sketch; use the Google Maps links to navigate. Falls back to the drawn map when offline. */
-const GMAPS_KEY="AIzaSyAsXg8jGvp4ZHfmVjaEHDgesOgLFG_BllQ";
-const SILVER=[{elementType:"geometry",stylers:[{color:"#f5f5f5"}]},{elementType:"labels.icon",stylers:[{visibility:"off"}]},{elementType:"labels.text.fill",stylers:[{color:"#616161"}]},{elementType:"labels.text.stroke",stylers:[{color:"#f5f5f5"}]},{featureType:"administrative.land_parcel",elementType:"labels.text.fill",stylers:[{color:"#bdbdbd"}]},{featureType:"poi",elementType:"geometry",stylers:[{color:"#eeeeee"}]},{featureType:"poi",elementType:"labels.text.fill",stylers:[{color:"#757575"}]},{featureType:"poi.park",elementType:"geometry",stylers:[{color:"#e5e5e5"}]},{featureType:"road",elementType:"geometry",stylers:[{color:"#ffffff"}]},{featureType:"road.arterial",elementType:"labels.text.fill",stylers:[{color:"#757575"}]},{featureType:"road.highway",elementType:"geometry",stylers:[{color:"#dadada"}]},{featureType:"road.highway",elementType:"labels.text.fill",stylers:[{color:"#616161"}]},{featureType:"road.local",elementType:"labels.text.fill",stylers:[{color:"#9e9e9e"}]},{featureType:"transit",stylers:[{visibility:"off"}]},{featureType:"water",elementType:"geometry",stylers:[{color:"#d3e0e6"}]},{featureType:"water",elementType:"labels.text.fill",stylers:[{color:"#8aa0aa"}]}];
-let GM=null,gmOn=false,gmObjs=[],gmMe=null,gmWatch=null;
-let gmErr="";
-const GMERR={RefererNotAllowedMapError:"呢個網址未加入 API key 嘅「Websites」限制",ApiNotActivatedMapError:"未開啟 Maps JavaScript API",BillingNotEnabledMapError:"Google Cloud 未綁 Billing（信用卡）",InvalidKeyMapError:"API key 唔啱",ApiTargetBlockedMapError:"API key 嘅「API restrictions」冇揀 Maps JavaScript API",ExpiredKeyMapError:"API key 已過期"};
-(()=>{const ce=console.error.bind(console);console.error=(...a)=>{try{const m=a.join(" ").match(/(\w+MapError)/);if(m)gmErr=m[1]}catch(e){}ce(...a)}})();
-window.gm_authFailure=()=>{setTimeout(()=>{gmMsg(`Google 地圖用唔到：${GMERR[gmErr]||"API key 設定有問題"}${gmErr?`（${gmErr}）`:""}；用返手繪地圖`,30000);gmSet(false)},50)};
-const gmMsg=(t,ms=5000)=>{const m=$("gmmsg");m.textContent=t;m.hidden=!t;if(t)setTimeout(()=>{if(m.textContent===t)m.hidden=true},ms)};
-function gmLoad(cb){
-  if(window.google&&google.maps&&google.maps.Map)return cb();
-  if(!GMAPS_KEY){gmMsg("未設定 Google 地圖 API key，暫時用手繪地圖");return gmSet(false)}
-  if(navigator.onLine===false){gmMsg("冇網，用返手繪地圖");return gmSet(false)}
-  window.__gmcb=()=>cb();const sc=document.createElement("script");
-  sc.src=`https://maps.googleapis.com/maps/api/js?key=${GMAPS_KEY}&v=weekly&loading=async&language=zh-HK&region=IS&callback=__gmcb`;sc.async=true;
-  sc.onerror=()=>{gmMsg("載入唔到 Google 地圖，用返手繪地圖");gmSet(false)};document.head.appendChild(sc)}
-function gmSet(on){
-  gmOn=on;store.set("iceland-gm",on?"1":"");$("gmap").hidden=!on;$("map").style.visibility=on?"hidden":"";
-  $("zgm").textContent=on?"手繪":"實景";["zin","zout","zfit","zcity"].forEach(id=>$(id).hidden=on);$("zme").hidden=!on;
-  const h=document.querySelector(".maphint");if(h)h.hidden=on;
-  if(!on){if(gmWatch!=null&&navigator.geolocation)navigator.geolocation.clearWatch(gmWatch);gmWatch=null;return}
-  gmLoad(()=>{if(!GM)GM=new google.maps.Map($("gmap"),{center:{lat:64.9,lng:-18.6},zoom:6,styles:SILVER,disableDefaultUI:true,zoomControl:true,gestureHandling:"greedy",clickableIcons:false});gmDraw()})}
-/* Google map uses the same OSRM road shapes */
-function gmRoute(l){const c=rtCached(l);if(c)return Promise.resolve(c);if(rtFail>=3)return Promise.reject(new Error("off"));return rtFetch(l)}
-function gmDraw(){
-  if(!GM||!gmOn)return;gmObjs.forEach(o=>o.setMap(null));gmObjs=[];
-  const g=google.maps,ll=k=>({lat:pts[k][2],lng:pts[k][1]}),b=new g.LatLngBounds(),OK=getComputedStyle(document.documentElement).getPropertyValue("--ok").trim()||"#4f7d5c";
-  const mk=(k,o)=>{if(!pts[k])return;const m=new g.Marker({position:ll(k),map:GM,title:pts[k][0],zIndex:o.z||1,
-      icon:{path:g.SymbolPath.CIRCLE,scale:o.r||10,fillColor:o.fill,fillOpacity:1,strokeColor:o.stroke||"#ffffff",strokeWeight:2},label:o.label?{text:o.label,color:o.lc||"#ffffff",fontSize:"11px",fontWeight:"700"}:null});
-    m.addListener("click",()=>showPop(k));gmObjs.push(m);return m};
-  days.map(R).forEach(day=>{const on=sel===ALL||sel===day.d,col=dayCol(day.d);
-    day.legs.forEach(l=>{if(!pts[l.a]||!pts[l.b])return;
-      const pl=new g.Polyline({path:[ll(l.a),ll(l.b)],geodesic:true,map:GM,strokeColor:l.c2||l.pk?OK:col,strokeOpacity:l.c2?0:(on?.9:.2),strokeWeight:on?5:3,zIndex:on?5:1,
-        icons:l.c2&&on?[{icon:{path:"M 0,-1 0,1",strokeOpacity:1,strokeColor:OK,scale:3},offset:"0",repeat:"12px"}]:null});
-      pl.addListener("click",()=>select(day.d));gmObjs.push(pl);gmRoute(l).then(path=>{if(pl.getMap())pl.setPath(path)}).catch(()=>{});if(on&&sel!==ALL){b.extend(ll(l.a));b.extend(ll(l.b))}});
-    if(sel===ALL){const st=day.legs.length?day.legs[day.legs.length-1].b:null;if(st&&pts[st]&&pts[st][3]==="stay"){mk(st,{fill:"#b06d58",r:7,label:String(day.d),z:3});b.extend(ll(st))}}
-    else if(sel===day.d){const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;mk(k,{fill:col,label:String(i+1),z:4})});
-      const ids=DT?(RECP[day.d]||[]):[],raw=days.find(x=>x.d===day.d);
-      (raw.opt||[]).forEach(o=>{if(!o.k||!pts[o.k])return;const pk=ids.includes(o.id);mk(o.k,pk?{fill:OK,label:"✓",z:6}:{fill:"#ffffff",stroke:col,r:7,z:2});if(pk)b.extend(ll(o.k))});
-      (raw.rec||[]).filter(o=>o.k&&ids.includes(o.id)&&pts[o.k]).forEach(o=>{mk(o.k,{fill:OK,label:"✓",z:6});b.extend(ll(o.k))});
-      if(raw.wpick&&ids.includes("c:nowhale"))raw.wpick.filter(w=>ids.includes("w:"+w.id)&&pts[w.id]).forEach(w=>{mk(w.id,{fill:OK,label:"✓",z:6});b.extend(ll(w.id))});}
-  });
-  if(sel!==ALL)MEALS.filter(x=>x[0]===sel).forEach(([d,m,n,lon,lat,q])=>{const mm=new g.Marker({position:{lat,lng:lon},map:GM,title:`${m}餐：${n}`,zIndex:7,
-      icon:{path:g.SymbolPath.CIRCLE,scale:10,fillColor:MEALC,fillOpacity:1,strokeColor:"#ffffff",strokeWeight:2},label:{text:m,color:"#ffffff",fontSize:"11px",fontWeight:"700"}});
-    mm.addListener("click",()=>window.open(mealUrl(q),"_blank","noopener"));gmObjs.push(mm)});
-  if(!b.isEmpty())GM.fitBounds(b,48);else if(sel!==ALL){GM.setCenter({lat:64.142,lng:-21.93});GM.setZoom(12)}
-  if(gmMe)gmMe.setMap(GM);
-}
-function gmLocate(){
-  if(!navigator.geolocation){gmMsg("呢部機唔支援定位");return}
-  if(gmWatch!=null){if(gmMe)GM.panTo(gmMe.getPosition());return}
-  gmWatch=navigator.geolocation.watchPosition(p=>{const pos={lat:p.coords.latitude,lng:p.coords.longitude};
-    if(!gmMe){gmMe=new google.maps.Marker({position:pos,map:GM,zIndex:9,title:"你而家喺度",icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:"#1a73e8",fillOpacity:1,strokeColor:"#ffffff",strokeWeight:3}});GM.panTo(pos);GM.setZoom(Math.max(GM.getZoom(),11))}else gmMe.setPosition(pos)},
-    ()=>gmMsg("攞唔到位置：要允許定位權限"),{enableHighAccuracy:true,maximumAge:30000})}
 function dShort(d){return ((days.find(x=>x.d===d)||{date:""}).date||"").replace(/（[^）]*）/g,"").replace(/\s/g,"")}
 /* bottom-nav label: "D1 9/12" for one day, 每日行程 for all */
 function navLab(){const b=$("tab-trip")&&$("tab-trip").querySelector("span");if(!b)return;const dd=sel!==ALL&&days.find(x=>x.d===sel);b.textContent=dd?`${dLab(sel)} ${dd.date.replace(/（[^）]*）/g,"").replace(/\s/g,"")}`:"每日行程"}
 function select(d,scroll){
   sel=d;store.set("iceland-day2",String(d));navLab();
   $("chips").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.d===d)));
-  renderPanel();zoomDay(d);dim();$("pop").hidden=true;if(gmOn)gmDraw();
+  renderPanel();zoomDay(d);dim();$("pop").hidden=true;
   const nav=$("fnav");nav.hidden=d===ALL;if(d!==ALL){const i=days.findIndex(x=>x.d===d),pv=days[i-1],nx=days[i+1];$("fprev").disabled=!pv;$("fnext").disabled=!nx;$("fprev").textContent=pv?`‹ ${dLab(pv.d)}`:"‹";$("fnext").textContent=nx?`${dLab(nx.d)} ›`:"›"}
   const cb=$("chips").querySelector(`[data-d="${d}"]`);if(cb&&cb.scrollIntoView)try{cb.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
   if(scroll){const rm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;$("chips").scrollIntoView({behavior:rm?"auto":"smooth",block:"start"})}
@@ -1766,14 +1712,14 @@ $("panel").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if
 $("pop").addEventListener("click",e=>{if(e.target.closest(".popx")){$("pop").hidden=true;$("fnav").hidden=sel===ALL;return}
   const b=e.target.closest("[data-pd]");if(!b)return;const k=b.dataset.pk;select(+b.dataset.pd);
   const det=$("panel").querySelector(`details[data-spot="${k}"]`);if(det){det.open=true;det.scrollIntoView({block:"center"})}else $("panel").scrollIntoView({block:"start"})});
-$("zin").addEventListener("click",()=>zoomAt(.7,...ctr()));$("zout").addEventListener("click",()=>zoomAt(1.4,...ctr()));$("zfit").addEventListener("click",()=>zoomDay(sel));$("zgm").addEventListener("click",()=>gmSet(!gmOn));$("zme").addEventListener("click",()=>gmLocate());$("zcity").addEventListener("click",()=>{const a=aspect(),w=19,h=w*a;VB={x:P(-21.975,64)[0]-w/2,y:P(0,64.143)[1]-h/2,w,h};applyVB()});
+$("zin").addEventListener("click",()=>zoomAt(.7,...ctr()));$("zout").addEventListener("click",()=>zoomAt(1.4,...ctr()));$("zfit").addEventListener("click",()=>zoomDay(sel));$("zcity").addEventListener("click",()=>{const a=aspect(),w=19,h=w*a;VB={x:P(-21.975,64)[0]-w/2,y:P(0,64.143)[1]-h/2,w,h};applyVB()});
 $("fprev").addEventListener("click",()=>{const i=days.findIndex(x=>x.d===sel);if(i>0)select(days[i-1].d,true)});$("fnext").addEventListener("click",()=>{const i=days.findIndex(x=>x.d===sel);if(i>=0&&i<days.length-1)select(days[i+1].d,true)});$("fall").addEventListener("click",()=>select(ALL,true));
 $("sc-ok").addEventListener("click",()=>setScen("ok"));
 $("sc-redo").addEventListener("click",()=>setScen("redo"));
 function setDrv(v){drv=v;store.set("iceland-drv",v);$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));drawMap();renderPanel();dim()}
 $("dv-buf").addEventListener("click",()=>setDrv("buf"));$("dv-raw").addEventListener("click",()=>setDrv("raw"));
 if(REAL){$("drvgrp").hidden=false;document.querySelectorAll(".rawonly").forEach(e=>e.hidden=false)}$("dv-buf").setAttribute("aria-pressed",String(drv==="buf"));$("dv-raw").setAttribute("aria-pressed",String(drv==="raw"));
-{const TD=todayDay();if(TD)sel=TD.d}if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;setScen(scen);select(sel);if(store.get("iceland-gm")==="1"&&GMAPS_KEY)gmSet(true);
+{const TD=todayDay();if(TD)sel=TD.d}if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;setScen(scen);select(sel);
 
 /* changes summary: collapsed by default */
 
