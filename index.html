@@ -468,6 +468,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .pkx{border:0;background:transparent;color:var(--muted);cursor:pointer;margin-left:auto;font-size:13px}
 .pkprog{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:0 0 12px}.pkprog .bar{flex:1;height:8px;margin:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
 html.pub details.more{display:none!important}
+.pickroute{margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.pickroute h3{margin:0 0 6px;font-size:14px;color:var(--ok)}.pickroute ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:13.5px}.pickroute .prt{margin-left:8px;color:var(--muted);font-variant-numeric:tabular-nums}
 </style>
 
 </head>
@@ -519,6 +520,7 @@ html.pub details.more{display:none!important}
       <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors · 路線 OSRM</div>
     </div>
     <div id="pop" class="pop" hidden></div>
+    <div id="pickroute" class="pickroute" hidden></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--stay)"></i>住宿</span>
       <span><i class="dot" style="background:var(--spot)"></i>景點</span>
@@ -1010,15 +1012,16 @@ function drawMap(){
   el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":1.4,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
   TILEG=el("g",{class:"tiles",filter:"url(#tilef)"});TILEKEY="";
   
-  const pills=[];
+  const pills=[],TOPL=[];
   D.forEach(day=>day.legs.forEach((g,j,arr)=>{
     const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]),id=`lg${day.d}_${j}`,n=arr.length;
     const lg=el("linearGradient",{id,gradientUnits:"userSpaceOnUse",x1,y1,x2,y2},null,defs);
     el("stop",{offset:0,"stop-color":colAt((day.d+j/n)/13)},null,lg);el("stop",{offset:1,"stop-color":colAt((day.d+(j+1)/n)/13)},null,lg);
     const rp=rtPts(g);if(!rp)rtWant(g,sel===day.d);
     const shp=rp?{tag:"path",a:{d:"M"+rp.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L"),fill:"none","stroke-linejoin":"round"}}:{tag:"line",a:{x1,y1,x2,y2}};
-    el(shp.tag,{...shp.a,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
-    el(shp.tag,{...shp.a,stroke:g.c2||g.pk?OKC():`url(#${id})`,"stroke-width":g.c2?3:g.pk?6:3.6,"stroke-linecap":"round","stroke-dasharray":g.c2?"2 5":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
+    const olEl=el(shp.tag,{...shp.a,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
+    const clEl=el(shp.tag,{...shp.a,stroke:g.c2||g.pk?OKC():`url(#${id})`,"stroke-width":g.c2?3:g.pk?6:3.6,"stroke-linecap":"round","stroke-dasharray":g.c2?"2 5":day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
+    if(g.pk||g.c2)TOPL.push(olEl,clEl);
     const mid=rp?rp[Math.floor(rp.length/2)]:[(x1+x2)/2,(y1+y2)/2];
     if((g.m>=30||g.pk)&&!g.hide&&!g.city)pills.push([mid[0],mid[1],short(dT(g.m)),day.d]);
   }));
@@ -1071,7 +1074,19 @@ function drawMap(){
     el("text",{class:"sn","text-anchor":"middle",fill:"var(--fg)","font-weight":700,"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.name,g);
     if(st.en)el("text",{class:"se","text-anchor":"middle",fill:"var(--muted)","paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},st.en,g);
   });
+  TOPL.forEach(e=>svg.appendChild(e));
+  renderPickRoute(D);
   applyVB();
+}
+/* 已揀可選行程路線列表（手繪地圖下面） */
+function renderPickRoute(D){
+  const box=$("pickroute");if(!box)return;
+  const rows=[];
+  D.forEach(day=>day.legs.forEach(g=>{if(!g.pk||g.hide)return;
+    rows.push(`<li><b>${dLab(day.d)}</b> ${pts[g.a][0]} → ${pts[g.b][0]}<span class="prt">${short(dT(g.m))}</span></li>`)}));
+  if(!rows.length){box.hidden=true;box.innerHTML="";return}
+  box.hidden=false;
+  box.innerHTML=`<h3>已揀行程路線</h3><ol>${rows.join("")}</ol>`;
 }
 /* OpenStreetMap tiles softened to a light basemap (© OpenStreetMap contributors); the drawn coastline underneath shows when offline */
 let TILEG=null,TILEKEY="",tileRaf=0;const TILES_ON=true;
