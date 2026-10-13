@@ -189,6 +189,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 details.sec{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}details.sec>summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:13.5px;color:var(--route);list-style:none}details.sec>summary::-webkit-details-marker{display:none}details.sec>summary::before{content:"▸ ";}details.sec[open]>summary::before{content:"▾ "}.secb{padding:0 12px 10px}
 .today{margin:6px 0 10px;padding:10px 12px;border-radius:10px;background:var(--ok);color:#fff}.today .tdh{font-weight:700;margin-bottom:4px}.today ul{margin:0;padding-left:18px;font-size:13.5px}.today b{color:#fff}
 .dnote.wx{border-left-color:#4a7fa6}
+.snum{display:inline-grid;place-items:center;min-width:17px;height:17px;border-radius:50%;color:#fff;font-style:normal;font-size:10.5px;font-weight:700;margin-right:4px;vertical-align:1px;padding:0 3px;box-sizing:border-box}
 .rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
 :root{--ok:#4f7d5c}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ok:#8cc29a}}:root[data-theme="dark"]{--ok:#8cc29a}
 .sched.rich details summary{cursor:pointer;list-style:none}
@@ -607,8 +608,8 @@ function legAdj(raw,d){
     legs.splice(i,1,L(g.a,g.to,g.m1,{c:1,pk:1,via:g.via1}),L(g.to,g.b,g.m2,{c:1,pk:1,via:g.nov?undefined:l.via}))});
   if(raw.rec){const sel=raw.rec.filter(o=>o.k&&pts[o.k]&&ids.includes(o.id)).sort((a,b)=>a.ord-b.ord).map(o=>o.k);
     if(sel.length){const ch=["rvk",...sel,"rvk"];legs=ch.slice(1).map((k,i)=>L(ch[i],k,estM(ch[i],k,1),{pk:1,city:1}));extra.bus=1}}
-  if(raw.wpick&&ids.includes("c:nowhale")){const M=raw.wpick.filter(w=>w.at==="m"&&ids.includes("w:"+w.id)).map(w=>w.id);
-    if(M.length){const ch=["husa",...M,"hver"];ch.slice(1).forEach((k,i)=>legs.push(L(ch[i],k,estM(ch[i],k),{c2:1})))}}
+  if(raw.wpick&&ids.includes("c:nowhale")){const M=raw.wpick.filter(w=>w.at==="m"&&ids.includes("w:"+w.id)).map(w=>w.id),Hn=raw.wpick.some(w=>w.at==="h"&&ids.includes("w:"+w.id));
+    const ch=!Hn?["akur","goda",...M,"hver"]:M.length?["husa",...M,"hver"]:null;if(ch)ch.slice(1).forEach((k,i)=>legs.push(L(ch[i],k,ch[i]==="akur"?45:estM(ch[i],k),{c2:1})))}
   return {...d,legs,...extra};
 }
 const R=day0=>legAdj(day0,R1(day0));
@@ -1070,13 +1071,24 @@ function richRows(day){
   const plan=EP(day.plan),att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
   const order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
   for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
+  /* map stop numbers (same as the map and the drive list) shown on the matching timetable rows */
+  const SN={};{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
+    sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
+      const okRow=j=>j>last&&plan[j][2]!=="y"&&SN[j]==null&&!/第二部車/.test(plan[j][1]);let j=-1;
+      if(i===0){const d=depI(plan);j=d>=0?d:-1}
+      if(j<0&&i===sq.length-1&&pts[k]&&pts[k][3]==="stay")j=plan.findIndex((r,x)=>okRow(x)&&/^(入住|到[^，；]*(住處|入住)|到赫本|到維克|到雷克雅維克|到塞爾福斯|到埃伊爾斯塔濟)/.test(r[1]));
+      if(j<0)j=plan.findIndex((r,x)=>okRow(x)&&att[x].sp.includes(k));
+      if(j<0&&nm0)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(nm0));
+      if(j<0&&en&&en.length>3)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(en));
+      if(j>=0){SN[j]=i+1;last=j}})}
   const meals=EAT[day.d]||[],done=new Set();
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
   const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const has=x.sp.length||x.eat.length;
-    const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${tag}${a}`;
+    const sn=SN[i]?`<i class="snum" style="background:${dayCol(day.d)}" title="地圖第 ${SN[i]} 站">${SN[i]}</i>`:"";
+    const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${sn}${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${sn}${tag}${a}`;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(DT&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
   const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(DT&&CF[cfKey(day.d,t,a)])).length,showCf=DT||nFix;
@@ -1114,20 +1126,22 @@ function choicePlan(raw,day){
   if(o.build&&raw.wpick){
     const tm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},tt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
     const ids=(RECP[raw.d]||[]).filter(x=>x.startsWith("w:")).map(x=>x.slice(2)),sel=raw.wpick.filter(w=>ids.includes(w.id));
-    const H=sel.filter(w=>w.at==="h"),M=sel.filter(w=>w.at==="m"),rows=[],warn=[];let t=tm("10:45");const MEET=tm("17:10");
+    const H=sel.filter(w=>w.at==="h"),M=sel.filter(w=>w.at==="m"),rows=[],warn=[],direct=!H.length;let t=tm(direct?"09:00":"10:45");const MEET=tm("17:10");
     const push=(a,b,txt,f)=>rows.push([b==null?tt(a):`${tt(a)}–${tt(b)}`,txt,f||"pk"]);
-    if(!sel.length)push(t,MEET,"唔觀鯨：自由活動，喺下面揀想去的","");
-    H.forEach(w=>{push(t,t+w.dur,w.row);t+=w.dur+15});
-    if(sel.length&&!M.length){/* stay in Húsavík, rejoin the group for lunch */}
-    else if(M.length){let lunch=false;
-      if(t>=tm("12:15")){push(t,t+45,"午餐：胡薩維克港口","m");t+=60;lunch=true}
-      push(t,null,"開第二部車去米湖區（約 55 分鐘）","c");t+=55;
+    const mvn=(lunch=false)=>{
       M.forEach(w=>{if(!lunch&&t>=tm("12:00")){push(t,t+45,"午餐：米湖區","m");t+=60;lunch=true}
         if(t+w.dur+15>MEET){warn.push(w.row);return}push(t,t+w.dur,w.row);t+=w.dur+15});
-      if(!lunch&&t+45+15<=MEET){push(t,t+45,"午餐：米湖區","m");t+=60}
+      if(!lunch){t=Math.max(t,tm("12:00"));if(t+45+15<=MEET){push(t,t+45,"午餐：米湖區","m");t+=60}}
+      if(!M.length||t+30<MEET)push(t,MEET-15,M.length?"米湖區自由時間":"米湖區自由活動（喺下面揀想去的）","");
       if(warn.length)rows.push(["⚠",`17:10 前做唔晒，排唔落：${warn.join("、")}`,""]);
-      rows.push(["17:10","喺 Hverir 同大隊會合","c"])}
-        if(M.length)plan=plan.filter(r=>!/^午餐：胡薩維克|^眾神瀑布/.test(r[1]));
+      rows.push(["17:10","喺 Hverir 同大隊會合","c"])};
+    if(direct){/* no Húsavík extras: car 2 drives straight from Akureyri, Goðafoss is on the way */
+      push(t,null,"第二部車由阿克雷里直接開去米湖區（唔使去胡薩維克）","c");t+=45;
+      push(t,t+30,"眾神瀑布（順路）");t+=30+10;push(t,null,"開去米湖區（約 35 分鐘）","c");t+=35;mvn()}
+    else{H.forEach(w=>{push(t,t+w.dur,w.row);t+=w.dur+15});
+      if(M.length){let ate=false;if(t>=tm("12:15")){push(t,t+45,"午餐：胡薩維克港口","m");t+=60;ate=true}
+        push(t,null,"開第二部車去米湖區（約 55 分鐘）","c");t+=55;mvn(ate)}}
+    if(direct||M.length)plan=plan.filter(r=>!/^午餐：胡薩維克|^眾神瀑布/.test(r[1]));
     const k=plan.findIndex(r=>/^開第二部車：/.test(r[1]));if(k>=0)plan.splice(k,1,...rows);
   }
   return {...day,plan};
@@ -1200,7 +1214,7 @@ function card(raw){
   const notes=(day.notes||[]).map(n=>`<li>${hr(n[0])}</li>`).join("");
   const wxH=REAL&&raw.wx?`<div class="dnote wx"><div class="dnh">天氣差嘅後備</div><p>${raw.wx}</p></div>`:"";
   const pubDep=!REAL?(()=>{const i=depI(day.plan);return i>=0&&/^\d{1,2}:\d{2}$/.test(day.plan[i][0])?`<div class="golin"><span>出發：<b>${day.plan[i][0]}</b></span></div>`:""})():"";
-  const pickH=`${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>${raw.wpick&&cPicked(raw)==="nowhale"?`<div class="sub2">唔觀鯨想去邊（可選，可以揀幾樣）</div><ul class="opick">${raw.wpick.map(w=>{const on=(RECP[raw.d]||[]).includes("w:"+w.id);return `<li><label><input type="checkbox" data-recpick="${raw.d}|w:${w.id}"${on?" checked":""}><span>${w.row}</span><small>${w.at==="h"?"胡薩維克":"米湖區"}・約 ${w.dur} 分鐘</small></label></li>`}).join("")}</ul>`:""}`:""}
+  const pickH=`${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>${raw.wpick&&cPicked(raw)==="nowhale"?`<div class="sub2">唔觀鯨想去邊（可選，可以揀幾樣）</div><p class="rhint">唔揀 GeoSea 同港口的話，就唔使去胡薩維克：第二部車由阿克雷里直接開去米湖區，順路停眾神瀑布。</p><ul class="opick">${raw.wpick.map(w=>{const on=(RECP[raw.d]||[]).includes("w:"+w.id);return `<li><label><input type="checkbox" data-recpick="${raw.d}|w:${w.id}"${on?" checked":""}><span>${w.row}</span><small>${w.at==="h"?"胡薩維克":"米湖區"}・約 ${w.dur} 分鐘</small></label></li>`}).join("")}</ul>`:""}`:""}
     ${(()=>{if(!DT)return "";const os=R(raw).plan.filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
       return `<div class="sub2">可選行程（自己揀）</div><p class="rhint"><b>剔選想去的，上面日程表會自動排好時間；冇剔的會刪走</b>（只存喺呢部機）${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
     ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}${DT?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${DT&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
@@ -1251,6 +1265,20 @@ function gmSet(on){
   const h=document.querySelector(".maphint");if(h)h.hidden=on;
   if(!on){if(gmWatch!=null&&navigator.geolocation)navigator.geolocation.clearWatch(gmWatch);gmWatch=null;return}
   gmLoad(()=>{if(!GM)GM=new google.maps.Map($("gmap"),{center:{lat:64.9,lng:-18.6},zoom:6,styles:SILVER,disableDefaultUI:true,zoomControl:true,gestureHandling:"greedy",clickableIcons:false});gmDraw()})}
+/* real road shapes from Google Routes API; each leg fetched once then kept on this device */
+const decPoly=e=>{const out=[];let i=0,la=0,ln=0;while(i<e.length){for(const k of [0,1]){let b,sh=0,r=0;do{b=e.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32);const d=r&1?~(r>>1):r>>1;if(k)ln+=d;else la+=d}out.push({lat:la/1e5,lng:ln/1e5})}return out};
+const RTMEM={};let gmRtWarn=false,gmRtOff=false;
+function gmRoute(l){
+  const via=(l.via||[]).filter(v=>!/[\u3400-\u9fff]/.test(v)),key="iceland-rt1-"+[l.a,...via,l.b].join(">");
+  if(RTMEM[key])return RTMEM[key];
+  let c=null;try{c=localStorage.getItem(key)}catch(e){}
+  if(c)return RTMEM[key]=Promise.resolve(decPoly(c));
+  if(gmRtOff)return Promise.reject(new Error("off"));
+  const P_=k=>({location:{latLng:{latitude:pts[k][2],longitude:pts[k][1]}}});
+  return RTMEM[key]=fetch("https://routes.googleapis.com/directions/v2:computeRoutes",{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":GMAPS_KEY,"X-Goog-FieldMask":"routes.polyline.encodedPolyline"},
+    body:JSON.stringify({origin:P_(l.a),destination:P_(l.b),intermediates:via.map(v=>({address:v+", Iceland"})),travelMode:"DRIVE"})})
+    .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(j=>{const enc=j.routes&&j.routes[0]&&j.routes[0].polyline&&j.routes[0].polyline.encodedPolyline;if(!enc)throw new Error("no route");try{localStorage.setItem(key,enc)}catch(e){}return decPoly(enc)})
+    .catch(err=>{delete RTMEM[key];if(/HTTP 40[13]/.test(err.message))gmRtOff=true;if(!gmRtWarn){gmRtWarn=true;gmMsg(`畫唔到真實道路（${err.message}）：要喺 Google Cloud 開「Routes API」，並加入 API key 嘅 API restrictions；暫時用直線`,15000)}throw err})}
 function gmDraw(){
   if(!GM||!gmOn)return;gmObjs.forEach(o=>o.setMap(null));gmObjs=[];
   const g=google.maps,ll=k=>({lat:pts[k][2],lng:pts[k][1]}),b=new g.LatLngBounds(),OK=getComputedStyle(document.documentElement).getPropertyValue("--ok").trim()||"#4f7d5c";
@@ -1261,7 +1289,7 @@ function gmDraw(){
     day.legs.forEach(l=>{if(!pts[l.a]||!pts[l.b])return;
       const pl=new g.Polyline({path:[ll(l.a),ll(l.b)],geodesic:true,map:GM,strokeColor:l.c2||l.pk?OK:col,strokeOpacity:l.c2?0:(on?.9:.2),strokeWeight:on?5:3,zIndex:on?5:1,
         icons:l.c2&&on?[{icon:{path:"M 0,-1 0,1",strokeOpacity:1,strokeColor:OK,scale:3},offset:"0",repeat:"12px"}]:null});
-      pl.addListener("click",()=>select(day.d));gmObjs.push(pl);if(on&&sel!==ALL){b.extend(ll(l.a));b.extend(ll(l.b))}});
+      pl.addListener("click",()=>select(day.d));gmObjs.push(pl);gmRoute(l).then(path=>{if(pl.getMap())pl.setPath(path)}).catch(()=>{});if(on&&sel!==ALL){b.extend(ll(l.a));b.extend(ll(l.b))}});
     if(sel===ALL){const st=day.legs.length?day.legs[day.legs.length-1].b:null;if(st&&pts[st]&&pts[st][3]==="stay"){mk(st,{fill:"#b06d58",r:7,label:String(day.d),z:3});b.extend(ll(st))}}
     else if(sel===day.d){const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;mk(k,{fill:col,label:String(i+1),z:4})});
       const ids=DT?(RECP[day.d]||[]):[],raw=days.find(x=>x.d===day.d);
