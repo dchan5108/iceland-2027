@@ -248,6 +248,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .mapbox svg{width:100%;min-width:0;height:clamp(300px,64vw,700px);touch-action:none;cursor:grab;outline:none}
 .mapbox svg:active{cursor:grabbing}
 #gmap{position:absolute;inset:0;z-index:1}.mapctl{z-index:2}.gmmsg{position:absolute;left:10px;bottom:10px;z-index:3;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12.5px;box-shadow:var(--shadow)}
+.tiles{filter:grayscale(.75) brightness(1.07) contrast(.88) saturate(.9)}
 .mapattr{position:absolute;left:6px;top:4px;font-size:9.5px;color:#666;background:rgba(255,255,255,.75);padding:1px 5px;border-radius:4px;z-index:1;pointer-events:none}
 .mapctl .zc{font-size:12px;font-weight:700;width:auto;padding:0 8px}
 .mapctl{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px}
@@ -395,7 +396,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
     <div class="mapbox"><svg id="map" viewBox="0 10 1000 690" tabindex="0" role="img" aria-label="2027 冰島路線圖，可以拖動和縮放"></svg>
       <div class="mapctl"><button type="button" id="zin" aria-label="放大">＋</button><button type="button" id="zout" aria-label="縮小">－</button><button type="button" id="zfit" aria-label="重設地圖">⤢</button><button type="button" id="zcity" aria-label="雷克雅維克市區" class="zc">市區</button><button type="button" id="zgm" aria-label="切換 Google 實景地圖" class="zc">實景</button><button type="button" id="zme" aria-label="顯示我嘅位置" hidden>◎</button></div>
       <div id="gmap" hidden></div><div id="gmmsg" class="gmmsg" hidden></div>
-      <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors © CARTO</div>
+      <div class="maphint">兩隻手指縮放・拖動移動・撳景點睇詳情</div><div class="mapattr">© OpenStreetMap contributors</div>
     </div>
     <div id="pop" class="pop" hidden></div>
     <div class="legend">
@@ -460,7 +461,7 @@ const MEALC="#e8a317";
 const MEALS=[[-5,"午","Sandholt 麵包店",-21.9300,64.1453,"Sandholt Laugavegur 36"],[-5,"晚","Svarta Kaffið",-21.9255,64.1440,"Svarta Kaffið Reykjavík"],
  [0,"早","Grái Kötturinn",-21.9333,64.1468,"Grái Kötturinn Hverfisgata 16"],[0,"晚","Messinn",-21.9372,64.1463,"Messinn Lækjargata Reykjavík"],
  [1,"午","Blue Café（藍湖）",-22.447,63.879,"Blue Lagoon Iceland"],[1,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
- [2,"午","Hjá Góðu Fólki（大約位置）",-22.95,64.81,"Hjá Góðu Fólki 342 Eyja- og Miklaholtshreppur"],
+ [2,"午","Hjá Góðu Fólki",-22.74126,64.84925,"64.84925,-22.74126"],
  [3,"午","Settlement Center／Dirty Burger",-21.925,64.536,"Settlement Center Borgarnes"],[3,"晚","Strikið（阿克雷里）",-18.088,65.6825,"Strikið Akureyri"],
  [4,"午","Naustið（胡薩維克）",-17.343,66.046,"Naustið Húsavík"],[4,"晚","Vogafjós",-16.917,65.611,"Vogafjós Mývatn"],
  [5,"午","黛提瀑布野餐",-16.392,65.807,"Dettifoss west parking"],[5,"晚","Salt Café（埃伊爾斯塔濟）",-14.395,65.264,"Salt Café Egilsstaðir"],
@@ -471,7 +472,7 @@ const MEALS=[[-5,"午","Sandholt 麵包店",-21.9300,64.1453,"Sandholt Laugavegu
  [10,"午","Mia's Country Grill（Skógar）",-19.50,63.527,"Mia's Country Grill Skógar"],[10,"晚","Mjólkurbúið 美食廣場",-21.0002,63.9366,"Mjólkurbúið Mathöll Selfoss"],
  [11,"午","Friðheimar 番茄溫室",-20.4067,64.1758,"Friðheimar"],[11,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
  [12,"早","Brauð & Co",-21.9262,64.1451,"Brauð & Co Frakkastígur"],[12,"午","Bæjarins Beztu 熱狗",-21.9405,64.1484,"Bæjarins Beztu Pylsur"]];
-const mealUrl=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+", Iceland")}`;
+const mealUrl=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(/^-?\d+\.\d+,-?\d+\.\d+$/.test(q)?q:q+", Iceland")}`;
 const CITYDT=[["Grái Kötturinn",-21.9333,64.1468],["書店酒吧",-21.9285,64.1454]];
 const coast=[[-22.72,63.82],[-22.72,64.02],[-22.4,64.08],[-22.05,64.07],[-21.95,64.18],[-21.75,64.2],[-21.9,64.3],[-22.1,64.34],[-22.0,64.5],[-22.6,64.70],[-23.4,64.72],[-24.1,64.86],[-23.85,64.96],[-23.6,64.97],[-23.0,64.96],[-22.5,65.06],[-22.0,65.15],[-22.6,65.4],[-23.4,65.45],[-24.53,65.5],[-24.2,65.8],[-23.6,66.05],[-23.1,66.18],[-22.4,66.45],[-21.6,66.1],[-21.4,65.75],[-21.15,65.2],[-20.95,65.45],[-20.65,65.7],[-20.4,65.6],[-20.2,66.1],[-19.5,65.75],[-18.8,66.15],[-18.45,66.1],[-18.17,65.85],[-18.1,65.68],[-17.95,65.85],[-18.0,66.05],[-17.75,66.15],[-17.55,65.98],[-17.38,66.05],[-17.1,66.2],[-16.6,66.0],[-16.1,66.55],[-15.95,66.45],[-14.55,66.38],[-14.9,66.1],[-14.7,65.75],[-14.0,65.55],[-13.5,65.27],[-13.6,65.0],[-14.0,64.8],[-14.28,64.65],[-14.6,64.4],[-15.2,64.22],[-15.8,64.08],[-16.2,64.0],[-16.6,63.8],[-17.4,63.75],[-18.0,63.6],[-19.0,63.38],[-19.13,63.38],[-19.6,63.47],[-20.3,63.66],[-21.0,63.82],[-21.4,63.85],[-22.0,63.83],[-22.4,63.83]];
 /* name, lon, lat, type, main label side, changed, inset label side (inset points get no label on the main map) */
@@ -722,8 +723,8 @@ function drawMap(){
   el("path",{d:c1,fill:"var(--land)"});
   GLAC.forEach(([lon,lat,rx,ry],i)=>{const ring=[];for(let a=0;a<24;a++){const t=a/24*Math.PI*2,r=1+.12*Math.sin(t*3+i);ring.push(P(lon+Math.cos(t)*rx*r,lat+Math.sin(t)*ry*r))}
     el("path",{d:pathOf(wob(ring,i+2,.15)),fill:"var(--ice)",stroke:"#b7d6e6","stroke-width":1.2,"stroke-dasharray":"none",opacity:.95,"vector-effect":"non-scaling-stroke"})});
-  TILEG=el("g",{class:"tiles"});TILEKEY="";
   el("path",{d:c1,fill:"none",stroke:"var(--coast)","stroke-width":1.4,"stroke-linejoin":"round","vector-effect":"non-scaling-stroke"});
+  TILEG=el("g",{class:"tiles"});TILEKEY="";
   
   const pills=[];
   D.forEach(day=>day.legs.forEach((g,j,arr)=>{
@@ -785,15 +786,15 @@ function drawMap(){
   });
   applyVB();
 }
-/* CARTO light basemap tiles (© OpenStreetMap contributors © CARTO); the drawn coastline underneath shows when offline */
+/* OpenStreetMap tiles softened to a light basemap (© OpenStreetMap contributors); the drawn coastline underneath shows when offline */
 let TILEG=null,TILEKEY="",tileRaf=0;const TILES_ON=true;
 function drawTiles(){tileRaf=0;if(!TILEG||!TILES_ON||PRINT)return;
-  const cw=svg.clientWidth||1000,dpr=Math.min(2,window.devicePixelRatio||1),z=Math.max(4,Math.min(16,Math.round(Math.log2(WU*cw/(256*VB.w))))),n=2**z,tu=WU/n;
+  const cw=svg.clientWidth||1000,dpr=Math.min(2,window.devicePixelRatio||1),z=Math.max(4,Math.min(17,Math.round(Math.log2(WU*cw*dpr/(256*VB.w))))),n=2**z,tu=WU/n;
   const x0=Math.floor((VB.x+MX0)/tu),x1=Math.floor((VB.x+VB.w+MX0)/tu),y0=Math.max(0,Math.floor((VB.y+MY0)/tu)),y1=Math.min(n-1,Math.floor((VB.y+VB.h+MY0)/tu));
-  const key=[z,x0,x1,y0,y1].join(",");if(key===TILEKEY)return;TILEKEY=key;if((x1-x0+1)*(y1-y0+1)>80)return;
+  const key=[z,x0,x1,y0,y1].join(",");if(key===TILEKEY)return;TILEKEY=key;if((x1-x0+1)*(y1-y0+1)>120)return;
   const f=document.createDocumentFragment(),NS="http://www.w3.org/2000/svg";
-  for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++){const im=document.createElementNS(NS,"image"),sub="abcd"[(x+y)%4];
-    im.setAttribute("href",`https://${sub}.basemaps.cartocdn.com/light_all/${z}/${((x%n)+n)%n}/${y}${dpr>1?"@2x":""}.png`);
+  for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++){const im=document.createElementNS(NS,"image");
+    im.setAttribute("href",`https://tile.openstreetmap.org/${z}/${((x%n)+n)%n}/${y}.png`);
     im.setAttribute("x",x*tu-MX0);im.setAttribute("y",y*tu-MY0);im.setAttribute("width",tu+.02);im.setAttribute("height",tu+.02);im.setAttribute("preserveAspectRatio","none");
     im.addEventListener("error",()=>im.remove());f.appendChild(im)}
   TILEG.replaceChildren(f)}
