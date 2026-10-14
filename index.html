@@ -489,7 +489,7 @@ html.pub details.more{display:none!important}
     <path d="M90 150 C160 122 210 118 262 128 C300 120 350 112 420 132 L420 150Z" fill="var(--mt1)"/>
     <g transform="translate(316 118)"><path d="M0 14 L13 2 L26 14Z" fill="var(--turf)"/><rect x="3" y="14" width="20" height="10" fill="var(--house)"/><rect x="10" y="17" width="6" height="7" fill="var(--door)"/><path d="M26 14 L37 4 L48 14Z" fill="var(--turf)"/><rect x="29" y="14" width="16" height="10" fill="var(--house)"/><rect x="34" y="16" width="5" height="4" fill="var(--door)"/></g>
   </svg>
-  <h1>2027 冰島（暫定行程）<span class="vbadge" id="vbadge">大眾版</span></h1>
+  <h1>2027 冰島<span class="vbadge" id="vbadge">大眾版</span></h1>
   <p class="sub">9 月 12–23 日 · 順時針環島 <span class="ver" id="upd" hidden>更新：10/13 21:29（墨爾本時間）</span></p>
   <div class="stats"><span><b>12</b> 日環島</span><span><b>7</b> 人・<b>2</b> 車</span><span>約 <b>2,000</b> km</span></div>
   </header>
@@ -912,7 +912,7 @@ function buildKML(){
   if(d.legs.length){const coords=[];d.legs.forEach((l,i)=>{if(i===0||coords[coords.length-1]!==l.a)coords.push(l.a);coords.push(l.b)});
     f+=`<Placemark><name>D${d.d} 路線（直線示意）</name><styleUrl>#line${d.d}</styleUrl><LineString><tessellate>1</tessellate><coordinates>${coords.map(k=>pts[k][1]+","+pts[k][2]+",0").join(" ")}</coordinates></LineString></Placemark>`}
   body+=f+"</Folder>"});
- const kml=`<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>2027 冰島（暫定行程）</name><description>位置為約數；導航請按每個點的「Google Maps 準確位置」。路線為直線示意。</description>${styles}${body}</Document></kml>`;
+ const kml=`<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>2027 冰島</name><description>位置為約數；導航請按每個點的「Google Maps 準確位置」。路線為直線示意。</description>${styles}${body}</Document></kml>`;
  return kml;
 }
 function syncHelp(){const d=document.createElement("dialog");d.className="syhelp";
