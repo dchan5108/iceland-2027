@@ -87,6 +87,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sunr{margin:0 0 8px;border:1px solid #e0b25a;border-radius:10px;background:rgba(240,180,60,.10)}.sunr summary{cursor:pointer;padding:8px 10px;font-weight:600;color:#8a5a00}.sunb{padding:0 12px 10px;font-size:13.5px}.sunb p{margin:6px 0}.sunb ul{margin:4px 0 6px;padding-left:18px}
 .golin{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:rgba(47,111,134,.10);color:var(--fg)}.golin .late b{color:#b3261e}
 .dbud{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:0 0 4px;font-size:12.5px}.dbud span{display:flex;flex-direction:column;min-width:0}.dbud small{color:var(--muted);font-size:11px}.dbud b{font-weight:600;font-variant-numeric:tabular-nums}.dbud .wl{flex-direction:row;align-items:center;font-size:12px;font-weight:700;border:1px solid currentColor;border-radius:999px;padding:1px 10px}.dbud .wl.c{color:var(--route)}.dbud .wl.b{color:var(--chg)}.dbud .wl.h{color:#b3261e}.wlwhy{margin:0 0 10px;font-size:12px;color:var(--muted)}
+.ieb{border:0;background:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 4px;margin-left:2px;opacity:.55;line-height:1;vertical-align:middle}.ieb:hover,.ieb:focus-visible{opacity:1;color:var(--route)}.ied{margin:6px 0 10px;padding:8px;border:1px dashed var(--line);border-radius:8px;background:var(--card);font-size:13px}.ied-t{width:100%;box-sizing:border-box;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);resize:vertical}.ied .row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .late30{margin:0 0 8px;padding:8px 10px;border-radius:8px;border:1px solid rgba(179,38,30,.25);background:rgba(179,38,30,.06);font-size:13px;color:var(--fg)}.late30 .lb{font-weight:600;margin-top:4px}.late30 ul{margin:2px 0 4px;padding-left:18px}.late30 li{margin:1px 0}.late30 p{margin:2px 0}
 .wcd{font-size:12.5px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:var(--card);border:1px solid var(--line)}.wcd summary{cursor:pointer;color:var(--route);font-weight:600}.wcd ul{margin:6px 0 4px;padding-left:18px}.wcd li{margin:2px 0}.wcd li.no b{color:var(--muted)}.wcd p{margin:0;color:var(--muted)}
 .dusk{font-size:12.5px;color:var(--route);margin:0 0 4px;font-variant-numeric:tabular-nums}
@@ -770,7 +771,7 @@ const DTO="只限 Dorcas & Tebe";
 /* ---- optional shared sync through a Google Sheet + Apps Script web app (set up under ⋯ 工具) ----
    synced: booking ticks, free-cancel dates, pre-departure checklist, emergency numbers, budget (incl. who paid) */
 const SYNC={user:store.get("iceland-sync-user")||"",pass:store.get("iceland-sync-pass")||"",url:"",ready:0,boot:1};SYNC.url=(!PV&&SYNC.user&&SYNC.pass)?CONTENT_URL:"";setTimeout(()=>{SYNC.boot=0},0);
-const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+))$/;
+const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+|opt-[\w-]+|rec-d\d+))$/;
 let SYNCT={};try{SYNCT=JSON.parse(localStorage.getItem("iceland-sync-t")||"{}")}catch(e){}
 const syncQ=new Set();let syncTm=null,SYNCST={s:"",m:""};
 const hhmm=()=>new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -840,6 +841,36 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
     if(t==="sp"){const bs=TXB.sp[id]||{},o={};wrap.querySelectorAll(".tx-sp").forEach(x=>{const f=x.dataset.sf,v=x.value;const bv=Array.isArray(bs[f])?bs[f].join("\n"):(bs[f]||"");if(v!==bv)o[f]=f==="w"?v.split("\n").map(z=>z.trim()).filter(Boolean):v.trim()});
       store.set("iceland-txt-sp-"+id,Object.keys(o).length?JSON.stringify(o):"");return txAfterSave("已儲存")}}});
 function TIPS_BASE(id){const [g,it]=id.split("|");const gg=TXB.tips.find(x=>x[0]===g);const ii=gg&&gg[1].find(x=>x[0]===it);return ii?ii[1]:""}
+function ieB(kind,id,field,val){if(!DT||val==null||id==null)return "";return `<button type="button" class="ieb" data-ieb="1" data-iek="${kind}" data-ied="${escA(id)}" data-ief="${escA(field)}" data-ieval="${escA(val)}" title="修改文字" aria-label="修改文字">✎</button>`}
+function ieOpen(b){
+ document.querySelectorAll(".ied").forEach(x=>x.remove());
+ const blk=b.closest("p,li,summary,.spt,h3")||b.parentElement;
+ const ed=document.createElement("div");ed.className="ied";
+ ed.dataset.iek=b.dataset.iek;ed.dataset.ied=b.dataset.ied;ed.dataset.ief=b.dataset.ief;
+ ed.innerHTML=`<textarea class="ied-t" rows="3" aria-label="修改文字">${escA(b.dataset.ieval)}</textarea><div class="row"><button type="button" class="mini" data-iesave="1">儲存</button><button type="button" class="mini" data-iecancel="1">取消</button><button type="button" class="mini" data-iereset="1">還原原版</button></div>`;
+ blk.insertAdjacentElement("afterend",ed);ed.querySelector("textarea").focus();
+}
+function ieSave(ed,reset){
+ const kind=ed.dataset.iek,id=ed.dataset.ied,field=ed.dataset.ief;
+ const v=reset?"":ed.querySelector("textarea").value.trim();
+ try{
+  if(kind==="notes"){const d=days.find(x=>String(x.d)===String(id));if(!d)return;const arr=d.notes.map(n=>n[0]);
+   if(reset)arr[+field]=TXB.notes[+id][+field][0];else arr[+field]=v;
+   store.set("iceland-txt-notes-d"+id,JSON.stringify(arr.filter(x=>String(x).trim())))}
+  else{const key=kind==="sp"?"iceland-txt-sp-"+id:kind==="opt"?"iceland-txt-opt-"+id:"iceland-txt-rec-d"+id;
+   const o=txtGet(key)||{};if(reset||!v)delete o[field];else o[field]=v;
+   store.set(key,Object.keys(o).length?JSON.stringify(o):"null")}
+ }catch(e){return}
+ applyTxt();try{renderTips()}catch(e){}try{renderPanel()}catch(e){}
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest&&e.target.closest("[data-ieb]");
+ if(b){e.preventDefault();e.stopPropagation();ieOpen(b);return}
+ const ed=e.target.closest&&e.target.closest(".ied");if(!ed)return;
+ if(e.target.closest("[data-iesave]"))ieSave(ed,false);
+ else if(e.target.closest("[data-iereset]"))ieSave(ed,true);
+ else if(e.target.closest("[data-iecancel]"))ed.remove();
+});
 function toolsHTML(){return `<details class="tools" id="tools"><summary>⋯ 工具</summary><div class="tmenu">
   <h4>預覽其他人睇到嘅版本（只供睇）</h4><div class="row"><a class="mini" href="#dt5x-pub">大眾版</a><a class="mini" href="#dt5x-real">真實版</a></div>
   ${DT&&!PV?`<div id="txedwrap">${txtEditorBlock()}</div>`:""}
@@ -1339,7 +1370,7 @@ const SUNRISE={
 const sunriseHTML=(day,Nd)=>{const x=SUNRISE[day.d];if(!REAL||!x||(x.scen&&x.scen!==scen))return"";const [,lon,lat]=pts[x.k],t=sunAt(Nd,lat,lon,1),g=q=>`https://www.google.com/maps/search/?api=1&query=${enc(q)}`;
   return `<details class="sunr"><summary>日出推薦（自由參加）：${x.spot.replace(/（.*）/,"")}・日出約 ${t}</summary><div class="sunb"><p><b>地點：</b>${x.spot}</p><p><b>出發：</b>${x.go}</p><p><b>點睇：</b>${x.d}</p><p><b>返嚟：</b>${x.back}</p><ul>${x.w.map(w=>`<li>${w}</li>`).join("")}</ul><p>前一晚睇 vedur.is 雲量預報，雲多就唔使早起。</p><div class="popb"><a class="btn" href="${g(x.q)}" target="_blank" rel="noopener">Google Maps：日出位置</a><a class="btn ghostb" href="${g(x.pq)}" target="_blank" rel="noopener">導航去停車場</a></div></div></details>`};
 const SPF=[["park","停車"],["wc","廁所"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
-const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl>${p.map?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.map)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}</div>`};
+const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}${ieB("sp",k,"d",p.d)}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl>${p.map?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.map)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}</div>`};
 
 let TIPS=[
  ["駕駛",[
@@ -1386,6 +1417,14 @@ function applyTxt(){
   for(const k in TXB.sp){const o=txtGet("iceland-txt-sp-"+k);SP[k]=o&&typeof o==="object"?{...TXB.sp[k],...o}:{...TXB.sp[k]}}
   TIPS.forEach((g,gi)=>g[1].forEach((it,ii)=>{const o=txtGet("iceland-txt-tip-"+encodeURIComponent(TXB.tips[gi][0]+"|"+TXB.tips[gi][1][ii][0]));it[1]=typeof o==="string"?o:TXB.tips[gi][1][ii][1]}));
 }
+/* ---- editable optional/recommendation text (base snapshot taken on first apply) ---- */
+let TXBOPT=null;
+function applyOpt(){
+  if(!TXBOPT){TXBOPT={opt:{},rec:{}};days.forEach(d=>{d.recBase=d.recHint;(d.opt||[]).concat(d.rec||[]).forEach(o=>{if(o.id!=null&&!TXBOPT.opt[o.id])TXBOPT.opt[o.id]={t:o.t,add:o.add,d:o.d}})});TXBOPT.recHint=Object.fromEntries(days.map(d=>[d.d,d.recHint]))}
+  days.forEach(d=>{const rh=txtGet("iceland-txt-rec-d"+d.d);d.recHint=(rh&&rh.hint!=null&&rh.hint!==""&&typeof rh==="object")?rh.hint:TXBOPT.recHint[d.d];
+    (d.opt||[]).concat(d.rec||[]).forEach(o=>{const b=TXBOPT.opt[o.id];if(o.id==null||!b)return;const ov=txtGet("iceland-txt-opt-"+o.id)||{};o.t=ov.t||b.t;o.add=ov.add||b.add;o.d=ov.d||b.d})});
+}
+applyOpt();
 applyTxt();
 /* restaurant suggestions per day: [meal, name, note]; weekday checked against the 2027 date */
 const EAT={
@@ -1749,14 +1788,14 @@ function card(raw){
   const day=edPlan(raw,recPlan(raw,R(raw))),tot=day.legs.filter(l=>!l.c2).reduce((s,l)=>s+dT(l.m),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day);
   const SQ=stopsOf(day).filter(k=>!k.startsWith("via:")),NB=k=>{const i=SQ.indexOf(k);return i>=0&&i<20?String.fromCharCode(0x2460+i)+" ":""};
   const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}${l.c2?" c2":""}" href="${legUrl(l)}" target="_blank" rel="noopener"><span>${l.c2?"第二部車：":""}${l.c2?"":NB(l.a)}${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${l.c2?"":NB(l.b)}${nm(l.b)}</span><b>${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`${REAL?"預留 ":"約 "}${fmt(buf(l.m))}${REAL?`<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`:l.was?`<span class="was">${l.was}</span>`:""}`}</b></a>`).join("");
-  const notes=(day.notes||[]).map(n=>`<li>${hr(n[0])}</li>`).join("");
+  const notes=(day.notes||[]).map((n,i)=>`<li>${hr(n[0])}${ieB("notes",day.d,i,n[0])}</li>`).join("");
   const wxH=REAL&&raw.wx?`<div class="dnote wx"><div class="dnh">天氣差嘅後備</div><p>${raw.wx}</p></div>`:"";
   const pubDep=!REAL?(()=>{const i=depI(day.plan);return i>=0&&/^\d{1,2}:\d{2}$/.test(day.plan[i][0])?`<div class="golin"><span>出發：<b>${day.plan[i][0]}</b></span></div>`:""})():"";
   const pickH=`${DT&&raw.choice?`<div class="sub2">${raw.choice.label}</div><p class="rhint"><b>揀咗之後，上面日程表只會顯示你揀嗰個</b>（只存喺呢部機）${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>${raw.wpick&&cPicked(raw)==="nowhale"?`<div class="sub2">唔觀鯨想去邊（可選，可以揀幾樣）</div><p class="rhint">唔揀 GeoSea 同港口的話，就唔使去胡薩維克：第二部車由阿克雷里直接開去米湖區，順路停眾神瀑布。</p><ul class="opick">${raw.wpick.map(w=>{const on=(RECP[raw.d]||[]).includes("w:"+w.id);return `<li><label><input type="checkbox" data-recpick="${raw.d}|w:${w.id}"${on?" checked":""}><span>${w.row}</span><small>${w.at==="h"?"胡薩維克":"米湖區"}・約 ${w.dur} 分鐘</small></label></li>`}).join("")}</ul>`:""}`:""}
     ${(()=>{if(!DT&&!REAL)return "";const xv=raw.v?raw.v[scen]:null,os=((xv&&xv.plan)?xv.plan:(raw.real?raw.real.plan:raw.plan)).filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
       return `<div class="sub2">可選行程（自己揀）</div><p class="rhint"><b>剔選想去的，上面日程表會自動排好時間；冇剔的會刪走</b>（只存喺呢部機）${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
-    ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}</p>`:""}${(DT||REAL)?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}</p>`:""}</details>`).join("")}</div>`:""}
-    ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div>${(DT||REAL)?`<p class="rhint"><b>剔選想去的，上面日程表會自動加入同順延時間</b>（只存喺呢部機）${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.map(o=>`${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}<span class="add">${o.add}</span></summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}`;
+    ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}，自己揀）</div>${raw.recHint?`<p class="rhint">${raw.recHint}${ieB("rec",raw.d,"hint",raw.recHint)}</p>`:""}${(DT||REAL)?`<p class="rhint"><b>剔選想去的，上面日程表會自動排好時間</b>（只存喺呢部機）${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map(o=>`${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add}</span>${ieB("opt",o.id,"add",o.add)}</summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}${ieB("opt",o.id,"d",o.d)}</p>`:""}</details>`).join("")}</div>`:""}
+    ${(raw.opt||[]).length?`<div class="sub2">推薦可選（時間夠才去）</div>${(DT||REAL)?`<p class="rhint"><b>剔選想去的，上面日程表會自動加入同順延時間</b>（只存喺呢部機）${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.map(o=>`${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span>揀</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add}</span>${ieB("opt",o.id,"add",o.add)}</summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(Q[o.k])}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}</div>`:""}`;
   const infoH=`${budgetHTML(day)}<div class="sun">日出約 ${sunAt(Nd,pts[k][2],pts[k][1],1)} · 日落約 ${sunAt(Nd,pts[k][2],pts[k][1],0)}（${nm(k)}）</div>${sunriseHTML(day,Nd)}${wxH}${(()=>{if(!REAL)return "";const all=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]),ks=all.filter(k=>WC[k].startsWith("有"));return all.length?`<details class="wcd"><summary>廁所：${ks.length?`有廁所 ${ks.map(k=>nm(k)).join("、")}`:"景點冇廁所"}（${all.length} 個站）</summary><ul>${all.map(k=>`<li class="${WC[k].startsWith("有")?"ok":"no"}"><b>${nm(k)}</b>：${WC[k]}</li>`).join("")}</ul><p>其他：午餐地點、油站（N1、Olís）、住處出發前</p></details>`:""})()}${REAL&&day.arrive?(()=>{const mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m},gap=mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(day.arrive);return `<div class="dusk${gap<20?" warn":""}">最後一段車程約 ${shiftClock(day.arrive)} 完成，比日落早約 ${fmt(gap)}</div>`})():""}${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}${day.stay?`<div class="stayline">住宿：${day.stay}</div>`:""}`;
   const legsH=`<div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a></div>${legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際約數，未加預留；按一下開 Google Maps）":(REAL?"車程（已多預留約兩成，按一下開 Google Maps）":"車程（按一下開 Google Maps）")}</div>${legs}`:""}`;
   return `<article class="day" style="--dc:${dayCol(day.d)}">
@@ -1787,6 +1826,7 @@ function budgetHTML(day){
  return `<div class="dbud"><span><small>出發</small><b>${dep}</b></span><span><small>純駕駛</small><b>${drv?"約 "+fmt(drv):"—"}</b></span><span><small>景點停留</small><b>${sight?"約 "+fmt(sight):"—"}</b></span><span><small>預計住宿抵達</small><b>${arr}</b></span><span class="wl ${cls}">${lv}</span></div><p class="wlwhy">${why}</p>`;
 }
 function lateBox(day){
+ if(!DT&&!REAL)return "";
  const i=depI(day.plan);if(i<0)return "";
  const pl=day.plan,dep=(REAL&&day.firmT)||pl[i][0];
  if(!/^\d{1,2}:\d{2}$/.test(dep))return "";
@@ -2333,7 +2373,10 @@ if(/print/.test(location.hash)){
 }
 try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(enWalk))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
-try{if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+const BUILD="2026-10-14-late30";
+let STALE=false;try{STALE=localStorage.getItem("iceland-build")!==BUILD}catch(e){}
+if(STALE){(async()=>{let ok=false;try{if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()))}if(self.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}localStorage.setItem("iceland-build",BUILD);ok=true}catch(e){}if(ok)location.reload()})()}
+try{if(!STALE&&"serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
 try{if(/github\.io$/.test(location.hostname))$("kmlp").hidden=false}catch(e){}
 try{$("upd").hidden=!DT}catch(e){}
 if(OVRK.size||(OV.stays&&OV.stays.length)){try{select(sel);renderStays();renderTips()}catch(e){}}
