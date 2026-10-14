@@ -769,7 +769,7 @@ const DTO="只限 Dorcas & Tebe";
 /* ---- optional shared sync through a Google Sheet + Apps Script web app (set up under ⋯ 工具) ----
    synced: booking ticks, free-cancel dates, pre-departure checklist, emergency numbers, budget (incl. who paid) */
 const SYNC={url:PV?"":(store.get("iceland-sync-url")||""),pass:store.get("iceland-sync-pass")||"",ready:0,boot:1};setTimeout(()=>{SYNC.boot=0},0);
-const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-log-[\w-]+)$/;
+const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp)$/;
 let SYNCT={};try{SYNCT=JSON.parse(localStorage.getItem("iceland-sync-t")||"{}")}catch(e){}
 const syncQ=new Set();let syncTm=null,SYNCST={s:"",m:""};
 const hhmm=()=>new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -808,9 +808,9 @@ function buildKML(){
  const COL=["ff8c8c8c","ff1f6e8a","ff2e7d32","ff6a1b9a","ffc62828","ffef6c00","ff00838f","ff4527a0","ff283593","ff558b2f","ffad1457","ff0277bd","ff6d4c41"];
  // KML colours are aabbggrr
  const kc=h=>"ff"+h.slice(6,8)+h.slice(4,6)+h.slice(2,4);
- let styles=`<Style id="stay"><IconStyle><color>ff2e3fc4</color><scale>1.2</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon></IconStyle></Style>
-<Style id="spot"><IconStyle><color>ff8a6e1d</color><Icon><href>http://maps.google.com/mapfiles/kml/paddle/blu-circle.png</href></Icon></IconStyle></Style>
-<Style id="opt"><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png</href></Icon></IconStyle></Style>`;
+ let styles=`<Style id="stay"><IconStyle><color>ff2e3fc4</color><scale>1.2</scale><Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon></IconStyle></Style>
+<Style id="spot"><IconStyle><color>ff8a6e1d</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/blu-circle.png</href></Icon></IconStyle></Style>
+<Style id="opt"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/ylw-circle.png</href></Icon></IconStyle></Style>`;
  DS.forEach(d=>{styles+=`<Style id="line${d.d}"><LineStyle><color>${kc(COL[d.d])}</color><width>4</width></LineStyle></Style>`});
  const desc=k=>{const p=SP[k];let h="";if(p){h+=`${ae(p.d)}<br>`;[["park","停車"],["hours","營業時間"],["ticket","門票／收費"],["book","預約"],["stay","建議停留"]].forEach(([f,l])=>{if(p[f])h+=`<b>${l}</b>：${p[f]}<br>`});(p.w||[]).forEach(t=>h+=`・${t}<br>`)}
    h+=`<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((Q[k]||pts[k][0])+", Iceland")}">Google Maps 準確位置</a>`;if(PQ[k])h+=`<br><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}">導航去停車場</a>`;return h};
@@ -2139,9 +2139,23 @@ function renderGuide(){
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
 renderGuide();renderTips();
-$("kmlbtn").addEventListener("click",()=>{try{const u=URL.createObjectURL(new Blob([buildKML()],{type:"application/vnd.google-earth.kml+xml;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="2027-冰島-行程.kml";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500)}catch(e){$("kmlbtn").textContent="下載失敗，請稍後再試"}});
+$("kmlbtn").addEventListener("click",()=>{try{const u=URL.createObjectURL(new Blob([buildKML()],{type:"application/vnd.google-earth.kml+xml;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="iceland-2027-itinerary.kml";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},1500)}catch(e){$("kmlbtn").textContent="下載失敗，請稍後再試"}});
 /* ---- 住宿 ---- */
 const DTNIGHTS=[["9/6","雷克雅維克 Reykjavík","未訂","落機當晚；市中心民宿或酒店雙人房"],["9/7–9/9","高地山屋（如自助徒步）","未訂","跟團的話團費通常已包"],["9/10–9/11","雷克雅維克 Reykjavík","未訂","可以直接續住到 9/12 大隊入住"]];
+/* 訂好嘅住宿：顯示詳情（唔再顯示推薦）；DT 版可以編輯，之後同步 */
+const BKINFO={"9/21（D10）":{name:"Mr Iceland 農場（Efri-Úlfsstaðir）",addr:"Landeyjavegur, 861 Hvolsvöllur, Iceland（約 63.6409, -20.2950）",room:"待填：Sleeping with the Horses 小屋（40 平方米，最多 4 人，有廚房）或 Jakob's House（1923 年建成，有廚房）",checkin:"網站未列明正式入住時間（網站示例行程為 12:45 到達，待確認）",checkout:"網站示例為 12:00，待確認",contact:"電話 +354 844 7220｜info@mriceland.is｜WhatsApp wa.me/3548447220",extra:"晚上 20:00 有故事夜（傳統冰島食物試吃，需另外預訂）；騎馬團需要另外經網站預訂",policy:"價錢、取消及退款條款網站未列明，待填",booking:"待填：訂單號、已付金額、付款日期"}};
+const STAYINFO_FIELDS=[["name","名稱"],["addr","地址"],["room","房間"],["checkin","入住"],["checkout","退房"],["contact","聯絡"],["extra","其他安排"],["policy","取消／付款"],["booking","訂單資料"]];
+let EDSTAY=null;
+function stayInfo(i,night){let o=null;try{o=JSON.parse(store.get("iceland-stayinfo-"+i)||"null")}catch(e){}return o||BKINFO[night]||null}
+function stayInfoHTML(i,night,b){const o=stayInfo(i,night),ed=DT&&EDSTAY===i;
+  if(!o&&!b)return "";
+  if(ed)return `<div class="stinfo"><b>編輯住宿詳情</b>${STAYINFO_FIELDS.map(([k,l])=>`<label>${l}<textarea data-sf="${i}" data-k="${k}" rows="2">${escA((o&&o[k])||"")}</textarea></label>`).join("")}<div class="act"><button type="button" class="mini" data-sfsave="${i}">儲存</button><button type="button" class="mini" data-sfcancel="${i}">取消</button></div></div>`;
+  return `<div class="stinfo"><b>訂好嘅住宿詳情</b>${o?`<dl>${STAYINFO_FIELDS.filter(([k])=>o[k]).map(([k,l])=>`<dt>${l}</dt><dd>${escA(o[k])}</dd>`).join("")}</dl>`:`<p class="rhint">詳情未填。</p>`}${DT?`<button type="button" class="mini" data-sfedit="${i}">編輯詳情</button>`:""}</div>`}
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-sfedit],[data-sfsave],[data-sfcancel]");if(!t)return;
+  if(t.dataset.sfedit!=null){EDSTAY=+t.dataset.sfedit}
+  else if(t.dataset.sfcancel!=null){EDSTAY=null}
+  else if(t.dataset.sfsave!=null){const i=+t.dataset.sfsave,o={};document.querySelectorAll(`textarea[data-sf="${i}"]`).forEach(x=>{o[x.dataset.k]=x.value.trim()});store.set("iceland-stayinfo-"+i,JSON.stringify(o));EDSTAY=null}
+  renderStays()});
 function renderStays(){
   const st=x=>x==="已揀"?"ok":x==="建議改"?"chg":"todo",booked=i=>!!BKC["stay"+i];
   const dn=n=>{const m=String(n).match(/D(\d+)/);return m?+m[1]:null};
@@ -2152,7 +2166,8 @@ function renderStays(){
    <div class="stl2">${STAYS.map(([night,area,status,why,cheap,conv,murl],i)=>{const d=dn(night),col=d!=null?dayCol(d):"var(--route)",b=booked(i),q=encodeURIComponent(area.replace(/：.*/,"").split("／")[0]+" Iceland");
      return `<article class="night" style="--dc:${col}"><div class="nd"><b>${night.replace(/（.*）/,"")}</b><small>${(night.match(/（(.*)）/)||["",""])[1]}</small></div>
       <h3>${area}<span class="st ${b?"ok":st(status)}">${b?"已訂":status}</span></h3><p>${why}</p>
-      ${cheap.length||conv.length?`<div class="opts">${cheap.length?`<div><b>最平</b><ul>${cheap.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}</div>`:""}
+      ${stayInfoHTML(i,night,b)}
+      ${!b&&(cheap.length||conv.length)?`<div class="opts">${cheap.length?`<div><b>最平</b><ul>${cheap.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}</div>`:""}
       <div class="act"><label><input type="checkbox" data-stay="${i}"${b?" checked":""}>已訂好</label>${b&&STAYBUD[i]?actHTML(STAYBUD[i]):""}<a href="${murl?escA(murl):"https://www.google.com/maps/search/?api=1&query="+q}" target="_blank" rel="noopener">Google Maps ↗</a>${murl?"":`<a href="https://www.airbnb.com/s/${encodeURIComponent(area.split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7" target="_blank" rel="noopener">Airbnb ↗</a>`}</div></article>`}).join("")}</div>
    <div class="card2" style="margin-top:12px"><h3>訂房提提你</h3><dl class="tipsdl">${STAYTIPS.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></div>`}
 document.addEventListener("change",e=>{const i=e.target.dataset&&e.target.dataset.stay;if(i==null)return;if(e.target.checked)BKC["stay"+i]=1;else delete BKC["stay"+i];store.set("iceland-bkc",JSON.stringify(BKC));const y=window.scrollY;renderStays();try{window.scrollTo(0,y)}catch(err){}});
