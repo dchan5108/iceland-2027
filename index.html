@@ -1811,7 +1811,7 @@ function card(raw){
   return `<article class="day" style="--dc:${dayCol(day.d)}">
     <h3><span>${day.d<0?"Dorcas & Tebe":"Day "+day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     ${todayHTML(day)}
-    ${REAL&&day.firmT?`<div class="golin"><span>大眾版寫（話俾大家知）：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}${pubDep}${lateBox(day)}
+    ${REAL&&day.firmT?`<div class="golin"><span>大眾版寫（話俾大家知）：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}${pubDep}
     ${DT&&EDITING===raw.d&&!SHARED?editorHTML(raw,day):`${edWarn(raw,day)}${richRows(day)}${DT?edBar(raw):""}`}
     ${SEC("pick","推薦／可選行程（自己揀）",pickH)}
     ${SEC("info",REAL?"注意事項、天氣後備、日出日落、廁所、住宿":"注意事項、日出日落、住宿",infoH)}
@@ -1834,17 +1834,6 @@ function budgetHTML(day){
  else if((arrM!=null&&arrM>=19*60)||(hasBk&&hr>=4)){lv="高風險";cls="h";why=arrM!=null&&arrM>=19*60?`預計 ${shiftClock(day.arrive)} 先到住宿，延遲會好趕`:"有預約時間，車程又長，延遲就趕不上";}
  else if(hr>=3||sight>=360||hasBk){lv="偏趕";cls="b";why=hr>=3?`車程約 ${fmt(drv)}，要準時出發`:hasBk?"有預約時間，要準時出發":"景點停留較長，建議先保留主要景點";}
  return `<div class="dbud"><span><small>出發</small><b>${dep}</b></span><span><small>純駕駛</small><b>${drv?"約 "+fmt(drv):"—"}</b></span><span><small>景點停留</small><b>${sight?"約 "+fmt(sight):"—"}</b></span><span><small>預計住宿抵達</small><b>${arr}</b></span><span class="wl ${cls}">${lv}</span></div><p class="wlwhy">${why}</p>`;
-}
-function lateBox(day){
- if(!DT&&!REAL)return "";
- const i=depI(day.plan);if(i<0)return "";
- const pl=day.plan,dep=(REAL&&day.firmT)||pl[i][0];
- if(!/^\d{1,2}:\d{2}$/.test(dep))return "";
- const dm=toM(dep),L=toT(dm+30),st=r=>{const m=String(r[0]).match(/\d{1,2}:\d{2}/);return m?toM(m[0]):null},lab=r=>String(r[1]).replace(/⟦.*?⟧/g,"").split(/[（(]/)[0];
- const bk=pl.filter(r=>r[2]==="c"&&st(r)!=null&&st(r)>dm&&/預約|報到|集合|開團/.test(r[1])).map(r=>`<li><b>${String(r[0]).match(/\d{1,2}:\d{2}/)[0]}</b> ${lab(r)}</li>`);
- const fx=(day.opt||[]).map(o=>`<li>${o.t}<span class="add"> ${o.add||""}</span></li>`);
- if(!bk.length&&!fx.length)return "";
- return `<details class="late30"><summary>延遲 30 分鐘，會失去甚麼？</summary><div class="lb">原定 ${dep} 出發，延遲後 ${L} 先出發</div><div class="lb">① 預約時間（固定，唔可以挪，要準時到）</div>${bk.length?`<ul>${bk.join("")}</ul>`:"<p>今日冇預約時間</p>"}<div class="lb">② 彈性景點（延遲就先刪，呢啲會失去，可以唔去）</div>${fx.length?`<ul>${fx.join("")}</ul>`:"<p>今日冇彈性景點可刪；延遲只能壓縮後面行程</p>"}</details>`;
 }
 function overview(){
   return `<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0);
