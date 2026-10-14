@@ -857,7 +857,8 @@ function ieSave(ed,reset){
   if(kind==="notes"){const d=days.find(x=>String(x.d)===String(id));if(!d)return;const arr=d.notes.map(n=>n[0]);
    if(reset)arr[+field]=TXB.notes[+id][+field][0];else arr[+field]=v;
    store.set("iceland-txt-notes-d"+id,JSON.stringify(arr.filter(x=>String(x).trim())))}
-  else{const key=kind==="sp"?"iceland-txt-sp-"+id:kind==="opt"?"iceland-txt-opt-"+id:"iceland-txt-rec-d"+id;
+  else{const key=kind==="tip"?"iceland-txt-tip-"+encodeURIComponent(id):kind==="sp"?"iceland-txt-sp-"+id:kind==="opt"?"iceland-txt-opt-"+id:"iceland-txt-rec-d"+id;
+   if(kind==="tip"){store.set(key,reset||!v?"null":JSON.stringify(v));applyTxt();try{renderTips()}catch(e){}try{renderPanel()}catch(e){}return}
    const o=txtGet(key)||{};if(reset||!v)delete o[field];else o[field]=v;
    store.set(key,Object.keys(o).length?JSON.stringify(o):"null")}
  }catch(e){return}
@@ -873,7 +874,6 @@ document.addEventListener("click",e=>{
 });
 function toolsHTML(){return `<details class="tools" id="tools"><summary>⋯ 工具</summary><div class="tmenu">
   <h4>預覽其他人睇到嘅版本（只供睇）</h4><div class="row"><a class="mini" href="#dt5x-pub">大眾版</a><a class="mini" href="#dt5x-real">真實版</a></div>
-  ${DT&&!PV?`<div id="txedwrap">${txtEditorBlock()}</div>`:""}
   <h4>共用同步（Google Sheet）</h4><span class="syncst ${SYNCST.s}">${SYNC.url?(SYNCST.m||"已設定"):"未設定：預訂剔號、取消日期、預算只存喺呢部機"}</span>
   <input type="text" id="sy-user" placeholder="用戶名" value="${escA(SYNC.user)}" autocomplete="username" aria-label="用戶名"><input type="text" id="sy-pass" placeholder="通關密碼" value="${escA(SYNC.pass)}" autocomplete="off" aria-label="通關密碼">
   <div class="row"><button type="button" class="mini" id="sy-save">儲存並同步</button>${SYNC.url?`<button type="button" class="mini" id="sy-now">而家同步</button><button type="button" class="mini" id="sy-off">停用</button>`:""}<button type="button" class="mini" id="sy-help">點樣設定？</button></div>
@@ -1370,7 +1370,7 @@ const SUNRISE={
 const sunriseHTML=(day,Nd)=>{const x=SUNRISE[day.d];if(!REAL||!x||(x.scen&&x.scen!==scen))return"";const [,lon,lat]=pts[x.k],t=sunAt(Nd,lat,lon,1),g=q=>`https://www.google.com/maps/search/?api=1&query=${enc(q)}`;
   return `<details class="sunr"><summary>日出推薦（自由參加）：${x.spot.replace(/（.*）/,"")}・日出約 ${t}</summary><div class="sunb"><p><b>地點：</b>${x.spot}</p><p><b>出發：</b>${x.go}</p><p><b>點睇：</b>${x.d}</p><p><b>返嚟：</b>${x.back}</p><ul>${x.w.map(w=>`<li>${w}</li>`).join("")}</ul><p>前一晚睇 vedur.is 雲量預報，雲多就唔使早起。</p><div class="popb"><a class="btn" href="${g(x.q)}" target="_blank" rel="noopener">Google Maps：日出位置</a><a class="btn ghostb" href="${g(x.pq)}" target="_blank" rel="noopener">導航去停車場</a></div></div></details>`};
 const SPF=[["park","停車"],["wc","廁所"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]];
-const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}${ieB("sp",k,"d",p.d)}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl>${p.map?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.map)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}</div>`};
+const spDetail=k=>{const p=SP[k],pu=parkUrl(k);return `<div class="spd"><div class="spt">${p.t}</div><p>${p.d}${ieB("sp",k,"d",p.d)}</p><dl>${SPF.filter(([f])=>p[f]).map(([f,l])=>`<dt>${l}</dt><dd>${p[f]}${typeof p[f]==="string"?ieB("sp",k,f,p[f]):""}${f==="park"&&pu?` <a class="plink" href="${pu}" target="_blank" rel="noopener">導航去停車場 ↗</a>`:""}</dd>`).join("")}${p.w&&p.w.length?`<dt>注意事項</dt><dd><ul>${p.w.map(x=>`<li>${x}</li>`).join("")}</ul></dd>`:""}</dl>${p.map?`<a class="plink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.map)}" target="_blank" rel="noopener">Google Maps ↗</a>`:""}</div>`};
 
 let TIPS=[
  ["駕駛",[
@@ -1505,7 +1505,7 @@ const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐
 const CONFIRMED={"-4":true,1:[/坐 Flybus 由 BSÍ/,/大隊落機 KEF/,/全部人一齊喺機場取車/],2:true,3:true,7:[/冰河湖獨木舟/],10:[/^早餐$/,/^退房出發$/,/Sólheimajökull 冰川觀景步道/,/^斯科加爾瀑布（可行樓梯上頂）/,/^午餐：Skógar/,/Skálakot 騎馬（預約 13:05）/,/^水簾洞瀑布＋Gljúfrabúi/,/^到 Mr Iceland|^到塞爾福斯、入住/,/^晚餐：住處自己煮或步行可到的餐廳/]};
 const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const BKRE=/預約|報到|集合|開團|check.?in|航班|Flybus|取車|還車|落機|起飛|渡輪|船班/i;
-const KBLG=`<p class="kblg"><span class="kb bk">預約</span>有預約／報到／集合時間，要準時　<span class="kb fx">彈性</span>冇固定時間，可以縮短或跳過</p>`;
+const KBLG="";
 const kindOf=(t,a,f)=>{if(f==="m"||f==="y"||TAGS[f])return "";const s=String(a).replace(/<[^>]*>/g,"");const alt=/可選|若不能|唔|如果/.test(s);if(BKRE.test(s)||(!alt&&/賞鯨|健行|開團|浮潛|騎馬/.test(s)))return "bk";if(/\d{1,2}:\d{2}/.test(String(t))&&!/^(早餐|午餐|晚餐|超市|出發|退房|抵達|前往|返回|沿|驅車|開車)/.test(s)&&!/住處|入住|休息|補給|開車|驅車/.test(s))return "fx";return ""};
 const isConf=(d,a,f)=>{const c=CONFIRMED[d];if(c===true)return f!=="y";return (c||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")))};
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
@@ -1548,16 +1548,16 @@ function richRows(day){
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
-  const body=plan.map(([t,a,f],i)=>{const x=att[i],kd=kindOf(t,a,f),kb=kd==="bk"?'<span class="kb bk">預約</span>':kd==="fx"?'<span class="kb fx">彈性</span>':"",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
+  const body=plan.map(([t,a,f],i)=>{const x=att[i],kd=kindOf(t,a,f),kb="",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
     const has=x.sp.length||x.eat.length;
     const sn=SN[i]?`<i class="snum" style="background:${dayCol(day.d)}" title="地圖第 ${SN[i]} 站">${SN[i]}</i>`:"";
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${sn}${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${sn}${tag}${a}`;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(DT&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
   const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(DT&&CF[cfKey(day.d,t,a)])).length,showCf=DT||nFix;
-  return `${KBLG}${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<p class="kblg"><span class="kb bk">預約</span>已訂或限定時間，要準時<span class="kb fx">彈性</span>景點停留，遲到可縮短或略過</p><div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
+  return `${KBLG}${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
-const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>{const kd=kindOf(t,a,f),kb=kd==="bk"?'<span class="kb bk">預約</span>':kd==="fx"?'<span class="kb fx">彈性</span>':"";return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${kb}${a}</span>`}).join("")}</div>`;
+const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>{const kd=kindOf(t,a,f),kb="";return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${kb}${a}</span>`}).join("")}</div>`;
 /* D0 (Dorcas & Tebe): picked recommendations become the 10:00–18:00 timetable; picks saved on this device */
 const recPicked=raw=>(RECP[raw.d]||[]).filter(id=>(raw.rec||[]).some(o=>o.id===id));
 const optPicked=raw=>(RECP[raw.d]||[]).filter(id=>(raw.opt||[]).some(o=>o.id===id));
@@ -2065,7 +2065,7 @@ function renderTips(){
   const low=SAVE.flatMap(([,items])=>items).filter(([a])=>SAVELOW.test(a));
   const giftDl=`<dl class="tipsdl">${GIFT.map(([n,pr,cheap,note])=>`<dt>${n}</dt><dd>${pr!=="—"?`<b>價錢：</b>${pr}<br>`:""}<b>${cheap.startsWith("最平")?"":"提提你："}</b>${cheap}<br><small>${note}</small></dd>`).join("")}</dl>`;
   $("tips").innerHTML=`<h2 style="margin-top:0">注意事項</h2><nav class="gnav"><a href="#t-day">當日注意</a><a href="#t-save">省錢攻略</a><a href="#t-sos" class="sos">🆘 緊急資料</a></nav>${DT?`<p class="bnote">出發前清單喺「出發準備 → 行李」。</p>`:""}
-   <section id="t-day">${TIPS.filter(([h])=>(REAL||h!=="廁所")).map(([h,items])=>sec("t:"+h,h,dl(items))).join("")}</section>
+   <section id="t-day">${TIPS.filter(([h])=>(REAL||h!=="廁所")).map(([h,items])=>sec("t:"+h,h,`<dl class="tipsdl">${items.map(([a,b])=>`<dt>${a}</dt><dd>${b}${ieB("tip",h+"|"+a,"text",b)}</dd>`).join("")}</dl>`)).join("")}</section>
    <section id="t-save"><h2>省錢攻略</h2>
     ${sec("s:top","最慳錢的幾招（按慳得多排先）",saveTop)}
     ${saveGroups}
