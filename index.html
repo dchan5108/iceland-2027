@@ -86,6 +86,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sun{font-size:12.5px;color:var(--muted);margin:0 0 4px;font-variant-numeric:tabular-nums}
 .sunr{margin:0 0 8px;border:1px solid #e0b25a;border-radius:10px;background:rgba(240,180,60,.10)}.sunr summary{cursor:pointer;padding:8px 10px;font-weight:600;color:#8a5a00}.sunb{padding:0 12px 10px;font-size:13.5px}.sunb p{margin:6px 0}.sunb ul{margin:4px 0 6px;padding-left:18px}
 .golin{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:rgba(47,111,134,.10);color:var(--fg)}.golin .late b{color:#b3261e}
+.late30{margin:0 0 8px;padding:8px 10px;border-radius:8px;border:1px solid rgba(179,38,30,.25);background:rgba(179,38,30,.06);font-size:13px;color:var(--fg)}.late30 .lb{font-weight:600;margin-top:4px}.late30 ul{margin:2px 0 4px;padding-left:18px}.late30 li{margin:1px 0}.late30 p{margin:2px 0}
 .wcd{font-size:12.5px;margin:0 0 6px;padding:6px 10px;border-radius:8px;background:var(--card);border:1px solid var(--line)}.wcd summary{cursor:pointer;color:var(--route);font-weight:600}.wcd ul{margin:6px 0 4px;padding-left:18px}.wcd li{margin:2px 0}.wcd li.no b{color:var(--muted)}.wcd p{margin:0;color:var(--muted)}
 .dusk{font-size:12.5px;color:var(--route);margin:0 0 4px;font-variant-numeric:tabular-nums}
 .dusk.warn{color:var(--stay);font-weight:700}
@@ -102,6 +103,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .sched .c{}
 .sched .y{color:var(--chg)}
 .sched .a.y{border-left:2px dashed var(--chg);padding-left:8px}
+.kb{font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-right:6px;white-space:nowrap;border:1px solid;vertical-align:1px}.kb.bk{color:var(--route);border-color:var(--route)}.kb.fx{color:var(--muted);border:1px dashed var(--muted)}.kblg{font-size:12px;color:var(--muted);margin:0 0 6px;line-height:2}
 .ytag{font-size:11px;font-weight:700;border:1px dashed var(--chg);border-radius:4px;padding:0 5px;margin-right:6px;white-space:nowrap}
 .sub2{font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 2px;letter-spacing:.04em}
 .leg{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:3px 0;border-top:1px dashed var(--line);color:inherit;text-decoration:none}
@@ -1464,6 +1466,8 @@ const SKIP=/^(開往|經 |沿東部|沿 54|由 BSÍ|全部人坐巴士|大隊坐
 /* confirmed for everyone: edit this list (day number → patterns matching the plan row text) */
 const CONFIRMED={"-4":true,1:[/坐 Flybus 由 BSÍ/,/大隊落機 KEF/,/全部人一齊喺機場取車/],2:true,3:true,7:[/冰河湖獨木舟/],10:[/^早餐$/,/^退房出發$/,/Sólheimajökull 冰川觀景步道/,/^斯科加爾瀑布（可行樓梯上頂）/,/^午餐：Skógar/,/Skálakot 騎馬（預約 13:05）/,/^水簾洞瀑布＋Gljúfrabúi/,/^到 Mr Iceland|^到塞爾福斯、入住/,/^晚餐：住處自己煮或步行可到的餐廳/]};
 const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const BKRE=/預約|報到|集合|開團|check.?in|航班|Flybus|取車|還車|落機|起飛|渡輪|船班/i;
+const kindOf=(t,a,f)=>{if(f==="m"||f==="y"||TAGS[f])return "";const s=String(a).replace(/<[^>]*>/g,"");if(BKRE.test(s))return "bk";if(f==="c")return "";if(/\d{1,2}:\d{2}/.test(String(t))&&!/^(早餐|午餐|晚餐|超市|出發|退房|抵達|前往)|沿|開車|驅車|返回|補給|住處|入住|休息|晚餐|午餐|早餐/.test(s))return "fx";return ""};
 const isConf=(d,a,f)=>{const c=CONFIRMED[d];if(c===true)return f!=="y";return (c||[]).some(re=>re.test(String(a).replace(/<[^>]*>/g,"")))};
 let CF={};try{CF=JSON.parse(store.get("iceland-cf")||"{}")}catch(e){CF={}}
 const cfKey=(d,t,a)=>{let h=0;const x=`${d}|${t}|${String(a).replace(/<[^>]*>/g,"")}`;for(let i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))|0;return "c"+(h>>>0).toString(36)};
@@ -1505,14 +1509,14 @@ function richRows(day){
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
-  const body=plan.map(([t,a,f],i)=>{const x=att[i],tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
+  const body=plan.map(([t,a,f],i)=>{const x=att[i],kd=kindOf(t,a,f),kb=kd==="bk"?'<span class="kb bk">預約</span>':kd==="fx"?'<span class="kb fx">彈性</span>':"",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
     const has=x.sp.length||x.eat.length;
     const sn=SN[i]?`<i class="snum" style="background:${dayCol(day.d)}" title="地圖第 ${SN[i]} 站">${SN[i]}</i>`:"";
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${sn}${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${sn}${tag}${a}`;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||(DT&&!!CF[ck]),btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
     return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`}).join("");
   const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)).length,nOn=plan.filter(([t,a,f])=>isConf(day.d,a,f)||(DT&&CF[cfKey(day.d,t,a)])).length,showCf=DT||nFix;
-  return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
+  return `${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>實心 ✓ 大家都見到；撳圓圈打的空心 ✓ 只存喺你部機，撳「傳畀 Claude」再貼返俾我，就會變成大家都見到</span><button type="button" class="mini cfcopy">傳畀 Claude</button>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<p class="kblg"><span class="kb bk">預約</span>已訂或限定時間，要準時<span class="kb fx">彈性</span>景點停留，遲到可縮短或略過</p><div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>`<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${a}</span>`).join("")}</div>`;
 /* D0 (Dorcas & Tebe): picked recommendations become the 10:00–18:00 timetable; picks saved on this device */
@@ -1758,13 +1762,23 @@ function card(raw){
   return `<article class="day" style="--dc:${dayCol(day.d)}">
     <h3><span>${day.d<0?"Dorcas & Tebe":"Day "+day.d} · ${day.date}${day.tag?`<span class="vtag">${day.tag}</span>`:""}${day.only?`<span class="vtag">${day.only}</span>`:""}</span>${day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}</h3>
     ${todayHTML(day)}
-    ${REAL&&day.firmT?`<div class="golin"><span>大眾版寫（話俾大家知）：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}${pubDep}
+    ${REAL&&day.firmT?`<div class="golin"><span>大眾版寫（話俾大家知）：<b>${day.toldT}</b> 出發</span><span class="late">一定要走：<b>${day.firmT}</b></span></div>`:""}${pubDep}${lateBox(day)}
     ${DT&&EDITING===raw.d&&!SHARED?editorHTML(raw,day):`${edWarn(raw,day)}${richRows(day)}${DT?edBar(raw):""}`}
     ${SEC("pick","推薦／可選行程（自己揀）",pickH)}
     ${SEC("info",REAL?"注意事項、天氣後備、日出日落、廁所、住宿":"注意事項、日出日落、住宿",infoH)}
     ${SEC("legs","車程、導航同路況",legsH)}
   </article>
   ${(()=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav"><button type="button"${pv?` data-go="${pv.d}"`:gh}>← ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">看全部</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} →</button>`})()}</div>`;
+}
+function lateBox(day){
+ const i=depI(day.plan);if(i<0)return "";
+ const pl=day.plan,dep=(REAL&&day.firmT)||pl[i][0];
+ if(!/^\d{1,2}:\d{2}$/.test(dep))return "";
+ const dm=toM(dep),L=toT(dm+30),st=r=>{const m=String(r[0]).match(/\d{1,2}:\d{2}/);return m?toM(m[0]):null},lab=r=>String(r[1]).replace(/⟦.*?⟧/g,"").split(/[（(]/)[0];
+ const bk=pl.filter(r=>r[2]==="c"&&st(r)!=null&&st(r)>dm&&/預約|報到|集合|開團/.test(r[1])).map(r=>`<li><b>${String(r[0]).match(/\d{1,2}:\d{2}/)[0]}</b> ${lab(r)}</li>`);
+ const fx=(day.opt||[]).map(o=>`<li>${o.t}<span class="add"> ${o.add||""}</span></li>`);
+ if(!bk.length&&!fx.length)return "";
+ return `<div class="late30"><b>延遲 30 分鐘，會失去甚麼？</b><div class="lb">原定 ${dep} 出發，延遲後 ${L} 先出發</div><div class="lb">① 預約時間（固定，唔可以挪，要準時到）</div>${bk.length?`<ul>${bk.join("")}</ul>`:"<p>今日冇預約時間</p>"}<div class="lb">② 彈性景點（延遲就先刪，呢啲會失去，可以唔去）</div>${fx.length?`<ul>${fx.join("")}</ul>`:"<p>今日冇彈性景點可刪；延遲只能壓縮後面行程</p>"}</div>`;
 }
 function overview(){
   return `<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.reduce((s,l)=>s+dT(l.m),0);
