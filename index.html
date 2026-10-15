@@ -581,6 +581,7 @@ html.pub details.more{display:none!important}
   </section>
 </div>
 
+<style>.sched .a.drv{font-size:12.5px;color:var(--muted);padding:0 0 3px 14px;border-left:2px dotted var(--coast);margin-bottom:4px}</style>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀唔到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbyhJHO_AF_4awrdqKCGNF2ETB8le7MVhJdJKdFkqgJSqX8GaSJTKb5F0ve_xWZKomPN/exec";
@@ -716,8 +717,8 @@ const days=[
   notes:[["全程車程約 5 小時 45 分鐘（10:00 出發，17:15 抵達）；景點都在 1 號公路或 93 號公路旁"],["Stuðlagil 同 Petra 只揀一個（兩者都要喺埃伊爾斯塔濟之後南下），揀咗會順延時間"],["Djúpivogur 鎮上餐廳較少，住處有廚房就自己煮晚餐"],["如果 93 號公路天氣惡劣或封路，取消 Seyðisfjörður，直接沿 1 號公路南下，不要冒險翻越山口"],["10:00 出發可以保留，但 D5 是較長的駕駛日，沿途不宜安排太多額外停車拍照"]],
   opt:[{id:"petra",k:"petra",t:"Petra 石頭博物館（Steinasafn Petru）",add:"+約 40 分鐘",d:"Stöðvarfjörður 一位女士收集一生的石頭同礦物，屋前花園都係石。網上資料寫 10:00–17:00、星期日休息，9 月時間要再確認。",leg:{a:"egil",b:"djst",to:"petra",m1:90,m2:60},ins:{anchor:/^沿 93 號公路原路返回/,at:"14:45–15:25",label:"途中",row:"Petra 石頭博物館（Stöðvarfjörður，可選）",shift:40}},{id:"stud",k:"stud",t:"Stuðlagil Canyon Main Access",add:"+約 1 小時 40 分鐘",d:"Stuðlagil 玄武岩峽谷，要由埃伊爾斯塔濟轉入 925 號路，停車場後要行一段土路（約 1 公里）。要睇當日天氣同路況，時間為估算，要喺 Google Maps 核對。",leg:{a:"egil",b:"djst",to:"stud",m1:60,m2:190},ins:{anchor:/^沿 93 號公路原路返回/,at:"14:45–16:25",label:"途中",row:"Stuðlagil Canyon Main Access（可選，約 1 公里土路）",shift:100}},{id:"grjo",k:"grjo",t:"Grjótagjá 溫泉洞（Easter Cave）",add:"+約 35 分鐘",d:"Mývatn 西南面嘅熔岩溫泉洞，要先睇 Mývatn 當地嘅開放同安全提示，唔可以浸水。",leg:{a:"myv",b:"egil",to:"grjo",m1:15,m2:155},ins:{anchor:/^退房出發，沿 1 號公路東行/,at:"10:15–10:40",label:"途中",row:"Grjótagjá 溫泉洞（Easter Cave，可選）",shift:35}}]},
  {d:6,wx:"東部峽灣大霧或大風：Hvalnes 唔停，蛋雕塑停一陣就走，早啲到赫本。有落石警告嘅路段唔好停車。",date:"9/17（五）",stay:"赫本",arrive:"16:00",legs:[L("djst","hvaln",40,{c:1}),L("hvaln","vest",60,{c:1}),L("vest","hofn",30,{c:1})],
-  real:{arrive:"16:00",plan:[["08:30–09:30","早餐：Djúpivogur 住處自己解決（用 D5 買定的材料）","m"],["10:00","退房出發","c"],["10:50–11:50","Hvalnes 燈塔、Eystrahorn 山（1 號公路旁安全位置停車遠望；燈塔停車場要行約 500 米碎石，唔入）","c"],["11:50–12:50","前往蝙蝠山 Batman Mountain（Vestrahorn）／Stokksnes（車程約 1 小時，視乎路況）","c"],["12:50–13:50","蝙蝠山 Batman Mountain（Vestrahorn）黑沙灘、山景拍照（可按天氣縮短或延長；入場要先繳費，見 Viking Café）","c"],["13:50–14:20","開車前往赫本 Höfn（約 30 分鐘）","c"],["14:20–15:20","午餐：赫本鎮上或自備野餐（見餐廳建議）","m"],["15:20–15:50","超市補給（如有需要），購買 D6 晚餐及 D7 早餐材料","c"],["16:00","前往住宿、入住及休息","c"],["19:15","小龍蝦晚餐：Pakkhús（每日 12:00–22:00；不接受訂位，建議提早到場排隊；如住在鎮上可步行前往）","m"]]},
-  plan:[["08:30–09:30","早餐：Djúpivogur 住處自己解決（用 D5 買定的材料）","m"],["10:00","退房出發","c"],["10:50–11:50","Hvalnes 燈塔、Eystrahorn 山（1 號公路旁安全位置停車遠望；燈塔停車場要行約 500 米碎石，唔入）","c"],["11:50–12:50","前往蝙蝠山 Batman Mountain（Vestrahorn）／Stokksnes（車程約 1 小時，視乎路況）","c"],["12:50–13:50","蝙蝠山 Batman Mountain（Vestrahorn）黑沙灘、山景拍照（可按天氣縮短或延長；入場要先繳費，見 Viking Café）","c"],["13:50–14:20","開車前往赫本 Höfn（約 30 分鐘）","c"],["14:20–15:20","午餐：赫本鎮上或自備野餐（見餐廳建議）","m"],["15:20–15:50","超市補給（如有需要），購買 D6 晚餐及 D7 早餐材料","c"],["16:00","前往住宿、入住及休息","c"],["19:15","小龍蝦晚餐：Pakkhús（每日 12:00–22:00；不接受訂位，建議提早到場排隊；如住在鎮上可步行前往）","m"]],
+  real:{arrive:"16:00",plan:[["08:30–09:30","早餐：Djúpivogur 住處自己解決（用 D5 買定的材料）","m"],["10:00","退房出發","c"],["10:50–11:50","Hvalnes 燈塔、Eystrahorn 山（1 號公路旁安全位置停車遠望；燈塔停車場要行約 500 米碎石，唔入）","c"],["11:50–12:50","沿 1 號公路前往 Stokksnes｜約 1 小時（視乎路況）","c"],["12:50–13:50","蝙蝠山 Batman Mountain（Vestrahorn）黑沙灘、山景拍照（可按天氣縮短或延長；入場要先繳費，見 Viking Café）","c"],["13:50–14:20","開車前往赫本 Höfn（約 30 分鐘）","c"],["14:20–15:20","午餐：赫本鎮上或自備野餐（見餐廳建議）","m"],["15:20–15:50","超市補給：Nettó 超市（港口附近；營業時間出發前到 Google Map 核實）<a href='https://www.google.com/maps/search/?api=1&query=Netto+Hofn+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>","c"],["16:00","前往住宿、入住及休息","c"],["19:15","小龍蝦晚餐：Pakkhús（每日 12:00–22:00；不接受訂位，建議提早到場排隊；如住在鎮上可步行前往）","m"]]},
+  plan:[["08:30–09:30","早餐：Djúpivogur 住處自己解決（用 D5 買定的材料）","m"],["10:00","退房出發","c"],["10:50–11:50","Hvalnes 燈塔、Eystrahorn 山（1 號公路旁安全位置停車遠望；燈塔停車場要行約 500 米碎石，唔入）","c"],["11:50–12:50","沿 1 號公路前往 Stokksnes｜約 1 小時（視乎路況）","c"],["12:50–13:50","蝙蝠山 Batman Mountain（Vestrahorn）黑沙灘、山景拍照（可按天氣縮短或延長；入場要先繳費，見 Viking Café）","c"],["13:50–14:20","開車前往赫本 Höfn（約 30 分鐘）","c"],["14:20–15:20","午餐：赫本鎮上或自備野餐（見餐廳建議）","m"],["15:20–15:50","超市補給：Nettó 超市（港口附近；營業時間出發前到 Google Map 核實）<a href='https://www.google.com/maps/search/?api=1&query=Netto+Hofn+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>","c"],["16:00","前往住宿、入住及休息","c"],["19:15","小龍蝦晚餐：Pakkhús（每日 12:00–22:00；不接受訂位，建議提早到場排隊；如住在鎮上可步行前往）","m"]],
   notes:[["今日車程約 2 小時 10 分鐘（Djúpivogur→Hvalnes 約 40 分鐘未核實；Hvalnes→Vestrahorn 約 1 小時；Vestrahorn→赫本約 30 分鐘）"],["Hvalnes 燈塔停車場要行約 500 米碎石，唔入，喺 1 號公路旁遠望即可"],["東部峽灣大霧或大風時，蛋雕塑同 Hvalnes 都可以跳過，以安全為先"]],
   opt:[{id:"egg",k:"egg",t:"Djúpivogur 蛋雕塑（Eggin í Gleðivík）",add:"+約 10 分鐘",d:"34 個花崗岩雕成嘅大蛋，每個代表一種當地雀鳥，沿海邊排列。海邊停車，免費。",leg:{a:"djst",b:"hvaln",to:"egg",m1:5,m2:40},ins:{anchor:/^退房出發$/,at:"10:10–10:40",label:"途中",row:"Djúpivogur 蛋雕塑（Eggin í Gleðivík，海邊停車，免費，可選）",shift:10}}]},
  {d:7,wx:"獨木舟因風取消：改坐冰河湖水陸兩用船（大船，風大都較少取消）。鑽石沙灘大浪時唔好行近海邊。",date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"16:20",legs:[L("hofn","jok",60,{c:1}),L("jok","hjok",30)],
@@ -772,7 +773,7 @@ const DTO="只限 Dorcas & Tebe";
 /* ---- optional shared sync through a Google Sheet + Apps Script web app (set up under ⋯ 工具) ----
    synced: booking ticks, free-cancel dates, pre-departure checklist, emergency numbers, budget (incl. who paid) */
 const SYNC={user:store.get("iceland-sync-user")||"",pass:store.get("iceland-sync-pass")||"",url:"",ready:0,boot:1};SYNC.url=(!PV&&SYNC.user&&SYNC.pass)?CONTENT_URL:"";setTimeout(()=>{SYNC.boot=0},0);
-const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+|opt-[\w-]+|rec-d\d+))$/;
+const SYNCRX=/^iceland-(bkc|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-base-d\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+|opt-[\w-]+|rec-d\d+))$/;
 let SYNCT={};try{SYNCT=JSON.parse(localStorage.getItem("iceland-sync-t")||"{}")}catch(e){}
 const syncQ=new Set();let syncTm=null,SYNCST={s:"",m:""};
 const hhmm=()=>new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -880,7 +881,8 @@ function dtSunrise(day){const x=SUNRISE[day.d];if(!x||(x.scen&&x.scen!==scen))re
   const tm=back?`${go[1]}–${back[1]}`:go[1];const m=startMin(go[1]);
   const txt=`日出：${x.spot}。${String(x.go).replace(/^\d{1,2}:\d{2} ?/,"")}${back?"；"+String(x.back).replace(/^\d{1,2}:\d{2} ?/,""):""}`;
   return {m,h:`<span class="t y">${tm}</span><span class="a y"><span class="ytag">日出</span>${txt}</span>`}}
-function toolsHTML(){return `<details class="tools" id="tools"><summary>⋯ 工具</summary><div class="tmenu">
+document.addEventListener("click",e=>{const r=e.target.closest&&e.target.closest("[data-edrestore]");if(r){edRestore(+r.dataset.edrestore)}});
+function toolsHTML(){return `<details class="tools" id="tools"><summary>⋯ 工具</summary><div class="tmenu">${DT?edBackupHTML():""}
   <h4>預覽其他人睇到嘅版本（只供睇）</h4><div class="row"><a class="mini" href="#dt5x-pub">大眾版</a><a class="mini" href="#dt5x-real">真實版</a></div>
   <h4>共用同步（Google Sheet）</h4><span class="syncst ${SYNCST.s}">${SYNC.url?(SYNCST.m||"已設定"):"未設定：預訂剔號、取消日期、預算只存喺呢部機"}</span>
   <input type="text" id="sy-user" placeholder="用戶名" value="${escA(SYNC.user)}" autocomplete="username" aria-label="用戶名"><input type="text" id="sy-pass" placeholder="通關密碼" value="${escA(SYNC.pass)}" autocomplete="off" aria-label="通關密碼">
@@ -967,7 +969,7 @@ const R0=day0=>{const day=REAL&&day0.real?{...day0,...day0.real}:day0;const x=da
 const kmB=(a,b)=>{const [,x1,y1]=pts[a],[,x2,y2]=pts[b],r=Math.PI/180,dl=(y2-y1)*r,dn=(x2-x1)*r,h=Math.sin(dl/2)**2+Math.cos(y1*r)*Math.cos(y2*r)*Math.sin(dn/2)**2;return 6371*2*Math.asin(Math.sqrt(h))};
 const estM=(a,b,city)=>Math.max(5,Math.round(kmB(a,b)*1.3/(city?25:65)*60/5)*5);
 function legAdj(raw,d){
-  if(!DT&&!REAL)return d;const ev=DT?EDV()[raw.d]:null;
+  if(!DT&&!REAL)return d;const ev=DT?edFresh(raw):null;
   if(ev){const ks=ev.map(r=>r[3]).filter(k=>k&&pts[k]).filter((k,i,a)=>k!==a[i-1]);const legs=ks.slice(1).map((k,i)=>{const o=d.legs.find(l=>l.a===ks[i]&&l.b===k);return o||L(ks[i],k,estM(ks[i],k),{c:1})});return {...d,legs}}
   const ids=RECP[raw.d]||[];let legs=[...d.legs],extra={};
   /* optional stops on the road (days 5, 6): picked = detour through the stop; skip = drop the stop unless picked */
@@ -1357,7 +1359,7 @@ perlan:{t:"Perlan 博物館",park:"Perlan 門口停車場；冇車就坐巴士�
  costco:{t:"Costco（Garðabær）",park:"Costco 門口大停車場，免費；油站在停車場旁",d:"冰島油價最平的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"唔使",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 };
 /* which timetable rows a spot attaches to */
-const SPKW={nakano:/^Nakano/,k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/蝙蝠山|西角山|Vestrahorn|Stokksnes/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
+const SPKW={nakano:/^Nakano/,k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,dett:/黛提瀑布/,egil:/Vök/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/^蝙蝠山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,costco:/Costco/};
 const PQ={grab:"Grábrók parking",glaum:"Glaumbær museum parking",klaus:"Kirkjubæjarklaustur",gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",dett:"Dettifoss west parking",egil:"Vök Baths",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"};
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
 /* toilets: "有" = there is one at the spot; otherwise the nearest option */
@@ -1532,12 +1534,14 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
   const all=[...document.querySelectorAll('#panel .cfb[data-cf]')],on=all.filter(x=>x.getAttribute("aria-pressed")==="true").map(x=>x.dataset.txt);
   const txt=on.length?"請將以下行程標記為已確認（大家都見到）：\n"+on.map(x=>"・"+x).join("\n"):"";if(!txt){b.textContent="未有新剔的項目";setTimeout(()=>b.textContent="傳畀 Claude",1800);return}
   try{await navigator.clipboard.writeText(txt);b.textContent="已複製，貼返俾 Claude"}catch(err){window.prompt("複製以下文字：",txt)}setTimeout(()=>b.textContent="傳畀 Claude",2500)});
+const isDrv=t=>{t=String(t);return /^(沿|開車前往|前往|經|開車)/.test(t)&&/(車程|約|分鐘|小時|公路|｜)/.test(t)&&!/住宿|入住|休息|還車|機場|退房|午餐|晚餐|早餐|超市/.test(t)};
+const drvTxt=a=>String(a).replace(/[（(]((?:車程)?約[^）)]*)[）)]/,"｜$1");
 function rowStops(day,plan){
   const att=plan.map(()=>[]),order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
   for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].push(k);break}}}
   const out=plan.map(()=>null),sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
   sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
-    const okRow=j=>j>last&&plan[j][2]!=="y"&&out[j]==null&&!/第二部車/.test(plan[j][1]);let j=-1;
+    const okRow=j=>j>last&&plan[j][2]!=="y"&&out[j]==null&&!/第二部車/.test(plan[j][1])&&!isDrv(plan[j][1]);let j=-1;
     if(i===0){const dd=depI(plan);j=dd>=0?dd:-1}
     if(j<0&&i===sq.length-1&&pts[k]&&pts[k][3]==="stay")j=plan.findIndex((r,x)=>okRow(x)&&/^(入住|到[^，；]*(住處|入住)|到赫本|到維克|到雷克雅維克|到塞爾福斯|到埃伊爾斯塔濟)/.test(r[1]));
     if(j<0)j=plan.findIndex((r,x)=>okRow(x)&&att[x].includes(k));
@@ -1552,18 +1556,18 @@ function richRows(day){
   /* map stop numbers (same as the map and the drive list) shown on the matching timetable rows */
   const SN={};if(day.ekeys){let n=0,pv=null;day.ekeys.forEach((k,i)=>{if(k&&pts[k]&&k!==pv){n++;SN[i]=n;pv=k}})}else{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
     sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
-      const okRow=j=>j>last&&plan[j][2]!=="y"&&SN[j]==null&&!/第二部車/.test(plan[j][1]);let j=-1;
+      const okRow=j=>j>last&&plan[j][2]!=="y"&&SN[j]==null&&!/第二部車/.test(plan[j][1])&&!isDrv(plan[j][1]);let j=-1;
       if(i===0){const d=depI(plan);j=d>=0?d:-1}
       if(j<0&&i===sq.length-1&&pts[k]&&pts[k][3]==="stay")j=plan.findIndex((r,x)=>okRow(x)&&/^(入住|到[^，；]*(住處|入住)|到赫本|到維克|到雷克雅維克|到塞爾福斯|到埃伊爾斯塔濟)/.test(r[1]));
       if(j<0)j=plan.findIndex((r,x)=>okRow(x)&&att[x].sp.includes(k));
       if(j<0&&nm0)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(nm0));
       if(j<0&&en&&en.length>3)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(en));
-      if(j>=0){SN[j]=i+1;last=j}})}
+      if(j>=0){if(i>0)SN[j]=(SN.__c=(SN.__c||0)+1);last=j}})}
   const meals=EAT[day.d]||[],done=new Set();
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
-  const bodyA=plan.map(([t,a,f],i)=>{const x=att[i],kd=kindOf(t,a,f),kb="",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
+  const bodyA=plan.map(([t,a,f],i)=>{if(isDrv(a))return `<span class="t"></span><span class="a drv">${drvTxt(a)}</span>`;const x=att[i],kd=kindOf(t,a,f),kb="",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
     const has=x.sp.length||x.eat.length;
     const sn=SN[i]?`<i class="snum" style="background:${dayCol(day.d)}" title="地圖第 ${SN[i]} 站">${SN[i]}</i>`:"";
     const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${sn}${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${sn}${tag}${a}`;
@@ -1689,7 +1693,16 @@ setInterval(()=>{try{if(document.querySelector("#panel .today"))renderPanel()}ca
 /* ---- 調整行程 (Dorcas & Tebe version) ---- */
 const tmE=x=>{const m=String(x).match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null},ttE=m=>`${String(Math.floor(((m%1440)+1440)%1440/60)).padStart(2,"0")}:${String(((m%60)+60)%60).padStart(2,"0")}`;
 const shiftT=(t,n)=>String(t).replace(/(\d{1,2}):(\d{2})/g,(_,h,mi)=>ttE(+h*60+ +mi+n));
-function edPlan(raw,day){const ev=DT&&EDV()[raw.d];if(!ev)return day;const keys={};
+/* 基底行程有更新 → 自動清走舊嘅 DT 改動（備份喺 iceland-edit-backups，可一鍵還原） */
+const baseSig=raw=>{const p=JSON.stringify([raw.plan,raw.real?raw.real.plan:null,raw.real?raw.real.arrive:null]);let h=5381;for(let i=0;i<p.length;i++)h=((h*33)^p.charCodeAt(i))>>>0;return h.toString(36)};
+function edFresh(raw){const d=raw.d,ev=EDITS[d];if(!ev)return null;const cur=baseSig(raw),saved=store.get("iceland-edit-base-d"+d);if(saved===cur)return ev;
+  try{const B=JSON.parse(store.get("iceland-edit-backups")||"[]");B.unshift({d,t:Date.now(),base:saved||"",rows:ev});store.set("iceland-edit-backups",JSON.stringify(B.slice(0,20)))}catch(e){}
+  delete EDITS[d];try{EDSNAP&&delete EDSNAP[d]}catch(e){}store.set("iceland-edit-d"+d,"");store.set("iceland-edit-base-d"+d,"");return null}
+function edRestore(i){let B=[];try{B=JSON.parse(store.get("iceland-edit-backups")||"[]")}catch(e){}const b=B[i];if(!b)return;const raw=days.find(x=>x.d===b.d);if(!raw)return;
+  store.set("iceland-edit-d"+b.d,JSON.stringify(b.rows));store.set("iceland-edit-base-d"+b.d,baseSig(raw));B.splice(i,1);store.set("iceland-edit-backups",JSON.stringify(B));location.reload()}
+function edBackupHTML(){let B=[];try{B=JSON.parse(store.get("iceland-edit-backups")||"[]")}catch(e){}if(!Array.isArray(B)||!B.length)return"";
+  return `<h4>已自動清走嘅舊改動（備份）</h4><p class="rhint">基底行程有更新，以下舊改動已自動清走。還原後會以新版行程為基底，舊改動會蓋喺上面。</p><ul>${B.map((b,i)=>`<li>D${b.d}｜${new Date(b.t).toLocaleString("zh-HK",{hour12:false})}｜${(b.rows||[]).length} 行　<button type="button" class="mini" data-edrestore="${i}">還原</button></li>`).join("")}</ul>`}
+function edPlan(raw,day){const ev=DT&&edFresh(raw);if(!ev)return day;const keys={};
   const plan=ev.map(r=>[r[0],r[1],r[2]||""]);const lastK=[...ev].reverse().find(r=>r[3]&&pts[r[3]]&&pts[r[3]][3]==="stay");
   return {...day,plan,ekeys:ev.map(r=>r[3]||""),arrive:lastK&&/^\d{1,2}:\d{2}$/.test(lastK[0])?lastK[0]:day.arrive,edited:1}}
 function edSnap(){const o={};for(const d in EDITS)o[d]=JSON.stringify(EDITS[d]);return o}
@@ -1708,7 +1721,7 @@ function logHTML(d){const L=edLogs().filter(e=>e.d===+d).slice(0,10);if(!L.lengt
   const rowsTxt=a=>(a||[]).map(r=>r.filter(Boolean).join("　")).join(" ／ ");
   return `<details class="edlog"><summary>改動記錄（最近 ${L.length} 筆）</summary><ul>${L.map(e=>`<li>${new Date(e.t).toLocaleString("zh-HK",{hour12:false})}：${e.before?e.before.length:0} 行 → ${e.after?e.after.length:0} 行<br><small>之前：${escA(rowsTxt(e.before))}</small></li>`).join("")}</ul></details>`}
 function edStart(raw){const day=recPlan(raw,R(raw)),plan=EP(day.plan),ks=rowStops(day,plan);
-  if(!EDITS[raw.d])EDITS[raw.d]=plan.map((r,i)=>[r[0],String(r[1]).replace(/<[^>]*>/g,""),r[2]||"",ks[i]||""]);EDITING=raw.d;edSave()}
+  if(!EDITS[raw.d])store.set("iceland-edit-base-d"+raw.d,baseSig(raw));if(!EDITS[raw.d])EDITS[raw.d]=plan.map((r,i)=>[r[0],String(r[1]).replace(/<[^>]*>/g,""),r[2]||"",ks[i]||""]);EDITING=raw.d;edSave()}
 function edWarn(raw,day){if(!DT||!EDV()[raw.d])return "";const W=[],P=day.plan;let pe=null;
   P.forEach(r=>{const a=tmE(r[0]),m=String(r[0]).match(/[–-]\s*(\d{1,2}:\d{2})/),b=m?tmE(m[1]):null;if(a==null)return;
     if(pe!=null&&a<pe&&!/^(唔|揀法)/.test(r[1])&&!r[2])W.push(`${r[0]} ${String(r[1]).split("（")[0]}：同上一項時間重疊`);
