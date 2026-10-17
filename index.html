@@ -988,7 +988,8 @@ const kmB=(a,b)=>{const [,x1,y1]=pts[a],[,x2,y2]=pts[b],r=Math.PI/180,dl=(y2-y1)
 const estM=(a,b,city)=>Math.max(5,Math.round(kmB(a,b)*1.3/(city?25:65)*60/5)*5);
 function legAdj(raw,d){
   if(!DT&&!REAL)return d;const ev=DT?edFresh(raw):null;
-  if(ev){const ks=ev.map(r=>r[3]).filter(k=>k&&pts[k]).filter((k,i,a)=>k!==a[i-1]);const legs=ks.slice(1).map((k,i)=>{const o=d.legs.find(l=>l.a===ks[i]&&l.b===k);return o||L(ks[i],k,estM(ks[i],k),{c:1})});return {...d,legs}}
+  /* edited day: route follows the edited rows, then picks below still apply on top */
+  if(ev){const ks=ev.map(r=>r[3]).filter(k=>k&&pts[k]).filter((k,i,a)=>k!==a[i-1]);if(ks.length>1)d={...d,legs:ks.slice(1).map((k,i)=>{const o=d.legs.find(l=>l.a===ks[i]&&l.b===k);return o||L(ks[i],k,estM(ks[i],k),{c:1})})}}
   const ids=RECP[raw.d]||[];let legs=[...d.legs],extra={};
   /* optional stops on the road (days 5, 6): picked = detour through the stop; skip = drop the stop unless picked */
   const pk=oPicked(raw),rows=[...(raw.plan||[]),...((raw.real&&raw.real.plan)||[])];
