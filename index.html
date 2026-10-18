@@ -200,7 +200,7 @@ details.sec{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;back
 .snum{display:inline-grid;place-items:center;min-width:17px;height:17px;border-radius:50%;color:#fff;font-style:normal;font-size:10.5px;font-weight:700;margin-right:4px;vertical-align:1px;padding:0 3px;box-sizing:border-box}
 .edbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.edw{font-size:12.5px;margin:6px 0;padding:6px 10px;border-radius:8px;background:#eef6ef;color:#2f5d3a}.edw.bad{background:#fff1e6;color:#8a3d00}.edw ul{margin:4px 0 0;padding-left:18px}
 .editor{border:1px dashed var(--route);border-radius:10px;padding:8px;margin:8px 0}.er{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:4px;padding:6px 0;border-bottom:1px solid var(--line)}
-.er input,.er select{font:inherit;font-size:14px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--fg);min-width:0}.er select{grid-column:1/2}.eb{display:flex;gap:4px;justify-content:flex-end}.edrag{touch-action:none;cursor:grab;margin-right:auto;font-size:16px;color:var(--muted)}.er.drg{position:relative;z-index:5;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,.18);border-radius:8px;opacity:.95}.er.dropb{box-shadow:inset 0 3px 0 var(--route)}.er.dropa{box-shadow:inset 0 -3px 0 var(--route)}.eadd{display:grid;gap:6px;margin:10px 0 4px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card)}.eadd input{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg,var(--card));color:var(--fg);min-width:0}.eadd .row{display:flex;gap:6px;flex-wrap:wrap}.eadd .row input{flex:1 1 12em}.elocmsg{margin:0;font-size:12.5px}.elocmsg.bad{color:var(--warn)}.elocmsg.good{color:var(--ok)}.uplist{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted)}.uplist button{margin-left:6px}
+.er input,.er select{font:inherit;font-size:14px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--fg);min-width:0}.er select{grid-column:1/-1}.ekc{justify-self:start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font:inherit;font-size:13px;background:var(--card);color:var(--route);cursor:pointer}.ekc.none{border-style:dashed;color:var(--muted);font-size:12px}.eb{display:flex;gap:4px;justify-content:flex-end}.edrag{touch-action:none;cursor:grab;margin-right:auto;font-size:16px;color:var(--muted)}.er.drg{position:relative;z-index:5;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,.18);border-radius:8px;opacity:.95}.er.dropb{box-shadow:inset 0 3px 0 var(--route)}.er.dropa{box-shadow:inset 0 -3px 0 var(--route)}.eadd{display:grid;gap:6px;margin:10px 0 4px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card)}.eadd input{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg,var(--card));color:var(--fg);min-width:0}.eadd .row{display:flex;gap:6px;flex-wrap:wrap}.eadd .row input{flex:1 1 12em}.elocmsg{margin:0;font-size:12.5px}.elocmsg.bad{color:var(--warn)}.elocmsg.good{color:var(--ok)}.uplist{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted)}.uplist button{margin-left:6px}
 .eb button{width:34px;height:32px;border:1px solid var(--line);border-radius:6px;background:var(--card);cursor:pointer}.eauto{font-size:12.5px;display:flex;gap:4px;align-items:center}.edone{margin-left:auto;background:var(--ok)!important;color:#fff!important}
 .rhint{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
 :root{--ok:#4f7d5c}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ok:#8cc29a}}:root[data-theme="dark"]{--ok:#8cc29a}
@@ -477,6 +477,42 @@ body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .pkprog{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:0 0 12px}.pkprog .bar{flex:1;height:8px;margin:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
 html.pub details.more{display:none!important}
 .pickroute{margin:10px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.pickroute h3{margin:0 0 6px;font-size:14px;color:var(--ok)}.pickroute ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:13.5px}.pickroute .prt{margin-left:8px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* 時間軸重新設計：層次、統一間距、手機單欄 */
+.day{border-radius:16px}
+.day h3{font-size:1.15rem;letter-spacing:.01em}
+.tlnote{margin:6px 0 2px;font-size:11.5px;color:var(--muted)}
+.sched.rich .a{padding:7px 0 12px 18px;line-height:1.45}
+.sched.rich .t{padding:7px 0 0;line-height:1.3}
+.sched.rich .t .est{display:block;font-size:10.5px;color:var(--muted);font-weight:400;letter-spacing:.06em;margin-top:1px}
+.sched.rich .t.key{color:var(--fg);font-weight:700}
+.tl-h{font-weight:400;color:var(--fg)}
+.tl-n{font-weight:400}
+.sched.rich .a.key .tl-n{font-weight:700}
+.sched.rich .a.meal .tl-n{color:var(--meal)}
+.sched .m{font-weight:400}
+.sched.rich .a.y .tl-n{color:var(--chg)}
+.sched.rich .a.pk .tl-n{color:var(--ok);font-weight:600}
+.tl-m{font-size:12px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.tl-d{font-size:12.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-more{margin:6px 0 4px;font-size:12.5px;color:var(--fg)}
+.bkb{display:inline-block;font-size:10.5px;font-weight:700;color:var(--stay);border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.sched.rich details{margin-top:2px}
+.sched.rich details>summary{font-size:12px;display:inline-block}
+.sched.rich details summary::after{content:"▸ 詳情"}
+.sched.rich details[open] summary::after{content:"▾ 收起"}
+.sched.rich .a.drv{padding:2px 0 8px 18px;font-size:12px}
+@media (max-width:560px){
+  .sched.rich{display:block;margin-left:7px}
+  .sched.rich>.t{display:block;padding:10px 0 0 18px;border-left:2px solid var(--line);font-size:12px}
+  .sched.rich>.t:empty{display:none}
+  .sched.rich>.t.y{border-left:2px dashed var(--chg)}
+  .sched.rich>.t .est{display:inline;margin:0 0 0 6px}
+  .sched.rich>.a{display:block;padding:2px 0 12px 18px}
+  .sched.rich>.a.drv{padding:4px 0 8px 18px}
+  .sched.rich>.a::before{top:.45em}
+  .sched.rich>.a .cfb{top:.25em}
+}
 </style>
 
 </head>
@@ -1583,12 +1619,21 @@ function rowStops(day,plan){
     if(j<0&&en&&en.length>3)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(en));
     if(j>=0){out[j]=k;last=j}});
   return out}
+/* 拆一行文字：名稱（第一個「（」或「，」之前）、一行簡介（括號第一句）、其餘（收入詳情）；住處詳情等 HTML 另外放 */
+function splitRow(a){let html="";a=String(a).replace(/<details class='stinfo'>[\s\S]*?<\/details>/g,m=>{html+=m;return ""}).trim();
+  if(/<(?!\/?b>)/.test(a))return {name:a,intro:"",more:"",html};
+  let name=a,intro="",more="";const i=a.indexOf("（");
+  if(i>0){let d=0,j=i;for(;j<a.length;j++){if(a[j]==="（")d++;else if(a[j]==="）"){d--;if(!d)break}}
+    const inside=a.slice(i+1,j),after=a.slice(j+1).replace(/^[；，、。\s]+/,"");const ps=inside.split("；");name=a.slice(0,i).trim();intro=ps[0];more=[...ps.slice(1),after].filter(Boolean).join("；")}
+  const q=name.indexOf("：");if(q>1&&name.length>18&&!/^(早餐|午餐|晚餐|小食)/.test(name)){const rest=name.slice(q+1).trim();name=name.slice(0,q).trim();if(intro)more=[intro,more].filter(Boolean).join("；");intro=rest}
+  const c=name.indexOf("，");if(c>4&&name.length>16){const rest=name.slice(c+1).trim();name=name.slice(0,c).trim();if(intro){more=[intro,more].filter(Boolean).join("；");intro=rest}else intro=rest}
+  return {name,intro,more,html}}
 function richRows(day){
   const plan=EP(day.plan,DSH(day.d)),att=plan.map(()=>({sp:[],eat:[]})),used=new Set();
   const order=plan.map((r,i)=>i).sort((a,b)=>(TAGS[plan[a][2]]?1:0)-(TAGS[plan[b][2]]?1:0));
   for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
   /* map stop numbers (same as the map and the drive list) shown on the matching timetable rows */
-  const SN={};if(day.ekeys){let n=0,pv=null;day.ekeys.forEach((k,i)=>{if(k&&pts[k]&&k!==pv){n++;SN[i]=n;pv=k}})}else{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
+  const SN={},SK={};if(day.ekeys){let n=0,pv=null;day.ekeys.forEach((k,i)=>{if(k&&pts[k]&&k!==pv){n++;SN[i]=n;SK[i]=k;pv=k}})}else{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
     sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
       const okRow=j=>j>last&&plan[j][2]!=="y"&&SN[j]==null&&!/第二部車/.test(plan[j][1])&&!isDrv(plan[j][1]);let j=-1;
       if(i===0){const d=depI(plan);j=d>=0?d:-1}
@@ -1596,21 +1641,32 @@ function richRows(day){
       if(j<0)j=plan.findIndex((r,x)=>okRow(x)&&att[x].sp.includes(k));
       if(j<0&&nm0)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(nm0));
       if(j<0&&en&&en.length>3)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(en));
-      if(j>=0){if(i>0)SN[j]=(SN.__c=(SN.__c||0)+1);last=j}})}
+      if(j>=0){if(i>0){SN[j]=(SN.__c=(SN.__c||0)+1);SK[j]=k}last=j}})}
   const meals=EAT[day.d]||[],done=new Set();
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（揀一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
-  const bodyA=plan.map(([t,a,f],i)=>{if(isDrv(a))return `<span class="t"></span><span class="a drv">${drvTxt(a)}</span>`;const x=att[i],kd=kindOf(t,a,f),kb="",tag=(TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"")+kb;
-    const has=x.sp.length||x.eat.length;
+  /* 時間軸每行：名稱＋停留／車程＋一行簡介；其餘資料收喺「詳情」 */
+  const dep=depI(plan),LG=(day.legs||[]).filter(l=>!l.c2&&!l.hide),usedL=new Set();
+  const driveTo=k=>{const i=LG.findIndex((l,x)=>!usedL.has(x)&&l.b===k);if(i<0)return 0;usedL.add(i);return LG[i].m};
+  const bodyA=plan.map(([t,a,f],i)=>{if(isDrv(a))return `<span class="t"></span><span class="a drv">${drvTxt(a)}</span>`;const x=att[i],kd=kindOf(t,a,f),tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
+    const sp=splitRow(a),plain=String(a).replace(/<[^>]*>/g,""),meal=f==="m"||/^(早餐|午餐|晚餐|小食)/.test(plain);
+    const isDep0=i===dep,bk=(kd==="bk"||/獨木舟|Kayak|騎馬|冰川健行|Silfra 浮潛|預約\s*\d/.test(plain))&&!isDep0&&!meal,mv=/^(前往|開車|出發|退房|返回|駛往|沿|坐)/.test(plain),stayIn=/^(入住|抵達|到[^，；（]*(住處|入住|農場|酒店))|入住/.test(plain)&&!meal,isDep=i===dep,key=isDep||bk||stayIn,firm=isDep||bk;
+    const m0=String(t).match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/),dur=m0?((+m0[3]*60+ +m0[4])-(+m0[1]*60+ +m0[2])+1440)%1440:0;
+    const meta=[];if(dur)meta.push(meal||mv?`約 ${fmt(dur)}`:`停留約 ${fmt(dur)}`);
+    if(SK[i]&&!(i>0&&isDrv(plan[i-1][1]))){const dm=driveTo(SK[i]);if(dm)meta.push(`車程約 ${fmt(dm)}`)}else if(SK[i])driveTo(SK[i]);
     const sn=SN[i]?`<i class="snum" style="background:${dayCol(day.d)}" title="地圖第 ${SN[i]} 站">${SN[i]}</i>`:"";
-    const inner=has?`<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary>${sn}${tag}${a}</summary>${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}</details>`:`${sn}${tag}${a}`;
-    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${String(a).replace(/<[^>]*>/g,"").slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
-    return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}">${btn}${inner}</span>`});
+    const head=`<div class="tl-h">${sn}${tag}<span class="tl-n">${sp.name}</span>${bk?`<span class="bkb">預約</span>`:""}</div>${meta.length?`<div class="tl-m">${meta.join(" · ")}</div>`:""}${sp.intro?`<div class="tl-d">${sp.intro}</div>`:""}`;
+    const full=[sp.intro,sp.more].filter(Boolean).join("；"),longI=sp.intro&&sp.intro.length>22;
+    const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}`;
+    const inner=det.replace(/\s+/g,"")?`${head}<details${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary></summary>${det}</details>`:head;
+    const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn=fix?`<span class="cfb fix" aria-pressed="true" title="已確認（大家都見到）"></span>`:DT?`<button type="button" class="cfb" data-cf="${ck}" data-txt="${escA(`D${day.d} ${t} ${plain.slice(0,40)}`)}" aria-pressed="${on}" aria-label="標記已確認"></button>`:"";
+    const est=!firm&&!on&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
+    return `<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}">${btn}${inner}</span>`});
   if(DT){const sr=dtSunrise(day);if(sr){let at=bodyA.length;for(let q=0;q<plan.length;q++){const m0=startMin(plan[q][0]);if(m0!=null&&m0>=sr.m){at=q;break}}bodyA.splice(at,0,sr.h)}}
   const body=bodyA.join("");
   const isOn=(t,a,f)=>isConf(day.d,a,f)||!!CF[cfKey(day.d,t,a)]||!!SHCF[cfKey(day.d,t,a)];const nFix=plan.filter(([t,a,f])=>isConf(day.d,a,f)||!!SHCF[cfKey(day.d,t,a)]).length,nOn=plan.filter(([t,a,f])=>isOn(t,a,f)).length,showCf=DT||nFix;
-  return `${KBLG}${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>撳圓圈即時確認，會同步到共用資料，大家重新打開網頁就見到</span>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
+  return `${KBLG}${showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${plan.length}</span>${DT?`<span>撳圓圈即時確認，會同步到共用資料，大家重新打開網頁就見到</span>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}<p class="tlnote">時間軸上標「預計」嘅時間只係參考，按當日天氣同節奏調整；粗體係出發、預約同入住。</p><div class="sched rich${DT?" cfon":""}">${body}</div>${left.length?eatList(left):""}`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>{const kd=kindOf(t,a,f),kb="";return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${kb}${a}</span>`}).join("")}</div>`;
 /* D0 (Dorcas & Tebe): picked recommendations become the 10:00–18:00 timetable; picks saved on this device */
@@ -1848,10 +1904,15 @@ function retime(ev,lo,sn){if(!EDAUTO||!ev.length)return;sn=sn||new Map();
     const bk=String(r[1]).match(/預約\s*(\d{1,2}:\d{2})/);let st=t+gap;if(bk)st=Math.max(st,tmE(bk[1]));
     r[0]=m?`${ttE(st)}–${ttE(st+dur)}`:ttE(st);t=st+dur;if(hasK)pk=r[3]}}
 function upListHTML(){const ks=Object.keys(UPTS);if(!ks.length)return "";return `<ul class="uplist">${ks.map(k=>`<li>${escA(UPTS[k][0])}（${(+UPTS[k][2]).toFixed(4)}, ${(+UPTS[k][1]).toFixed(4)}）<button type="button" class="mini" data-ed="delloc" data-k="${k}">刪除</button></li>`).join("")}</ul>`}
-function editorHTML(raw,day){const ev=EDITS[raw.d],opts=Object.keys(pts).filter(k=>!/^via/.test(k)).sort((a,b)=>pts[a][0].localeCompare(pts[b][0],"zh-Hant"));
-  return `<div class="editor"><p class="rhint"><b>調整 ${dLab(raw.d)}</b>：改時間、文字；揀「地圖站點」先會畫入地圖同導航；撳住 ≡ 拖動（或者 ↑↓）調次序；✕ 刪除；下面「📍 加地點」可以貼 Google Maps 連結或座標。改動即時儲存喺呢部機；已連接同步就會上載，每次改動都有記錄。</p>
+let EDPICK=null;
+/* 由行嘅文字自動揀地圖站點：揀最長嘅地名配對（中文名、英文名、短名），食飯／車程行唔會配 */
+let AKN=null;function autoKey(txt){const t=String(txt||"");if(!t||isDrv(t)||/^(早餐|午餐|晚餐|小食)/.test(t))return "";
+  if(!AKN){AKN=[];Object.keys(pts).forEach(k=>{if(/^via/.test(k))return;const full=pts[k][0],base=full.replace(/（.*?）/g,"").trim(),lat=base.replace(/[\u3000-\u9fff\uff00-\uffef]+/g," ").replace(/\s+/g," ").trim(),names=new Set([base,N[k]||"",lat,lblEn(full)||"",...(full.match(/（[A-Za-zÁÉÍÓÚÝÞÆÖáéíóúýþæöð][^）]{3,}）/g)||[]).map(x=>x.slice(1,-1)),...(base.match(/[\u4e00-\u9fff·・]{2,}/g)||[])].map(x=>String(x).trim()).filter(x=>/[\u4e00-\u9fff]{2,}/.test(x)||x.length>=5));names.forEach(n=>AKN.push([n,k]))});AKN.sort((a,b)=>b[0].length-a[0].length)}
+  const hit=AKN.find(([n])=>t.includes(n));return hit?hit[1]:""}
+function editorHTML(raw,day){const ev=EDITS[raw.d],top=[...new Set([...ev.map(r=>r[3]),...(R(raw).legs||[]).flatMap(l=>[l.a,l.b])].filter(k=>k&&pts[k]))],opts=Object.keys(pts).filter(k=>!/^via/.test(k)).sort((a,b)=>pts[a][0].localeCompare(pts[b][0],"zh-Hant"));
+  return `<div class="editor"><p class="rhint"><b>調整 ${dLab(raw.d)}</b>：改時間、文字；行入面寫咗景點名會自動放入地圖（撳 📍 可以改）；撳住 ≡ 拖動（或者 ↑↓）調次序；✕ 刪除；下面「📍 加地點」可以貼 Google Maps 連結或座標。改動即時儲存喺呢部機；已連接同步就會上載，每次改動都有記錄。</p>
    ${ev.map((r,i)=>`<div class="er" data-i="${i}"><input class="et" value="${escA(r[0])}" aria-label="時間"><input class="ea" value="${escA(r[1])}" aria-label="內容">
-     <select class="ek" aria-label="地圖站點"><option value="">（唔喺地圖）</option>${opts.map(k=>`<option value="${k}"${r[3]===k?" selected":""}>${escA(pts[k][0])}</option>`).join("")}</select>
+     ${EDPICK===i?`<select class="ek" aria-label="地圖站點"><option value="">（唔喺地圖）</option><optgroup label="今日用緊">${top.map(k=>`<option value="${k}"${r[3]===k?" selected":""}>${escA(pts[k][0])}</option>`).join("")}</optgroup>${Object.keys(UPTS).length?`<optgroup label="自訂地點">${Object.keys(UPTS).map(k=>`<option value="${k}"${r[3]===k?" selected":""}>${escA(pts[k][0])}</option>`).join("")}</optgroup>`:""}<optgroup label="全部景點">${opts.filter(k=>!top.includes(k)&&!UPTS[k]).map(k=>`<option value="${k}"${r[3]===k?" selected":""}>${escA(pts[k][0])}</option>`).join("")}</optgroup></select>`:`<button type="button" class="ekc${r[3]&&pts[r[3]]?"":" none"}" data-ed="pick" data-i="${i}">${r[3]&&pts[r[3]]?`📍 ${escA(nm(r[3]))}`:"📍 加入地圖"}</button>`}
      <span class="eb"><button type="button" class="edrag" aria-label="拖動調次序" title="撳住拖動調次序">≡</button><button type="button" data-ed="up" data-i="${i}" aria-label="上移">↑</button><button type="button" data-ed="down" data-i="${i}" aria-label="下移">↓</button><button type="button" data-ed="del" data-i="${i}" aria-label="刪除">✕</button></span></div>`).join("")}
    <div class="eadd"><b>📍 加地點（貼 Google Maps 連結或座標）</b><div class="row"><input id="eloc" placeholder="例如 64.1466, -21.9426 或 Google Maps 連結" autocomplete="off"><input id="elocn" placeholder="名稱（可留空）" autocomplete="off"><button type="button" class="mini" data-ed="addloc">加入今日</button></div>
      <p class="elocmsg" id="elocmsg">手機最易：喺 Google Maps 撳住個地點 → 上面出現座標 → 撳一下複製 → 貼喺度。加咗會排喺最尾，再拖去啱嘅位置。</p>${upListHTML()}</div>
@@ -1860,13 +1921,13 @@ document.addEventListener("change",e=>{const t=e.target;if(t.id==="edauto"){EDAU
   const row=t.closest&&t.closest(".editor .er");if(!row||EDITING==null)return;const ev=EDITS[EDITING],i=+row.dataset.i;
   if(t.classList.contains("et")){const old=ev[i][0],nv=t.value.trim(),d=tmE(nv)!=null&&tmE(old)!=null?tmE(nv)-tmE(old):0,oe=String(old).match(/[–-]\s*(\d{1,2}:\d{2})/),ne=nv.match(/[–-]\s*(\d{1,2}:\d{2})/);
     const dEnd=oe&&ne?tmE(ne[1])-tmE(oe[1]):d;ev[i][0]=nv;if(EDAUTO&&dEnd){for(let j=i+1;j<ev.length;j++)ev[j][0]=shiftT(ev[j][0],dEnd)}}
-  if(t.classList.contains("ea"))ev[i][1]=t.value;
-  if(t.classList.contains("ek"))ev[i][3]=t.value;
+  if(t.classList.contains("ea")){ev[i][1]=t.value;if(!ev[i][3]){const k=autoKey(t.value);if(k)ev[i][3]=k}}
+  if(t.classList.contains("ek")){ev[i][3]=t.value;EDPICK=null}
   OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-ed]");if(!b)return;const act=b.dataset.ed;
   const raw=days.find(x=>x.d===(b.dataset.d!=null?+b.dataset.d:EDITING));
   if(act==="start")edStart(raw);
-  else if(act==="done"){EDITING=null;OPTR=null}
+  else if(act==="done"){EDITING=null;OPTR=null;EDPICK=null}
   else if(act==="opt"){if(EDITING==null)edStart(raw);OPTR=optimise(raw)}
   else if(act==="opok"){if(OPTR)EDITS[OPTR.d]=OPTR.rows.map(r=>r.slice());OPTR=null}
   else if(act==="opno")OPTR=null;
@@ -1877,13 +1938,14 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
   else{const ev=EDITS[EDITING],i=+b.dataset.i;
     if(act==="up"&&i>0){const sn=gapSnap(ev);[ev[i-1],ev[i]]=[ev[i],ev[i-1]];retime(ev,i-1,sn)}
     if(act==="down"&&i<ev.length-1){const sn=gapSnap(ev);[ev[i+1],ev[i]]=[ev[i],ev[i+1]];retime(ev,i,sn)}
+    if(act==="pick"){EDPICK=i;const y=window.scrollY;renderPanel();try{window.scrollTo(0,y)}catch(err){}const sel=document.querySelector(".editor .ek");if(sel){try{sel.focus();sel.showPicker&&sel.showPicker()}catch(err){}}return}
     if(act==="addloc"){const inp=document.getElementById("eloc"),nmI=document.getElementById("elocn"),msg=document.getElementById("elocmsg"),r=parseLoc(inp&&inp.value);
       if(r.err){if(msg){msg.textContent=r.err;msg.className="elocmsg bad"}return}
-      const name=(nmI&&nmI.value.trim())||r.name||"自訂地點",k="u"+Date.now();pts[k]=[name,+r.lon.toFixed(5),+r.lat.toFixed(5),"spot","r"];UPTS[k]=pts[k];store.set("iceland-upts",JSON.stringify(UPTS));
+      const name=(nmI&&nmI.value.trim())||r.name||"自訂地點",k="u"+Date.now();pts[k]=[name,+r.lon.toFixed(5),+r.lat.toFixed(5),"spot","r"];AKN=null;UPTS[k]=pts[k];store.set("iceland-upts",JSON.stringify(UPTS));
       let lk=null;for(let j=ev.length-1;j>=0;j--)if(ev[j][3]&&pts[ev[j][3]]){lk=ev[j][3];break}
       const lt=ev.length?tmE(String(ev[ev.length-1][0]).split(/[–-]/).pop()):null,st=lt!=null?lt+(lk?estM(lk,k):15):null;
       ev.push([st!=null?`${ttE(st)}–${ttE(st+45)}`:"",name+(r.far?"（唔喺冰島範圍，請核實）":""),"",k])}
-    if(act==="delloc"){const k=b.dataset.k;if(!confirm("刪除呢個自訂地點？用咗佢嘅行會變返「唔喺地圖」。"))return;delete UPTS[k];delete pts[k];store.set("iceland-upts",JSON.stringify(UPTS));Object.values(EDITS).forEach(rows=>(rows||[]).forEach(r=>{if(r[3]===k)r[3]=""}))}
+    if(act==="delloc"){const k=b.dataset.k;if(!confirm("刪除呢個自訂地點？用咗佢嘅行會變返「唔喺地圖」。"))return;delete UPTS[k];delete pts[k];AKN=null;store.set("iceland-upts",JSON.stringify(UPTS));Object.values(EDITS).forEach(rows=>(rows||[]).forEach(r=>{if(r[3]===k)r[3]=""}))}
     if(act==="del")ev.splice(i,1);
     if(act==="add"){const lt=ev.length?tmE(String(ev[ev.length-1][0]).split(/[–-]/).pop()):null;ev.push([lt!=null?ttE(lt+15):"",'新行程',"",""])}}
   edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
