@@ -644,7 +644,7 @@ html.pub details.more.mapmore,.simple details.more.mapmore{display:block!importa
 <style>.sub3{font-weight:700;margin:8px 0 2px;color:var(--muted);font-size:13px}.grp{font-size:12px;color:var(--meal);margin:6px 0 2px}.stinfo{font-size:12.5px}.stinfo b{font-size:13px}.stinfo dl{display:grid;grid-template-columns:4.2em 1fr;gap:3px 10px;margin:6px 0 4px}.stinfo dt{color:var(--muted)}.stinfo dd{margin:0;overflow-wrap:anywhere}.sched .a.drv{font-size:12.5px;color:var(--muted);padding:0 0 3px 14px;border-left:2px dotted var(--coast);margin-bottom:4px}</style>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀唔到就用內建內容 */
-const CONTENT_URL="https://script.google.com/macros/s/AKfycbyhJHO_AF_4awrdqKCGNF2ETB8le7MVhJdJKdFkqgJSqX8GaSJTKb5F0ve_xWZKomPN/exec";
+const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
 const OVR_STAY=rows=>rows.map(r=>{const L=t=>String(t||"").split("\n").map(x=>x.trim()).filter(Boolean).map(x=>{const k=x.indexOf("|");return k<0?[x,""]:[x.slice(0,k).trim(),x.slice(k+1).trim()]});const la=parseFloat(r["緯度"]),lo=parseFloat(r["經度"]);return [r["晚"],r["地區"],r["狀態"]||"未訂",r["理由"]||"",L(r["最平（每行：名 | 說明）"]),L(r["最方便（每行：名 | 說明）"]),r["地圖連結"]||undefined,(isNaN(la)||isNaN(lo))?undefined:[la,lo]]}).filter(x=>x[0]);
 const OVR_TIPS=rows=>{const g=[];rows.forEach(r=>{const h=r["分組"]||"其他";let x=g.find(y=>y[0]===h);if(!x){x=[h,[]];g.push(x)}x[1].push([r["項目"]||"",r["內容"]||""])});return g};
 let SHCF={};
