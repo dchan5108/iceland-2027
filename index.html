@@ -2956,6 +2956,16 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 
 #prepBack{position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;margin:0 0 10px}
 #prepBack .pbk{border:0;background:var(--route);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:8px 14px 7px;box-shadow:0 2px 10px rgba(0,0,0,.18);cursor:pointer}
+
+/* 開車行簡潔：細一行、沒有分隔線，目的地就是下一行 */
+.sched.rich.simp>.t.cn{border-top:0!important;padding-top:2px!important;font-size:12.5px!important;color:var(--muted)!important;font-weight:500}
+.sched.rich.simp>.a.drv{border-top:0!important;padding-top:2px!important;padding-bottom:10px!important;font-size:12.5px!important;color:var(--muted)}
+.sched.rich.simp>.t.cn+.a.drv+.t,.sched.rich.simp>.t.cn+.a.drv+.a{border-top:0!important}
+.sched.rich .a.drv .drvpill{padding:3px 9px 2px;font-size:11.5px}
+
+/* 時間欄只寫開始時間：收窄 */
+.sched.rich.simp{grid-template-columns:48px minmax(0,1fr)!important}
+.sched.rich .a.drv .drvt{font-weight:700;color:var(--fg)}
 </style>
 
 </head>
@@ -4272,6 +4282,7 @@ function richRows(day){
       if(!/\d+\s*(?:個)?小時|\d+\s*分鐘/.test(tx)){let j=i+1;while(j<plan.length&&!SK[j])j++;const lg=j<plan.length?LG.find((l,x)=>!usedL.has(x)&&l.b===SK[j]):null;if(lg&&lg.m)tx+=` · 約 ${fmt(lg.m)}`}
       const m0=String(t).match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/),du=m0?((+m0[3]*60+ +m0[4])-(+m0[1]*60+ +m0[2])+1440)%1440:0,lgm=(()=>{let j=i+1;while(j<plan.length&&!SK[j])j++;const lg=j<plan.length?LG.find((l,x)=>!usedL.has(x)&&l.b===SK[j]):null;return lg?lg.m:0})();
       const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
+      {const sg=tx.split(" · ");if(sg.length>1&&/^(前往|開車|開去|出發|返回|駛往|沿|經|南下|北上)/.test(sg[0]))tx=sg.slice(1).join(" · ")}
       return `${sep}<span class="t cn">${t}</span><span class="a drv cn${du>=120||lgm>=120?" longd":""}"${drvTo(i)}><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${tx}${du>=120||lgm>=120?`<span class="alrt drvA">長途駕駛</span>`:""}</span>`}
     if(isDrv(a)){const hm=String(a).match(/(\d+(?:\.\d+)?)\s*(?:個)?小時/),lng=hm&&+hm[1]>=2;return `<span class="t"></span><span class="a drv${lng?" longd":""}"${drvTo(i)}>${drvTxt(a)}${lng?`<span class="alrt drvA">長途駕駛</span>`:""}</span>`}const x=att[i],kd=kindOf(t,a,f),tag=TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:"";
     const sp=splitRow(a),plain=String(a).replace(/<[^>]*>/g,""),meal=f==="m"||/^(早餐|午餐|晚餐|小吃)/.test(plain);
@@ -4294,6 +4305,15 @@ function richRows(day){
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
     const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
     return `${sep}<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}${pri?" pri":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${svc?" svc":""}${pri?" pri":""}${longD?" longd":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}"${SN[i]?` data-sn="${SN[i]}"`:""}${SK[i]?` data-sk="${SK[i]}"`:""}${isDep&&!SK[i]?drvTo(i):""}>${btn}${inner}</span>`});
+   /* 補開車行：某站前面沒有開車行（也不是早上出發那一行），就按車程自動加一行「開車去 X · 約 N」，出發時間＝上一行結束時間 */
+   try{const sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/);return m?{s:+m[1]*60+ +m[2],e:m[3]!=null?+m[3]*60+ +m[4]:+m[1]*60+ +m[2]}:null},hm=x=>`${String(Math.floor(x/60)%24).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`,
+       du=x=>{x=Math.round(x);const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`};
+     plan.forEach((r,i)=>{const k=SK[i];if(!k||!pts[k]||i===0)return;let j=i-1;while(j>=0&&!plan[j])j--;if(j<0)return;
+       if(isConn(j)||isDrv(plan[j][1])||j===dep)return;
+       let ps=i-1;while(ps>=0&&!SK[ps])ps--;if(ps<0)return;for(let q=ps+1;q<i;q++){if(plan[q]&&plan[q][2]!=="m"&&!isConn(q))return}const lg=(day.legs||[]).find(l=>l.a===SK[ps]&&l.b===k&&!l.c2&&!l.walk&&!l.ride&&!l.city);if(!lg||!lg.m)return;
+       const pv=sm(plan[j][0]),at=pv?pv.e:null,me=sm(r[0]);if(at!=null&&me&&Math.abs(at+lg.m-me.s)>20)return;const q=qn(k),nav=`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`,lng=lg.m>=120;
+       const h=`<span class="t cn">${at!=null?hm(at):""}</span><span class="a drv cn auto${lng?" longd":""}" data-to="${escA(k)}" data-nav="${escA(nav)}"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>約 ${du(lg.m)}${lng?`<span class="alrt drvA">長途駕駛</span>`:""}</span>`;
+       const b=bodyA[i];if(/^<div class="tod/.test(b)){const x=b.indexOf("</div>")+6;bodyA[i]=b.slice(0,x)+h+b.slice(x)}else bodyA[i]=h+b})}catch(e){}
   {const CU=cuGet(day.d);if(CU.length&&bodyA.length){const sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};
     CU.forEach(x=>{const m=sm(x.t);let at=bodyA.length-1;if(m!=null){at=-1;plan.forEach((r,i)=>{const s0=sm(r[0]);if(s0!=null&&s0<=m)at=i})}
       const h=`<span class="t cu">${escA(x.t||"")}</span><span class="a cu noen"><div class="tl-h"><span class="tl-n">${escA(x.a||"")}</span><span class="cutag">自訂</span></div>${x.n?`<div class="tl-d">${escA(x.n)}</div>`:""}</span>`;
@@ -5813,7 +5833,11 @@ const DOCX={
         pairs.sort((x,y)=>{const i=k=>{const n=P.indexOf(x===k?x[0].textContent.trim():y[0].textContent.trim());return n<0?99:n};const a1=P.indexOf(x[0].textContent.trim()),b1=P.indexOf(y[0].textContent.trim());return (a1<0?99:a1)-(b1<0?99:b1)});
         pairs.forEach(([dt,dd])=>{if(HIDE.test(dt.textContent.trim())){dt.remove();dd&&dd.remove();return}dl.append(dt);dd&&dl.append(dd)});
         const ti=sp.querySelector(":scope>.spt");if(ti)ti.remove();
-        sp.querySelectorAll(":scope>p:not(.spx0)").forEach(p=>sp.append(p))})})});tripNavApply(root)}catch(e){}
+        sp.querySelectorAll(":scope>p:not(.spx0)").forEach(p=>sp.append(p))})});
+      /* 時間欄簡潔：每站只寫開始時間；開車行的時間寫進該行（「14:00 出發 · 約 1 小時」） */
+      if(!x.dataset.tsimp){x.dataset.tsimp=1;x.querySelectorAll(":scope>.t").forEach(t=>{const n=t.firstChild;if(!n||n.nodeType!==3)return;const full=n.textContent.trim();
+        if(t.classList.contains("cn")){const d=t.nextElementSibling;if(full&&d&&d.classList.contains("drv")){const sv=d.querySelector(".cnic");const hm=full.match(/\d{1,2}:\d{2}/);if(hm){const b=document.createElement("b");b.className="drvt";b.textContent=hm[0]+" 出發 · ";if(sv)sv.after(b);else d.prepend(b)}}n.textContent="";t.title=full;return}
+        const m=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*\d{1,2}:\d{2}/);if(m){n.textContent=m[1];t.title=full}})}});tripNavApply(root)}catch(e){}
     /* 用「｜」分隔嘅行（例如徒步每日）：第一段做標題，其餘變成 1、2、3 步驟 */
     try{root&&root.querySelectorAll(".sched.rich > .a").forEach(a=>{const n=a.querySelector(".tl-n")||a.querySelector(".tl-h")||a;if(a.querySelector(".tsteps,.tmeta"))return;const t=n.textContent;if(!t.includes("｜"))return;const [h,...st]=t.split("｜").map(x=>x.trim()).filter(Boolean);
       n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
