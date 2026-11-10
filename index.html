@@ -2854,19 +2854,22 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tsteps li::marker{color:var(--muted);font-weight:700}
 
 /* 倒數卡：夜空極光 */
-.bpass{display:grid;grid-template-columns:minmax(0,1fr) 92px;border-radius:16px;overflow:hidden;background:var(--card);margin:0 0 14px;box-shadow:0 1px 0 var(--line)}
-.bpass .bpm{padding:14px 16px 12px;border-right:2px dashed var(--line);min-width:0}
-.bpass .bpk{font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:700}
-.bpass .bprt{display:grid;grid-template-columns:auto minmax(18px,1fr) auto;align-items:center;gap:8px;margin:8px 0 10px}
-.bpass .bpo{display:grid;gap:2px}.bpass .bpo div{display:flex;align-items:baseline;gap:6px}
-.bpass .bpo b,.bpass .bpd b{font-size:24px;font-weight:800;color:var(--fg);letter-spacing:.02em;line-height:1.05}
-.bpass .bpo small,.bpass .bpd small{font-size:10.5px;color:var(--muted);font-weight:600}
-.bpass .bpd{text-align:right;display:grid;gap:2px}
-.bpass .bpl{height:2px;background:repeating-linear-gradient(90deg,var(--route) 0 6px,transparent 6px 11px);position:relative}
-.bpass .bpl::after{content:"✈";position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);color:var(--route);font-size:15px;background:var(--card);padding:0 2px}
+.bpass{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 92px;margin:0 0 14px}
+.bpass .bpm{position:relative;padding:14px 16px 12px;border-right:2px dashed var(--line);min-width:0;background:var(--card);border-radius:18px 0 0 18px}
+.bpass .bpm::before,.bpass .bpm::after{content:"";position:absolute;right:-10px;width:18px;height:18px;border-radius:50%;background:var(--bg);z-index:1}
+.bpass .bpm::before{top:-9px}.bpass .bpm::after{bottom:-9px}
+.bpass .bpk{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.bpass .bprt{display:grid;grid-template-columns:auto minmax(24px,1fr) auto;align-items:center;gap:8px;margin:8px 0 10px}
+.bpass .bpo{display:grid;gap:2px}.bpass .bpo div{display:flex;align-items:baseline;gap:5px}
+.bpass .bpo b,.bpass .bpd b{font-size:20px;font-weight:800;color:var(--fg);line-height:1.2}
+.bpass .bpo small,.bpass .bpd small{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.bpass .bpd{display:flex;align-items:baseline;gap:5px}
+.bpass .bpl{display:block;width:100%;height:26px;overflow:visible}
+.bpass .bpl path{fill:none;stroke:var(--route);stroke-width:1.8;stroke-dasharray:4 4;stroke-linecap:round}
+.bpass .bpl text{fill:var(--route);font-size:13px}
 .bpass .bpg{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:4px 12px;font-size:10.5px;color:var(--muted);font-weight:600}
 .bpass .bpg b{display:block;color:var(--fg);font-size:14px;font-weight:700}
-.bpass .bps{display:grid;place-content:center;text-align:center;background:#2f6f86;color:#fff;padding:10px 6px;gap:4px}
+.bpass .bps{display:grid;place-content:center;text-align:center;background:#2f6f86;color:#fff;padding:10px 6px;gap:4px;border-radius:0 18px 18px 0}
 .bpass .bps b{font-size:32px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}.bpass .bps span{font-size:11px;font-weight:700;opacity:.9;line-height:1.3}
 .bpass .bps small{font-size:10px;opacity:.75;font-weight:600;margin-top:4px}
 
@@ -5726,10 +5729,10 @@ function prepHero(){const box=$("prepHero");if(!box)return;const N=days.filter(x
   /* 倒數卡（登機證款）：左邊出發地（墨爾本／香港）→ 冰島，右邊撕開部分是倒數；顯示冰島現在幾點 */
   const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0");
   const stub=dd>0?`<b>${dd}</b><span>天後出發</span>`:now<Date.UTC(2027,8,24)?`<b>✈</b><span>旅程中</span>`:`<b>✓</b><span>完成</span>`;
-  box.innerHTML=`<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">ICELAND 2027 · ${N} 日環島</div>
-    <div class="bprt"><div class="bpo"><div><b>MEL</b><small>墨爾本</small></div><div><b>HKG</b><small>香港</small></div></div><i class="bpl" aria-hidden="true"></i><div class="bpd"><b>KEF</b><small>冰島</small></div></div>
-    <div class="bpg"><span>出發<b>9月12日</b></span><span>回程<b>9月23日</b></span><span>人數<b>7 人</b></span></div></div>
-    <div class="bps">${stub}<small>冰島 ${hh}:${mm}</small></div></section>`}
+  box.innerHTML=`<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">冰島 2027 · ${N} 日環島 · 7 人</div>
+    <div class="bprt"><div class="bpo"><div><b>墨爾本</b><small>MEL</small></div><div><b>香港</b><small>HKG</small></div></div><svg class="bpl" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 20 C28 -4 62 28 90 8"/></svg><div class="bpd"><b>冰島</b><small>KEF</small></div></div>
+    <div class="bpg"><span>出發<b>9月12日</b></span><span>回程<b>9月23日</b></span><span>冰島現在<b>${hh}:${mm}</b></span></div></div>
+    <div class="bps">${stub}</div></section>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 
