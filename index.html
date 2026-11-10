@@ -2661,6 +2661,17 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #g-book h3.bkh{margin-top:0}
 #g-book .bkchk li{background:var(--bg)!important;box-shadow:none!important}
 #bookp h3.bkcol:last-of-type{border-bottom:0}
+
+/* 統一：每頁都有標題（同底部 tab 名一樣）；每日行程入面所有方塊都係 16px 圓角白卡 */
+.pgtrip{grid-column:1/-1}
+#today>.pghead{margin-bottom:-4px}
+#panel article.day>.daynav.dtop,#panel article.day>details.sec,#panel article.day>.golin,#panel article.day>.eatbox,#panel article.day>.dnote,#panel article.day>.sched,#panel article.day>.dsum2,#panel article.day>.scenbox,#panel article.day>.ddocs{border-radius:16px!important}
+#panel article.day>.eatbox{background:var(--card)!important}
+#panel article.day>.ddocs{background:var(--card);padding:14px 16px}
+
+/* 每頁標題同一高度（以「準備」頁做準） */
+#home>.pghead{margin-top:-14px}#today>.pghead{margin-top:-4px}.pgtrip{margin-top:-10px}
+@media (min-width:900px){#home>.pghead{margin-top:22px}#today>.pghead{margin-top:-4px}.pgtrip{margin-top:-2px}}
 </style>
 
 </head>
@@ -2695,6 +2706,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
   </nav>
 
   <div id="view-trip" role="tabpanel" aria-labelledby="tab-trip">
+    <div class="pghead pgtrip"><h2>行程</h2></div>
 
 
     
@@ -2725,11 +2737,11 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <nav class="fnav" id="fnav" aria-label="日子導航" hidden><button type="button" id="fprev">‹ 前一日</button><button type="button" id="fall">全部日子</button><button type="button" id="fnext">後一日 ›</button></nav>
   </div>
 
-  <section id="home" class="pg" role="tabpanel" aria-labelledby="tab-home" hidden><div id="homeL"><div id="homeMap"></div><div id="homeTop"></div></div></section>
+  <section id="home" class="pg" role="tabpanel" aria-labelledby="tab-home" hidden><div class="pghead"><h2>總覽</h2></div><div id="homeL"><div id="homeMap"></div><div id="homeTop"></div></div></section>
   <section id="today" class="pg" role="tabpanel" aria-labelledby="tab-today" hidden></section>
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
   <section id="prep" class="pg" role="tabpanel" aria-labelledby="tab-prep" hidden>
-    <div class="pghead"><h2>出發準備</h2></div>
+    <div class="pghead"><h2>準備</h2></div>
     <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">預算</button></div>
     <div id="prep-dash" hidden></div>
     <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div></div>
@@ -5465,7 +5477,7 @@ const TODAY={d:null,docMode:"date",
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0?"disabled":""} aria-label="前一日">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
+    box.innerHTML=`<div class="pghead"><h2>今日</h2></div><section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0?"disabled":""} aria-label="前一日">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
       ${TODAY.tiles(raw,day)}</section>
       <section class="tcard"><div class="thd2 noen"><b>🕒 時間表</b></div><ol class="tlist">${TODAY.rows(raw,day)}</ol></section>${docs}`;
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
