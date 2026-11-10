@@ -2707,6 +2707,32 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tipmv .tpanel{display:block}.tipcard{margin-top:14px}.tipcard>summary{cursor:pointer;font-size:var(--fs-sec);list-style:none;display:flex}.tipcard>summary::-webkit-details-marker{display:none}
 .tipcard>summary::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted);transition:transform .15s}.tipcard[open]>summary::after{transform:rotate(90deg)}
 #budSave .tipcard{margin:14px 0 0}
+
+/* 今日行程：日期同 ‹ › 同一行 */
+.tdrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 10px}
+.tdrow .tdate{margin:0}
+.tpn{display:inline-flex;gap:8px;flex:none}
+.tpn button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:inherit;font:inherit;font-size:20px;line-height:1;cursor:pointer}
+.tpn button:disabled{opacity:.3}
+.hdate{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hgo{border:0;background:color-mix(in srgb,var(--route) 12%,transparent);color:var(--route);border-radius:999px;padding:6px 12px;font:inherit;font-size:var(--fs-meta);font-weight:700;cursor:pointer;white-space:nowrap}
+/* 任務篩選：一行 */
+#bookp .bkvt{display:none!important}
+#bookp .tkf{flex-wrap:nowrap;align-items:center;gap:8px}
+.tkseg{display:flex;flex:1;min-width:0;background:var(--fill);border-radius:999px;padding:3px}
+.tkseg button{flex:1;min-width:0;border:0;background:transparent;border-radius:999px;padding:6px 4px;font:inherit;font-size:var(--fs-meta);font-weight:600;color:var(--fg);cursor:pointer;white-space:nowrap}
+#bookp .tkseg button[aria-pressed="true"]{background:var(--card)!important;color:var(--fg)!important;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#bookp .tkseg button[aria-pressed="true"] b{color:var(--route)!important;background:transparent!important}
+#bookp .tkseg button b{background:transparent!important;padding:0!important}
+.tipcard>summary{border:0!important;padding:0!important}
+.tkseg b{font-weight:600;color:var(--muted)}
+.tksort,.tkstay{flex:none;border:0;border-radius:999px;padding:8px 12px;background:var(--fill);font:inherit;font-size:var(--fs-meta);font-weight:600;color:var(--fg);cursor:pointer;white-space:nowrap}
+.tkstay{background:color-mix(in srgb,var(--route) 14%,transparent);color:var(--route)}
+/* 搬咗出嚟嘅連結／須知／省錢：用返一般字體大小 */
+.tipmv,.tipmv dl,.tipmv dd,.tipmv dt,.tipmv li,.tipmv p,.tipmv a,.tipmv small,.tipmv label,.tipmv input{font-size:var(--fs-body)!important}
+.tipmv dt,.tipmv .tsave b,.tipmv .thoff b{font-size:var(--fs-item)!important}
+.tipmv h3.tht{font-size:var(--fs-sec)!important;margin:12px 0 6px}
+.tipmv .tsave{padding-left:0;list-style:none;display:grid;gap:10px;margin:10px 0 0}.tipmv .tsave li{display:grid;gap:2px}.tipmv .tsave .amt{color:var(--route);font-size:var(--fs-meta)!important;font-weight:600}
 </style>
 
 </head>
@@ -4027,7 +4053,7 @@ function richRows(day){
     const gk=x.sp[0]&&!meal?x.sp[0]:null,named=meal?x.eat.filter(e=>{const w=ebase(e).split(/\s+/)[0];return w.length>3&&plain.includes(w)}):[],gq=gk?enc(qn(gk)):named[0]&&eatQ(named[0][1])?encodeURIComponent(eatQ(named[0][1])):null,head=`<div class="tl-h">${sn}${tag}<span class="tl-n">${sp.name}</span>${gq?`<a class="gpin" href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener" aria-label="喺 Google Maps 睇" title="Google Maps">${PINI}</a>`:""}${bk&&!/還車|取車|起飛|落機|抵達|Flybus|集合|入住|退房/.test(plain)?`<span class="bkb">預約</span>`:""}${al}</div>${meta.length?`<div class="tl-m">${meta.join(" · ")}</div>`:""}${sp.intro?`<div class="tl-d">${sp.intro}</div>`:""}`;
     const full=[sp.intro,sp.more].filter(Boolean).join("；"),longI=sp.intro&&sp.intro.length>22;
     const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}`;
-    const inner0=!pri?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^唔/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&(sp.html||stayIn)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿任務 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
+    const inner0=!pri?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^唔/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&(sp.html||stayIn)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn="";
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
     const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
@@ -4737,7 +4763,7 @@ calc();
 /* page tabs */
 /* 注意事項: tickable pre-departure checklist, day-of rules, emergency info (editable numbers saved on this device) */
 const PRECHK=[
- ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「準備」頁最底「官方・緊急」"],
+ ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「準備」頁最底「官方連結」"],
  ["駕駛執照","揸車的人帶實體車牌；香港／澳洲車牌有英文就用得，租車公司要國際車牌（IDP）的話先申請"],
  ["信用卡","主司機名義的信用卡（租車押金預授權）；記得 4 位 PIN（無人油站要用）；用冇海外手續費的卡"],
  ["取車檢查","車身 360° 影片同相片；問清楚停車繳費系統、油站優惠鎖匙扣；確認保險包碎石同沙塵"],
@@ -4794,9 +4820,9 @@ function renderTips(){
       dh=`<div class="thd"><div class="thd-h"><b>${TD?"今日":"第一日"}・D${day.d} ${day.date}</b><button type="button" class="stlink" data-goday="${day.d}">睇行程 ›</button></div><ul class="thd-f">${DT&&k&&pts[k]?`<li>日出 ${sunAt(Nd,pts[k][2],pts[k][1],1)}・日落 ${sunAt(Nd,pts[k][2],pts[k][1],0)}</li>`:""}${tot?`<li>車程約 ${fmt(tot)}，日落前要開完</li>`:""}</ul>${ns?`<ul class="thd-n">${ns}</ul>`:""}</div>`}
     const OFF=[["天氣","vedur.is","https://en.vedur.is/"],["安全警告","safetravel.is","https://safetravel.is/"],["路況","umferdin.is・電話 1777","https://umferdin.is/en"],["極光預報","vedur.is","https://en.vedur.is/weather/forecasts/aurora/"]];
     window.__homeDh=dh;return `<h3 class="tht">官方資訊</h3><div class="thoff">${OFF.map(([a,b,u])=>`<a href="${u}" target="_blank" rel="noopener"><b>${a}</b><small>${b} ↗</small></a>`).join("")}</div>`})();
-  const sosBody=`<dl class="tipsdl tgrid">${EMFIX.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join("")}</dl>${sec("sos-own",`自己填（只儲存喺呢部裝置${SYNC.url?"，會同步":""}）`,`<div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div>`)}`;
-  const saveH=`${sec("s:top","最慳錢的幾招",saveTop)}${SAVE.map(([h,items])=>{const it=items.filter(([a])=>!SAVEDUP.test(a)&&!SAVELOW.test(a)&&!/^7 人分工/.test(a));return it.length?sec("s:"+h,h==="優惠券與折扣"?"其他優惠":"其他小技巧",dl(it)):""}).join("")}${DT?sec("s:gift","特色手信",`<p class="bnote">價錢係參考，以店內為準。</p>${giftDl}`):""}`;
-  const CATS=[["home","官方・緊急",TIC.home,`${homeH}<h3 class="tht">緊急</h3>${RO?`<dl class="tipsdl tgrid">${EMFIX.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join("")}</dl>`:sosBody}${(REAL||DT)?`<button type="button" class="prebtn" data-gopre="1">出發前要做 ›</button>`:""}`],
+  const sosBody=`${sec("sos-own",`保險同租車緊急電話（自己填，只存喺呢部機）`,`<div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div>`)}`;
+  const saveH=saveTop;const _saveOld=()=>`${SAVE.map(([h,items])=>{const it=items.filter(([a])=>!SAVEDUP.test(a)&&!SAVELOW.test(a)&&!/^7 人分工/.test(a));return it.length?sec("s:"+h,h==="優惠券與折扣"?"其他優惠":"其他小技巧",dl(it)):""}).join("")}${DT?sec("s:gift","特色手信",`<p class="bnote">價錢係參考，以店內為準。</p>${giftDl}`):""}`;
+  const CATS=[["home","官方・緊急",TIC.home,`${homeH}${RO?"":sosBody}`],
    ["know","出發須知",TIC.car,`<h3 class="tht">自駕</h3>${tdl(TI("駕駛",a=>!FEEK.test(a)))}<h3 class="tht">收費</h3>${tdl([...pick("停車","收費","停車收費"),...pick("停車","繳費方法","停車點樣俾錢"),...pick("停車","罰款","停車罰款"),...pick("駕駛","測速相機","超速罰款"),...pick("廁所","收費","廁所收費"),...pick("其他","付款")])}<h3 class="tht">天氣</h3>${tdl(TI("天氣／溫度"))}<h3 class="tht">其他</h3>${tdl([...TI("其他",a=>!FEEK.test(a)),...TI("廁所",a=>!FEEK.test(a))])}`],
    ["save","省錢",TIC.save,saveH]];
   if(RO)CATS.splice(1);
@@ -4817,15 +4843,11 @@ const GIFT=[
  ["日本文具（Nakano）","價錢未查到，以店內為準","最平：同一件日本文具通常喺日本當地買最平；Nakano 適合買店主推介或者冰島先見到的嘢","Grensásvegur 16（2 樓後面），星期一休息；D0（9/11 星期六）11:00–17:00 開。"],
  ["退稅提提你","—","同一張收據滿 12,000 ISK 先可以退稅","香水、羊毛衫可以集中喺同一間店買，離境前喺 KEF 機場辦。"]];
 const TOPSAVE=[
- ["晚餐大部分自己煮","每人慳約 4 萬 ISK（約 HKD 2,500）","8 晚自己煮對比出外食（每餐約 1,500 對 6,500 ISK）；住處揀有廚房的整間屋"],
- ["7 人租整間屋","每人慳約 1–2 萬 ISK","比 4 間酒店房平，仲可以自己煮早餐同晚餐；揀免費取消先訂住，冰河湖一帶最早滿"],
  ["酒喺 KEF 落機買","酒錢大約慳一半","到達大堂免稅店買晒成程的酒；之後只有 Vínbúðin 賣酒，貴、時間短、星期日唔開"],
- ["午餐揀湯任添／每日例牌","每餐慳約 1,500–2,500 ISK","湯配麵包約 1,500–2,200 ISK；油站熱狗約 800 ISK"],
  ["退稅","最多拎返約 14%","同一張收據滿 12,000 ISK；羊毛衫、香水集中一間買；3 個月內帶出境，離境前喺 KEF 辦"],
- ["溫泉早訂、揀非熱門時段","每人慳約 1,000–3,000 ISK","藍湖、Sky Lagoon 按時段浮動價，越早越平"],
+ ["溫泉早訂、揀非熱門時段","每人慳約 1,000–3,000 ISK","藍湖、Sky Lagoon 按時段浮動價；早訂、揀早上或者傍晚時段通常平啲"],
  ["自助油站＋優惠鎖匙扣","每部車慳約 1,500–2,500 ISK","Orkan、Atlantsolía、ÓB 較平；租車送的鎖匙扣每公升再減約 10 ISK；成程約 140 公升"],
- ["刷卡揀 ISK","慳約 3–5% 匯率差","唔好揀港幣／澳元結算；用冇海外手續費的卡"],
- ["水樽","每人每日慳約 400 ISK","水喉水可以直接飲"]];
+ ["刷卡揀 ISK","慳約 3–5% 匯率差","唔好揀港幣／澳元結算；用冇海外手續費的卡"]];
 const SAVEDUP=/^(退稅|溫泉早訂|酒|飲水|刷卡|午餐出去食)/,SAVELOW=/^(N1 預付卡|油桶|Reykjavík City Card|Appy Hour)/;
 const SAVE=[
  ["優惠券與折扣",[
@@ -4964,7 +4986,7 @@ document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.datas
 function bkProg(){const all=taskAll().map(t=>tStat(t).s),c=k=>all.filter(x=>x===k).length,ok=c("done")+c("na");
   document.querySelectorAll("#bookp .bkc").forEach(e=>{const xs=[...e.closest("h3").nextElementSibling.querySelectorAll("li[data-ts]")];e.textContent=TKF==="all"?`${xs.filter(x=>/done|na/.test(x.dataset.ts)).length}/${xs.length}`:`${xs.length} 項`});
   const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${ok}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
-  const f=$("tkf");if(f)f.innerHTML=[["all","全部",all.length],["todo","未訂／未做",c("todo")],["done","已訂／已做",c("done")],["stay","只睇住宿",taskAll().filter(t=>/^(stay|dtn)$/.test(t.kind)).length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}" class="tkf-${k}">${l}<b>${n}</b></button>`).join("");
+  const f=$("tkf");if(f)f.innerHTML=(TKF==="stay"?`<button type="button" data-tkf="todo" class="tkstay" aria-label="取消只睇住宿">只睇住宿 ✕</button>`:`<span class="tkseg">${[["todo","未做",c("todo")],["done","已做",c("done")],["all","全部",all.length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}">${l} <b>${n}</b></button>`).join("")}</span>`)+`<button type="button" class="tksort" data-bkv2="${BKV==="day"?"dl":"day"}" aria-label="轉排列方式">⇅ ${BKV==="day"?"按日子":"按期限"}</button>`;
   if(typeof prepDash==="function")try{prepDash()}catch(e){}}
 /* 改狀態：同時更新舊剔格（BKC／PREK），等其他功能照用 */
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.task;if(!id)return;const v=e.target.value,on=v==="done"||v==="recheck";
@@ -5042,7 +5064,7 @@ function renderGuide(){
   const TB=(PRIV.TB||{});
   const flights=DT?`<section id="g-fly"><h3 class="bkh">機票</h3><div class="gtw" tabindex="0" role="region" aria-label="表格（可左右捲動）"><table class="gt flt"><thead><tr><th>航段</th><th>Dorcas</th><th>Tebe</th></tr></thead><tbody>${FL.map(([seg,dt,no,tm,nt,bk])=>`<tr><td class="gn">${seg}</td><td>${bk?`<span class="st ${bk==="已訂"?"ok":"todo"}">${bk}</span><br>`:""}<b>${dt}・${no}</b><br>${tm}<br><small>${nt}</small></td><td>${TB[seg]||"—"}</td></tr>`).join("")}</tbody></table></div>
    ${PRIV.FLNOTE||""}</section>`:"";
-  FLIGHTS=flights;$("bookp").innerHTML=`<section id="g-book"><h3 class="bkh">任務</h3><div class="bkprog" id="bkprog"></div><div class="tkf" id="tkf" role="group" aria-label="篩選狀態"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按期限</button></div>${SYNC.url?"":`<p class="bnote">只存喺呢部裝置。</p>`}${bkDays()}</section>`;bkProg();
+  FLIGHTS=flights;$("bookp").innerHTML=`<section id="g-book"><h3 class="bkh">預訂</h3><div class="bkprog" id="bkprog"></div><div class="tkf" id="tkf" role="group" aria-label="篩選狀態"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按期限</button></div>${SYNC.url?"":`<p class="bnote">只存喺呢部裝置。</p>`}${bkDays()}</section>`;bkProg();
   $("bookp").querySelectorAll("[data-bkv]").forEach(b=>b.addEventListener("click",()=>{BKV=b.dataset.bkv;store.set("iceland-bkv",BKV);const y=window.scrollY;renderGuide();try{window.scrollTo(0,y)}catch(e){}}));
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
@@ -5218,6 +5240,7 @@ function remPick(raw,day){const sh=t=>String(t||"").replace(/（[^）]*）/g,"")
   if(raw.wx){const wc=cl(hr(raw.wx)).split(/[；。]/).map(x=>x.trim()).filter(x=>/風|雪|霧|浪|封|取消|警告|濕滑/.test(x));wc.forEach(add)}
   return out}
 
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bkv2]");if(!b)return;BKV=b.dataset.bkv2;store.set("iceland-bkv",BKV);const y=window.scrollY;renderGuide();try{window.scrollTo(0,y)}catch(err){}});
 let HOMEV="prep";   /* 準備期總覽：prep＝準備，day＝今日行程（預覽旅程期間） */
 const HSEG=()=>`<div class="seg hseg" role="group" aria-label="總覽"><button type="button" data-hv="prep" aria-pressed="${HOMEV==="prep"}">準備</button><button type="button" data-hv="day" aria-pressed="${HOMEV==="day"}">今日行程</button></div>`;
 const HSEGON=box=>box.querySelectorAll("[data-hv]").forEach(b=>b.onclick=()=>{if(HOMEV===b.dataset.hv)return;HOMEV=b.dataset.hv;if(HOMEV==="day"){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}renderHome();window.scrollTo(0,0)});
@@ -5226,7 +5249,7 @@ function TIPMOVE(){try{renderTips()}catch(e){return}const pn=k=>$("tc-"+k),wrap=
     const d=document.createElement("details");d.className="hcard tipcard";d.innerHTML=`<summary class="noen"><b>${ic} ${t}</b></summary>`;d.appendChild(p);box.replaceChildren(d);return true};
   const pg=document.documentElement.dataset.page;
   if(pg==="home"&&$("homeMore")){const p=pn("home");if(p){p.hidden=false;$("homeMore").replaceChildren(p)}}
-  if(pg==="prep"){wrap("prepTips","🔗","官方・緊急","home");wrap("prepKnow","📖","出發須知","know")}
+  if(pg==="prep"){wrap("prepTips","🔗","官方連結","home");wrap("prepKnow","📖","出發須知","know")}
   if(pg==="budget"){wrap("budSave","💡","省錢貼士","save")}}
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=DT?Date.UTC(2027,8,25):Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
 function renderHome(){const box=$("homeTop");if(!box)return;
@@ -5244,7 +5267,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     const sk=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);setTimeout(()=>homeWx(raw.d,sk),0)}
   const chain=[];days.filter(x=>x.d>=1).forEach(r=>{let day;try{day=R(r)}catch(e){day=r}const lg=(day.legs||[]).filter(l=>!l.c2);const k=lg.length?lg[lg.length-1].b:null;if(!k||!pts[k])return;const n=String(pts[k][0]).replace(/（.*?）/g,"").replace(/・.*$/,"").trim();
     if(chain.length&&chain[chain.length-1].n===n){chain[chain.length-1].d2=r.d;return}chain.push({n,d:r.d,d2:r.d})});
-  const hero=`<section class="hcard hhero"><div class="hdate">12–23 September 2027</div>${prog}<p class="hmeta">${N} 日環島 · 7 人 · 約 2,000 km</p></section>`;
+  const hero=`<section class="hcard hhero"><div class="hdate">12–23 September 2027${HPHASE()===1?`<button type="button" class="hgo" data-hv="day" aria-label="睇今日行程">今日行程 ›</button>`:""}</div>${prog}<p class="hmeta">${N} 日環島 · 7 人 · 約 2,000 km</p></section>`;
   let stH="";if(DT||REAL)try{const S=taskAll().filter(t=>t.kind==="stay").map(t=>tStat(t).s).filter(x=>x!=="na"),ok=S.filter(x=>x==="done"||x==="recheck").length;
     if(S.length)stH=`<section class="hcard hstay"><div class="hk">住宿預訂</div><div class="hsrow"><b>${ok}</b><small> / ${S.length} 晚已訂</small><button type="button" class="stlink" data-gotask="stay">睇住宿 ›</button></div><div class="hbar"><i style="width:${Math.round(ok/S.length*100)}%"></i></div></section>`}catch(e){}
   /* 總覽分三段（出發日：管理者 9/5、朋友 9/12）：
@@ -5257,14 +5280,15 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     <a href="https://en.vedur.is/" target="_blank" rel="noopener"><i>🌤️</i><span>天氣</span></a>
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a>
     <a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div>
-    <details class="hmore"><summary>更多官方資訊同緊急電話</summary><div id="homeMore" class="tipmv"></div></details></section>`;
+    </section>`;
   if(LIVE){box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     TIPMOVE();return}
   /* 準備期：總覽係「準備 ⇄ 每日行程」嘅翻頁：準備頁撳 › 去第一日，第一日撳 ‹ 返準備 */
-    if(PH===1&&HOMEV==="day"){box.innerHTML=`${HSEG()}<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+    TODAY.prevHook=null;
+  if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${PH===1?HSEG():""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
    <section class="hcard"><div class="hk">環島路線</div><ol class="hroute">${chain.map(c=>`<li><button type="button" data-hgo="${c.d}"><span class="hd">${c.d===c.d2?dLab(c.d):dLab(c.d)+"–"+c.d2}</span><span class="hn">${withEn(c.n)}</span></button></li>`).join("")}</ol></section>`;
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急嘅 3 件任務＋下一個重要日子；旅程期間＝今日有預約嘅活動 */
@@ -5279,7 +5303,7 @@ function homeTodo(TD,PH){if(!(DT||REAL)||typeof taskAll!=="function")return "";l
     if(x.s==="todo"&&x.t.due&&x.t.due.d&&!x.t.due.sug&&dd(x)>=now)ev.push([dd(x),`${mdD(x.t.due.d)}：${nm(x)} 最遲要訂`])});
   ev.sort((a,b)=>a[0]-b[0]);const nTodo=T.filter(x=>x.s==="todo").length,nRe=T.filter(x=>x.s==="recheck").length;
   return `<section class="hcard htodo"><div class="hk">${trip?"今日要做":"未完成準備"}</div>${PH||""}${top.length?`<ul class="htl">${top.map(x=>`<li>${chip(x)}<span><b>${nm(x)}</b>${why(x)?`<small>${why(x)}</small>`:""}</span></li>`).join("")}</ul>`:`<p class="rhint">${trip?"冇預訂要再處理。":"暫時冇急要做嘅事。"}</p>`}
-   <button type="button" class="stlink" data-gotask="all">全部任務（未訂 ${nTodo}${nRe?`・要再確認 ${nRe}`:""}） ›</button></section>`}
+   <button type="button" class="stlink" data-gotask="all">全部預訂（未訂 ${nTodo}${nRe?`・要再確認 ${nRe}`:""}） ›</button></section>`}
 /* 今日天氣：Open-Meteo（免費、免 API key）；只有 16 日內先有預報 */
 const WXC={0:"晴",1:"大致晴",2:"部分有雲",3:"陰",45:"有霧",48:"有霧",51:"毛毛雨",53:"毛毛雨",55:"毛毛雨",61:"小雨",63:"雨",65:"大雨",66:"凍雨",67:"凍雨",71:"小雪",73:"雪",75:"大雪",77:"雪粒",80:"驟雨",81:"驟雨",82:"大驟雨",85:"陣雪",86:"大陣雪",95:"雷暴",96:"雷暴",99:"雷暴"};
 function homeWx(d,k){const el=$("hwx");if(!el)return;const link=`<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">vedur.is ↗</a>`;
@@ -5456,7 +5480,7 @@ document.addEventListener("change",e=>{const f=e.target;if(!f||f.id!=="privfile"
   rd.onload=()=>{try{const t=String(rd.result);const o=JSON.parse(t);if(!o||!o.PRE)throw new Error("format");const N=40000;let i=0;for(;i*N<t.length;i++)store.set("iceland-priv-"+i,t.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++){if(store.get("iceland-priv-"+j)!=null)store.set("iceland-priv-"+j,"")}
     if(msg)msg.textContent="已匯入，重新載入中…";setTimeout(()=>location.reload(),SYNC&&SYNC.url?2500:300)}catch(err){if(msg)msg.textContent="讀唔到呢個檔（唔係私人資料檔）"}};rd.readAsText(f.files[0])});
 if(OVRK.size||(OV.stays&&OV.stays.length)){try{select(sel);renderStays();renderTips()}catch(e){}}
-/* 時間表「住宿任務 ›」：去任務清單（只睇住宿），打開當晚 */
+/* 時間表「住宿預訂 ›」：去任務清單（只睇住宿），打開當晚 */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-gostay]");if(!b)return;const d=+b.dataset.gostay;
   TKF="stay";view("prep");try{renderGuide()}catch(err){}try{navSync()}catch(err){}
   setTimeout(()=>{const i=STAYS.findIndex(x=>{const m=String(x[0]).match(/D(\d+)/);return m&&+m[1]===d});const li=i>=0&&document.querySelector(`li[data-tid="stay${i}"]`);if(li){const dt=li.querySelector("details.bkmore");if(dt)dt.open=true;li.classList.add("hit");setTimeout(()=>li.classList.remove("hit"),2600);try{li.scrollIntoView({block:"center"})}catch(err){}}},60)});
@@ -5541,7 +5565,8 @@ const TODAY={d:null,docMode:"date",
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"返準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"返準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
+      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
       ${TODAY.tiles(raw,day)}</section>
       <section class="tcard"><div class="thd2 noen"><b>🕒 時間表</b></div><ol class="tlist">${TODAY.rows(raw,day)}</ol></section>${docs}`;
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
