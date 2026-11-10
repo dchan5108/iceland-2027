@@ -2891,6 +2891,19 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .dhA b{font-weight:800}.dhA small{color:var(--muted);font-weight:600;font-size:12px}
 .dhA .ah{color:var(--ok)}.dhA .am{color:var(--meal)}.dhA .al{color:var(--muted)}
 
+
+.bkn{word-break:keep-all;overflow-wrap:anywhere}
+.bkm .tkimpi{color:var(--meal);font-weight:700}
+
+/* 預訂卡：「詳情」和「Airbnb ↗」「去訂 ↗」同一款小按鈕 */
+.tk-a details.bkmore>summary.tkdet{position:static!important;display:inline-flex!important;align-items:center;gap:3px;width:auto!important;height:auto!important;font-size:13px!important;font-weight:600;color:var(--route)!important;padding:4px 10px!important;border-radius:999px;background:var(--fill)!important;cursor:pointer;list-style:none}
+.tk-a details.bkmore>summary.tkdet::-webkit-details-marker{display:none}
+.tk-a details.bkmore>summary.tkdet::before{content:none!important;display:none!important}
+.tk-a details.bkmore>summary.tkdet::after{content:"▾"!important;display:inline!important;position:static!important;font-size:11px;border:0!important;transform:none!important;width:auto!important;height:auto!important;background:none!important}
+.tk-a details.bkmore[open]>summary.tkdet::after{content:"▴"!important}
+/* 加入日出／早起：縮小，和日子同一行 */
+.day h3 .h3act .sunbtn{height:28px!important;min-height:28px!important;padding:0 10px!important;font-size:12.5px!important;font-weight:600!important;gap:4px!important}
+.day h3 .h3act .sunbtn svg{width:13px!important;height:13px!important}
 </style>
 
 </head>
@@ -5191,7 +5204,7 @@ function taskAll(){const L=[],dn=n=>{const m=String(n).match(/D(-?\d+)/);return 
   [...(DT&&FLIGHTS?[[["機票","每人自己買；按「航班」看航段"],"fly"]]:[]),...PRECHK.map((x,i)=>[x,"p"+i]).filter(([x])=>!PREHIDE.test(x[0]))].forEach(([[a,b],id])=>{
     const dd=PREDUE[a]||PREDEF;L.push({id,kind:"pre",name:a,note:b,day:null,due:dd==="asap"?{asap:1}:{d:new Date(dd+"T00:00:00Z"),sug:1},legacy:!!PREK[id]})});
   STAYS.forEach((x,i)=>{const id="stay"+i;let o=null;try{o=stayInfo(i,x[0])}catch(e){}const nm=o&&o.name?o.name:x[1].replace(/（.*?）/g,"");
-    L.push({id,kind:"stay",si:i,name:`${x[0].replace(/（.*）/,"")} 住宿：${nm}`,note:x[2]==="已選"?"已選，未訂":"",day:dn(x[0]),due:{asap:1},legacy:!!BKC[id],
+    L.push({id,kind:"stay",si:i,name:`${x[0].replace(/（.*）/,"")} 住宿：${nm}`,disp:(d=>/^[A-Za-zÀ-ÿÞþÐð]/.test(d)?d.replace(/[\s\u4e00-\u9fff]+$/,""):d)(String(nm).replace(/\s*[（(][^）)]*[）)]\s*/g," ").trim()),sub:["住宿",(x[1].match(/第 ?\d+ ?晚/)||[""])[0]].filter(Boolean).join(" · "),note:x[2]==="已選"?"已選":"",day:dn(x[0]),due:{asap:1},legacy:!!BKC[id],
       link:x[6]?"":`https://www.airbnb.com/s/${encodeURIComponent(x[1].split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7`})});
   if(DT)try{DTNIGHTS.forEach((x,i)=>L.push({id:"dtn"+i,kind:"dtn",name:`${x[0]} 住宿（D&T）：${x[1]}`,note:x[3],day:null,due:null,legacy:x[2]==="已訂",na0:x[2]==="已包"}))}catch(e){/* 開頁時 DTNIGHTS 可能未準備好 */}
   return L}
@@ -5206,15 +5219,15 @@ const tDue=(t,s)=>{if(s!=="todo"||!t.due)return "";if(t.due.asap)return `<b clas
   return `<b class="tkd${left<0?" late":left<=30?" soon":""}">${left<0?"已過期限・":""}${t.due.sug?"建議 ":""}${t.due.d.getUTCFullYear()}/${mdD(t.due.d)} 前</b>`};
 function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntries(Object.entries(TST).map(([k,v])=>[k,v[0]])),imp=TIMP.test(t.name),r=t.r;
   const more=r?[r[2]&&r[2]!=="—"&&`<dt>點訂</dt><dd>${r[2]}</dd>`,r[3]&&r[3]!=="—"&&`<dt>提早</dt><dd>${r[3]}</dd>`,r[4]&&`<dt>備註</dt><dd>${r[4]}</dd>`].filter(Boolean).join(""):"";
-  const meta=[t.kind==="bk"&&t.when,t.note,tDue(t,s),auto&&`<b class="tkr">${auto}</b>`].filter(Boolean).join(" · ");
+  const subI=t.kind==="stay"&&t.disp;const meta=[subI&&t.sub,subI&&imp&&`<b class="tkimpi">重要</b>`,t.kind==="bk"&&t.when,t.note,tDue(t,s),auto&&`<b class="tkr">${auto}</b>`].filter(Boolean).join(" · ");
   /* 已訂：免費取消日期、實際價錢／哪個給（收起在 ⓘ） */
   const bkd=s==="done"||s==="recheck",payH=bkd?((t.kind==="bk"?cxHTML(t.id)+(bkBud(t.name)?actHTML(bkBud(t.name)):""):"")+(t.kind==="stay"&&STAYBUD[t.si]?actHTML(STAYBUD[t.si]):"")):"";
   /* 住宿：原本「每日住宿」的資料放入 ⓘ（為甚麼選、選擇、訂好的詳情、地圖） */
   let sx="";if(t.kind==="stay")try{const i=t.si,[night,area,status,why,cheap,conv,murl]=STAYS[i],b=s==="done"||s==="recheck",o=stayInfo(i,night);
     const map=murl||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(String(o&&o.addr&&!/待|未列/.test(o.addr)?o.addr:area).replace(/：.*/,"").split("／")[0]+" Iceland"));
     sx=`<div class="tkst"><p>${why}</p>${stayInfoHTML(i,night,b)}${!b&&status!=="已選"&&(cheap.length||conv.length)?`<div class="opts">${cheap.length?`<div><b>最便宜</b><ul>${cheap.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}</div>`:""}<a class="plink" href="${escA(map)}" target="_blank" rel="noopener">Google Maps ↗</a></div>`}catch(e){/* 開頁時住宿資料未準備好 */}
-  return `<li class="tk tk-${s}" data-ts="${s}" data-tid="${t.id}"><div class="tk-h"><select class="tst st ${TST[s][1]}" data-task="${t.id}"${RO?" disabled":""} aria-label="狀態：${String(t.name).replace(/<[^>]*>/g,"")}">${Object.keys(TST).map(k=>`<option value="${k}"${k===s?" selected":""}>${lab[k]}</option>`).join("")}</select><span class="bkn">${t.name}</span>${imp?`<span class="tkimp">重要</span>`:""}</div>
-   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<details class="bkmore"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${payH}${more?`<dl>${more}</dl>`:""}${sx}</details>`:""}</div>`:""}
+  return `<li class="tk tk-${s}" data-ts="${s}" data-tid="${t.id}"><div class="tk-h"><select class="tst st ${TST[s][1]}" data-task="${t.id}"${RO?" disabled":""} aria-label="狀態：${String(t.name).replace(/<[^>]*>/g,"")}">${Object.keys(TST).map(k=>`<option value="${k}"${k===s?" selected":""}>${lab[k]}</option>`).join("")}</select><span class="bkn${subI&&!/[\u4e00-\u9fff]/.test(t.disp)?" noen":""}">${subI?t.disp:t.name}</span>${imp&&!subI?`<span class="tkimp">重要</span>`:""}</div>
+   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<details class="bkmore"><summary class="tkdet">詳情</summary>${payH}${more?`<dl>${more}</dl>`:""}${sx}</details>`:""}</div>`:""}
    ${t.id==="fly"?`<details class="flc"${FLYOPEN?" open":""}><summary>航班</summary>${FLIGHTS.replace(' id="g-fly"',"").replace('<h3 class="bkh">機票</h3>',"")}</details>`:""}
 </li>`}
 let TKF="todo";   /* 預設只看未訂／未做 */
