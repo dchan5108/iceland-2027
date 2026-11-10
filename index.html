@@ -2715,7 +2715,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tpn button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:inherit;font:inherit;font-size:20px;line-height:1;cursor:pointer}
 .tpn button:disabled{opacity:.3}
 .hdate{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.hgo{border:0;background:color-mix(in srgb,var(--route) 12%,transparent);color:var(--route);border-radius:999px;padding:6px 12px;font:inherit;font-size:var(--fs-meta);font-weight:700;cursor:pointer;white-space:nowrap}
+.hdate .tpn button{flex:none}
 /* 任務篩選：一行 */
 #bookp .bkvt{display:none!important}
 #bookp .tkf{flex-wrap:nowrap;align-items:center;gap:8px}
@@ -2733,6 +2733,14 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tipmv dt,.tipmv .tsave b,.tipmv .thoff b{font-size:var(--fs-item)!important}
 .tipmv h3.tht{font-size:var(--fs-sec)!important;margin:12px 0 6px}
 .tipmv .tsave{padding-left:0;list-style:none;display:grid;gap:10px;margin:10px 0 0}.tipmv .tsave li{display:grid;gap:2px}.tipmv .tsave .amt{color:var(--route);font-size:var(--fs-meta)!important;font-weight:600}
+
+/* 今日時間表：所有行同一字體大小，只用顏色／粗幼分 */
+.tlist li .tt0,.tlist li .tnm,.tlist .tmeal .tnm,.tlist .tdrv .tdx,.tlist .tdrv .tt0{font-size:var(--fs-item)!important}
+.tlist .tt0{font-weight:600!important}.tlist .tnm{font-weight:600!important}.tlist .tmeal .tnm,.tlist .tdrv .tdx{font-weight:400!important}
+/* 行程頁「‹ D3 · 全部日子 · D5 ›」：同其他 ‹ › 一樣嘅白色圓角掣 */
+.daynav{display:flex!important;align-items:center;justify-content:space-between;gap:8px;background:transparent!important;padding:0!important;box-shadow:none!important}
+.daynav button{min-height:40px;padding:0 14px!important;border-radius:999px!important;border:1px solid var(--line)!important;background:var(--card)!important;color:var(--fg)!important;font:inherit;font-size:var(--fs-meta)!important;font-weight:600!important;cursor:pointer}
+.daynav button:disabled,.daynav button[hidden]{visibility:hidden}
 </style>
 
 </head>
@@ -2805,7 +2813,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <div class="pghead"><h2>準備</h2></div>
     <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">預算</button></div>
     <div id="prep-dash" hidden></div>
-    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div><div id="prepTips" class="tipmv"></div></div>
+    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div></div>
     <div id="pp-pre" class="ppanel" role="tabpanel" aria-labelledby="ps-pre" hidden><div id="pre-fly"></div><div id="prep-pre"></div></div>
   <div class="pghead budhead"><h2>預算</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
@@ -4763,7 +4771,7 @@ calc();
 /* page tabs */
 /* 注意事項: tickable pre-departure checklist, day-of rules, emergency info (editable numbers saved on this device) */
 const PRECHK=[
- ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「準備」頁最底「官方連結」"],
+ ["旅遊保險","包醫療、行程取消、租車自負額"],
  ["駕駛執照","揸車的人帶實體車牌；香港／澳洲車牌有英文就用得，租車公司要國際車牌（IDP）的話先申請"],
  ["信用卡","主司機名義的信用卡（租車押金預授權）；記得 4 位 PIN（無人油站要用）；用冇海外手續費的卡"],
  ["取車檢查","車身 360° 影片同相片；問清楚停車繳費系統、油站優惠鎖匙扣；確認保險包碎石同沙塵"],
@@ -4823,7 +4831,14 @@ function renderTips(){
   const sosBody=`${sec("sos-own",`保險同租車緊急電話（自己填，只存喺呢部機）`,`<div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div>`)}`;
   const saveH=saveTop;const _saveOld=()=>`${SAVE.map(([h,items])=>{const it=items.filter(([a])=>!SAVEDUP.test(a)&&!SAVELOW.test(a)&&!/^7 人分工/.test(a));return it.length?sec("s:"+h,h==="優惠券與折扣"?"其他優惠":"其他小技巧",dl(it)):""}).join("")}${DT?sec("s:gift","特色手信",`<p class="bnote">價錢係參考，以店內為準。</p>${giftDl}`):""}`;
   const CATS=[["home","官方・緊急",TIC.home,`${homeH}${RO?"":sosBody}`],
-   ["know","出發須知",TIC.car,`<h3 class="tht">自駕</h3>${tdl(TI("駕駛",a=>!FEEK.test(a)))}<h3 class="tht">收費</h3>${tdl([...pick("停車","收費","停車收費"),...pick("停車","繳費方法","停車點樣俾錢"),...pick("停車","罰款","停車罰款"),...pick("駕駛","測速相機","超速罰款"),...pick("廁所","收費","廁所收費"),...pick("其他","付款")])}<h3 class="tht">天氣</h3>${tdl(TI("天氣／溫度"))}<h3 class="tht">其他</h3>${tdl([...TI("其他",a=>!FEEK.test(a)),...TI("廁所",a=>!FEEK.test(a))])}`],
+   ["know","出發須知",TIC.car,`${tdl([
+   ["🚗 自駕","全日開車頭燈；揸車嗰日一滴酒都唔好飲；速限柏油路 90、碎石路 80、市區 50；唔好喺路中停車影相"],
+   ["⛽ 入油","剩半缸就入；自助油站要用有 PIN 碼嘅信用卡"],
+   ["🅿️ 停車","用 Parka app 或者現場機器俾錢；唔俾會經租車公司罰停車費三至四倍"],
+   ["📸 超速","1 號公路好多測速相機，罰款約 2–8 萬 ISK"],
+   ["🚻 廁所","好多要 200–500 ISK；喺油站或者餐廳買嘢通常可以免費用"],
+   ["🌡️ 天氣","9 月日間約 8–11°C、夜晚 3–6°C；洋蔥式著法，帶防風防水外套"],
+   ["💨 強風","開車門要抓實，車門俾風吹壞通常唔包保險"]])}`],
    ["save","省錢",TIC.save,saveH]];
   if(RO)CATS.splice(1);
   if(!CATS.some(c=>c[0]===TCAT))TCAT="home";
@@ -5249,7 +5264,7 @@ function TIPMOVE(){try{renderTips()}catch(e){return}const pn=k=>$("tc-"+k),wrap=
     const d=document.createElement("details");d.className="hcard tipcard";d.innerHTML=`<summary class="noen"><b>${ic} ${t}</b></summary>`;d.appendChild(p);box.replaceChildren(d);return true};
   const pg=document.documentElement.dataset.page;
   if(pg==="home"&&$("homeMore")){const p=pn("home");if(p){p.hidden=false;$("homeMore").replaceChildren(p)}}
-  if(pg==="prep"){wrap("prepTips","🔗","官方連結","home");wrap("prepKnow","📖","出發須知","know")}
+  if(pg==="prep"){wrap("prepKnow","📖","出發須知","know")}
   if(pg==="budget"){wrap("budSave","💡","省錢貼士","save")}}
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=DT?Date.UTC(2027,8,25):Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
 function renderHome(){const box=$("homeTop");if(!box)return;
@@ -5267,7 +5282,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     const sk=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);setTimeout(()=>homeWx(raw.d,sk),0)}
   const chain=[];days.filter(x=>x.d>=1).forEach(r=>{let day;try{day=R(r)}catch(e){day=r}const lg=(day.legs||[]).filter(l=>!l.c2);const k=lg.length?lg[lg.length-1].b:null;if(!k||!pts[k])return;const n=String(pts[k][0]).replace(/（.*?）/g,"").replace(/・.*$/,"").trim();
     if(chain.length&&chain[chain.length-1].n===n){chain[chain.length-1].d2=r.d;return}chain.push({n,d:r.d,d2:r.d})});
-  const hero=`<section class="hcard hhero"><div class="hdate">12–23 September 2027${HPHASE()===1?`<button type="button" class="hgo" data-hv="day" aria-label="睇今日行程">今日行程 ›</button>`:""}</div>${prog}<p class="hmeta">${N} 日環島 · 7 人 · 約 2,000 km</p></section>`;
+  const hero=`<section class="hcard hhero"><div class="hdate">12–23 September 2027${HPHASE()===1?`<span class="tpn"><button type="button" class="hgo" data-hv="day" aria-label="睇今日行程" title="今日行程">›</button></span>`:""}</div>${prog}<p class="hmeta">${N} 日環島 · 7 人 · 約 2,000 km</p></section>`;
   let stH="";if(DT||REAL)try{const S=taskAll().filter(t=>t.kind==="stay").map(t=>tStat(t).s).filter(x=>x!=="na"),ok=S.filter(x=>x==="done"||x==="recheck").length;
     if(S.length)stH=`<section class="hcard hstay"><div class="hk">住宿預訂</div><div class="hsrow"><b>${ok}</b><small> / ${S.length} 晚已訂</small><button type="button" class="stlink" data-gotask="stay">睇住宿 ›</button></div><div class="hbar"><i style="width:${Math.round(ok/S.length*100)}%"></i></div></section>`}catch(e){}
   /* 總覽分三段（出發日：管理者 9/5、朋友 9/12）：
@@ -5545,11 +5560,11 @@ const TODAY={d:null,docMode:"date",
   routeUrl(day){const lg=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&pts[l.a]&&pts[l.b]);if(!lg.length)return "";const ks=[lg[0].a,...lg.map(l=>l.b)].filter((k,i,a)=>i===0||k!==a[i-1]);
     const s=ks.map(k=>Q[k]||pts[k][2]+","+pts[k][1]);return dir(s.length>10?[s[0],...s.slice(1,9),s[s.length-1]]:s)},
   sum(day){const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay");return ks.map(k=>String(pts[k][0]).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>a.indexOf(v)===i).slice(0,5).join(" · ")},
-  title:a=>cl(a).split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim(),
+  title:a=>{const t=cl(a).replace(/^\d{1,2}\/\d{1,2}(（[^）]*）)?\s*/,"");return (t.split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim()||t.slice(0,30))},
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
     const st=STAYS.find(x=>new RegExp("（D"+raw.d+"）").test(x[0])),sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d),stay=raw.stay||(st?st[1]:"");
     const stayT=stay?`<div class="tt tstay"><div class="tv"><span class="noen" aria-label="今晚住">🏠</span> ${E(stay)}${DOCX.clip(sd)}</div>${sd[0]&&sd[0].ref?`<small class="noen">訂位編號 ${E(sd[0].ref)}</small>`:""}</div>`:"";
-    const sun=p?`<div class="tt"><div class="tv tnum tsun noen"><span><small class="tsl">日出</small> ${sunAt(254+raw.d,p[2],p[1],1)}</span><span class="tset"><small class="tsl">日落</small> ${sunAt(254+raw.d,p[2],p[1],0)}</span></div></div>`:"";
+    const sun=p?`<div class="tt"><div class="tk noen tkt">日出 · 日落</div><div class="tv tnum noen">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></div></div>`:"";
     const wx=`<div class="tt"><div class="tk noen tkt">天氣預報</div><div class="tv" id="twx">⏳</div><small id="twxs" class="noen">出發前 16 日內先有預報</small></div>`;
     return `<div class="tgrid2">${stayT}${wx}${sun}</div>`},
   wx(raw,day){const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);if(!k||!pts[k])return;
