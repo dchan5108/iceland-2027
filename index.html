@@ -2914,6 +2914,9 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 選擇掣（蝙蝠山 日出｜日落、未訂｜已訂｜全部）：中文字偏上，文字向下移 1.5px */
 .scenbox .seg button,.viewbox .seg button{padding-top:4.5px!important;padding-bottom:1.5px!important}
 #bookp .tkseg button,.tkseg button{padding-top:7.5px!important;padding-bottom:4.5px!important}
+
+.sched.rich.simp>.a.noexp{cursor:default}
+.sched.rich.simp .a.noexp .tl-h::after{content:none!important;display:none!important}
 </style>
 
 </head>
@@ -4653,7 +4656,6 @@ function card(raw){
     ${REAL&&day.firmT?`<div class="golin g1"><span>通知大家 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發</span></div>`:""}${pubDep}
     ${DT&&EDITING===raw.d&&!SHARED?editorHTML(raw,day):`${edWarn(raw,day)}${richRows(day)}`}
     ${SEC("info",REAL?"注意事項、天氣後備、廁所":"注意事項",infoH)}
-    ${SEC("legs","車程、導航和路況",legsH)}
   </article>
   ${(()=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav"><button type="button"${pv?` data-go="${pv.d}"`:gh}>← ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">看全部</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} →</button>`})()}</div>`;
 }
@@ -5521,8 +5523,8 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* 時間表：按景點，地圖定位；手機按一行展開／收起小字，按號碼直接看地圖 */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const row=t.closest("#panel .sched.rich > .a, #homeToday .sched.rich > .a");if(!row)return;const inHome=!!row.closest("#homeToday");
   if(t.closest("a,button,summary,input,select,label,.spd,details[open]"))return;const k=row.dataset.sk,mob=isMob();
-  if(mob||inHome){if(!inHome&&(t.closest(".snum")||e.clientX-row.getBoundingClientRect().left<30)&&k&&pts[k]){mvSet("map");setTimeout(()=>focusSpot(k),180);return}row.classList.toggle("open");return}
-  row.classList.toggle("open");
+  if(mob||inHome){if(!inHome&&(t.closest(".snum")||e.clientX-row.getBoundingClientRect().left<30)&&k&&pts[k]){mvSet("map");setTimeout(()=>focusSpot(k),180);return}(row.classList.contains("noexp")||row.classList.toggle("open"));return}
+  (row.classList.contains("noexp")||row.classList.toggle("open"));
   if(k&&pts[k]){if($("view-trip").classList.contains("nomap")){mapTog(true);drawMap();dim()}focusSpot(k);document.querySelectorAll("#panel .sched.rich > .a.sel").forEach(x=>x.classList.remove("sel"));row.classList.add("sel")}});
 /* 每日標題旁的天氣：出發前 16 日內才有預報 */
 function dayWx(){document.querySelectorAll("#panel .dwx[data-wxd]").forEach(el=>{const d=+el.dataset.wxd,raw=days.find(x=>x.d===d);if(!raw)return;let day;try{day=R(raw)}catch(e){day=raw}
@@ -5724,7 +5726,9 @@ const DOCX={
   cat(a,t){const x=t.replace(/\s+/g," ");if(a.classList.contains("m")||/^(早餐|午餐|晚餐|早午餐)/.test(x))return "🍽️";if(/起飛|抵達 KEF|下機|航班|機場/.test(x))return "✈️";if(/入住|住處|退房|返回.*住|回.*住處|酒店休息/.test(x))return "🏨";
     if(/溫泉|Lagoon|泳池|浸|Baths|GeoSea/.test(x))return "♨️";if(/超市|Bónus|Krónan|補給|買|入油|油站/.test(x))return "🛒";if(/取車|還車/.test(x))return "🔑";if(/^(出發|開車|前往|開去|沿|返|回)/.test(x)||a.classList.contains("c")&&/約 ?\d+ ?(小時|分鐘)/.test(x))return "🚗";
     if(/賞鯨|浮潛|騎馬|獨木舟|冰川健行|冰浮|隧道|團|報到|集合/.test(x))return "🎟️";if(/徒步|第 \d 日/.test(x))return "🥾";if(/自由活動|自訂|自選|休息|散步|行街|逛街/.test(x))return "🚶";return ""},
-  mark(root){try{root&&root.querySelectorAll(".sched.rich").forEach(x=>x.classList.add("simp"))}catch(e){}
+  mark(root){try{root&&root.querySelectorAll(".sched.rich").forEach(x=>{x.classList.add("simp");
+    /* 沒有可展開的內容（只得「約 40 分鐘」這類時長，時間欄已經有）就不顯示 › */
+    x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has)})})}catch(e){}
     /* 用「｜」分隔嘅行（例如徒步每日）：第一段做標題，其餘變成 1、2、3 步驟 */
     try{root&&root.querySelectorAll(".sched.rich > .a").forEach(a=>{const n=a.querySelector(".tl-n")||a.querySelector(".tl-h")||a;if(a.querySelector(".tsteps,.tmeta"))return;const t=n.textContent;if(!t.includes("｜"))return;const [h,...st]=t.split("｜").map(x=>x.trim()).filter(Boolean);
       n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
