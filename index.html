@@ -24,11 +24,11 @@
 .tgrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tgrid2 .tstay{grid-column:1/-1}
 .tgrid2 .tt{background:var(--card,#fff);border:1px solid var(--line,#e3e6ea);border-radius:14px;padding:10px 12px;min-width:0}
-.tt .tk{font-size:12.5px;color:var(--muted,#5b6470);font-weight:600;display:flex;justify-content:space-between;gap:6px}
+.tt .tk{font-size:18px;line-height:1;color:var(--muted,#5b6470);font-weight:600;display:flex;justify-content:space-between;gap:6px}
 .tt .tk a{font-weight:600}
 .tt .tv{font-size:17px;font-weight:700;margin:4px 0 2px;overflow-wrap:anywhere;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .tt small{display:block;font-size:12.5px;color:var(--muted,#5b6470);overflow-wrap:anywhere}
-.tnum{font-variant-numeric:tabular-nums}.tset{color:#c4622d}
+.tnum{font-variant-numeric:tabular-nums}.tgrid2 .tt .tv.tsun{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;width:100%;margin-top:2px}.tset{color:#c4622d}
 .thd2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .tlist{list-style:none;margin:0;padding:0}
 .tlist li{display:grid;grid-template-columns:4.6em minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line,#eef0f2)}
@@ -5391,9 +5391,9 @@ const TODAY={d:null,docMode:"date",
   title:a=>cl(a).split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim(),
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
     const st=STAYS.find(x=>new RegExp("（D"+raw.d+"）").test(x[0])),sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d),stay=raw.stay||(st?st[1]:"");
-    const stayT=stay?`<div class="tt tstay"><div class="tk">今晚住</div><div class="tv">${E(stay)}${DOCX.clip(sd)}</div>${st&&(DT||REAL)?`<small>${E(st[2])}${st[3]?" · "+E(String(st[3]).replace(/<[^>]*>/g,"").slice(0,40)):""}</small>`:""}${sd[0]&&sd[0].ref?`<small>訂位編號 ${E(sd[0].ref)}</small>`:""}</div>`:"";
-    const sun=p?`<div class="tt"><div class="tk">日出 · 日落</div><div class="tv tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></div><small>冰島時間</small></div>`:"";
-    const wx=`<div class="tt"><div class="tk">天氣 <a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">睇預報</a></div><div class="tv" id="twx">—</div><small id="twxs">出發前 16 日內先有預報</small></div>`;
+    const stayT=stay?`<div class="tt tstay"><div class="tk noen" aria-label="今晚住">🏠</div><div class="tv">${E(stay)}${DOCX.clip(sd)}</div>${sd[0]&&sd[0].ref?`<small class="noen">訂位編號 ${E(sd[0].ref)}</small>`:""}</div>`:"";
+    const sun=p?`<div class="tt"><div class="tv tnum tsun noen" aria-label="日出同日落"><span>🌅 ${sunAt(254+raw.d,p[2],p[1],1)}</span><span class="tset">🌇 ${sunAt(254+raw.d,p[2],p[1],0)}</span></div></div>`:"";
+    const wx=`<div class="tt"><div class="tk noen" aria-label="天氣">🌤️</div><div class="tv" id="twx">⏳</div><small id="twxs" class="noen">出發前 16 日內先有預報</small></div>`;
     return `<div class="tgrid2">${stayT}${wx}${sun}</div>`},
   wx(raw,day){const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);if(!k||!pts[k])return;
     const date=new Date(Date.UTC(2027,8,11+raw.d)).toISOString().slice(0,10),diff=(Date.parse(date)-nowIS())/864e5;if(diff>15||diff<-1)return;
@@ -5401,17 +5401,16 @@ const TODAY={d:null,docMode:"date",
       const a=$("twx"),b=$("twxs");if(a)a.textContent=`${WXC[D.weather_code[0]]||""} ${Math.round(D.temperature_2m_max[0])}° / ${Math.round(D.temperature_2m_min[0])}°`;if(b)b.textContent=`雨 ${D.precipitation_probability_max[0]??"—"}% · 風 ${Math.round(D.wind_speed_10m_max[0])} m/s`}).catch(()=>{})},
   rows(raw,day){const ks=rowStops(day,day.plan),keep=day.plan.map((r,i)=>DT||r[2]!=="y"),K=ks.filter((k,i)=>keep[i]),pl=EP(day.plan,DSH(raw.d));
     return pl.map((r,i)=>{const t=String(r[0]||""),a=cl(r[1]);if(!a)return "";const k=K[i],drv=isDrv(a)||/^(前往|開車|開去|出發|退房出發|返回)/.test(a)&&r[2]==="c"&&!/[–-]/.test(t);
-      if(drv)return `<li class="tdrv"><span class="tt0">${E0(t)}</span><span>🚗 ${E0(a.replace(/<[^>]*>/g,"").slice(0,60))}</span></li>`;
+      if(drv)return `<li class="tdrv"><span class="tt0">${E0(t)}</span><span>🚗 ${E0(a.replace(/<[^>]*>/g,"").split("；")[0].slice(0,60))}</span></li>`;
       const nu=k&&r[2]!=="m"?TODAY.navUrl(k):"",ds=DOCX.match(a);
-      return `<li class="${r[2]==="m"?"tmeal":""}"><span class="tt0">${E0(t)}</span><span class="tnm">${E0(TODAY.title(a))}${DOCX.clip(ds)}</span>${nu?`<a class="tnav" href="${nu}" target="_blank" rel="noopener" aria-label="導航">導航</a>`:""}</li>`}).join("")},
+      return `<li class="${r[2]==="m"?"tmeal":""}"><span class="tt0">${E0(t)}</span><span class="tnm">${r[2]==="m"?"🍽️ ":""}${E0(TODAY.title(a))}${DOCX.clip(ds)}</span>${nu?`<a class="tnav noen" href="${nu}" target="_blank" rel="noopener" aria-label="導航">📍 導航</a>`:""}</li>`}).join("")},
   render(){const box=$("today");if(!box)return;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
-    const docs=DT&&DOCX.all().length?`<section class="tcard"><div class="thd2"><b>票券及文件</b><div class="dseg"><button type="button" data-dm="date" aria-pressed="${TODAY.docMode==="date"}">按日期</button><button type="button" data-dm="type" aria-pressed="${TODAY.docMode==="type"}">按類型</button></div></div>${DOCX.listH(TODAY.docMode)}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><p class="tsum">${E(TODAY.sum(day))}</p>
-      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0?"disabled":""} aria-label="前一日">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute" href="${ru}" target="_blank" rel="noopener">當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
+    const docs=DT&&DOCX.all().length?`<section class="tcard"><div class="thd2 noen"><b>🎫 票券及文件</b><div class="dseg"><button type="button" data-dm="date" aria-pressed="${TODAY.docMode==="date"}">按日期</button><button type="button" data-dm="type" aria-pressed="${TODAY.docMode==="type"}">按類型</button></div></div>${DOCX.listH(TODAY.docMode)}</section>`:"";
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0?"disabled":""} aria-label="前一日">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
       ${TODAY.tiles(raw,day)}</section>
-      <section class="tcard"><div class="thd2"><b>時間表</b></div><ol class="tlist">${TODAY.rows(raw,day)}</ol></section>${docs}`;
+      <section class="tcard"><div class="thd2 noen"><b>🕒 時間表</b></div><ol class="tlist">${TODAY.rows(raw,day)}</ol></section>${docs}`;
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{TODAY.docMode=b.dataset.dm;TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
