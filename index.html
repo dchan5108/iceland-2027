@@ -476,6 +476,9 @@ details.low{max-width:760px;margin-top:10px}details.low summary{cursor:pointer;c
 body,button,input,select,textarea,h1,h2,h3,h4,#map text{font-family:var(--sans)}
 .bpie{max-width:760px}.bpw{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}.bpw svg{width:180px;height:180px;flex:0 0 auto}
 .bpw .pct1{font-size:10px;fill:var(--muted)}.bpw .pct2{font-size:17px;font-weight:700;fill:var(--fg)}
+.bpw text{stroke:none!important}
+.bpw .pct1{font-size:11px!important;font-weight:600}
+.bpw .pct2{font-size:20px!important}
 .plg{list-style:none;margin:0;padding:0;display:grid;gap:6px;flex:1 1 260px;font-size:13.5px}
 .plg li{display:grid;grid-template-columns:12px 1fr auto;gap:2px 8px;align-items:baseline}.plg i{width:12px;height:12px;border-radius:3px;align-self:center}
 .plg .pv{font-weight:700;font-variant-numeric:tabular-nums}.plg .pa{grid-column:2/4;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}.plg .pa small{margin-left:6px}
@@ -2917,6 +2920,9 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 
 .sched.rich.simp>.a.noexp{cursor:default}
 .sched.rich.simp .a.noexp .tl-h::after{content:none!important;display:none!important}
+
+.bme .mehint{margin:0 0 6px;font-size:12px;color:var(--muted)}
+.bkprog .bklocal{font-size:12px;color:var(--muted);font-weight:500}
 </style>
 
 </head>
@@ -3013,8 +3019,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <div class="btot" id="b-tot"></div>
     <div class="bdash" id="b-dash"></div>
     <div class="bduo">
-      <details class="bsec" id="bs-me" open><summary>個人明小<span id="bs-me-s"></span></summary><div class="bme" id="b-me"></div></details>
-      <details class="bsec" id="bs-pie" open><summary>預算分佈<span id="bs-pie-s"></span></summary><div class="bpie" id="b-pie"></div></details>
+      <details class="bsec" id="bs-me" open><summary>個人明細<span id="bs-me-s"></span></summary><div class="bme" id="b-me"></div></details>
+      <details class="bsec" id="bs-pie"><summary>預算分佈<span id="bs-pie-s"></span></summary><div class="bpie" id="b-pie"></div></details>
     </div>
     <p class="bnote donly" style="margin-top:12px"><span class="mobonly">手機只顯示「我是」那個人；轉人就改上面。</span>溫泉和活動預設全部人參加，可以逐格取消。</p>
     <div class="bwrap donly"><table class="btable" id="b-table"></table></div>
@@ -3230,7 +3236,7 @@ const ROUTES={
 const days=[
  {d:1,opt:[{id:"hvamm1",k:"hvamm",t:"Hvammsvík Hot Springs 赫瓦姆斯維克潮汐溫泉",add:"約 3 小時（來回車程約 1.5 小時）",d:"Hvalfjörður 峽灣海邊的溫泉，部分水池會隨潮汐變化，要網上預約時段。由雷克雅維克開車約 45–50 分鐘。和日已經去藍湖，一般只選其中一個（例如不去藍湖就改去這裡）；返程要在日落（約 20:00）前開完。<a href='https://www.google.com/maps/search/?api=1&query=Hvammsvik+Hot+Springs+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>"}],wx:"藍湖下雨照浸；大風取車後慢慢開；Flybus 班次上 re.is 看；市區下雨改室內：Perlan、國家博物館。",date:"9/12（日）",stay:"雷克雅維克",legs:ROUTES["d1"],
   plan:[["07:30–08:15","早餐：Dorcas & Tebe 在雷克雅維克住處自理；大隊在飛機上吃","m"],["08:00","大隊下機 KEF；過關、取行李","c"],["09:00","大隊坐 Flybus 去雷克雅維克 BSÍ 巴士站（約 45 分鐘；班次上 re.is 查）","c"],["10:00–10:45","市區附近取車（取車地點待定；2 部；Dorcas & Tebe 直接去取車地點會合）","c"],["10:45–11:15","先去住處放行李（視乎入住時間；未可以入住或寄存，就直接去藍湖，之後先回住處）","c"],["11:15","開車去藍湖（約 50 分鐘）；貴重物品不要放在車上顯眼位置","c"],["12:15–12:55","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00–15:15","藍湖（預約 13:00 時段）","c"],["15:30","開車回雷克雅維克住處（約 45 分鐘）","c"],["16:15","到雷克雅維克住處入住、休息；需要早餐、零食就去附近 Bónus／Krónan（星期日營業時間要確認）","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
-  notes:[["虛線框是分組或者可選的行程",1]]},
+  notes:[]},
  {d:2,wx:"黃色風警告：54 號公路沿海風大，開車門駕駛實；Ytri Tunga、布迪爾停短一點。",date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"19:20",legs:ROUTES["d2"],
   plan:[["08:00–09:00","早餐：住處自己解決（用 D1 預先買好的材料）","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["12:00–12:45","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，之後一個小時內都還合適）"],["13:00–14:00","午餐：Hjá Góðu Fólki","m"],["14:45–15:30","布迪爾黑教堂：影座落在金黃秋季苔原和黑色熔岩原之間的木教堂"],["16:20–17:05","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 50 分鐘，要繞過斯奈山冰川）"],["17:35–18:35","草帽山 Kirkjufell 與瀑布"],["19:20","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["19:45","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
  {d:3,wx:"Holtavörðuheiði 山口可能下雪或大風，出發前看 umferdin.is；下雨就不去 Kolugljúfur，改去 Akureyri 泳池。",date:"9/14（二）",stay:"K16 Apartments（阿克雷里 Akureyri，Kaupvangsstræti 16）",arrive:"19:25",legs:ROUTES["d3"],
@@ -4248,7 +4254,7 @@ function richRows(day){
     const gk=x.sp[0]&&!meal?x.sp[0]:null,named=meal?x.eat.filter(e=>{const w=ebase(e).split(/\s+/)[0];return w.length>3&&plain.includes(w)}):[],gq=gk?enc(qn(gk)):named[0]&&eatQ(named[0][1])?encodeURIComponent(eatQ(named[0][1])):null,head=`<div class="tl-h">${sn}${tag}<span class="tl-n">${sp.name}</span>${gq?`<a class="gpin" href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener" aria-label="在 Google Maps 看" title="Google Maps">${PINI}</a>`:""}${bk&&!/還車|取車|起飛|下機|抵達|Flybus|集合|入住|退房/.test(plain)?`<span class="bkb">預約</span>`:""}${al}</div>${meta.length?`<div class="tl-m">${meta.join(" · ")}</div>`:""}${sp.intro?`<div class="tl-d">${sp.intro}</div>`:""}`;
     const full=[sp.intro,sp.more].filter(Boolean).join("；"),longI=sp.intro&&sp.intro.length>22;
     const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}`;
-    const inner0=!pri?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^不/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&(sp.html||stayIn)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
+    const inner0=!pri?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^不/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&stayIn&&!/放行李/.test(plain)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn="";
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
     const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
@@ -4666,11 +4672,11 @@ function cmpxH(){let CX;try{CX=CMPX}catch(e){return ""}if(!DT||!Array.isArray(CX
   const cur=dt=>{const raw=days.find(x=>String(x.date).startsWith(dt+"（"));if(!raw)return "—";const day=R(raw);const r=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");return `<b>${dLab(raw.d)}</b> ${r}${day.stay?`<small>住：${day.stay}</small>`:""}`};
   return `<details class="cmpx"><summary>原定行程 vs 網站版本 <small>只限管理者</small></summary><div class="gtw"><table class="gt cmpt"><thead><tr><th>日期</th><th>原定（10/20）</th><th>網站現在</th><th>分別</th></tr></thead><tbody>${CX.map(([dt,o,df,f])=>`<tr class="${f?"diff":""}"><td class="gn">${dt}</td><td>${o}</td><td>${cur(dt)}</td><td>${f?"⚠ ":""}${df}</td></tr>`).join("")}</tbody></table></div></details>`}
 function overview(){
-  return `${scenH()}${cmpxH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
+  return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");
     /* 總表：每日一張細版頭格（路線大字、交通、住宿） */
     let rl="";try{rl=TODAY.routeLat(raw,day)}catch(e){rl=route}
-    let ht="";try{const pl=TODAY.place[day.d]||"";ht=day.stay?TODAY.hotel(day.stay,pl):""}catch(e){ht=""}const mv=wkm?`🥾 徒步 ${wkm} km`:day.bus?"🚌 巴士":tot?`🚗 ${fmt(tot)}`:"🚶 不用開車";
+    let ht="";try{const pl=TODAY.place[day.d]||"";ht=day.stay?TODAY.hotel(day.stay,pl):""}catch(e){ht=""}const mv=wkm?`🥾 徒步 ${wkm} km`:day.bus?"🚌 巴士":tot?`🚗 ${(x=>{const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分`:""}`:`${m} 分`})(Math.round(tot))}`:"🚶 不用開車";
     return `<button type="button" class="ovrow ovB noen" data-go="${day.d}" style="--dc:${dayCol(day.d)}"><span class="ovd"><b>${dLab(day.d)}</b><small>${String(day.date).replace(/（[^）]*）/g,"").replace(/\s+/g,"")}</small></span><span class="ovm"><b class="ovr">${rl||route}</b><small>${mv}${ht?` · 🏠 ${ht}`:""}</small></span><i class="chev" aria-hidden="true"></i></button>`}).join("")}</div>`;
 }
 var RMODE=(()=>{try{return store.get("iceland-rmode")==="all"?"all":"day"}catch(e){return "day"}})();
@@ -4874,19 +4880,18 @@ function drawPie(ppl,hkd){
     const d=v===sum?`M${cx-R},${cy}a${R},${R} 0 1,0 ${2*R},0a${R},${R} 0 1,0 ${-2*R},0M${cx-r},${cy}a${r},${r} 0 1,1 ${2*r},0a${r},${r} 0 1,1 ${-2*r},0Z`:`M${x0},${y0}A${R},${R} 0 ${big} 1 ${x1},${y1}L${x2},${y2}A${r},${r} 0 ${big} 0 ${x3},${y3}Z`;
     paths+=`<path d="${d}" fill="var(--pc${i})" stroke="var(--card)" stroke-width="2" data-i="${i}"><title>${names[i]}：${fI(v)} ISK（${Math.round(v/sum*100)}%）</title></path>`;a0=a1});
   const ps=$("bs-pie-s");if(ps)ps.textContent=`全組 ${fI(sum)} ISK`;
-  $("b-pie").innerHTML=`<div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}<text x="90" y="84" text-anchor="middle" class="pct1">平均每人</text><text x="90" y="104" text-anchor="middle" class="pct2">${fI(sum/ppl)}</text><text x="90" y="120" text-anchor="middle" class="pct1">ISK</text></svg>
+  $("b-pie").innerHTML=`<div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}${(()=>{const mx=tot.indexOf(Math.max(...tot));return `<text x="90" y="86" text-anchor="middle" class="pct1">最多：${names[mx]}</text><text x="90" y="110" text-anchor="middle" class="pct2">${Math.round(tot[mx]/sum*100)}%</text>`})()}</svg>
    <ul class="plg">${tot.map((v,i)=>`<li data-i="${i}"><i style="background:var(--pc${i})"></i><span class="pn">${names[i]}</span><span class="pv">${Math.round(v/sum*100)}%</span><span class="pa">${fI(v)} ISK<small>每人約 ${fI(v/ppl)} ISK・${cvx(v/ppl)}</small></span></li>`).join("")}</ul></div>`;
   const hl=i=>{$("b-pie").querySelectorAll("[data-i]").forEach(e=>e.classList.toggle("fade",i!=null&&e.dataset.i!==i))};
   $("b-pie").querySelectorAll("[data-i]").forEach(e=>{e.addEventListener("pointerenter",()=>hl(e.dataset.i));e.addEventListener("pointerleave",()=>hl(null))});
 }
-/* 個人明小: one person's own total, by category, with every item they pay for */
+/* 個人明細: one person's own total, by category, with every item they pay for */
 function meCard(ppl,mine,per,hkd,aud){const box=$("b-me");if(!box)return;const i=Math.min(ME,ppl-1),cats=BUD.map(([c])=>c.replace(/（.*）/,""));
   const byC=BUD.map(()=>[]);mine[i].forEach(x=>byC[x[0]].push(x));
-  const ss=$("bs-me-s");if(ss)ss.textContent=`${names[i]}：${fI(per[i])} ISK`;
-  box.innerHTML=`<div class="meh"><label>看 <select id="b-mesel">${names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===i?" selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
-   <div class="metot"><b>${fI(per[i])} ISK</b><small>約 ${cvx(per[i])}（已計它參加的活動、應分攤的車和住宿、自己填的個人開支）</small></div>
+  const ss=$("bs-me-s");if(ss)ss.textContent="";
+  box.innerHTML=`<p class="mehint">${esc(names[i])}：已計參加的活動、應分攤的車和住宿、自己填的個人開支</p>
    ${byC.map((xs,c)=>xs.length?`<details class="mecat"><summary><i style="background:var(--pc${c})"></i>${cats[c]}<span>${fI(xs.reduce((a,x)=>a+x[2],0))}</span></summary><ul>${xs.map(x=>`<li>${x[1]}<span>${fI(x[2])}</span></li>`).join("")}</ul></details>`:"").join("")}`}
-["bs-me","bs-pie"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="0")d.open=false;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
+["bs-me","bs-pie"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="0")d.open=false;if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
 document.addEventListener("change",e=>{const id=e.target.id;if(id==="b-mesel"||id==="b-who"){setMe(+e.target.value);calc()}else if(id==="b-cur"){CUR=e.target.value;store.set("iceland-cur",CUR);calc()}});
 function bMode(m){BMODE=m;store.set("iceland-bmode",m);$("budget").classList.toggle("bsimple",m==="simple");document.querySelectorAll("[data-bmode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.bmode===m)))}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bmode]");if(b)bMode(b.dataset.bmode)});
@@ -4904,9 +4909,7 @@ function bDash(ppl,per,paid,owe,paidTot,total,STS,unTot,unN){const box=$("b-dash
   const bar=L.map(([k])=>STS[k][0]>0?`<i class="s-${k}" style="flex:${STS[k][0]/sum}" title="${fI(STS[k][0])} ISK"></i>`:"").join("");
   const me=Math.min(ME,ppl-1),bal=per.map((_,i)=>Math.round(paid[i]-owe[i]));
   box.innerHTML=`<section class="bstat" aria-label="費用狀態"><div class="bsh"><h3>費用狀態</h3><small>全組 ${fI(total)} ISK・約 ${cvx(total)}</small></div><div class="sbar" role="img" aria-label="${L.map(([k,n])=>`${n} ${Math.round(STS[k][0]/sum*100)}%`).join("，")}">${bar}</div>
-    <ul class="slg">${L.map(([k,n])=>`<li><i class="s-${k}"></i><span>${n}</span><b>${k==="tbd"?`${STS[k][1]} 項`:`${Math.round(STS[k][0]/sum*100)}%`}</b><small>${k==="tbd"?"未有數字，要自己填":`${fI(STS[k][0])} ISK・${STS[k][1]} 項`}</small></li>`).join("")}</ul></section>
-   <section class="bppl" aria-label="每人摘要"><div class="bsh"><h3>你的費用</h3><small>${paidTot?`已墊支 ${fI(paidTot)} ISK${unN?`・未分攤 ${unN} 項 ${fI(unTot)} ISK（未選哪個給）`:""}`:"未有人墊支：在詳細表格選「誰付了」就會計數"}</small></div>
-    <div class="pcards">${per.map((v,i)=>i!==me?"":`<div class="pcard${i===me?" me":""}"><div class="pn">${esc(names[i])}${i===me?"<em>你</em>":""}</div><b>${fI(v)} ISK</b><small>約 ${cvx(v)}</small>${paidTot?`<div class="pb"><span>已墊 ${fI(paid[i])}</span><span class="${bal[i]>0?"pos":bal[i]<0?"neg":""}">${bal[i]>0?"應收 +"+fI(bal[i]):bal[i]<0?"應給 "+fI(-bal[i]):"夾清"}</span></div>`:""}</div>`).join("")}</div></section>`}
+    <ul class="slg">${L.map(([k,n])=>`<li><i class="s-${k}"></i><span>${n}</span><b>${k==="tbd"?`${STS[k][1]} 項`:`${Math.round(STS[k][0]/sum*100)}%`}</b><small>${k==="tbd"?"未有數字，要自己填":`${fI(STS[k][0])} ISK・${STS[k][1]} 項`}</small></li>`).join("")}</ul></section>`}
 function calc(){
   const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1)),hkd=+$("b-hkd").value||0,aud=+$("b-aud").value||0;
   if(built!==ppl)build(ppl);
@@ -5188,8 +5191,8 @@ function cxHTML(id){let v=CANC[id]||"";if(!v)try{v=CANCDEF()[id]||""}catch(e){}l
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.cx;if(!id)return;if(e.target.value)CANC[id]=e.target.value;else delete CANC[id];store.set("iceland-bcancel",JSON.stringify(CANC));const w=e.target.closest(".bkx");if(w)w.outerHTML=cxHTML(id)});
 function bkProg(){const all=taskAll().map(t=>tStat(t).s),c=k=>all.filter(x=>x===k).length,ok=c("done")+c("na");
   document.querySelectorAll("#bookp .bkc").forEach(e=>{const xs=[...e.closest("h3").nextElementSibling.querySelectorAll("li[data-ts]")];e.textContent=TKF==="all"?`${xs.filter(x=>/done|na/.test(x.dataset.ts)).length}/${xs.length}`:`${xs.length} 項`});
-  const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${ok}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
-  const f=$("tkf");if(f)f.innerHTML=(TKF==="stay"?`<button type="button" data-tkf="todo" class="tkstay" aria-label="取消只看著宿">只看著宿 ✕</button>`:`<span class="tkseg">${[["todo","未訂",c("todo")],["done","已訂",c("done")],["all","全部",all.length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}">${l} <b>${n}</b></button>`).join("")}</span>`)+`<button type="button" class="tksort" data-bkv2="${BKV==="day"?"dl":"day"}" aria-label="轉排列方式">⇅ ${BKV==="day"?"按日子":"按期限"}</button>`;
+  const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${ok}</b> / ${all.length}${SYNC.url?"":`<small class="bklocal"> · 狀態只存在這部手機</small>`}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
+  const f=$("tkf");if(f)f.innerHTML=(TKF==="stay"?`<button type="button" data-tkf="todo" class="tkstay" aria-label="取消只看住宿">只看住宿 ✕</button>`:`<span class="tkseg">${[["todo","未訂",c("todo")],["done","已訂",c("done")],["all","全部",all.length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}">${l} <b>${n}</b></button>`).join("")}</span>`)+`<button type="button" class="tksort" data-bkv2="${BKV==="day"?"dl":"day"}" aria-label="轉排列方式">⇅ ${BKV==="day"?"按日子":"按期限"}</button>`;
   if(typeof prepDash==="function")try{prepDash()}catch(e){}}
 /* 改狀態：同時更新舊剔格（BKC／PREK），等其他功能照用 */
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.task;if(!id)return;const v=e.target.value,on=v==="done"||v==="recheck";
@@ -5268,7 +5271,7 @@ function renderGuide(){
   const TB=(PRIV.TB||{});
   const flights=DT?`<section id="g-fly"><h3 class="bkh">機票</h3><div class="gtw" tabindex="0" role="region" aria-label="表格（可左右捲動）"><table class="gt flt"><thead><tr><th>航段</th><th>Dorcas</th><th>Tebe</th></tr></thead><tbody>${FL.map(([seg,dt,no,tm,nt,bk])=>`<tr><td class="gn">${seg}</td><td>${bk?`<span class="st ${bk==="已訂"?"ok":"todo"}">${bk}</span><br>`:""}<b>${dt}・${no}</b><br>${tm}<br><small>${nt}</small></td><td>${TB[seg]||"—"}</td></tr>`).join("")}</tbody></table></div>
    ${PRIV.FLNOTE||""}</section>`:"";
-  FLIGHTS=flights;$("bookp").innerHTML=`<section id="g-book"><h3 class="bkh">預訂</h3><div class="bkprog" id="bkprog"></div><div class="tkf" id="tkf" role="group" aria-label="篩選狀態"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按期限</button></div>${SYNC.url?"":`<p class="bnote">只存在這部裝置。</p>`}${bkDays()}</section>`;bkProg();
+  FLIGHTS=flights;$("bookp").innerHTML=`<section id="g-book"><h3 class="bkh">預訂</h3><div class="bkprog" id="bkprog"></div><div class="tkf" id="tkf" role="group" aria-label="篩選狀態"></div><div class="seg bkvt" role="group" aria-label="排列方式"><button type="button" data-bkv="day" aria-pressed="${BKV==="day"}">按行程日子</button><button type="button" data-bkv="dl" aria-pressed="${BKV==="dl"}">按期限</button></div>${bkDays()}</section>`;bkProg();
   $("bookp").querySelectorAll("[data-bkv]").forEach(b=>b.addEventListener("click",()=>{BKV=b.dataset.bkv;store.set("iceland-bkv",BKV);const y=window.scrollY;renderGuide();try{window.scrollTo(0,y)}catch(e){}}));
   $("bookp").querySelectorAll(".gnav a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}));
 }
@@ -5474,7 +5477,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     if(chain.length&&chain[chain.length-1].n===n){chain[chain.length-1].d2=r.d;return}chain.push({n,d:r.d,d2:r.d})});
   const hero=`<section class="hcard hhero"><div class="hdate">2027 年 9 月 12–23 日${HPHASE()===1?`<span class="tpn"><button type="button" class="hgo" data-hv="day" aria-label="看今日行程" title="今日行程">›</button></span>`:""}</div>${prog}<p class="hmeta">${N} 日環島 · 7 人 · 約 2,000 km</p></section>`;
   let stH="";if(DT||REAL)try{const S=taskAll().filter(t=>t.kind==="stay").map(t=>tStat(t).s).filter(x=>x!=="na"),ok=S.filter(x=>x==="done"||x==="recheck").length;
-    if(S.length)stH=`<section class="hcard hstay"><div class="hk">住宿預訂</div><div class="hsrow"><b>${ok}</b><small> / ${S.length} 晚已訂</small><button type="button" class="stlink" data-gotask="stay">看著宿 ›</button></div><div class="hbar"><i style="width:${Math.round(ok/S.length*100)}%"></i></div></section>`}catch(e){}
+    if(S.length)stH=`<section class="hcard hstay"><div class="hk">住宿預訂</div><div class="hsrow"><b>${ok}</b><small> / ${S.length} 晚已訂</small><button type="button" class="stlink" data-gotask="stay">看住宿 ›</button></div><div class="hbar"><i style="width:${Math.round(ok/S.length*100)}%"></i></div></section>`}catch(e){}
   /* 總覽分三段（出發日：管理者 9/5、朋友 9/12）：
      ① 準備期：倒數、住宿、未完成準備、連結、路線（不顯示行程）
      ② 出發前 7 日至前一日：第 1 日行程放最頂，之後是倒數和準備
@@ -5686,7 +5689,7 @@ document.addEventListener("change",e=>{const f=e.target;if(!f||f.id!=="privfile"
   rd.onload=()=>{try{const t=String(rd.result);const o=JSON.parse(t);if(!o||!o.PRE)throw new Error("format");const N=40000;let i=0;for(;i*N<t.length;i++)store.set("iceland-priv-"+i,t.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++){if(store.get("iceland-priv-"+j)!=null)store.set("iceland-priv-"+j,"")}
     if(msg)msg.textContent="已匯入，重新載入中…";setTimeout(()=>location.reload(),SYNC&&SYNC.url?2500:300)}catch(err){if(msg)msg.textContent="讀不到這個檔（不是私人資料檔）"}};rd.readAsText(f.files[0])});
 if(OVRK.size||(OV.stays&&OV.stays.length)){try{select(sel);renderStays();renderTips()}catch(e){}}
-/* 時間表「住宿預訂 ›」：去任務清單（只看著宿），打開當晚 */
+/* 時間表「住宿預訂 ›」：去任務清單（只看住宿），打開當晚 */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-gostay]");if(!b)return;const d=+b.dataset.gostay;
   TKF="stay";view("prep");try{renderGuide()}catch(err){}try{navSync()}catch(err){}
   setTimeout(()=>{const i=STAYS.findIndex(x=>{const m=String(x[0]).match(/D(\d+)/);return m&&+m[1]===d});const li=i>=0&&document.querySelector(`li[data-tid="stay${i}"]`);if(li){const dt=li.querySelector("details.bkmore");if(dt)dt.open=true;li.classList.add("hit");setTimeout(()=>li.classList.remove("hit"),2600);try{li.scrollIntoView({block:"center"})}catch(err){}}},60)});
