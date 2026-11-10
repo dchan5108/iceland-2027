@@ -2895,15 +2895,25 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .bkn{word-break:keep-all;overflow-wrap:anywhere}
 .bkm .tkimpi{color:var(--meal);font-weight:700}
 
-/* 預訂卡：「詳情」和「Airbnb ↗」「去訂 ↗」同一款小按鈕 */
-.tk-a details.bkmore>summary.tkdet{position:static!important;display:inline-flex!important;align-items:center;gap:3px;width:auto!important;height:auto!important;font-size:13px!important;font-weight:600;color:var(--route)!important;padding:4px 10px!important;border-radius:999px;background:var(--fill)!important;cursor:pointer;list-style:none}
-.tk-a details.bkmore>summary.tkdet::-webkit-details-marker{display:none}
-.tk-a details.bkmore>summary.tkdet::before{content:none!important;display:none!important}
-.tk-a details.bkmore>summary.tkdet::after{content:"▾"!important;display:inline!important;position:static!important;font-size:11px;border:0!important;transform:none!important;width:auto!important;height:auto!important;background:none!important}
-.tk-a details.bkmore[open]>summary.tkdet::after{content:"▴"!important}
+/* 預訂卡：「詳情」和「Airbnb ↗」「去訂 ↗」同一款小按鈕；打開後按鈕留在原位，內容在下一行 */
+.tk-a .tkdet{display:inline-flex;align-items:center;gap:3px;font:inherit;font-size:13px;font-weight:600;color:var(--route);padding:4px 10px;border:0;border-radius:999px;background:var(--fill);cursor:pointer;line-height:1.35}
+.tk-a .tkdet::after{content:"▾";font-size:11px}.tk-a .tkdet[aria-expanded="true"]::after{content:"▴"}
+.tk-a .tkdet:focus-visible{outline:2px solid var(--route);outline-offset:2px}
+.tk-a .tkmore{flex-basis:100%;min-width:0}
 /* 加入日出／早起：縮小，和日子同一行 */
 .day h3 .h3act .sunbtn{height:28px!important;min-height:28px!important;padding:0 10px!important;font-size:12.5px!important;font-weight:600!important;gap:4px!important}
 .day h3 .h3act .sunbtn svg{width:13px!important;height:13px!important}
+.day h3 .h3act{gap:6px!important}
+.day h3 .h3act .optbtn,.day h3 .h3act .dmore>summary{height:28px!important;min-height:28px!important;width:28px!important;min-width:28px!important;padding:0!important;display:inline-grid!important;place-items:center}
+.day h3 .h3act .optbtn>span{display:none!important}
+
+/* 小按鈕：同一高度，文字上下置中（中文字型偏上，頂部多留 1px） */
+.tk-a .tkln,.tk-a .tkdet{box-sizing:border-box;height:28px;display:inline-flex;align-items:center;line-height:1;padding:1px 10px 0}
+.day h3 .h3act .sunbtn{line-height:1!important;padding-top:1px!important}
+
+/* 選擇掣（蝙蝠山 日出｜日落、未訂｜已訂｜全部）：中文字偏上，文字向下移 1.5px */
+.scenbox .seg button,.viewbox .seg button{padding-top:4.5px!important;padding-bottom:1.5px!important}
+#bookp .tkseg button,.tkseg button{padding-top:7.5px!important;padding-bottom:4.5px!important}
 </style>
 
 </head>
@@ -4618,8 +4628,8 @@ function card(raw){
   const dnav=cls=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav ${cls}"><button type="button"${pv?` data-go="${pv.d}"`:gh}>‹ ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">全部日子</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} ›</button></div>`};
   const SI=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
   const SUNI='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
-  const sunBtn=(()=>{const so=DT&&(raw.opt||[]).find(o=>o.sun);if(so){const on=optPicked(raw).includes(so.id);return `<button type="button" class="sunbtn noen" data-suntog="${raw.d}|${so.id}" aria-pressed="${on}" title="${escA(so.t)}">${SI(SUNI)}<span>${on?"已加入"+(so.lab||"日出"):"加入"+(so.lab||"日出")}</span></button>`}if(!DT||!raw.view||!raw.view.opts.some(o=>o.id==="sunrise"))return "";const on=viewId(raw)==="sunrise",back=raw.view.def&&raw.view.def!=="sunrise"?raw.view.def:raw.view.opts.find(o=>o.id!=="sunrise").id;
-        return `<button type="button" class="sunbtn noen" data-view="${raw.d}|${on?back:"sunrise"}" aria-pressed="${on}" title="${on?"按一下取消日出行程":"按一下加入日出行程"}">${SI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}<span>${on?"已加入日出":"加入日出"}</span></button>`})();
+  const sunBtn=(()=>{const so=DT&&(raw.opt||[]).find(o=>o.sun);if(so){const on=optPicked(raw).includes(so.id);return `<button type="button" class="sunbtn noen" data-suntog="${raw.d}|${so.id}" aria-pressed="${on}" title="${escA(so.t)}">${SI(SUNI)}<span>${so.lab||"日出"}</span></button>`}if(!DT||!raw.view||!raw.view.opts.some(o=>o.id==="sunrise"))return "";const on=viewId(raw)==="sunrise",back=raw.view.def&&raw.view.def!=="sunrise"?raw.view.def:raw.view.opts.find(o=>o.id!=="sunrise").id;
+        return `<button type="button" class="sunbtn noen" data-view="${raw.d}|${on?back:"sunrise"}" aria-pressed="${on}" title="${on?"按一下取消日出行程":"按一下加入日出行程"}">${SI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}<span>日出</span></button>`})();
   return `<article class="day${day.only?" dtonly":""}" style="--dc:${dayCol(day.d)}">
     <h3><span>${day.d>=1?`第 ${day.d} 日`:dLab(day.d)} · ${String(day.date).replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")}${day.d>=1?`<span class="dwx" data-wxd="${day.d}" hidden></span>`:""}${day.tag?`<span class="vtag">${day.tag}</span>`:""}</span>${wkm?`<small>徒步約 ${wkm} km（不用開車）</small>`:day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}${!REAL&&!DT?"":`<span class="h3act">${sunBtn}${String(pickH).replace(/\s+/g,"")?`<button type="button" class="optbtn" data-optdlg="${raw.d}">${SI('<path d="M4 6h10M4 12h10M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="12" r="2"/>')}<span>可選行程${(()=>{const n=(RECP[raw.d]||[]).filter(x=>!/^sun/.test(x)).length;return n?` · ${n}`:""})()}</span></button>`:""}<details class="dmore"><summary aria-label="更多" title="更多">⋯</summary><div class="dmm"><button type="button" class="cuopen" ${DT&&!SHARED?`data-addtog="${raw.d}" aria-expanded="${ADDOPEN.has(raw.d)}"`:`data-cuopen="${raw.d}"`}>${DT&&!SHARED&&ADDOPEN.has(raw.d)?"收起調整":"調整行程"}</button>${DT||!REAL?"":`<button type="button" class="cpday" data-cpday="${raw.d}">複製行程</button>`}</div></details></span>`}</h3>${(()=>{const fk=SQ[0],tk=SQ[SQ.length-1];if(!fk||!pts[fk])return "";const nn=k=>pts[k]?String(nm(k)).replace(/（.*/,""):"",reg=fk===tk||!tk?nn(fk):`${nn(fk)} → ${nn(tk)}`,I=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
       const dl=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride),rawT=dl.reduce((a,l)=>a+l.m,0),bufT=dl.reduce((a,l)=>a+buf(l.m),0),lgMax=Math.max(0,...dl.map(l=>l.m));
@@ -5217,6 +5227,7 @@ function tStat(t){const x=TASK[t.id],now=+todayISO();let s=x&&x.s?x.s:t.na0?"na"
 const TST={todo:["未訂","todo"],done:["已訂","ok"],recheck:["要再確認","chg"],na:["不用訂","na"]},TSTP={todo:"未做",done:"已做",recheck:"要再確認",na:"不用做"};
 const tDue=(t,s)=>{if(s!=="todo"||!t.due)return "";if(t.due.asap)return `<b class="tkd">越早越好</b>`;const left=Math.round((t.due.d-todayISO())/864e5);
   return `<b class="tkd${left<0?" late":left<=30?" soon":""}">${left<0?"已過期限・":""}${t.due.sug?"建議 ":""}${t.due.d.getUTCFullYear()}/${mdD(t.due.d)} 前</b>`};
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".tk-a .tkdet");if(!b)return;const m=b.nextElementSibling,o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));if(m)m.hidden=!o});
 function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntries(Object.entries(TST).map(([k,v])=>[k,v[0]])),imp=TIMP.test(t.name),r=t.r;
   const more=r?[r[2]&&r[2]!=="—"&&`<dt>點訂</dt><dd>${r[2]}</dd>`,r[3]&&r[3]!=="—"&&`<dt>提早</dt><dd>${r[3]}</dd>`,r[4]&&`<dt>備註</dt><dd>${r[4]}</dd>`].filter(Boolean).join(""):"";
   const subI=t.kind==="stay"&&t.disp;const meta=[subI&&t.sub,subI&&imp&&`<b class="tkimpi">重要</b>`,t.kind==="bk"&&t.when,t.note,tDue(t,s),auto&&`<b class="tkr">${auto}</b>`].filter(Boolean).join(" · ");
@@ -5227,7 +5238,7 @@ function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntri
     const map=murl||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(String(o&&o.addr&&!/待|未列/.test(o.addr)?o.addr:area).replace(/：.*/,"").split("／")[0]+" Iceland"));
     sx=`<div class="tkst"><p>${why}</p>${stayInfoHTML(i,night,b)}${!b&&status!=="已選"&&(cheap.length||conv.length)?`<div class="opts">${cheap.length?`<div><b>最便宜</b><ul>${cheap.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}</div>`:""}<a class="plink" href="${escA(map)}" target="_blank" rel="noopener">Google Maps ↗</a></div>`}catch(e){/* 開頁時住宿資料未準備好 */}
   return `<li class="tk tk-${s}" data-ts="${s}" data-tid="${t.id}"><div class="tk-h"><select class="tst st ${TST[s][1]}" data-task="${t.id}"${RO?" disabled":""} aria-label="狀態：${String(t.name).replace(/<[^>]*>/g,"")}">${Object.keys(TST).map(k=>`<option value="${k}"${k===s?" selected":""}>${lab[k]}</option>`).join("")}</select><span class="bkn${subI&&!/[\u4e00-\u9fff]/.test(t.disp)?" noen":""}">${subI?t.disp:t.name}</span>${imp&&!subI?`<span class="tkimp">重要</span>`:""}</div>
-   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<details class="bkmore"><summary class="tkdet">詳情</summary>${payH}${more?`<dl>${more}</dl>`:""}${sx}</details>`:""}</div>`:""}
+   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<button type="button" class="tkdet" aria-expanded="false">詳情</button><div class="bkmore tkmore" hidden>${payH}${more?`<dl>${more}</dl>`:""}${sx}</div>`:""}</div>`:""}
    ${t.id==="fly"?`<details class="flc"${FLYOPEN?" open":""}><summary>航班</summary>${FLIGHTS.replace(' id="g-fly"',"").replace('<h3 class="bkh">機票</h3>',"")}</details>`:""}
 </li>`}
 let TKF="todo";   /* 預設只看未訂／未做 */
