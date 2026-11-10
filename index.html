@@ -2083,7 +2083,7 @@ dialog.optdlg:not([open]){display:none}
 /* ===== 27. 分頁：總覽・準備・行程・預算・連結 ===== */
 .bnav .mtab,.bnav #tab-stay{display:none!important}
 @media (max-width:819px){
-  .bnav #tab-prep:not([hidden]),.bnav #tab-budget:not([hidden]),.bnav #tab-home,.bnav #tab-today:not([hidden]){display:grid!important}
+  .bnav #tab-prep:not([hidden]),.bnav #tab-budget:not([hidden]),.bnav #tab-home:not([hidden]),.bnav #tab-today:not([hidden]){display:grid!important}
 }
 @media (max-width:819px){
   .bnav button[aria-selected="true"]{color:var(--route)!important}
@@ -2791,6 +2791,18 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .chips button.cpre+button:not(.cpre){margin-left:8px}
 .chips button.ctoday{box-shadow:inset 0 -3px 0 var(--route)}
 .chips button.call{font-weight:600}
+
+/* 行程頁頂部：倒數／旅程進度 */
+#tripHero{grid-column:1/-1}
+.nonav .bnav{display:none!important}
+.thhero{margin-bottom:10px;padding:14px 18px!important}
+.thrw{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.thbig{font-size:28px;font-weight:800;line-height:1.1;margin-top:4px}.thbig small{font-size:14px;font-weight:600;color:var(--muted);margin-left:4px}
+.thhero .hbar{margin-top:10px}
+.thnow{flex:none;min-height:38px;padding:0 14px;border-radius:999px;border:0;background:var(--route);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.dtiles{margin:0 0 12px}.dtiles .tgrid2{gap:10px}
+.dtiles .tgrid2 .tt{background:var(--card)!important}
+.dlinks{margin-top:12px;background:var(--card);border-radius:16px;padding:14px 16px}
 </style>
 
 </head>
@@ -2813,7 +2825,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
   </header>
   <div class="knit" aria-hidden="true"></div>
   <nav class="bnav" aria-label="主要頁面" role="tablist">
-    <button type="button" role="tab" id="tab-home" aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
+    <button type="button" role="tab" id="tab-home" hidden aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
     <button type="button" role="tab" id="tab-today" hidden aria-selected="false" aria-controls="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/><circle cx="12" cy="15" r="1.6"/></svg><span>今日</span></button>
     <button type="button" role="tab" id="tab-prep" aria-selected="false" aria-controls="prep" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M5 12h14"/><path d="M10 15.5l1.5 1.5 3-3"/></svg><span>準備</span></button>
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><em class="full">行程</em><span>行程</span><i class="mlab">行程</i></button>
@@ -2826,6 +2838,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 
   <div id="view-trip" role="tabpanel" aria-labelledby="tab-trip">
     <div class="pghead pgtrip"><h2>行程</h2></div>
+    <div id="tripHero"></div>
 
 
     
@@ -5277,6 +5290,7 @@ function view(v){
   if(v==="book"||v==="pack"){PSUB=v==="book"?"book":"pre";v="prep"}
   if((v==="prep"||v==="budget")&&!DT&&!REAL)v="trip";
   if(v==="today"&&$("tab-today").hidden)v="home";
+  if(v==="home")v="trip";   /* 總覽已經併入行程 */
   if(v==="tips"||v==="links"||v==="guide")v=(DT||REAL)?"prep":"home";   /* 連結頁已刪：內容分散去總覽／準備／預算 */
   if(!["home","trip","prep","budget","links","today"].includes(v))v="trip";
   if(v==="budget")PSUB="budget";else if(v==="prep"&&PSUB==="budget")PSUB=DT?"book":"pre";
@@ -5515,7 +5529,7 @@ if(location.hash==="#book")view("book");if(location.hash==="#transport")view("tr
 if(location.hash==="#guide")view("tips");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
-if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash))view(store.get("iceland-tab")||"home");
+if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash))view(store.get("iceland-tab")||"trip");
 if(/simple/.test(location.hash)){
   document.documentElement.classList.add("print","simple");
   drv="raw";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
@@ -5659,6 +5673,26 @@ TODAY.live=()=>HPHASE()===3;
 TODAY.show=false;   /* 「今日」已經併入總覽 */
 {const tb=$("tab-today");tb.hidden=!TODAY.show;if(!TODAY.live()&&DT){const sp=tb.querySelector("span");if(sp)sp.textContent="今日（試）"}}
 $("tab-today").addEventListener("click",()=>view("today"));
+/* ===== 總覽併入行程：頂部倒數／旅程進度；每日加住宿、天氣、日出日落；旅程期間加四個連結 ===== */
+function tripHero(){const box=$("tripHero");if(!box)return;const PH=HPHASE(),N=days.filter(x=>x.d>=1).length;let TD=null;try{TD=todayDay()}catch(e){}
+  const dd=Math.ceil((Date.UTC(2027,8,12)-nowIS())/864e5);
+  const main=PH===3&&TD?(TD.d>=1?`第 ${TD.d} 日<small> / ${N} 日</small>`:`${dLab(TD.d)}<small> 你同 Tebe 嘅行程</small>`):dd>0?`${dd}<small> 日後出發</small>`:`旅程完成`;
+  const pct=PH===3&&TD&&TD.d>=1?Math.round(TD.d/N*100):0;
+  box.innerHTML=`<section class="hcard thhero noen"><div class="thrw"><div><div class="hk">2027 年 9 月 12–23 日 · ${N} 日環島 · 7 人</div><div class="thbig">${main}</div></div>${PH===3&&TD&&sel!==TD.d?`<button type="button" class="thnow" data-thnow>今日 ›</button>`:""}</div><div class="hbar"><i style="width:${pct}%"></i></div></section>`;
+  const b=box.querySelector("[data-thnow]");if(b)b.onclick=()=>{select(TD.d,true)}}
+const TRIPLINKS=()=>`<section class="hlinks dlinks"><div class="hicons noen">
+    <a href="tel:112"><i>📞</i><span>112</span></a><a href="https://en.vedur.is/" target="_blank" rel="noopener"><i>🌤️</i><span>天氣</span></a>
+    <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a><a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div></section>`;
+DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".tgrid2"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
+  TODAY.d=sel;const day=TODAY.dayOf(raw);const h=`<div class="dtiles">${TODAY.tiles(raw,day)}</div>`;const at=art.querySelector(".dsum2")||art.querySelector("h3");if(at)at.insertAdjacentHTML("afterend",h);
+  if(HPHASE()>=2)art.insertAdjacentHTML("beforeend",TRIPLINKS());try{TODAY.wx(raw,day)}catch(e){}try{tripHero()}catch(e){}};
+{const _m=DOCX.mark;DOCX.mark=function(r){_m.call(DOCX,r);try{DOCX.dayTiles(r)}catch(e){}}}
+try{tripHero()}catch(e){}
+/* 得一個 tab（大眾版）就收埋底部導航 */
+try{const vt=[...document.querySelectorAll(".bnav [role=tab]")].filter(b=>!b.hidden);if(vt.length<=1)document.documentElement.classList.add("nonav")}catch(e){}
+/* 旅程期間打開網站：直接去今日 */
+try{const TD=todayDay();if(TD&&HPHASE()===3&&!sessionStorage.getItem("iceland-auto-today")){sessionStorage.setItem("iceland-auto-today","1");select(TD.d)}}catch(e){}
+
 try{if(!$("home").hidden)renderHome()}catch(e){}
 
 }
