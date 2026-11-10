@@ -2638,6 +2638,22 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 @media (max-width:819px){.hero:has(.hlogin) h1{max-width:calc(100% - 150px)!important}}
 .hero:has(#tools) .hlogin{right:124px}
 @media (max-width:819px){.hero:has(#tools):has(.hlogin) h1{max-width:calc(100% - 190px)!important}}
+
+/* ===== 統一格式（所有頁面）：卡片、標題、字體大小 =====
+   頁標題 --fs-page · 分段標題 --fs-sec · 項目 --fs-item · 內文 --fs-body · 細字 --fs-meta */
+.hcard,.tcard,.bstat,.bppl{background:var(--card)!important;border:0!important;border-radius:16px!important;padding:16px 18px!important;box-shadow:none!important}
+.thero{background:var(--card)!important}
+.pghead h2{font-size:var(--fs-page)!important;font-weight:700!important}
+.tdate{font-size:22px!important;font-weight:700!important;line-height:1.2}   /* 同行程頁每日標題一樣大 */
+.thd2 b,.ddocs h4,#bookp h3.bkh,#bookp h3.bkday,.hrh b{font-size:var(--fs-sec)!important;font-weight:700!important}
+.hk,.tt .tk,.tt .tk.tkt,.tsub,.tsl{font-size:12px!important;font-weight:600!important;color:var(--muted)!important;letter-spacing:.04em}
+.tsub{color:var(--route)!important}
+.tnm,.dtx b,#homeTop li,.bkn,.tt .tv{font-size:var(--fs-item)!important}
+.tt .tv{font-weight:700}
+.tlist .tmeal .tnm,.tlist .tdrv,.dtx small,.tt small,.hmeta{font-size:var(--fs-meta)!important}
+.tt0{font-size:var(--fs-body)!important}
+.tgrid2 .tt{background:var(--bg)!important;border:0!important;border-radius:12px!important}
+.ddocs{margin-top:14px}.ddocs h4{margin:0 0 4px}
 </style>
 
 </head>
@@ -5390,7 +5406,10 @@ const DOCX={
       ${!(x.qr||[]).length&&!(x.img||[]).length&&!x.email?`<p class="dmissp">未有確認 email／QR code：訂好之後交俾 Claude 加入。</p>`:""}</section>`;
     dl.innerHTML=`<div class="dtop"><b>預訂文件</b><button type="button" class="docx" aria-label="關閉">×</button></div>${xs.map(one).join("")}`;try{dl.showModal()}catch(e){dl.setAttribute("open","")}},
   /* 喺時間表每行加 📎 */
-  mark(root){if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;const h=a.querySelector("b,strong")||a.firstElementChild||a;h.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})}
+  /* 行程頁：當日票券放喺時間表下面 */
+  dayBox(root){const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".ddocs"))return;const ds=DOCX.all().filter(x=>x.d===sel);if(!ds.length)return;
+    const h=`<section class="ddocs"><h4 class="noen">🎫 當日票券及文件</h4>${ds.map(DOCX.item).join("")}</section>`,sc=art.querySelector(".sched");if(sc)sc.insertAdjacentHTML("afterend",h);else art.insertAdjacentHTML("beforeend",h)},
+  mark(root){try{DOCX.dayBox(root)}catch(e){}if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;const h=a.querySelector("b,strong")||a.firstElementChild||a;h.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})}
 };
 /* 準備頁：全部票券（按日期／按類型） */
 DOCX.mode="date";DOCX.popen=false;
