@@ -2804,6 +2804,13 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .dtiles{margin:0 0 12px}.dtiles .tgrid2{gap:10px}
 .dtiles .tgrid2 .tt{background:var(--card)!important}
 .dlinks{margin-top:12px;background:var(--card);border-radius:16px;padding:14px 16px}
+
+/* 「今日」提示：同其他卡一樣白底，藍色標題（唔再用綠色） */
+#panel .today{background:var(--card)!important;color:var(--fg)!important;border:0!important;border-left:4px solid var(--route)!important;border-radius:16px!important;box-shadow:none!important}
+#panel .today .tdh{color:var(--route)!important}
+#panel .today li,#panel .today b{color:var(--fg)!important}
+/* 標題旁嘅天氣同天氣格重複：收起標題嗰個 */
+#panel .day h3 .dwx{display:none!important}
 </style>
 
 </head>
@@ -2877,7 +2884,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <div class="pghead"><h2>準備</h2></div>
     <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">預算</button></div>
     <div id="prep-dash" hidden></div>
-    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div></div>
+    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prepHero"></div><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div></div>
     <div id="pp-pre" class="ppanel" role="tabpanel" aria-labelledby="ps-pre" hidden><div id="pre-fly"></div><div id="prep-pre"></div></div>
   <div class="pghead budhead"><h2>預算</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
@@ -4524,14 +4531,14 @@ function card(raw){
       const dusk=day.arrive&&k&&pts[k]?(()=>{const arr=shl(shiftClock(day.arrive),DSH(day.d)),mm=x=>{const [h,m]=x.split(":").map(Number);return h*60+m};return mm(sunAt(Nd,pts[k][2],pts[k][1],0))-mm(arr)})():99;
       const stN=day.stay?String(day.stay).replace(/（.*$/,""):"",same=stN&&tk&&(()=>{const z=x=>x.replace(/住處|\s/g,""),p=z(stN),q=z(nn(tk));return p.startsWith(q)||q.startsWith(p)||stN.split(" ")[0]===nn(tk).split(" ")[0]})(),hs=I('<path d="M3 12l9-8 9 8"/><path d="M6 10v10h12V10"/>');
       const sh=x=>{x=Math.round(x);const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分`:""}`:`${m} 分`};
-      return `<div class="dsum2"><ul><li title="路線">${I('<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>')}<span>${same&&fk!==tk?`${nn(fk)} → <span class="rt">${nn(tk)} <i class="stin" title="住宿">${hs}</i></span>`:`${reg}${same?` <i class="stin" title="住宿">${hs}</i>`:""}`}</span></li>${stN&&!same?`<li title="住宿">${hs}<span>${stN}</span></li>`:""}</ul>
-        <ul class="dstat2"><li title="${REAL&&rawT&&!wkm&&!day.bus?"純駕駛（括號內為已預留）":"純駕駛"}">${I('<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/>')}<span>${wkm?`徒步 ${wkm} km`:day.bus?"坐巴士":rawT?`${sh(rawT)}`:"不用開車"}</span></li>${whole?`<li title="整日行程">${I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}<span>${hm(t0)}–${hm(t1)}</span></li>`:""}</ul>
+      return `<div class="dsum2"><ul><li title="路線">${I('<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>')}<span>${same&&fk!==tk?`${nn(fk)} → <span class="rt">${nn(tk)} <i class="stin" title="住宿">${hs}</i></span>`:`${reg}${same?` <i class="stin" title="住宿">${hs}</i>`:""}`}</span></li></ul>
+        <ul class="dstat2"><li title="${REAL&&rawT&&!wkm&&!day.bus?"純駕駛（括號內為已預留）":"純駕駛"}">${I('<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/>')}<span>${wkm?`徒步 ${wkm} km`:day.bus?"坐巴士":rawT?`${sh(rawT)}`:"不用開車"}</span></li></ul>
         ${dusk<20?`<div class="dlong">${I('<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>')}<span class="noen">最後一段車程貼近日落，留意不要太遲出發。</span></div>`:""}
         <div class="dact">${du&&(REAL||DT)?`<a class="navbtn" href="${du}" target="_blank" rel="noopener" aria-label="Google Maps 整日導航">${I('<path d="M12 2l7 19-7-4-7 4z"/>')}<span>導航</span></a>`:""}<button type="button" class="mapbtn" data-showmap="1" aria-label="看地圖">${I('<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>')}<span>地圖</span></button></div></div>`})()}${raw.v?scenH():""}
     ${viewBar(raw)}
     ${todayHTML(day)}
     ${DT&&!SHARED&&ADDOPEN.has(raw.d)&&EDITING!==raw.d?(()=>{const cu=cuGet(raw.d);return `<div class="addp">${edBar(raw)}${cu.length?`<p class="rhint">另有 ${cu.length} 個自訂項目 <button type="button" class="mini" data-cuopen="${raw.d}">管理</button></p>`:""}</div>`})():""}
-    ${REAL&&day.firmT?`<div class="golin g1"><span>話給大家知 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發</span></div>`:""}${pubDep}
+    ${REAL&&day.firmT?`<div class="golin g1"><span>通知大家 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發</span></div>`:""}${pubDep}
     ${DT&&EDITING===raw.d&&!SHARED?editorHTML(raw,day):`${edWarn(raw,day)}${richRows(day)}`}
     ${SEC("info",REAL?"注意事項、天氣後備、廁所":"注意事項",infoH)}
     ${SEC("legs","車程、導航和路況",legsH)}
@@ -5614,7 +5621,10 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
   box.innerHTML=`<details class="tcard pdocs"${DOCX.popen?" open":""}><summary class="noen"><b>🎫 票券及文件</b><span class="pdn">${left.length} 張</span></summary>${left.map(DOCX.item).join("")}</details>`;
   box.querySelector("details").addEventListener("toggle",e=>{DOCX.popen=e.target.open});
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
-renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}return r})(renderPrep);
+renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
+/* 準備頁頂部：出發倒數 */
+function prepHero(){const box=$("prepHero");if(!box)return;const N=days.filter(x=>x.d>=1).length,dd=Math.ceil((Date.UTC(2027,8,12)-nowIS())/864e5);
+  box.innerHTML=`<section class="hcard thhero noen"><div class="hk">2027 年 9 月 12–23 日 · ${N} 日環島 · 7 人</div><div class="thbig">${dd>0?`${dd}<small> 日後出發</small>`:nowIS()<Date.UTC(2027,8,24)?`旅程中`:`旅程完成`}</div></section>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 
@@ -5634,7 +5644,7 @@ const TODAY={d:null,docMode:"date",
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
     const st=STAYS.find(x=>new RegExp("（D"+raw.d+"）").test(x[0])),sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d),stay=raw.stay||(st?st[1]:"");
     const pl=TODAY.place[raw.d]||"",ht=TODAY.hotel(stay,pl);
-    const stayT=stay?`<div class="tt tstay noen"><dl class="tsdl"><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd>${pl?`<dt>地方</dt><dd>${E(pl)}</dd>`:""}${sd[0]&&sd[0].ref?`<dt>編號</dt><dd>${E(sd[0].ref)}</dd>`:""}</dl></div>`:"";
+    const stayT=stay?`<div class="tt tstay noen"><dl class="tsdl"><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd>${sd[0]&&sd[0].ref?`<dt>編號</dt><dd>${E(sd[0].ref)}</dd>`:""}</dl></div>`:"";
     const sun=p?`<div class="tt"><div class="tk noen tkt">日出 · 日落</div><div class="tv tnum noen">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></div></div>`:"";
     const wx=`<div class="tt"><div class="tk noen tkt">天氣預報</div><div class="tv" id="twx">⏳</div><small id="twxs" class="noen">出發前 16 日內才有預報</small></div>`;
     return `<div class="tgrid2">${stayT}${wx}${sun}</div>`},
@@ -5675,7 +5685,7 @@ TODAY.show=false;   /* 「今日」已經併入總覽 */
 {const tb=$("tab-today");tb.hidden=!TODAY.show;if(!TODAY.live()&&DT){const sp=tb.querySelector("span");if(sp)sp.textContent="今日（試）"}}
 $("tab-today").addEventListener("click",()=>view("today"));
 /* ===== 總覽併入行程：頂部倒數／旅程進度；每日加住宿、天氣、日出日落；旅程期間加四個連結 ===== */
-function tripHero(){const box=$("tripHero");if(!box)return;const PH=HPHASE(),N=days.filter(x=>x.d>=1).length;let TD=null;try{TD=todayDay()}catch(e){}
+function tripHero(){const box=$("tripHero");if(!box)return;const PH=HPHASE();if(PH!==3){box.innerHTML="";return}const N=days.filter(x=>x.d>=1).length;let TD=null;try{TD=todayDay()}catch(e){}
   const dd=Math.ceil((Date.UTC(2027,8,12)-nowIS())/864e5);
   const main=PH===3&&TD?(TD.d>=1?`第 ${TD.d} 日<small> / ${N} 日</small>`:`${dLab(TD.d)}<small> 你和 Tebe 的行程</small>`):dd>0?`${dd}<small> 日後出發</small>`:`旅程完成`;
   const pct=PH===3&&TD&&TD.d>=1?Math.round(TD.d/N*100):0;
