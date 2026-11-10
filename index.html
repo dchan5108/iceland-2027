@@ -2083,7 +2083,7 @@ dialog.optdlg:not([open]){display:none}
 /* ===== 27. 分頁：總覽・準備・行程・預算・連結 ===== */
 .bnav .mtab,.bnav #tab-stay{display:none!important}
 @media (max-width:819px){
-  .bnav #tab-prep:not([hidden]),.bnav #tab-tips:not([hidden]),.bnav #tab-budget:not([hidden]),.bnav #tab-home,.bnav #tab-today:not([hidden]){display:grid!important}
+  .bnav #tab-prep:not([hidden]),.bnav #tab-budget:not([hidden]),.bnav #tab-home,.bnav #tab-today:not([hidden]){display:grid!important}
 }
 @media (max-width:819px){
   .bnav button[aria-selected="true"]{color:var(--route)!important}
@@ -2697,6 +2697,16 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 
 .hpager{display:flex;justify-content:flex-end;margin-bottom:-4px}.hpager.hpl{justify-content:flex-start}
 .hpager button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--route);font:inherit;font-weight:700;cursor:pointer}
+
+/* 總覽：準備 ｜ 今日行程 分段掣；重要連結四個圖標 */
+.hseg{display:flex!important;width:100%;margin-bottom:-2px}.hseg button{flex:1}
+.hicons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hicons a{display:grid;justify-items:center;gap:4px;padding:10px 4px;border-radius:12px;background:var(--bg);color:inherit;text-decoration:none;font-size:var(--fs-meta);font-weight:600}
+.hicons i{font-style:normal;font-size:22px;line-height:1}
+.hmore{margin-top:10px}.hmore>summary{cursor:pointer;font-size:var(--fs-meta);color:var(--route);font-weight:600}
+.tipmv .tpanel{display:block}.tipcard{margin-top:14px}.tipcard>summary{cursor:pointer;font-size:var(--fs-sec);list-style:none;display:flex}.tipcard>summary::-webkit-details-marker{display:none}
+.tipcard>summary::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted);transition:transform .15s}.tipcard[open]>summary::after{transform:rotate(90deg)}
+#budSave .tipcard{margin:14px 0 0}
 </style>
 
 </head>
@@ -2724,7 +2734,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <button type="button" role="tab" id="tab-prep" aria-selected="false" aria-controls="prep" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M5 12h14"/><path d="M10 15.5l1.5 1.5 3-3"/></svg><span>準備</span></button>
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><em class="full">行程</em><span>行程</span><i class="mlab">行程</i></button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.7 2.5 1.7-1 1.4-2.5 1.6-2.5.7-2.5 1.7 1 1.7 2.5 1.7 2.5-.6 2.5-1.6"/></svg><span>預算</span></button>
-    <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="tips"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>連結</span></button>
+    <button type="button" role="tab" id="tab-tips" hidden aria-selected="false" aria-controls="tips"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>連結</span></button>
     <button type="button" role="tab" id="tab-stay" hidden aria-selected="false" aria-controls="stays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-8 9 8"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg><span>住宿</span></button>
     <button type="button" id="tab-map" class="mtab" hidden aria-label="地圖"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>地圖</span></button>
     <button type="button" id="tab-more" class="mtab" hidden aria-haspopup="dialog" aria-label="更多"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18.5" cy="12" r="1.6"/></svg><span>更多</span></button>
@@ -2769,7 +2779,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <div class="pghead"><h2>準備</h2></div>
     <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">預算</button></div>
     <div id="prep-dash" hidden></div>
-    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div></div>
+    <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div><div id="prepTips" class="tipmv"></div></div>
     <div id="pp-pre" class="ppanel" role="tabpanel" aria-labelledby="ps-pre" hidden><div id="pre-fly"></div><div id="prep-pre"></div></div>
   <div class="pghead budhead"><h2>預算</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
@@ -2799,6 +2809,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
     <div class="bwrap donly"><table class="btable" id="b-table"></table></div>
     <div class="bsettle" id="b-settle"></div>
     <p class="bsrc donly" id="b-src"></p>
+    <div id="budSave" class="tipmv"></div>
   </section>
     <div id="pack" hidden></div>
   </section>
@@ -4726,7 +4737,7 @@ calc();
 /* page tabs */
 /* 注意事項: tickable pre-departure checklist, day-of rules, emergency info (editable numbers saved on this device) */
 const PRECHK=[
- ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「連結 → 官方・緊急」"],
+ ["旅遊保險","包醫療、行程取消、租車自負額；保單號碼同援助電話填喺「準備」頁最底「官方・緊急」"],
  ["駕駛執照","揸車的人帶實體車牌；香港／澳洲車牌有英文就用得，租車公司要國際車牌（IDP）的話先申請"],
  ["信用卡","主司機名義的信用卡（租車押金預授權）；記得 4 位 PIN（無人油站要用）；用冇海外手續費的卡"],
  ["取車檢查","車身 360° 影片同相片；問清楚停車繳費系統、油站優惠鎖匙扣；確認保險包碎石同沙塵"],
@@ -5179,6 +5190,7 @@ function view(v){
   if(v==="book"||v==="pack"){PSUB=v==="book"?"book":"pre";v="prep"}
   if((v==="prep"||v==="budget")&&!DT&&!REAL)v="trip";
   if(v==="today"&&$("tab-today").hidden)v="home";
+  if(v==="tips"||v==="links"||v==="guide")v=(DT||REAL)?"prep":"home";   /* 連結頁已刪：內容分散去總覽／準備／預算 */
   if(!["home","trip","prep","budget","links","today"].includes(v))v="trip";
   if(v==="budget")PSUB="budget";else if(v==="prep"&&PSUB==="budget")PSUB=DT?"book":"pre";
   document.querySelector(".hero").classList.toggle("compact",!(v==="trip"||v==="home"));
@@ -5190,7 +5202,7 @@ function view(v){
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}}
   if(v==="today"){try{TODAY.render()}catch(e){}}
-  if(v==="prep"||v==="budget"){if(DT)renderPack();renderPrep()}
+  if(v==="prep"||v==="budget"){if(DT)renderPack();renderPrep();try{TIPMOVE()}catch(e){}}
   if(v==="links")try{renderTips()}catch(e){}
   const fn=$("fnav");if(fn)fn.hidden=v!=="trip"||sel===ALL;
   window.scrollTo(0,0);store.set("iceland-tab",v);
@@ -5206,7 +5218,16 @@ function remPick(raw,day){const sh=t=>String(t||"").replace(/（[^）]*）/g,"")
   if(raw.wx){const wc=cl(hr(raw.wx)).split(/[；。]/).map(x=>x.trim()).filter(x=>/風|雪|霧|浪|封|取消|警告|濕滑/.test(x));wc.forEach(add)}
   return out}
 
-let HOMEV="prep";   /* 準備期總覽：prep＝準備，day＝每日行程 */
+let HOMEV="prep";   /* 準備期總覽：prep＝準備，day＝今日行程（預覽旅程期間） */
+const HSEG=()=>`<div class="seg hseg" role="group" aria-label="總覽"><button type="button" data-hv="prep" aria-pressed="${HOMEV==="prep"}">準備</button><button type="button" data-hv="day" aria-pressed="${HOMEV==="day"}">今日行程</button></div>`;
+const HSEGON=box=>box.querySelectorAll("[data-hv]").forEach(b=>b.onclick=()=>{if(HOMEV===b.dataset.hv)return;HOMEV=b.dataset.hv;if(HOMEV==="day"){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}renderHome();window.scrollTo(0,0)});
+/* 原本「連結」頁嘅三部分：官方・緊急 → 總覽「更多」（喺準備頁就放準備頁底）；出發須知 → 準備頁底；省錢 → 預算頁底 */
+function TIPMOVE(){try{renderTips()}catch(e){return}const pn=k=>$("tc-"+k),wrap=(id,ic,t,k)=>{const box=$(id),p=pn(k);if(!box||!p)return false;p.hidden=false;
+    const d=document.createElement("details");d.className="hcard tipcard";d.innerHTML=`<summary class="noen"><b>${ic} ${t}</b></summary>`;d.appendChild(p);box.replaceChildren(d);return true};
+  const pg=document.documentElement.dataset.page;
+  if(pg==="home"&&$("homeMore")){const p=pn("home");if(p){p.hidden=false;$("homeMore").replaceChildren(p)}}
+  if(pg==="prep"){wrap("prepTips","🔗","官方・緊急","home");wrap("prepKnow","📖","出發須知","know")}
+  if(pg==="budget"){wrap("budSave","💡","省錢貼士","save")}}
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=DT?Date.UTC(2027,8,25):Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
 function renderHome(){const box=$("homeTop");if(!box)return;
   let TD=null;try{TD=todayDay()}catch(e){}const T0=Date.UTC(2027,8,12),dd=Math.ceil((T0-nowIS())/864e5),N=days.filter(x=>x.d>=1).length;
@@ -5231,22 +5252,21 @@ function renderHome(){const box=$("homeTop");if(!box)return;
      ② 出發前 7 日至前一日：第 1 日行程放最頂，之後係倒數同準備
      ③ 旅程期間：只顯示當日行程＋重要連結 */
   const PH=HPHASE(),LIVE=PH===3;
-  const LINKS=`<section class="hcard hlinks"><div class="hk">重要連結</div><ul class="hlk">
-    <li><a href="tel:112"><b>112</b><span>所有緊急情況（警察、救護、消防、搜救）</span></a></li>
-    <li><a href="https://en.vedur.is/" target="_blank" rel="noopener"><b>天氣</b><span>vedur.is</span></a></li>
-    <li><a href="https://umferdin.is/en" target="_blank" rel="noopener"><b>路況</b><span>umferdin.is · 電話 1777</span></a></li>
-    <li><a href="https://safetravel.is/" target="_blank" rel="noopener"><b>安全警告</b><span>safetravel.is</span></a></li></ul>
-    <button type="button" class="stlink" data-golinks>全部連結 ›</button></section>`;
+  const LINKS=`<section class="hcard hlinks"><div class="hicons noen">
+    <a href="tel:112"><i>📞</i><span>112</span></a>
+    <a href="https://en.vedur.is/" target="_blank" rel="noopener"><i>🌤️</i><span>天氣</span></a>
+    <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a>
+    <a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div>
+    <details class="hmore"><summary>更多官方資訊同緊急電話</summary><div id="homeMore" class="tipmv"></div></details></section>`;
   if(LIVE){box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
-    box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));return}
+    TIPMOVE();return}
   /* 準備期：總覽係「準備 ⇄ 每日行程」嘅翻頁：準備頁撳 › 去第一日，第一日撳 ‹ 返準備 */
-  TODAY.prevHook=null;
-  if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome()};box.innerHTML=`<div class="hpager hpl"><button type="button" data-hprep>‹ 準備</button></div><div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
-    box.querySelectorAll("[data-hprep]").forEach(b=>b.onclick=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)});box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));return}
+    if(PH===1&&HOMEV==="day"){box.innerHTML=`${HSEG()}<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+    HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${PH===1?`<div class="hpager"><button type="button" data-hday>今日行程 ›</button></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${PH===1?HSEG():""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
    <section class="hcard"><div class="hk">環島路線</div><ol class="hroute">${chain.map(c=>`<li><button type="button" data-hgo="${c.d}"><span class="hd">${c.d===c.d2?dLab(c.d):dLab(c.d)+"–"+c.d2}</span><span class="hn">${withEn(c.n)}</span></button></li>`).join("")}</ol></section>`;
-  if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}box.querySelectorAll("[data-hday]").forEach(b=>b.onclick=()=>{HOMEV="day";const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0]);renderHome();window.scrollTo(0,0)});box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
+  if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急嘅 3 件任務＋下一個重要日子；旅程期間＝今日有預約嘅活動 */
 function homeTodo(TD,PH){if(!(DT||REAL)||typeof taskAll!=="function")return "";let T;try{T=taskAll().map(t=>({t,...tStat(t)}))}catch(e){/* 開頁時資料未準備好：稍後再畫 */if(!homeTodo.r){homeTodo.r=1;setTimeout(()=>{try{if(!$("home").hidden)renderHome()}catch(x){}},0)}return ""}
   const lab=x=>x.t.kind==="pre"?TSTP[x.s]:TST[x.s][0],chip=x=>`<span class="st ${TST[x.s][1]}">${lab(x)}</span>`,nm=x=>String(x.t.name).replace(/<[^>]*>/g,"");
@@ -5387,7 +5407,7 @@ function focusSpot(k){const p=pts[k];if(!p)return;const [x,y]=P(p[1],p[2]),w=70,
 function sGo(e){if(!e)return;sClose();const a=e.act;
   if(e.cat==="stay"){if(!(DT||REAL)){view("trip");const m=String((STAYS[a.i]||[])[0]).match(/D(\d+)/);if(m)select(+m[1]);navSync();return}
     TKF="stay";view("prep");try{renderGuide()}catch(err){}navSync();setTimeout(()=>{const li=document.querySelector(`li[data-tid="stay${a.i}"]`);if(li){const d=li.querySelector("details.bkmore");if(d)d.open=true;li.classList.add("hit");setTimeout(()=>li.classList.remove("hit"),2600);try{li.scrollIntoView({block:"center"})}catch(err){}}},60);return}
-  if(a.tip){view("tips");navSync();setTimeout(()=>{const row=locateIn($("tips"),a.tip);const pn=row&&row.closest(".tpanel");if(pn&&pn.hidden){const m=[...pn.classList].find(c=>/^tc-/.test(c));const b=m&&$("tt-"+m.slice(3));if(b){b.click();setTimeout(()=>locateIn($("tips"),a.tip),60)}}},60);return}
+  if(a.tip){view((DT||REAL)?"prep":"home");navSync();setTimeout(()=>{document.querySelectorAll(".tipmv details").forEach(d=>d.open=true);const row=locateIn(document.querySelector(".pg:not([hidden])")||$("tips"),a.tip);const pn=row&&row.closest(".tpanel");if(pn&&pn.hidden){const m=[...pn.classList].find(c=>/^tc-/.test(c));const b=m&&$("tt-"+m.slice(3));if(b){b.click();setTimeout(()=>locateIn($("tips"),a.tip),60)}}},60);return}
   view("trip");
   if(e.cat==="spot"){if(a.d!=null&&a.d!==sel)select(a.d);if($("view-trip").classList.contains("nomap"))mapTog(true);if(isMob())mvSet("map");navSync();setTimeout(()=>focusSpot(a.k),isMob()?160:40);return}
   if(isMob())mvSet("list");if(a.d!==sel)select(a.d);navSync();
