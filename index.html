@@ -2811,6 +2811,27 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #panel .today li,#panel .today b{color:var(--fg)!important}
 /* 標題旁嘅天氣同天氣格重複：收起標題嗰個 */
 #panel .day h3 .dwx{display:none!important}
+
+/* 每日一大格：路線、車程、住宿、天氣、日出日落 */
+.dinfo{display:grid;gap:8px;margin:12px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.dinfo>div{display:grid;grid-template-columns:5em minmax(0,1fr);gap:10px;align-items:baseline}
+.dinfo dt{font-size:12.5px;font-weight:600;color:var(--muted)}
+.dinfo dd{margin:0;font-size:var(--fs-item);font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
+
+/* ===== 每日頭格（設計 B） ===== */
+#panel .dsum2.dsB{background:var(--card)!important;border-radius:16px!important;padding:16px 18px!important;border:0!important;margin:0 0 12px!important;display:block!important}
+#panel .dsum2.dsB>ul{display:none!important}
+.dhB{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.dhL{min-width:0}
+.dhR{font-size:19px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.dhS{margin-top:6px;font-size:13.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.dhW{flex:none;text-align:right;display:grid;justify-items:end;gap:2px;min-width:64px}
+.dhW b{font-size:30px;line-height:1}.dhW span{font-size:14px;font-weight:700}.dhW small{font-size:11.5px;color:var(--muted);font-weight:600}
+.dhW>span:only-of-type{font-size:11px;color:var(--muted);font-weight:600}
+.sunlab{display:flex;justify-content:space-between;margin:14px 0 6px;font-size:12.5px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.sunbar{height:6px;border-radius:3px;background:linear-gradient(90deg,#1f3b57 0%,#f2b05e 16%,#8fc3e8 50%,#f2b05e 84%,#1f3b57 100%)}
+#panel .dsum2.dsB .dlong{margin-top:12px}
+#panel .dsum2.dsB .dact{margin-top:12px}
 </style>
 
 </head>
@@ -5639,6 +5660,18 @@ const TODAY={d:null,docMode:"date",
   place:{"-5":"Reykjavík 雷克雅維克","-4":"高地 Landmannalaugar → Þórsmörk",0:"Reykjavík 雷克雅維克",1:"Reykjavík 雷克雅維克",2:"Snæfellsnes 斯奈山半島",3:"Akureyri 阿克雷里",4:"Egilsstaðir 埃伊爾斯塔濟",5:"Höfn 赫本",6:"Jökulsárlón 冰河湖",7:"Jökulsárlón 冰河湖",8:"Vík 維克",9:"Hvolsvöllur 附近",10:"Reykjavík 雷克雅維克",11:"Reykjavík 雷克雅維克"},
   hotel(stay,pl){let h=String(stay||"").replace(/（[^）]*）/g,"").split(/[，,；]/)[0].trim();const lat=String(pl).replace(/[\u4e00-\u9fff].*$/,"").trim();
     if(/[A-Za-zÀ-ÿ]/.test(h)){h=h.replace(/[\u4e00-\u9fff]+/g,"").replace(/\s{2,}/g," ").trim();if(!h||h===lat)return "未訂"}else if(!/山屋/.test(h))return "未訂";return h},
+  /* 每日頭格（設計 B）：路線大字、車程＋住宿、右上天氣、日照條 */
+  wxIcon:c=>c==null?"⏳":c===0?"☀️":c<=2?"🌤️":c===3?"☁️":c<=48?"🌫️":c<=67?"🌧️":c<=77?"❄️":c<=82?"🌦️":c<=86?"🌨️":"⛈️",
+  headB(raw,day,ds){const E=DOCX.esc,lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim();
+    const toLat=t=>{const x=lat(t);if(x)return x;const z=String(t).replace(/[（(][^）)]*[）)]/g,"").trim(),hit=ENN.find(([c])=>z.includes(c));return hit?hit[1]:z};
+    const lis=ds?[...ds.querySelectorAll("ul > li > span")].map(x=>x.textContent.trim()):[];let rt=lis[0]||"";rt=rt.split("→").map(toLat).filter(Boolean).join(" → ");if((day.legs||[]).some(l=>l.walk)||!rt)rt=lat(TODAY.place[raw.d]||"").replace(/^\s*→\s*/,"");
+    const drv=lis[1]||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
+    const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];let sun="";
+    if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div><div class="sunbar"></div>`}
+    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS">${drv?`${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}`:""}${ht?`${drv?" · ":""}🏠 ${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}`:""}${DOCX.clip(sd)}</div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}`},
+  /* 每日資料（舊：一大格）：已經改用 headB */
+  info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
+    return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
   sum(day){const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay");return ks.map(k=>String(pts[k][0]).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>a.indexOf(v)===i).slice(0,5).join(" · ")},
   title:a=>{const t=cl(a).replace(/^\d{1,2}\/\d{1,2}(（[^）]*）)?\s*/,"");return (t.split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim()||t.slice(0,30))},
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
@@ -5651,7 +5684,7 @@ const TODAY={d:null,docMode:"date",
   wx(raw,day){const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);if(!k||!pts[k])return;
     const date=new Date(Date.UTC(2027,8,11+raw.d)).toISOString().slice(0,10),diff=(Date.parse(date)-nowIS())/864e5;if(diff>15||diff<-1)return;
     const [,lon,lat]=pts[k];fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&wind_speed_unit=ms&timezone=Atlantic%2FReykjavik&start_date=${date}&end_date=${date}`).then(r=>r.json()).then(j=>{const D=j&&j.daily;if(!D||!D.time||!D.time.length||TODAY.d!==raw.d)return;
-      const a=$("twx"),b=$("twxs");if(a)a.textContent=`${WXC[D.weather_code[0]]||""} ${Math.round(D.temperature_2m_max[0])}° / ${Math.round(D.temperature_2m_min[0])}°`;if(b)b.textContent=`雨 ${D.precipitation_probability_max[0]??"—"}% · 風 ${Math.round(D.wind_speed_10m_max[0])} m/s`}).catch(()=>{})},
+      const a=$("twx");if(a)a.innerHTML=`<b title="${WXC[D.weather_code[0]]||""}">${TODAY.wxIcon(D.weather_code[0])}</b><span>${Math.round(D.temperature_2m_max[0])}° / ${Math.round(D.temperature_2m_min[0])}°</span><small>風 ${Math.round(D.wind_speed_10m_max[0])} m/s</small>`}).catch(()=>{})},
   /* 時間表：直接用行程頁同一個時間表（同一款式、按一行展開詳情） */
   sched(raw){try{const w=document.createElement("div");w.innerHTML=card(raw);try{TIDY.all(w)}catch(e){}const sc=w.querySelector(".sched");if(!sc)return "";sc.classList.add("simp");return sc.outerHTML}catch(e){return ""}},
   /* （舊）下一站：保留做參考，沒有再用 */
@@ -5694,8 +5727,8 @@ function tripHero(){const box=$("tripHero");if(!box)return;const PH=HPHASE();if(
 const TRIPLINKS=()=>`<section class="hlinks dlinks"><div class="hicons noen">
     <a href="tel:112"><i>📞</i><span>112</span></a><a href="https://en.vedur.is/" target="_blank" rel="noopener"><i>🌤️</i><span>天氣</span></a>
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a><a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div></section>`;
-DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".tgrid2"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
-  TODAY.d=sel;const day=TODAY.dayOf(raw);const h=`<div class="dtiles">${TODAY.tiles(raw,day)}</div>`;const at=art.querySelector(".dsum2")||art.querySelector("h3");if(at)at.insertAdjacentHTML("afterend",h);
+DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".dhB"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
+  TODAY.d=sel;const day=TODAY.dayOf(raw);const ds=art.querySelector(".dsum2");if(ds){ds.classList.add("dsB");ds.insertAdjacentHTML("afterbegin",TODAY.headB(raw,day,ds))}else{const h3=art.querySelector("h3");if(h3)h3.insertAdjacentHTML("afterend",`<div class="dsum2 dsB">${TODAY.headB(raw,day,null)}</div>`)}
   if(HPHASE()>=2)art.insertAdjacentHTML("beforeend",TRIPLINKS());try{TODAY.wx(raw,day)}catch(e){}try{tripHero()}catch(e){}};
 {const _m=DOCX.mark;DOCX.mark=function(r){_m.call(DOCX,r);try{DOCX.dayTiles(r)}catch(e){}}}
 try{tripHero()}catch(e){}
