@@ -2832,6 +2832,15 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sunbar{height:6px;border-radius:3px;background:linear-gradient(90deg,#1f3b57 0%,#f2b05e 16%,#8fc3e8 50%,#f2b05e 84%,#1f3b57 100%)}
 #panel .dsum2.dsB .dlong{margin-top:12px}
 #panel .dsum2.dsB .dact{margin-top:12px}
+
+/* 時間表分類 emoji、預訂分類 emoji */
+.sched.rich.simp .tcat{font-style:normal;font-size:15px;margin-right:6px;display:inline-block;width:20px;text-align:center;vertical-align:-1px}
+.tkcat{font-style:normal;font-size:16px;margin-right:6px}
+/* 總表：細版頭格 */
+.ov{display:grid;gap:10px}
+.ovrow.ovB{display:grid!important;grid-template-columns:62px minmax(0,1fr) 14px;gap:12px;align-items:center;background:var(--card)!important;border:0!important;border-radius:16px!important;padding:14px 16px!important;text-align:left;width:100%;border-left:4px solid var(--dc,var(--route))!important}
+.ovB .ovd{display:grid;gap:2px}.ovB .ovd b{font-size:17px;font-weight:800;color:var(--route)}.ovB .ovd small{font-size:11.5px;color:var(--muted);font-weight:600}
+.ovB .ovm{display:grid;gap:4px;min-width:0}.ovB .ovr{font-size:16px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}.ovB .ovm small{font-size:13px;color:var(--muted);font-weight:600;overflow-wrap:anywhere}
 </style>
 
 </head>
@@ -4575,7 +4584,10 @@ function cmpxH(){let CX;try{CX=CMPX}catch(e){return ""}if(!DT||!Array.isArray(CX
 function overview(){
   return `${scenH()}${cmpxH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");
-    return `<button type="button" class="ovrow" data-go="${day.d}"><span class="d">${dLab(day.d)}</span><span class="dt">${day.date}</span><span class="r">${route}${day.stay?`<small>住：${day.stay}</small>`:""}</span><span class="tm">${wkm?`徒步 ${wkm} km`:day.bus?"巴士":tot?fmt(tot):"無車"}</span><i class="chev" aria-hidden="true"></i></button>`}).join("")}</div>`;
+    /* 總表：每日一張細版頭格（路線大字、交通、住宿） */
+    let rl="";try{rl=TODAY.routeLat(raw,day)}catch(e){rl=route}
+    let ht="";try{const pl=TODAY.place[day.d]||"";ht=day.stay?TODAY.hotel(day.stay,pl):""}catch(e){ht=""}const mv=wkm?`🥾 徒步 ${wkm} km`:day.bus?"🚌 巴士":tot?`🚗 ${fmt(tot)}`:"🚶 不用開車";
+    return `<button type="button" class="ovrow ovB noen" data-go="${day.d}" style="--dc:${dayCol(day.d)}"><span class="ovd"><b>${dLab(day.d)}</b><small>${String(day.date).replace(/（[^）]*）/g,"").replace(/\s+/g,"")}</small></span><span class="ovm"><b class="ovr">${rl||route}</b><small>${mv}${ht?` · 🏠 ${ht}`:""}</small></span><i class="chev" aria-hidden="true"></i></button>`}).join("")}</div>`;
 }
 var RMODE=(()=>{try{return store.get("iceland-rmode")==="all"?"all":"day"}catch(e){return "day"}})();
 function dim(){try{window.__mrouteUpd&&window.__mrouteUpd()}catch(e){}const on=sel!==ALL&&RMODE!=="all";
@@ -5625,7 +5637,12 @@ const DOCX={
   /* 行程頁：當日票券放在時間表下面 */
   dayBox(root){const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".ddocs"))return;const ds=DOCX.all().filter(x=>x.d===sel);if(!ds.length)return;
     const h=`<section class="ddocs"><h4 class="noen">🎫 當日票券及文件</h4>${ds.map(DOCX.item).join("")}</section>`,sc=art.querySelector(".sched");if(sc)sc.insertAdjacentHTML("afterend",h);else art.insertAdjacentHTML("beforeend",h)},
-  mark(root){try{root&&root.querySelectorAll(".sched.rich").forEach(x=>x.classList.add("simp"))}catch(e){}try{DOCX.dayBox(root)}catch(e){}if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;const h=a.querySelector("b,strong")||a.firstElementChild||a;h.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})}
+  /* 時間表分類 emoji：景點用地圖編號；其他行用 emoji */
+  cat(a,t){const x=t.replace(/\s+/g," ");if(a.classList.contains("m")||/^(早餐|午餐|晚餐|早午餐)/.test(x))return "🍽️";if(/起飛|抵達 KEF|下機|航班|機場/.test(x))return "✈️";if(/入住|住處|退房|返回.*住|回.*住處|酒店休息/.test(x))return "🏨";
+    if(/溫泉|Lagoon|泳池|浸|Baths|GeoSea/.test(x))return "♨️";if(/超市|Bónus|Krónan|補給|買|入油|油站/.test(x))return "🛒";if(/取車|還車/.test(x))return "🔑";if(/^(出發|開車|前往|開去|沿|返|回)/.test(x)||a.classList.contains("c")&&/約 ?\d+ ?(小時|分鐘)/.test(x))return "🚗";
+    if(/賞鯨|浮潛|騎馬|獨木舟|冰川健行|冰浮|隧道|團|報到|集合/.test(x))return "🎟️";if(/徒步|第 \d 日/.test(x))return "🥾";if(/自由活動|自訂|自選|休息|散步|行街|逛街/.test(x))return "🚶";return ""},
+  mark(root){try{root&&root.querySelectorAll(".sched.rich").forEach(x=>x.classList.add("simp"))}catch(e){}
+    try{root&&root.querySelectorAll(".sched.simp > .a").forEach(a=>{const n=a.querySelector(".tl-n");if(!n)return;const h=a.querySelector(".tl-h")||a;if(h.querySelector(".tcat")||h.querySelector(".snin:not(:empty)"))return;const e=DOCX.cat(a,(n||a).textContent);if(e)(n||h).insertAdjacentHTML("beforebegin",`<i class="tcat noen" aria-hidden="true">${e}</i>`)})}catch(e){}try{DOCX.dayBox(root)}catch(e){}if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;const h=a.querySelector("b,strong")||a.firstElementChild||a;h.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})}
 };
 /* 準備頁：全部票券（按日期／按類型） */
 DOCX.mode="date";DOCX.popen=false;
@@ -5634,7 +5651,9 @@ const bkTog=h=>{const ul=h.nextElementSibling;if(!ul)return;const op=ul.hidden;u
 document.addEventListener("click",e=>{const h=e.target.closest&&e.target.closest("#bookp h3.bkcol");if(h)bkTog(h)});
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const h=e.target.closest&&e.target.closest("#bookp h3.bkcol");if(h){e.preventDefault();bkTog(h)}});
 DOCX.forTask=n=>DOCX.all().filter(x=>{try{return x.tk&&new RegExp(x.tk,"i").test(n)}catch(e){return false}});
-DOCX.taskMark=()=>{document.querySelectorAll("#bookp li[data-tid]").forEach(li=>{const n=li.querySelector(".bkn");if(!n||li.querySelector(".docb"))return;const ds=DOCX.forTask(n.textContent.trim());if(ds.length)n.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})};
+DOCX.tcat=(id,n)=>/^(stay|dtn)/.test(id)?"🏨":id==="fly"?"✈️":/租車|駕駛|Parka|入油/.test(n)?"🚗":/保險/.test(n)?"🛡️":/app|eSIM|地圖|數據/i.test(n)?"📱":/餐廳|溫室|食|Friðheimar|Hjá|Hlaðan|Pakkhús/.test(n)?"🍽️":/溫泉|Lagoon/.test(n)?"♨️":"🎟️";
+DOCX.taskMark=()=>{document.querySelectorAll("#bookp li[data-tid]").forEach(li=>{const n0=li.querySelector(".bkn");if(n0&&!li.querySelector(".tkcat"))n0.insertAdjacentHTML("beforebegin",`<i class="tkcat noen" aria-hidden="true">${DOCX.tcat(li.dataset.tid,n0.textContent)}</i>`)});
+  document.querySelectorAll("#bookp li[data-tid]").forEach(li=>{const n=li.querySelector(".bkn");if(!n||li.querySelector(".docb"))return;const ds=DOCX.forTask(n.textContent.trim());if(ds.length)n.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})};
 renderGuide=(f=>function(){const r=f.apply(this,arguments);try{DOCX.taskMark()}catch(e){}return r})(renderGuide);
 DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch(e){}
   /* 票券已經跟住對應任務顯示（📎）；配對不到任務的先在這裡列出 */
@@ -5672,6 +5691,9 @@ const TODAY={d:null,docMode:"date",
   /* 每日資料（舊：一大格）：已經改用 headB */
   info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
+  routeLat(raw,day){const lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim(),toLat=t=>{const x=lat(t);if(x)return x;const z=String(t).replace(/[（(][^）)]*[）)]/g,"").trim(),hit=ENN.find(([c])=>z.includes(c));return hit?hit[1]:z};
+    if((day.legs||[]).some(l=>l.walk))return lat(TODAY.place[raw.d]||"");const L=(day.legs||[]).filter(l=>!l.c2);if(!L.length)return lat(TODAY.place[raw.d]||"");
+    const a=toLat(nm(L[0].a)),b=toLat(nm(L[L.length-1].b));return a===b?a:`${a} → ${b}`},
   sum(day){const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay");return ks.map(k=>String(pts[k][0]).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>a.indexOf(v)===i).slice(0,5).join(" · ")},
   title:a=>{const t=cl(a).replace(/^\d{1,2}\/\d{1,2}(（[^）]*）)?\s*/,"");return (t.split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim()||t.slice(0,30))},
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
