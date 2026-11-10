@@ -2843,7 +2843,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ovB .ovm{display:grid;gap:4px;min-width:0}.ovB .ovr{font-size:16px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}.ovB .ovm small{font-size:13px;color:var(--muted);font-weight:600;overflow-wrap:anywhere}
 
 /* 只限 Dorcas & Tebe 嘅日子：用紫色標示，唔寫字 */
-#panel .day.dtonly>h3{border-left:4px solid var(--chg);padding-left:10px}
+#panel .day.dtonly>h3{border-left:4px solid var(--chg);padding-left:12px!important}
 #panel .day.dtonly .dsum2.dsB{box-shadow:inset 4px 0 0 var(--chg)}
 .chips button.cpre{border-color:color-mix(in srgb,var(--chg) 55%,transparent)!important;color:var(--chg)!important}
 #chips button.cpre[aria-pressed="true"]{background:var(--chg)!important;border-color:var(--chg)!important;color:#fff!important}
@@ -2854,18 +2854,21 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tsteps li::marker{color:var(--muted);font-weight:700}
 
 /* 倒數卡：夜空極光 */
-.ahero{position:relative;overflow:hidden;border-radius:16px;margin:0 0 14px;padding:18px 20px 26px;color:#eef6ff;background:linear-gradient(180deg,#0b1a2e 0%,#12304a 60%,#1b3f55 100%);min-height:150px}
-.ahero .aur{position:absolute;inset:-40% -20% 30% -20%;background:radial-gradient(60% 40% at 30% 60%,rgba(80,240,170,.55),transparent 70%),radial-gradient(50% 35% at 70% 45%,rgba(120,140,255,.45),transparent 70%),radial-gradient(40% 30% at 55% 70%,rgba(60,220,200,.35),transparent 70%);filter:blur(8px);animation:aur 12s ease-in-out infinite alternate}
-@keyframes aur{0%{transform:translateX(-4%) skewX(-6deg)}100%{transform:translateX(5%) skewX(6deg)}}
-@media (prefers-reduced-motion:reduce){.ahero .aur{animation:none}}
-.ahero .amt{position:absolute;left:0;right:0;bottom:0;width:100%;height:70px}
-.ahero .amt path{fill:#08131f!important;stroke:none!important}
-.ahero .aco{position:relative}
-.ahero .ak{font-size:12px;font-weight:600;opacity:.8;letter-spacing:.02em}
-.ahero .abig{display:flex;align-items:flex-end;gap:10px;margin-top:6px}
-.ahero .abig b{font-size:56px;line-height:.9;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.ahero .abig span{font-size:14px;font-weight:700;line-height:1.2;opacity:.9;padding-bottom:4px}
-.ahero .asub{margin-top:8px;font-size:12.5px;font-weight:600;opacity:.85}
+.bpass{display:grid;grid-template-columns:minmax(0,1fr) 92px;border-radius:16px;overflow:hidden;background:var(--card);margin:0 0 14px;box-shadow:0 1px 0 var(--line)}
+.bpass .bpm{padding:14px 16px 12px;border-right:2px dashed var(--line);min-width:0}
+.bpass .bpk{font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.bpass .bprt{display:grid;grid-template-columns:auto minmax(18px,1fr) auto;align-items:center;gap:8px;margin:8px 0 10px}
+.bpass .bpo{display:grid;gap:2px}.bpass .bpo div{display:flex;align-items:baseline;gap:6px}
+.bpass .bpo b,.bpass .bpd b{font-size:24px;font-weight:800;color:var(--fg);letter-spacing:.02em;line-height:1.05}
+.bpass .bpo small,.bpass .bpd small{font-size:10.5px;color:var(--muted);font-weight:600}
+.bpass .bpd{text-align:right;display:grid;gap:2px}
+.bpass .bpl{height:2px;background:repeating-linear-gradient(90deg,var(--route) 0 6px,transparent 6px 11px);position:relative}
+.bpass .bpl::after{content:"✈";position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);color:var(--route);font-size:15px;background:var(--card);padding:0 2px}
+.bpass .bpg{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:4px 12px;font-size:10.5px;color:var(--muted);font-weight:600}
+.bpass .bpg b{display:block;color:var(--fg);font-size:14px;font-weight:700}
+.bpass .bps{display:grid;place-content:center;text-align:center;background:#2f6f86;color:#fff;padding:10px 6px;gap:4px}
+.bpass .bps b{font-size:32px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}.bpass .bps span{font-size:11px;font-weight:700;opacity:.9;line-height:1.3}
+.bpass .bps small{font-size:10px;opacity:.75;font-weight:600;margin-top:4px}
 
 .tmeta{margin-top:3px;font-size:13px;color:var(--muted);font-weight:500;line-height:1.45}
 .hprof{margin:0 0 12px;padding:12px 16px 8px;border-radius:16px;background:var(--card)}
@@ -5720,11 +5723,13 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
 /* 準備頁頂部：出發倒數 */
 function prepHero(){const box=$("prepHero");if(!box)return;const N=days.filter(x=>x.d>=1).length,now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
-  /* 倒數卡：夜空＋極光＋草帽山剪影；顯示冰島而家幾點 */
-  const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0"),wk=Math.floor(dd/7);
-  const big=dd>0?`<b>${dd}</b><span>天後<br>出發</span>`:now<Date.UTC(2027,8,24)?`<b>旅程中</b>`:`<b>完成</b><span>下次再去</span>`;
-  box.innerHTML=`<section class="ahero noen"><div class="aur" aria-hidden="true"></div><svg class="amt" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 90 L0 76 L70 70 L130 74 L190 30 L222 10 L240 14 L262 40 L300 66 L350 70 L400 64 L400 90Z"/></svg>
-    <div class="aco"><div class="ak">2027 年 9 月 12–23 日 · ${N} 日環島 · 7 人</div><div class="abig">${big}</div>${dd>0?`<div class="asub">約 ${wk} 個星期 · 冰島現在 ${hh}:${mm}</div>`:""}</div></section>`}
+  /* 倒數卡（登機證款）：左邊出發地（墨爾本／香港）→ 冰島，右邊撕開部分是倒數；顯示冰島現在幾點 */
+  const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0");
+  const stub=dd>0?`<b>${dd}</b><span>天後出發</span>`:now<Date.UTC(2027,8,24)?`<b>✈</b><span>旅程中</span>`:`<b>✓</b><span>完成</span>`;
+  box.innerHTML=`<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">ICELAND 2027 · ${N} 日環島</div>
+    <div class="bprt"><div class="bpo"><div><b>MEL</b><small>墨爾本</small></div><div><b>HKG</b><small>香港</small></div></div><i class="bpl" aria-hidden="true"></i><div class="bpd"><b>KEF</b><small>冰島</small></div></div>
+    <div class="bpg"><span>出發<b>9月12日</b></span><span>回程<b>9月23日</b></span><span>人數<b>7 人</b></span></div></div>
+    <div class="bps">${stub}<small>冰島 ${hh}:${mm}</small></div></section>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 
