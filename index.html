@@ -2669,9 +2669,13 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #panel article.day>.eatbox{background:var(--card)!important}
 #panel article.day>.ddocs{background:var(--card);padding:14px 16px}
 
-/* 每頁標題同一高度（以「準備」頁做準） */
-#home>.pghead{margin-top:-14px}#today>.pghead{margin-top:-4px}.pgtrip{margin-top:-10px}
-@media (min-width:900px){#home>.pghead{margin-top:22px}#today>.pghead{margin-top:-4px}.pgtrip{margin-top:-2px}}
+/* 頁標題：統一收埋（底部 tab 已經顯示緊邊一頁）；螢幕閱讀器照讀 */
+.pghead h2{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;margin:0!important;padding:0!important}
+.pghead:not(.budhead){margin:0!important;min-height:0!important}
+.pgtrip{display:none}
+/* 日子掣：圓角同其他掣一致 */
+.chips button{border-radius:14px!important}
+.chips{border-radius:16px!important;padding:6px!important}
 </style>
 
 </head>
