@@ -12,6 +12,15 @@
 <meta name="theme-color" content="#f5f5f7">
 <style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}/* ===== 今日頁＋票券（TODAY／DOCX） ===== */
 #prep-docs .pdocs{margin:0 0 14px}
+.pdocs>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;font-size:16px}.pdocs>summary::-webkit-details-marker{display:none}
+.pdocs>summary::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted,#5b6470);transition:transform .15s}.pdocs[open]>summary::after{transform:rotate(90deg)}
+.pdn{font-size:13px;color:var(--muted,#5b6470);font-weight:600}.pdocs .dseg{margin:12px 0 4px}
+#bookp h3.bkcol{cursor:pointer;user-select:none;padding:10px 0;border-bottom:1px solid var(--line,#e6e8eb);margin:0}
+#bookp h3.bkcol::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted,#5b6470);transition:transform .15s;order:2}
+#bookp h3.bkcol[aria-expanded="true"]::after{transform:rotate(90deg)}
+#bookp h3.bkcol .bkc{order:1;margin-left:auto}#bookp h3.bkcol::after{margin-left:10px!important}
+#bookp ul.tkl[hidden]{display:none!important}
+#bookp ul.tkl{margin-top:8px}
 #today{max-width:760px;margin:0 auto;padding:12px 16px 120px;display:grid;gap:14px}
 .tcard{background:var(--card,#fff);border:1px solid var(--line,#e3e6ea);border-radius:18px;padding:16px}
 .thero{background:color-mix(in srgb,var(--route,#2a6f97) 8%,var(--card,#fff))}
@@ -4878,7 +4887,7 @@ function cxHTML(id){let v=CANC[id]||"";if(!v)try{v=CANCDEF()[id]||""}catch(e){}l
   return `<div class="bkx"><label>免費取消至 <input type="date" data-cx="${id}" value="${v}"></label>${w}</div>`}
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.cx;if(!id)return;if(e.target.value)CANC[id]=e.target.value;else delete CANC[id];store.set("iceland-bcancel",JSON.stringify(CANC));const w=e.target.closest(".bkx");if(w)w.outerHTML=cxHTML(id)});
 function bkProg(){const all=taskAll().map(t=>tStat(t).s),c=k=>all.filter(x=>x===k).length,ok=c("done")+c("na");
-  document.querySelectorAll("#bookp .bkc").forEach(e=>{const xs=[...e.closest("h3").nextElementSibling.querySelectorAll("li[data-ts]")];e.textContent=`${xs.filter(x=>/done|na/.test(x.dataset.ts)).length}/${xs.length}`});
+  document.querySelectorAll("#bookp .bkc").forEach(e=>{const xs=[...e.closest("h3").nextElementSibling.querySelectorAll("li[data-ts]")];e.textContent=TKF==="all"?`${xs.filter(x=>/done|na/.test(x.dataset.ts)).length}/${xs.length}`:`${xs.length} 項`});
   const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${ok}</b> / ${all.length}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
   const f=$("tkf");if(f)f.innerHTML=[["all","全部",all.length],["todo","未訂／未做",c("todo")],["recheck","要再確認",c("recheck")],["done","已訂／已做",c("done")],["stay","只睇住宿",taskAll().filter(t=>/^(stay|dtn)$/.test(t.kind)).length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}" class="tkf-${k}">${l}<b>${n}</b></button>`).join("");
   if(typeof prepDash==="function")try{prepDash()}catch(e){}}
@@ -4933,10 +4942,11 @@ function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntri
    ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<details class="bkmore"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${payH}${more?`<dl>${more}</dl>`:""}${sx}</details>`:""}</div>`:""}
    ${t.id==="fly"?`<details class="flc"${FLYOPEN?" open":""}><summary>航班</summary>${FLIGHTS.replace(' id="g-fly"',"").replace('<h3 class="bkh">機票</h3>',"")}</details>`:""}
 </li>`}
-let TKF="all";
+let TKF="todo";   /* 預設只睇未訂／未做 */
+const BKOPEN=new Set();   /* 打開咗嘅任務分組（預設全部收埋） */
 function bkDays(){const all=taskAll().map(t=>({t,st:tStat(t).s})),imp=x=>TIMP.test(x.t.name)?0:1;
   const L=TKF==="all"?all:TKF==="stay"?all.filter(x=>/^(stay|dtn)$/.test(x.t.kind)):all.filter(x=>x.st===TKF);
-  const grp=(head,xs,col)=>xs.length?`<h3 class="tiph bkday"${col?` style="--dc:${col}"`:""}>${head}<span class="bkc"></span></h3><ul class="bkchk tkl">${xs.sort((a,b)=>imp(a)-imp(b)).map(x=>tLi(x.t)).join("")}</ul>`:"";
+  const grp=(head,xs,col)=>{if(!xs.length)return "";const op=TKF==="stay"||BKOPEN.has(head);return `<h3 class="tiph bkday bkcol" role="button" tabindex="0" aria-expanded="${op}" data-g="${String(head).replace(/"/g,"&quot;")}"${col?` style="--dc:${col}"`:""}>${head}<span class="bkc"></span></h3><ul class="bkchk tkl"${op?"":" hidden"}>${xs.sort((a,b)=>imp(a)-imp(b)).map(x=>tLi(x.t)).join("")}</ul>`};
   if(!L.length)return `<p class="rhint">冇呢類項目。</p>`;
   if(BKV==="dl"){const late=[],asap=[],mon=new Map(),none=[],now=+todayISO();
     L.forEach(x=>{const d=x.t.due;if(x.st!=="todo"||!d)none.push(x);else if(d.asap)asap.push(x);else if(+d.d<now)late.push(x);else{const k=d.d.getUTCFullYear()*100+d.d.getUTCMonth()+1;if(!mon.has(k))mon.set(k,[]);mon.get(k).push(x)}});
@@ -5379,9 +5389,14 @@ const DOCX={
   mark(root){if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;const h=a.querySelector("b,strong")||a.firstElementChild||a;h.insertAdjacentHTML("afterend",DOCX.clip(ds,"inl"))})}
 };
 /* 準備頁：全部票券（按日期／按類型） */
-DOCX.mode="date";
+DOCX.mode="date";DOCX.popen=false;
+/* 任務分組：撳標題打開／收埋 */
+const bkTog=h=>{const ul=h.nextElementSibling;if(!ul)return;const op=ul.hidden;ul.hidden=!op;h.setAttribute("aria-expanded",String(op));const g=h.dataset.g;if(op)BKOPEN.add(g);else BKOPEN.delete(g)};
+document.addEventListener("click",e=>{const h=e.target.closest&&e.target.closest("#bookp h3.bkcol");if(h)bkTog(h)});
+document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const h=e.target.closest&&e.target.closest("#bookp h3.bkcol");if(h){e.preventDefault();bkTog(h)}});
 DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;if(!DOCX.all().length){box.innerHTML="";return}
-  box.innerHTML=`<section class="tcard pdocs"><div class="thd2 noen"><b>🎫 票券及文件</b><div class="dseg"><button type="button" data-dm="date" aria-pressed="${DOCX.mode==="date"}">按日期</button><button type="button" data-dm="type" aria-pressed="${DOCX.mode==="type"}">按類型</button></div></div>${DOCX.listH(DOCX.mode)}</section>`;
+  box.innerHTML=`<details class="tcard pdocs"${DOCX.popen?" open":""}><summary class="noen"><b>🎫 票券及文件</b><span class="pdn">${DOCX.all().length} 張</span></summary><div class="dseg">${[["date","按日期"],["type","按類型"]].map(([k,l])=>`<button type="button" data-dm="${k}" aria-pressed="${DOCX.mode===k}">${l}</button>`).join("")}</div>${DOCX.listH(DOCX.mode)}</details>`;
+  box.querySelector("details").addEventListener("toggle",e=>{DOCX.popen=e.target.open});
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}return r})(renderPrep);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
