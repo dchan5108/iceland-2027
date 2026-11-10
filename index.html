@@ -2930,6 +2930,12 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich.simp .a details.dsx>summary.dsm .vh{position:static!important;width:auto!important;height:auto!important;clip:auto!important;clip-path:none!important;overflow:visible!important;margin:0!important;white-space:nowrap}
 .sched.rich.simp .a details.dsx>summary.dsm::after{content:"▾"!important;display:inline!important;position:static!important;font-size:11px;border:0!important;transform:none!important;width:auto!important;height:auto!important;background:none!important}
 .sched.rich.simp .a details.dsx[open]>summary.dsm::after{content:"▴"!important}
+
+/* 一按就看到全部：不用再按「詳情」 */
+.sched.rich.simp .a details.dsx>summary.dsm{display:none!important}
+.sched.rich.simp .a .tl-m.durx{display:none!important}
+.sched.rich.simp .a.open .spd>.spx0{display:block!important;font-weight:600;color:var(--fg);margin:6px 0 4px}
+.sched.rich.simp .a.open .spd>p:not(.spx0){color:var(--muted);margin-top:8px}
 </style>
 
 </head>
@@ -5533,8 +5539,8 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 /* 時間表：按景點，地圖定位；手機按一行展開／收起小字，按號碼直接看地圖 */
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;const row=t.closest("#panel .sched.rich > .a, #homeToday .sched.rich > .a");if(!row)return;const inHome=!!row.closest("#homeToday");
   if(t.closest("a,button,summary,input,select,label,.spd,details[open]"))return;const k=row.dataset.sk,mob=isMob();
-  if(mob||inHome){if(!inHome&&(t.closest(".snum")||e.clientX-row.getBoundingClientRect().left<30)&&k&&pts[k]){mvSet("map");setTimeout(()=>focusSpot(k),180);return}(row.classList.contains("noexp")||row.classList.toggle("open"));return}
-  (row.classList.contains("noexp")||row.classList.toggle("open"));
+  if(mob||inHome){if(!inHome&&(t.closest(".snum")||e.clientX-row.getBoundingClientRect().left<30)&&k&&pts[k]){mvSet("map");setTimeout(()=>focusSpot(k),180);return}(row.classList.contains("noexp")||(row.classList.toggle("open"),row.querySelectorAll("details.dsx").forEach(d=>d.open=row.classList.contains("open"))));return}
+  (row.classList.contains("noexp")||(row.classList.toggle("open"),row.querySelectorAll("details.dsx").forEach(d=>d.open=row.classList.contains("open"))));
   if(k&&pts[k]){if($("view-trip").classList.contains("nomap")){mapTog(true);drawMap();dim()}focusSpot(k);document.querySelectorAll("#panel .sched.rich > .a.sel").forEach(x=>x.classList.remove("sel"));row.classList.add("sel")}});
 /* 每日標題旁的天氣：出發前 16 日內才有預報 */
 function dayWx(){document.querySelectorAll("#panel .dwx[data-wxd]").forEach(el=>{const d=+el.dataset.wxd,raw=days.find(x=>x.d===d);if(!raw)return;let day;try{day=R(raw)}catch(e){day=raw}
@@ -5738,7 +5744,15 @@ const DOCX={
     if(/賞鯨|浮潛|騎馬|獨木舟|冰川健行|冰浮|隧道|團|報到|集合/.test(x))return "🎟️";if(/徒步|第 \d 日/.test(x))return "🥾";if(/自由活動|自訂|自選|休息|散步|行街|逛街/.test(x))return "🚶";return ""},
   mark(root){try{root&&root.querySelectorAll(".sched.rich").forEach(x=>{x.classList.add("simp");
     /* 沒有可展開的內容（只得「約 40 分鐘」這類時長，時間欄已經有）就不顯示 › */
-    x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has)})})}catch(e){}
+    x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has);
+      a.querySelectorAll(".tl-m").forEach(e=>{if(dur(e.textContent.trim()))e.classList.add("durx")});
+      a.querySelectorAll("details.dsx .spd").forEach(sp=>{if(sp.dataset.ord)return;sp.dataset.ord=1;const dl=sp.querySelector(":scope>dl");if(!dl)return;
+        const P=["預約","門票／收費","停車","廁所","休館日","營業時間","服裝／規定"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
+        dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
+        pairs.sort((x,y)=>{const i=k=>{const n=P.indexOf(x===k?x[0].textContent.trim():y[0].textContent.trim());return n<0?99:n};const a1=P.indexOf(x[0].textContent.trim()),b1=P.indexOf(y[0].textContent.trim());return (a1<0?99:a1)-(b1<0?99:b1)});
+        pairs.forEach(([dt,dd])=>{if(HIDE.test(dt.textContent.trim())){dt.remove();dd&&dd.remove();return}dl.append(dt);dd&&dl.append(dd)});
+        const ti=sp.querySelector(":scope>.spt");if(ti)ti.remove();
+        sp.querySelectorAll(":scope>p:not(.spx0)").forEach(p=>sp.append(p))})})})}catch(e){}
     /* 用「｜」分隔嘅行（例如徒步每日）：第一段做標題，其餘變成 1、2、3 步驟 */
     try{root&&root.querySelectorAll(".sched.rich > .a").forEach(a=>{const n=a.querySelector(".tl-n")||a.querySelector(".tl-h")||a;if(a.querySelector(".tsteps,.tmeta"))return;const t=n.textContent;if(!t.includes("｜"))return;const [h,...st]=t.split("｜").map(x=>x.trim()).filter(Boolean);
       n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
