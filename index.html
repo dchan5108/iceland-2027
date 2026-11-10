@@ -2694,6 +2694,9 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .hlk li a{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line);color:inherit;text-decoration:none;font-size:var(--fs-item)}
 .hlk li:first-child a{border-top:0}.hlk b{color:var(--route)}.hlk span{color:var(--muted);font-size:var(--fs-meta);align-self:center}
 .hlinks .stlink{margin-top:6px}
+
+.hpager{display:flex;justify-content:flex-end;margin-bottom:-4px}.hpager.hpl{justify-content:flex-start}
+.hpager button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--route);font:inherit;font-weight:700;cursor:pointer}
 </style>
 
 </head>
@@ -5203,6 +5206,7 @@ function remPick(raw,day){const sh=t=>String(t||"").replace(/（[^）]*）/g,"")
   if(raw.wx){const wc=cl(hr(raw.wx)).split(/[；。]/).map(x=>x.trim()).filter(x=>/風|雪|霧|浪|封|取消|警告|濕滑/.test(x));wc.forEach(add)}
   return out}
 
+let HOMEV="prep";   /* 準備期總覽：prep＝準備，day＝每日行程 */
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=DT?Date.UTC(2027,8,25):Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
 function renderHome(){const box=$("homeTop");if(!box)return;
   let TD=null;try{TD=todayDay()}catch(e){}const T0=Date.UTC(2027,8,12),dd=Math.ceil((T0-nowIS())/864e5),N=days.filter(x=>x.d>=1).length;
@@ -5235,10 +5239,14 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     <button type="button" class="stlink" data-golinks>全部連結 ›</button></section>`;
   if(LIVE){box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));return}
-  if(PH===2||(PH===1&&TODAY.d==null)){const L=TODAY.ids();TODAY.d=DT&&PH===2?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===1?`<div id="homeToday"></div>`:""}${PH===2?LINKS:""}
+  /* 準備期：總覽係「準備 ⇄ 每日行程」嘅翻頁：準備頁撳 › 去第一日，第一日撳 ‹ 返準備 */
+  TODAY.prevHook=null;
+  if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome()};box.innerHTML=`<div class="hpager hpl"><button type="button" data-hprep>‹ 準備</button></div><div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+    box.querySelectorAll("[data-hprep]").forEach(b=>b.onclick=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)});box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));return}
+  if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${PH===1?`<div class="hpager"><button type="button" data-hday>今日行程 ›</button></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
    <section class="hcard"><div class="hk">環島路線</div><ol class="hroute">${chain.map(c=>`<li><button type="button" data-hgo="${c.d}"><span class="hd">${c.d===c.d2?dLab(c.d):dLab(c.d)+"–"+c.d2}</span><span class="hn">${withEn(c.n)}</span></button></li>`).join("")}</ol></section>`;
-  if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
+  if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}box.querySelectorAll("[data-hday]").forEach(b=>b.onclick=()=>{HOMEV="day";const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0]);renderHome();window.scrollTo(0,0)});box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急嘅 3 件任務＋下一個重要日子；旅程期間＝今日有預約嘅活動 */
 function homeTodo(TD,PH){if(!(DT||REAL)||typeof taskAll!=="function")return "";let T;try{T=taskAll().map(t=>({t,...tStat(t)}))}catch(e){/* 開頁時資料未準備好：稍後再畫 */if(!homeTodo.r){homeTodo.r=1;setTimeout(()=>{try{if(!$("home").hidden)renderHome()}catch(x){}},0)}return ""}
   const lab=x=>x.t.kind==="pre"?TSTP[x.s]:TST[x.s][0],chip=x=>`<span class="st ${TST[x.s][1]}">${lab(x)}</span>`,nm=x=>String(x.t.name).replace(/<[^>]*>/g,"");
@@ -5513,10 +5521,10 @@ const TODAY={d:null,docMode:"date",
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0?"disabled":""} aria-label="前一日">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}${raw.only?` · ${E(raw.only)}`:""}</div><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2>      <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"返準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull" data-tfull="${raw.d}">完整行程 ›</button></div>
       ${TODAY.tiles(raw,day)}</section>
       <section class="tcard"><div class="thd2 noen"><b>🕒 時間表</b></div><ol class="tlist">${TODAY.rows(raw,day)}</ol></section>${docs}`;
-    box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
+    box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
     TODAY.wx(raw,day)}
 };
