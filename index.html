@@ -5235,8 +5235,8 @@ function renderHome(){const box=$("homeTop");if(!box)return;
     <button type="button" class="stlink" data-golinks>全部連結 ›</button></section>`;
   if(LIVE){box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));return}
-  if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
+  if(PH===2||(PH===1&&TODAY.d==null)){const L=TODAY.ids();TODAY.d=DT&&PH===2?L[0]:(L.includes(1)?1:L[0])}
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===1?`<div id="homeToday"></div>`:""}${PH===2?LINKS:""}
    <section class="hcard"><div class="hk">環島路線</div><ol class="hroute">${chain.map(c=>`<li><button type="button" data-hgo="${c.d}"><span class="hd">${c.d===c.d2?dLab(c.d):dLab(c.d)+"–"+c.d2}</span><span class="hn">${withEn(c.n)}</span></button></li>`).join("")}</ol></section>`;
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}box.querySelectorAll("[data-golinks]").forEach(b=>b.onclick=()=>view("links"));box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急嘅 3 件任務＋下一個重要日子；旅程期間＝今日有預約嘅活動 */
