@@ -2977,6 +2977,9 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .docdlg .dfiles{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
 .docdlg .dfhint{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
 .docdlg .dfile{text-decoration:none;display:inline-block;border:0;background:var(--route);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:12px;padding:10px 14px;cursor:pointer}
+
+.logindlg .lgg{display:flex;justify-content:center;min-height:44px;margin:6px 0 2px}
+.logindlg .lgor{text-align:center;font-size:12px;color:var(--muted);margin:10px 0 4px}
 </style>
 
 </head>
@@ -3113,7 +3116,18 @@ async function privDecrypt(key){try{if(!PRIVBOX||!window.crypto||!crypto.subtle)
   if(!raw)return null;const dk=await crypto.subtle.importKey("raw",raw,"AES-GCM",false,["decrypt"]);
   return {role,pt:new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b(PRIVBOX.iv)},dk,b(PRIVBOX.ct)))}}catch(e){return null}}
 function privWipe(){try{["iceland-key","iceland-role","iceland-sync-user","iceland-sync-pass"].forEach(k=>localStorage.removeItem(k));for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(/^iceland-priv-\d+$/.test(k))localStorage.removeItem(k)}}catch(e){}}
+/* ===== Gmail 登入 =====
+   GCLIENT：Google Cloud「OAuth 用戶端 ID」（公開的，不是密碼）。空白就不顯示「用 Google 登入」。
+   登入後 Apps Script 核對 Gmail 名單，傳回私人資料和一條登入鑰匙（iceland-gsk），存在這部手機；之後打開網頁會在背景更新，沒有網絡就用手機已存的。 */
+const GCLIENT="";
+function privStore(pt,role){const N=40000;let i=0;for(;i*N<pt.length;i++)localStorage.setItem("iceland-priv-"+i,pt.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++)localStorage.removeItem("iceland-priv-"+j);
+  localStorage.setItem("iceland-key","1");localStorage.setItem("iceland-role",role==="owner"?"owner":"admin")}
+function gRefresh(sk){try{fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gpull",sk})}).then(r=>r.json()).then(j=>{
+  if(j&&j.err==="sess"){localStorage.removeItem("iceland-gsk");privWipe();try{sessionStorage.setItem("iceland-login-msg","登入已失效，請再用 Gmail 登入")}catch(e){}return}
+  if(j&&j.ok&&j.priv){let old="";for(let i=0;;i++){const c=localStorage.getItem("iceland-priv-"+i);if(c==null||c==="")break;old+=c}
+    if(old!==j.priv||localStorage.getItem("iceland-role")!==j.role){privStore(j.priv,j.role);try{sessionStorage.setItem("iceland-login-msg","私人資料已更新")}catch(e){}}}}).catch(()=>{})}catch(e){}}
 async function privUnlock(){try{
+  {const gsk=localStorage.getItem("iceland-gsk");if(gsk){gRefresh(gsk);return}}
   if(localStorage.getItem("iceland-sync-user")==="key")privWipe();   /* 舊秘密連結版本留低的資料 */
   const u=localStorage.getItem("iceland-sync-user"),p=localStorage.getItem("iceland-sync-pass");
   if(!u||!p){privWipe();return}
@@ -3388,16 +3402,26 @@ if(!PV){const _get=store.get,_set=store.set;store.set=(k,v)=>{const old=_get(k);
 /* 程式自己改的同步資料（例如自動清走舊改動）：開機時都要記低，等它上載一次，其他機不會再收回舊版 */
 function syncMark(k){if(!SYNC.url||!SYNCRX.test(k))return;SYNCT[k]=Date.now();try{localStorage.setItem("iceland-sync-t",JSON.stringify(SYNCT))}catch(e){}syncQ.add(k);clearTimeout(syncTm);syncTm=setTimeout(syncPush,1500)}
 /* 登出：清走登入、身分和私人資料（行程改動等共用資料保留，下次登入再同步） */
-function logoutLocal(){try{sessionStorage.removeItem("iceland-login-msg")}catch(e){}try{["iceland-sync-user","iceland-sync-pass","iceland-role","iceland-key"].forEach(k=>localStorage.removeItem(k));for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(/^iceland-priv-\d+$/.test(k))localStorage.removeItem(k)}}catch(e){}}
+function logoutLocal(){try{const sk=localStorage.getItem("iceland-gsk");if(sk)fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gout",sk})}).catch(()=>{})}catch(e){}try{sessionStorage.removeItem("iceland-login-msg")}catch(e){}try{["iceland-sync-user","iceland-sync-pass","iceland-role","iceland-key","iceland-gsk"].forEach(k=>localStorage.removeItem(k));for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(/^iceland-priv-\d+$/.test(k))localStorage.removeItem(k)}}catch(e){}}
 /* 登入框（公開版、真實版、管理者版都有個小小的「登入」） */
 function loginOpen(){if(document.querySelector("dialog.logindlg"))return;const d=document.createElement("dialog");d.className="logindlg";
-  d.innerHTML=`<form method="dialog" id="lg-form"><h3>登入</h3><label>用戶名<input type="text" id="lg-user" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label><label>密碼<input type="password" id="lg-pass" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required></label><p class="rhint" id="lg-msg"></p><div class="row"><button type="submit" class="mini">登入</button><button type="button" class="mini" id="lg-cancel">取消</button></div></form>`;
+  d.innerHTML=`<form method="dialog" id="lg-form"><h3>登入</h3>${GCLIENT?`<div id="lg-g" class="lgg"></div><p class="rhint" id="lg-gmsg"></p><p class="lgor">或者用用戶名和密碼</p>`:""}<label>用戶名<input type="text" id="lg-user" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label><label>密碼<input type="password" id="lg-pass" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required></label><p class="rhint" id="lg-msg"></p><div class="row"><button type="submit" class="mini">登入</button><button type="button" class="mini" id="lg-cancel">取消</button></div></form>`;
   document.body.appendChild(d);const close=()=>{try{d.close()}catch(e){}d.remove()};d.querySelector("#lg-cancel").onclick=close;
   d.querySelector("#lg-form").addEventListener("submit",async ev=>{ev.preventDefault();const u=d.querySelector("#lg-user").value.trim(),p=d.querySelector("#lg-pass").value.trim(),m=d.querySelector("#lg-msg");if(!u||!p)return;
     m.textContent="檢查中…";const r=await privDecrypt(u+":"+p);
     if(r==null){m.textContent=(window.crypto&&crypto.subtle)?"用戶名或者密碼不正確":"這個瀏覽器不支援，請用 Safari 或者 Chrome 最新版";return}
     try{localStorage.setItem("iceland-sync-user",u);localStorage.setItem("iceland-sync-pass",p);localStorage.removeItem("iceland-sync-url");sessionStorage.setItem("iceland-login-msg",r.role==="owner"?"已登入：終極管理者版":"已登入：管理者版")}catch(e){}m.textContent="登入成功，載入中…";location.reload()});
-  if(d.showModal)d.showModal();else d.setAttribute("open","");d.querySelector("#lg-user").focus()}
+  if(d.showModal)d.showModal();else d.setAttribute("open","");if(GCLIENT)gButton(d.querySelector("#lg-g"),d.querySelector("#lg-gmsg"));else d.querySelector("#lg-user").focus()}
+/* Google 登入按鈕（Google Identity Services）：拿到 Google 的身分證明後交給 Apps Script 核對 */
+function gButton(box,msg){const go=()=>{try{google.accounts.id.initialize({client_id:GCLIENT,ux_mode:"popup",callback:async resp=>{msg.textContent="檢查中…";
+    try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"glogin",idt:resp.credential})}),j=await r.json();
+      if(j.ok&&j.priv){privStore(j.priv,j.role);localStorage.setItem("iceland-gsk",j.sk);["iceland-sync-user","iceland-sync-pass","iceland-sync-url"].forEach(k=>localStorage.removeItem(k));
+        try{sessionStorage.setItem("iceland-login-msg",j.role==="owner"?"已登入：終極管理者版":"已登入：管理者版")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
+      msg.textContent=j.err==="gdeny"?`這個 Gmail（${j.email||""}）未有權限`:j.err==="gtoken"?"Google 登入失敗，請再試一次":(j.sv||0)<6?"Apps Script 未更新到新版本":"登入失敗："+(j.err||"")}catch(e){msg.textContent="連線失敗，請檢查網絡"}}});
+    google.accounts.id.renderButton(box,{theme:"outline",size:"large",shape:"pill",text:"signin_with",locale:"zh-TW",width:260})}catch(e){msg.textContent="Google 登入載入失敗"}};
+  if(window.google&&google.accounts&&google.accounts.id){go();return}
+  let sc=document.getElementById("gsi-js");if(!sc){sc=document.createElement("script");sc.id="gsi-js";sc.src="https://accounts.google.com/gsi/client";sc.async=true;document.head.appendChild(sc)}
+  sc.addEventListener("load",go);sc.addEventListener("error",()=>{msg.textContent="沒有網絡，未能載入 Google 登入"})}
 async function syncPush(){if(!SYNC.url||!SYNC.ready||!syncQ.size)return;const items=[...syncQ].map(k=>({key:k,v:localStorage.getItem(k)||"",t:SYNCT[k]||Date.now()}));syncQ.clear();syncSt("","上載中…");
   try{const r=await fetch(SYNC.url,{method:"POST",body:JSON.stringify({u:SYNC.user,k:SYNC.pass,items})}),j=await r.json();if(j.err){syncSt("bad",j.err==="pass"?"通關密碼不正確":"同步出錯："+j.err);return}syncSt("ok","已同步 "+hhmm())}
   catch(e){items.forEach(x=>syncQ.add(x.key));syncSt("bad","上載失敗（沒有網絡？），改動留在這部機，稍後再試")}}
@@ -3504,7 +3528,7 @@ function dtSunrise(day){const x=SUNRISE[day.d];if(!x||(x.scen&&x.scen!==scen))re
 /* 開啟記錄：載入、顯示、改名 */
 const devNames=()=>{try{return JSON.parse(store.get("iceland-devnames")||"{}")||{}}catch(e){return {}}};
 async function visLoad(){const out=document.getElementById("vis-out");if(!out)return;out.innerHTML=`<p class="rhint">載入中…</p>`;
-  try{const r=await fetch(SYNC.url,{method:"POST",body:JSON.stringify({op:"visits",u:SYNC.user,k:SYNC.pass})}),j=await r.json();
+  try{const gsk=localStorage.getItem("iceland-gsk"),r=await fetch(gsk?CONTENT_URL:SYNC.url,{method:"POST",body:JSON.stringify(gsk?{op:"visits",sk:gsk}:{op:"visits",u:SYNC.user,k:SYNC.pass})}),j=await r.json();
     if(j.err==="owner"||j.err==="pass"){out.innerHTML=`<p class="rhint">${(j.sv||0)<5?`Apps Script 仍然是舊程式（伺服器版本 ${j.sv||"舊"}，要 5）：將新的 apps-script-sync.gs 成段貼入，儲存，再「管理部署作業 → 鉛筆編輯 → 版本：新版本 → 部署」。`:"Apps Script 已經是新程式，但不認得這個帳戶：請登出再用終極管理者帳戶登入。"}</p>`;return}
     if(j.err){out.innerHTML=`<p class="rhint">${j.err==="pass"?"通關密碼不正確":"讀取失敗："+escA(j.err)}</p>`;return}
     const V=j.visits||[];if(!V.length){out.innerHTML=`<p class="rhint">未有記錄（要部署新版 Apps Script 之後先開始記）。</p>`;return}
