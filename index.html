@@ -3119,7 +3119,7 @@ function privWipe(){try{["iceland-key","iceland-role","iceland-sync-user","icela
 /* ===== Gmail 登入 =====
    GCLIENT：Google Cloud「OAuth 用戶端 ID」（公開的，不是密碼）。空白就不顯示「用 Google 登入」。
    登入後 Apps Script 核對 Gmail 名單，傳回私人資料和一條登入鑰匙（iceland-gsk），存在這部手機；之後打開網頁會在背景更新，沒有網絡就用手機已存的。 */
-const GCLIENT="";
+const GCLIENT="147893735528-nu3c7upfv480ciatt1u7fg2jm8ju8jcn.apps.googleusercontent.com";
 function privStore(pt,role){const N=40000;let i=0;for(;i*N<pt.length;i++)localStorage.setItem("iceland-priv-"+i,pt.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++)localStorage.removeItem("iceland-priv-"+j);
   localStorage.setItem("iceland-key","1");localStorage.setItem("iceland-role",role==="owner"?"owner":"admin")}
 function gRefresh(sk){try{fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gpull",sk})}).then(r=>r.json()).then(j=>{
