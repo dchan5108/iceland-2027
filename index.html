@@ -2911,12 +2911,12 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .day h3 .h3act .optbtn>span{display:none!important}
 
 /* 小按鈕：同一高度，文字上下置中（中文字型偏上，頂部多留 1px） */
-.tk-a .tkln,.tk-a .tkdet{box-sizing:border-box;height:28px;display:inline-flex;align-items:center;line-height:1;padding:1px 10px 0}
-.day h3 .h3act .sunbtn{line-height:1!important;padding-top:1px!important}
+.tk-a .tkln,.tk-a .tkdet{box-sizing:border-box;height:28px;display:inline-flex;align-items:center;line-height:1;padding:0 10px}
+.day h3 .h3act .sunbtn{line-height:1!important}
 
-/* 選擇掣（蝙蝠山 日出｜日落、未訂｜已訂｜全部）：中文字偏上，文字向下移 1.5px */
-.scenbox .seg button,.viewbox .seg button{padding-top:4.5px!important;padding-bottom:1.5px!important}
-#bookp .tkseg button,.tkseg button{padding-top:7.5px!important;padding-bottom:4.5px!important}
+/* 選擇掣（蝙蝠山 日出｜日落、未訂｜已訂｜全部）：用 flex 上下置中，不按字型微調（之前按電腦字型調的位移在 iPhone 會偏低） */
+.scenbox .seg button,.viewbox .seg button,#bookp .tkseg button,.tkseg button{display:inline-flex!important;align-items:center!important;justify-content:center;gap:4px;line-height:1!important;padding-top:0!important;padding-bottom:0!important;min-height:32px}
+.tkseg button b{line-height:1}
 
 .sched.rich.simp>.a.noexp{cursor:default}
 .sched.rich.simp .a.noexp .tl-h::after{content:none!important;display:none!important}
@@ -2925,7 +2925,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .bkprog .bklocal{font-size:12px;color:var(--muted);font-weight:500}
 
 /* 時間表展開後：ⓘ 改成「詳情 ▾」小按鈕，放在內容下面，不再和 › 重疊（和預訂頁一樣） */
-.sched.rich.simp .a details.dsx>summary.dsm{position:static!important;display:inline-flex!important;align-items:center;gap:3px;width:auto!important;height:28px!important;box-sizing:border-box;margin:8px 0 0!important;padding:1px 10px 0!important;border-radius:999px!important;background:var(--fill)!important;color:var(--route)!important;font-size:13px!important;font-weight:600;line-height:1}
+.sched.rich.simp .a details.dsx>summary.dsm{position:static!important;display:inline-flex!important;align-items:center;gap:3px;width:auto!important;height:28px!important;box-sizing:border-box;margin:8px 0 0!important;padding:0 10px!important;border-radius:999px!important;background:var(--fill)!important;color:var(--route)!important;font-size:13px!important;font-weight:600;line-height:1}
 .sched.rich.simp .a details.dsx>summary.dsm svg{display:none!important}
 .sched.rich.simp .a details.dsx>summary.dsm .vh{position:static!important;width:auto!important;height:auto!important;clip:auto!important;clip-path:none!important;overflow:visible!important;margin:0!important;white-space:nowrap}
 .sched.rich.simp .a details.dsx>summary.dsm::after{content:"▾"!important;display:inline!important;position:static!important;font-size:11px;border:0!important;transform:none!important;width:auto!important;height:auto!important;background:none!important}
@@ -3414,7 +3414,8 @@ function loginOpen(){if(document.querySelector("dialog.logindlg"))return;const d
   if(d.showModal)d.showModal();else d.setAttribute("open","");if(GCLIENT)gButton(d.querySelector("#lg-g"),d.querySelector("#lg-gmsg"));else d.querySelector("#lg-user").focus()}
 /* Google 登入按鈕（Google Identity Services）：拿到 Google 的身分證明後交給 Apps Script 核對 */
 function gButton(box,msg){const go=()=>{try{google.accounts.id.initialize({client_id:GCLIENT,ux_mode:"popup",callback:async resp=>{msg.textContent="檢查中…";
-    try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"glogin",idt:resp.credential})}),j=await r.json();
+    try{let j,raw="";try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"glogin",idt:resp.credential})});raw=await r.text();j=JSON.parse(raw)}
+      catch(e){const t=String(raw||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();msg.textContent=raw?"Apps Script 出錯："+(t.match(/(?:Error|錯誤|Exception)[^.。]{0,160}/i)||[t.slice(0,160)])[0]:"連線失敗（"+(e&&e.message||e)+"）";return}
       if(j.ok&&j.priv){privStore(j.priv,j.role);localStorage.setItem("iceland-gsk",j.sk);["iceland-sync-user","iceland-sync-pass","iceland-sync-url"].forEach(k=>localStorage.removeItem(k));
         try{sessionStorage.setItem("iceland-login-msg",j.role==="owner"?"已登入：終極管理者版":"已登入：管理者版")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
       msg.textContent=j.err==="gdeny"?`這個 Gmail（${j.email||""}）未有權限`:j.err==="gtoken"?"Google 登入失敗，請再試一次":(j.sv||0)<6?"Apps Script 未更新到新版本":"登入失敗："+(j.err||"")}catch(e){msg.textContent="連線失敗，請檢查網絡"}}});
@@ -5283,8 +5284,8 @@ function cxHTML(id){let v=CANC[id]||"";if(!v)try{v=CANCDEF()[id]||""}catch(e){}l
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.cx;if(!id)return;if(e.target.value)CANC[id]=e.target.value;else delete CANC[id];store.set("iceland-bcancel",JSON.stringify(CANC));const w=e.target.closest(".bkx");if(w)w.outerHTML=cxHTML(id)});
 function bkProg(){const all=taskAll().map(t=>tStat(t).s),c=k=>all.filter(x=>x===k).length,ok=c("done")+c("na");
   document.querySelectorAll("#bookp .bkc").forEach(e=>{const xs=[...e.closest("h3").nextElementSibling.querySelectorAll("li[data-ts]")];e.textContent=TKF==="all"?`${xs.filter(x=>/done|na/.test(x.dataset.ts)).length}/${xs.length}`:`${xs.length} 項`});
-  const t=$("bkprog");if(t)t.innerHTML=`已完成 <b>${ok}</b> / ${all.length}${SYNC.url?"":`<small class="bklocal"> · 狀態只存在這部手機</small>`}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
-  const f=$("tkf");if(f)f.innerHTML=(TKF==="stay"?`<button type="button" data-tkf="todo" class="tkstay" aria-label="取消只看住宿">只看住宿 ✕</button>`:`<span class="tkseg">${[["todo","未訂",c("todo")],["done","已訂",c("done")],["all","全部",all.length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}">${l} <b>${n}</b></button>`).join("")}</span>`)+`<button type="button" class="tksort" data-bkv2="${BKV==="day"?"dl":"day"}" aria-label="轉排列方式">⇅ ${BKV==="day"?"按日子":"按期限"}</button>`;
+  const t=$("bkprog");if(t)t.innerHTML=`已訂 <b>${ok}</b> / ${all.length}${SYNC.url?"":`<small class="bklocal"> · 狀態只存在這部手機</small>`}<div class="bkbar"><i style="width:${all.length?Math.round(ok/all.length*100):0}%"></i></div>`;
+  const f=$("tkf");if(f)f.innerHTML=(TKF==="stay"?`<button type="button" data-tkf="todo" class="tkstay" aria-label="取消只看住宿">只看住宿 ✕</button>`:`<span class="tkseg">${[["todo","未訂",all.length-ok],["done","已訂",ok],["all","全部",all.length]].map(([k,l,n])=>`<button type="button" data-tkf="${k}" aria-pressed="${TKF===k}">${l} <b>${n}</b></button>`).join("")}</span>`)+`<button type="button" class="tksort" data-bkv2="${BKV==="day"?"dl":"day"}" aria-label="轉排列方式">⇅ ${BKV==="day"?"按日子":"按期限"}</button>`;
   if(typeof prepDash==="function")try{prepDash()}catch(e){}}
 /* 改狀態：同時更新舊剔格（BKC／PREK），等其他功能照用 */
 document.addEventListener("change",e=>{const id=e.target.dataset&&e.target.dataset.task;if(!id)return;const v=e.target.value,on=v==="done"||v==="recheck";
@@ -5377,7 +5378,7 @@ function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntri
 let TKF="todo";   /* 預設只看未訂／未做 */
 const BKOPEN=new Set();   /* 打開了的任務分組（預設全部收起） */
 function bkDays(){const all=taskAll().map(t=>({t,st:tStat(t).s})),imp=x=>TIMP.test(x.t.name)?0:1;
-  const L=TKF==="all"?all:TKF==="stay"?all.filter(x=>/^(stay|dtn)$/.test(x.t.kind)):all.filter(x=>x.st===TKF);
+  const L=TKF==="all"?all:TKF==="stay"?all.filter(x=>/^(stay|dtn)$/.test(x.t.kind)):all.filter(x=>TKF==="done"?/^(done|na)$/.test(x.st):TKF==="todo"?!/^(done|na)$/.test(x.st):x.st===TKF);
   let first=!BKTOUCH;
   const grp=(head,xs,col)=>{if(!xs.length)return "";const op=TKF==="stay"||BKOPEN.has(head)||(first&&!(first=false));return `<h3 class="tiph bkday bkcol" role="button" tabindex="0" aria-expanded="${op}" data-g="${String(head).replace(/"/g,"&quot;")}"${col?` style="--dc:${col}"`:""}>${head}<span class="bkc"></span></h3><ul class="bkchk tkl"${op?"":" hidden"}>${xs.sort((a,b)=>imp(a)-imp(b)).map(x=>tLi(x.t)).join("")}</ul>`};
   if(!L.length)return `<p class="rhint">沒有這類項目。</p>`;
@@ -5945,7 +5946,9 @@ const TODAY={d:null,docMode:"date",
     return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
   routeLat(raw,day){const lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim(),toLat=t=>{const x=lat(t);if(x)return x;const z=String(t).replace(/[（(][^）)]*[）)]/g,"").trim(),hit=ENN.find(([c])=>z.includes(c));return hit?hit[1]:z};
     if((day.legs||[]).some(l=>l.walk))return lat(TODAY.place[raw.d]||"");const L=(day.legs||[]).filter(l=>!l.c2);if(!L.length)return lat(TODAY.place[raw.d]||"");
-    const a=toLat(nm(L[0].a)),b=toLat(nm(L[L.length-1].b));return a===b?a:`${a} → ${b}`},
+    /* 起點／終點是住宿（酒店、農場）就寫地方名，例如 Vík → Hvolsvöllur，不寫 Mr Iceland */
+    const isSt=k=>pts[k]&&pts[k][3]==="stay",plat=d=>lat(String(TODAY.place[d]||"").replace(/附近/g,"")),
+      a=(isSt(L[0].a)&&plat(raw.d-1))||toLat(nm(L[0].a)),b=(isSt(L[L.length-1].b)&&plat(raw.d))||toLat(nm(L[L.length-1].b));return a===b?a:`${a} → ${b}`},
   sum(day){const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay");return ks.map(k=>String(pts[k][0]).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>a.indexOf(v)===i).slice(0,5).join(" · ")},
   title:a=>{const t=cl(a).replace(/^\d{1,2}\/\d{1,2}(（[^）]*）)?\s*/,"");return (t.split(/[（(；]/)[0].replace(/\s*約\s*\d.*$/,"").trim()||t.slice(0,30))},
   tiles(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];
