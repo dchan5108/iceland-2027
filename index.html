@@ -2966,6 +2966,13 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 時間欄只寫開始時間：收窄 */
 .sched.rich.simp{grid-template-columns:48px minmax(0,1fr)!important}
 .sched.rich .a.drv .drvt{font-weight:700;color:var(--fg)}
+
+/* 早上出發那一行：細字車程＋導航，和中途開車行一樣 */
+.sched.rich .a .depgo.depline{display:block;position:relative;margin-top:4px;padding-right:66px;color:var(--muted);font-size:12.5px;text-decoration:none;line-height:1.45}
+.sched.rich .a .depgo.depline .cnic{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:4px;fill:none;stroke:currentColor;stroke-width:1.8}
+.sched.rich .a .depgo.depline .drvpill{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+
+.sched.rich .t .tend{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:1px;white-space:nowrap}
 </style>
 
 </head>
@@ -4275,7 +4282,7 @@ function richRows(day){
   /* 時間軸每行：名稱＋停留／車程＋一行簡介；其餘資料收在「詳情」 */
   const dep=depI(plan),LG=(day.legs||[]).filter(l=>!l.c2&&!l.hide),usedL=new Set(),PD={v:null};
   /* 開車行的目的地：之後第一個有地點的站；按這一行就導航去那裡 */
-  const drvTo=i=>{let j=i+1;while(j<plan.length&&!SK[j])j++;const k=j<plan.length?SK[j]:"";if(!k||!pts[k])return "";const q=qn(k);return ` data-to="${escA(k)}" data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
+  const drvTo=i=>{let j=i+1;while(j<plan.length&&!SK[j])j++;const k=j<plan.length?SK[j]:"";if(!k||!pts[k])return "";const q=qn(k),lg0=(day.legs||[]).find(l=>l.b===k&&!l.walk);return ` data-to="${escA(k)}"${lg0&&lg0.m?` data-dm="${Math.round(lg0.m)}"`:""} data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
   const driveTo=k=>{const i=LG.findIndex((l,x)=>!usedL.has(x)&&l.b===k);if(i<0)return 0;usedL.add(i);return LG[i]};
   const bodyA=plan.map(([t,a,f],i)=>{if(isConn(i)){if(SK[i])driveTo(SK[i]);const p=String(a).replace(/<[^>]*>/g,"");
       let tx=p.replace(/\s*[（(]\s*/," · ").replace(/[）)]\s*[：:，,]\s*/," · ").replace(/[）)]\s*$/,"").replace(/[）)]\s*/g," ").replace(/[；;]\s*/g," · ").replace(/\s+·/g," ·");
@@ -5303,7 +5310,14 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
   rows.forEach((a,i)=>{a.dataset.ri=i;
     if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):""));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
-    if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo"))a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener"><span class="drvpill">導航</span></a>`);
+    if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
+      /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
+      const tn=a.querySelector(".tl-n"),T=tn?tn.textContent.trim():"",mm=T.match(/^(退房出發|出發)(?:，(.*))?$/);let line="";
+      if(tn&&mm&&!/^出發，前往/.test(T)){const fmt=x=>{const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`};
+        const note=(mm[2]||"").split("，").filter(x=>x&&!/^前往/.test(x)),ds=a.querySelectorAll(".tl-d");
+        ds.forEach(d=>{const v=d.textContent.replace(/[，,]?\s*由[^，,]*?開車約 ?[\d小時分鐘 ]+$/,"").replace(/[，,]?\s*約 ?[\d小時分鐘 ]+$/,"").trim();if(!v)d.remove();else d.textContent=v});
+        const dm=+a.dataset.dm;line=[dm?"約 "+fmt(dm):"",...note].filter(Boolean).join(" · ");tn.textContent=mm[1];tn.classList.add("noen")}
+      a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo${line?" depline":""}" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener">${line?`<span class="depm"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${DOCX.esc(line)}</span>`:""}<span class="drvpill">導航</span></a>`)}
     if(a.classList.contains("drv"))return;
     const t=a.previousElementSibling&&a.previousElementSibling.classList.contains("t")?a.previousElementSibling:null;
     if(live&&t&&!t.querySelector(".tick")){t.insertAdjacentHTML("beforeend",`<button type="button" class="tick noen" data-tick="${d}|${i}" aria-label="已到"></button>`)}
@@ -5841,7 +5855,7 @@ const DOCX={
       /* 時間欄簡潔：每站只寫開始時間；開車行的時間寫進該行（「14:00 出發 · 約 1 小時」） */
       if(!x.dataset.tsimp){x.dataset.tsimp=1;x.querySelectorAll(":scope>.t").forEach(t=>{const n=t.firstChild;if(!n||n.nodeType!==3)return;const full=n.textContent.trim();
         if(t.classList.contains("cn")){const d=t.nextElementSibling;if(full&&d&&d.classList.contains("drv")){const sv=d.querySelector(".cnic");const hm=full.match(/\d{1,2}:\d{2}/);if(hm){const b=document.createElement("b");b.className="drvt";b.textContent=hm[0]+" 出發 · ";if(sv)sv.after(b);else d.prepend(b)}}n.textContent="";t.title=full;return}
-        const nx=t.nextElementSibling;if(nx&&nx.querySelector(".bkb"))return;const m=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*\d{1,2}:\d{2}/);if(m){n.textContent=m[1];t.title=full}})}});tripNavApply(root)}catch(e){}
+        const nx=t.nextElementSibling;if(nx&&nx.querySelector(".bkb")){const r=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);if(r){n.textContent=r[1];const e=document.createElement("small");e.className="tend noen";e.textContent="至 "+r[2];n.after(e);t.title=full}return}const m=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*\d{1,2}:\d{2}/);if(m){n.textContent=m[1];t.title=full}})}});tripNavApply(root)}catch(e){}
     /* 用「｜」分隔嘅行（例如徒步每日）：第一段做標題，其餘變成 1、2、3 步驟 */
     try{root&&root.querySelectorAll(".sched.rich > .a").forEach(a=>{const n=a.querySelector(".tl-n")||a.querySelector(".tl-h")||a;if(a.querySelector(".tsteps,.tmeta"))return;const t=n.textContent;if(!t.includes("｜"))return;const [h,...st]=t.split("｜").map(x=>x.trim()).filter(Boolean);
       n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
