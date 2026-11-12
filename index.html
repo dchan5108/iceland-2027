@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-ov">
+<link rel="stylesheet" href="style.css?v=2026-11-13-home2">
 
 </head>
 <body>
@@ -49,7 +49,7 @@
   </header>
   <div class="knit" aria-hidden="true"></div>
   <nav class="bnav" aria-label="主要頁面" role="tablist">
-    <button type="button" role="tab" id="tab-home" hidden aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
+    <button type="button" role="tab" id="tab-home" aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
     <button type="button" role="tab" id="tab-today" hidden aria-selected="false" aria-controls="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/><circle cx="12" cy="15" r="1.6"/></svg><span>今日</span></button>
     <button type="button" role="tab" id="tab-prep" aria-selected="false" aria-controls="prep" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M5 12h14"/><path d="M10 15.5l1.5 1.5 3-3"/></svg><span>準備</span></button>
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><em class="full">行程</em><span>行程</span><i class="mlab">行程</i></button>
@@ -1587,8 +1587,12 @@ function ovHero(){try{
   <div class="ovh-act">${ACT.map(a=>`<span>${a}</span>`).join("")}</div>
   <div class="ovh-rem"><span>${dd>0?`還有 <b>${dd}</b> 日出發`:now<Date.UTC(2027,8,24)?"旅程進行中":"旅程完成"}</span>${bk}</div></section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
+/* 總覽：整體安排（按地區分段；按一段去該日行程） */
+function ovPlan(){const dt=d=>{const r=days.find(x=>x.d===d);return r?String(r.date).replace(/（[^）]*）/g,"").replace(/\s+/g,""):""};
+  const G=[[1,1,"抵達","雷克雅維克，藍湖"],[2,3,"西部至北部","斯奈山半島、巨人峽谷，到 Akureyri"],[4,4,"北部","米湖一帶、賞鯨、黛提瀑布"],[5,5,"東部峽灣","瀑布和峽灣小鎮，到赫本"],[6,8,"東南部","冰河湖、冰川健行"],[9,10,"南岸及黃金圈","黑沙灘、瀑布、黃金圈"],[11,12,"雷克雅維克","溫泉，回程"]];
+  return `<section class="hcard ovplan"><div class="hk">旅程安排</div><ol>${G.map(([a,b,t,x])=>`<li><button type="button" data-hgo="${a}"><span class="opd"><b>${a===b?"D"+a:"D"+a+"–"+b}</b><small>${a===b?dt(a):dt(a)+"–"+dt(b).replace(/^\d+\//,"")}</small></span><span class="opt"><b>${t}</b><small>${x}</small></span></button></li>`).join("")}</ol></section>`}
 function overview(){
-  return `${ovHero()}${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
+  return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");
     /* 總表：每日一張細版頭格（路線大字、交通、住宿） */
     let rl="";try{rl=TODAY.routeLat(raw,day)}catch(e){rl=route}
@@ -2322,7 +2326,6 @@ function view(v){
   if(v==="book"||v==="pack"){PSUB=v==="book"?"book":"pre";v="prep"}
   if(v==="budget"&&!DT&&!REAL)v="trip";
   if(v==="today"&&$("tab-today").hidden)v="home";
-  if(v==="home")v="trip";   /* 總覽已經併入行程 */
   if(v==="tips"||v==="links"||v==="guide")v=(DT||REAL)?"prep":"home";   /* 連結頁已刪：內容分散去總覽／準備／預算 */
   if(!["home","trip","prep","budget","links","today"].includes(v))v="trip";
   if(v==="budget")PSUB="budget";else if(v==="prep"&&PSUB==="budget")PSUB=DT?"book":"pre";
@@ -2331,7 +2334,7 @@ function view(v){
   $("home").hidden=v!=="home";$("today").hidden=v!=="today";$("view-trip").hidden=v!=="trip";$("prep").hidden=!(v==="prep"||v==="budget");$("tips").hidden=v!=="links";$("stays").hidden=false;if(v==="prep"&&(PSUB==="stay"||PSUB==="book"))try{renderStays()}catch(e){}
   $("prep").classList.toggle("budonly",v==="budget");
   [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});
-  {const mc=$("mapcol");if(mc){if(v==="home"){const ht=$("homeMap");if(ht&&mc.parentElement!==ht){ht.appendChild(mc)}}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
+  {const mc=$("mapcol");if(mc){if(false){const ht=$("homeMap");if(ht&&mc.parentElement!==ht){ht.appendChild(mc)}}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}}
   if(v==="today"){try{TODAY.render()}catch(e){}}
@@ -2399,8 +2402,8 @@ function renderHome(){const box=$("homeTop");if(!box)return;
   if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${hero}${stH}${homeTodo(TD,"")}${PH===2?LINKS:""}
-   <section class="hcard"><div class="hk">環島路線</div><ol class="hroute">${chain.map(c=>`<li><button type="button" data-hgo="${c.d}"><span class="hd">${c.d===c.d2?dLab(c.d):dLab(c.d)+"–"+c.d2}</span><span class="hn">${withEn(c.n)}</span></button></li>`).join("")}</ol></section>`;
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}${ovPlan()}${PH===2?LINKS:""}`;
+  box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急的 3 件任務＋下一個重要日子；旅程期間＝今日有預約的活動 */
 function homeTodo(TD,PH){if(!(DT||REAL)||typeof taskAll!=="function")return "";let T;try{T=taskAll().map(t=>({t,...tStat(t)}))}catch(e){/* 開頁時資料未準備好：稍後再畫 */if(!homeTodo.r){homeTodo.r=1;setTimeout(()=>{try{if(!$("home").hidden)renderHome()}catch(x){}},0)}return ""}
@@ -2561,7 +2564,7 @@ if(location.hash==="#book")view("book");if(location.hash==="#transport")view("tr
 if(location.hash==="#guide")view("tips");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
-if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash))view(store.get("iceland-tab")||"trip");
+if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash))view("home");   /* 打開網站：先看總覽 */
 if(/simple/.test(location.hash)){
   document.documentElement.classList.add("print","simple");
   drv="raw";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
@@ -2581,7 +2584,7 @@ try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.fo
 /* 無障礙：只圖示的按鈕，滑鼠停留時顯示文字說明 */
 try{const tip=r=>{(r.querySelectorAll?r.querySelectorAll("button[aria-label]:not([title]),a[aria-label]:not([title])"):[]).forEach(b=>b.title=b.getAttribute("aria-label"))};tip(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)tip(n.parentNode||n)}))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
-const BUILD="2026-11-13-ov";
+const BUILD="2026-11-13-home";
 let STALE=false;try{STALE=localStorage.getItem("iceland-build")!==BUILD}catch(e){}
 if(STALE){(async()=>{let ok=false;try{if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()))}if(self.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}localStorage.removeItem("iceland-content-cache");localStorage.setItem("iceland-build",BUILD);ok=true}catch(e){}if(ok)location.reload()})()}
 try{if(!STALE&&"serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}

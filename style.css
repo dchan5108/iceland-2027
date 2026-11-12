@@ -2980,3 +2980,14 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 @media (min-width:761px){.bpass{max-width:600px}}
 .bpass .bpg{grid-template-columns:repeat(3,minmax(0,1fr))!important;justify-content:stretch!important}
 .bpass .bpg span:nth-child(2){text-align:center}.bpass .bpg span:nth-child(3){text-align:right}
+
+/* 總覽：旅程安排 */
+.ovplan ol{list-style:none;margin:6px 0 0;padding:0;display:grid}
+.ovplan li+li{border-top:.5px solid var(--line)}
+.ovplan button{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center;width:100%;padding:10px 0;border:0;background:none;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.ovplan .opd b{display:block;font-size:15px;color:var(--route);font-variant-numeric:tabular-nums}
+.ovplan .opd small,.ovplan .opt small{display:block;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ovplan .opt b{display:block;font-size:15px;color:var(--fg)}
+#home .ovhero{margin-bottom:14px}
+/* 總覽電腦版：封面和旅程安排並排 */
+@media (min-width:1000px){#home #homeTop{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)!important;align-items:start}#home .ovhero{margin:0}}
