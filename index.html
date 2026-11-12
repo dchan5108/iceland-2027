@@ -159,11 +159,11 @@ function privWipe(){try{["iceland-key","iceland-role","iceland-sync-user","icela
    登入後 Apps Script 核對 Gmail 名單，傳回私人資料和一條登入鑰匙（iceland-gsk），存在這部手機；之後打開網頁會在背景更新，沒有網絡就用手機已存的。 */
 const GCLIENT="147893735528-nu3c7upfv480ciatt1u7fg2jm8ju8jcn.apps.googleusercontent.com";
 function privStore(pt,role){const N=40000;let i=0;for(;i*N<pt.length;i++)localStorage.setItem("iceland-priv-"+i,pt.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++)localStorage.removeItem("iceland-priv-"+j);
-  localStorage.setItem("iceland-key","1");localStorage.setItem("iceland-role",role==="owner"?"owner":"admin")}
+  localStorage.setItem("iceland-key","1");localStorage.setItem("iceland-role",["owner","admin","real","docs","pending"].includes(role)?role:"pending")}
 function gRefresh(sk){try{fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gpull",sk})}).then(r=>r.json()).then(j=>{
   if(j&&j.err==="sess"){localStorage.removeItem("iceland-gsk");privWipe();try{sessionStorage.setItem("iceland-login-msg","登入已失效，請再用 Gmail 登入")}catch(e){}return}
-  if(j&&j.ok&&j.priv){let old="";for(let i=0;;i++){const c=localStorage.getItem("iceland-priv-"+i);if(c==null||c==="")break;old+=c}
-    if(old!==j.priv||localStorage.getItem("iceland-role")!==j.role){privStore(j.priv,j.role);try{sessionStorage.setItem("iceland-login-msg","私人資料已更新")}catch(e){}}}}).catch(()=>{})}catch(e){}}
+  if(j&&j.ok){let old="";for(let i=0;;i++){const c=localStorage.getItem("iceland-priv-"+i);if(c==null||c==="")break;old+=c}
+    const rc=localStorage.getItem("iceland-role")!==j.role;if(old!==j.priv||rc){privStore(j.priv,j.role);try{sessionStorage.setItem("iceland-login-msg",rc?(j.role==="pending"?"申請已收到，等管理員批准":"權限已更新"):"資料已更新")}catch(e){}if(rc)location.reload()}}}).catch(()=>{})}catch(e){}}
 async function privUnlock(){try{
   const gsk=localStorage.getItem("iceland-gsk");if(gsk){gRefresh(gsk);return}
   privWipe();   /* 只用 Gmail 登入：沒有登入鑰匙就清走舊的私人資料（包括以前用密碼登入留低的） */
@@ -304,7 +304,7 @@ const pts={lmlg:["Landmannalaugar（H1 起點，海拔約 600 米）",-19.0600,6
 /* 自訂地點（由 Google Maps 連結或座標加入）：key u<數字>，存在 iceland-upts，會同步 */
 let UPTS={};try{UPTS=JSON.parse(store.get("iceland-upts")||"{}")||{}}catch(e){UPTS={}}
 Object.keys(UPTS).forEach(k=>{const v=UPTS[k];if(/^u\d+$/.test(k)&&Array.isArray(v)&&isFinite(v[1])&&isFinite(v[2]))pts[k]=v});
-const N={skyl:"Sky Lagoon",borg:"博爾加內斯",hver:"Hverir 地熱區",rvk:"雷克雅維克",seyd:"藍色教堂",hjok:"Hótel Jökulsárlón",skal:"Skálakot 馬場",solh:"Sólheimajökull 冰川",vik:"維克",skaf:"斯卡夫塔山",husa:"胡薩維克",hofn:"赫本",jok:"冰河湖",silf:"Silfra"};
+const N={skyl:"Sky Lagoon",borg:"博爾加內斯",hver:"Hverir 地熱區",rvk:"雷克雅維克",seyd:"藍色教堂",hjok:"冰河湖",skal:"Skálakot 馬場",solh:"Sólheimajökull 冰川",vik:"維克",skaf:"斯卡夫塔山",husa:"胡薩維克",hofn:"赫本",jok:"冰河湖",silf:"Silfra"};
 const nm=k=>N[k]||pts[k][0].replace(/（.*）/,"");
 const L=(a,b,m,o={})=>({a,b,m,...o});
 /* plan rows: [time, activity, flag]  flag: "m" meal, "c" changed.  Days 9 and 10 have two versions: ok = D8 hike went ahead, redo = D8 cancelled and redone on D9 */
@@ -403,16 +403,13 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 const ALL=99;
 let sel=+(store.get("iceland-day2")??ALL);
 /* time display */
-const REAL_KEY="n8f3",OFS=0;const isRealUrl=()=>{try{return location.hash.replace("#","")===REAL_KEY||new URLSearchParams(location.search).has(REAL_KEY)}catch(e){return false}};
-let REAL=isRealUrl();try{if(REAL)store.set("iceland-mode","r");else REAL=store.get("iceland-mode")==="r"}catch(e){}
-/* Dorcas & Tebe version (private link #dt5x): real times plus their own days before the group trip */
-const DT_KEY="dt5x";const isDtUrl=()=>{try{return location.hash.replace("#","")===DT_KEY||new URLSearchParams(location.search).has(DT_KEY)}catch(e){return false}};
-/* 管理者版：網址 ?dt5x（部機會記住）或者用 Gmail 登入 */
+const OFS=0;
+/* 版本只看登入身分（Gmail）：owner／admin＝管理者版；real＝真實版；docs、pending＝公開版。不再用網址分版本。 */
 const ROLE=(()=>{try{return localStorage.getItem("iceland-key")?(localStorage.getItem("iceland-role")||""):""}catch(e){return ""}})();
-let OWNER=ROLE==="owner";let DT=isDtUrl();try{if(DT)store.set("iceland-mode","d");else DT=store.get("iceland-mode")==="d"}catch(e){}DT=DT||!!ROLE;if(DT)REAL=true;
-try{if(localStorage.getItem("iceland-mode")==="o")localStorage.removeItem("iceland-mode")}catch(e){}
+let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE==="real";
+try{localStorage.removeItem("iceland-mode")}catch(e){}
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
-const PV=(()=>{try{if(!((localStorage.getItem("iceland-key")&&localStorage.getItem("iceland-role"))||localStorage.getItem("iceland-mode")==="d"))return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
+const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
 if(PV){REAL=PV==="real";DT=false;OWNER=false;store.set=()=>{}}
 const HASH0=location.hash;
 window.addEventListener("hashchange",()=>{const h=location.hash.replace("#","");if(location.hash===HASH0)return;
@@ -443,9 +440,9 @@ function loginOpen(){if(document.querySelector("dialog.logindlg"))return;const d
 function gButton(box,msg){const go=()=>{try{google.accounts.id.initialize({client_id:GCLIENT,ux_mode:"popup",callback:async resp=>{msg.textContent="檢查中…";
     try{let j,raw="";try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"glogin",idt:resp.credential})});raw=await r.text();j=JSON.parse(raw)}
       catch(e){const t=String(raw||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();msg.textContent=raw?"Apps Script 出錯："+(t.match(/(?:Error|錯誤|Exception)[^.。]{0,160}/i)||[t.slice(0,160)])[0]:"連線失敗（"+(e&&e.message||e)+"）";return}
-      if(j.ok&&j.priv){privStore(j.priv,j.role);localStorage.setItem("iceland-gsk",j.sk);["iceland-sync-user","iceland-sync-pass","iceland-sync-url"].forEach(k=>localStorage.removeItem(k));
-        try{sessionStorage.setItem("iceland-login-msg","已登入")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
-      msg.textContent=j.err==="gdeny"?`這個 Gmail（${j.email||""}）未有權限`:j.err==="gtoken"?"Google 登入失敗，請再試一次":(j.sv||0)<6?"Apps Script 未更新到新版本":"登入失敗："+(j.err||"")}catch(e){msg.textContent="連線失敗，請檢查網絡"}}});
+      if(j.ok){privStore(j.priv||"",j.role);localStorage.setItem("iceland-gsk",j.sk);["iceland-sync-user","iceland-sync-pass","iceland-sync-url"].forEach(k=>localStorage.removeItem(k));
+        try{sessionStorage.setItem("iceland-login-msg",j.role==="pending"?"已登入，申請已提交，等管理員批准":"已登入")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
+      msg.textContent=j.err==="gdeny"?`這個 Gmail（${j.email||""}）的申請未獲批准`:j.err==="gtoken"?"Google 登入失敗，請再試一次":(j.sv||0)<7?"Apps Script 未更新到新版本":"登入失敗："+(j.err||"")}catch(e){msg.textContent="連線失敗，請檢查網絡"}}});
     google.accounts.id.renderButton(box,{theme:"outline",size:"large",shape:"pill",text:"signin_with",locale:"zh-TW",width:260})}catch(e){msg.textContent="Google 登入載入失敗"}};
   if(window.google&&google.accounts&&google.accounts.id){go();return}
   let sc=document.getElementById("gsi-js");if(!sc){sc=document.createElement("script");sc.id="gsi-js";sc.src="https://accounts.google.com/gsi/client";sc.async=true;document.head.appendChild(sc)}
@@ -574,6 +571,12 @@ function grpHead(a,i){const f=x=>!!(x.food||x.lunch||x.meal);const o=a[i],mixed=
   if(f(o)&&o.grp&&(i===0||!f(a[i-1])||a[i-1].grp!==o.grp))h+=`<div class="grp">${o.grp}</div>`;
   return h}
 function privHTML(){return `<h4>私人資料（H0–H5、D0、機票等）</h4><p class="rhint">${HASPRIV?"已載入這部機。":"未載入：按右上角「登入」。"}私人資料不會放在公開網頁。</p><label class="mini privimp">（後備）匯入私人資料檔<input type="file" id="privfile" accept=".json,application/json" hidden></label> <span id="privmsg" class="rhint"></span>`}
+function memHTML(){return `<h4>成員申請</h4><div class="row"><button type="button" class="mini" id="mem-load">看申請／成員</button></div><div id="mem-out"></div>`}
+function memDraw(ms){const o=$("mem-out");if(!o)return;if(!ms.length){o.innerHTML=`<p class="rhint">未有人申請。</p>`;return}const E=DOCX.esc,L={docs:"文件",real:"真實版",reject:"拒絕"};
+  const st=m=>m.st==="批准"?(m.lv==="真實版"?"真實版":"文件"):m.st||"待批";
+  o.innerHTML=[...ms].sort((a,b)=>(a.st==="待批"?0:1)-(b.st==="待批"?0:1)||b.t-a.t).map(m=>`<div class="memr" style="padding:8px 0;border-bottom:.5px solid var(--line)"><b style="overflow-wrap:anywhere">${E(m.email)}</b> <small class="rhint">（${E(st(m))}）</small><div class="row" style="margin-top:4px">${["docs","real","reject"].map(a=>`<button type="button" class="mini" data-mset="${a}" data-em="${E(m.email)}">${a==="reject"&&m.st==="批准"?"撤銷":L[a]}</button>`).join("")}</div></div>`).join("")}
+async function memCall(body){const o=$("mem-out");try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify(Object.assign({sk:localStorage.getItem("iceland-gsk")},body))});const j=await r.json();if(j.ok)memDraw(j.members||[]);else o.innerHTML=`<p class="rhint">${(j.sv||0)<7?"Apps Script 未更新到新版本":"讀取失敗："+DOCX.esc(j.err||"")}</p>`}catch(e){o.innerHTML=`<p class="rhint">連線失敗，請檢查網絡</p>`}}
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#mem-load,[data-mset]");if(!t)return;if(t.id==="mem-load"){$("mem-out").innerHTML=`<p class="rhint">讀取中…</p>`;memCall({op:"members"});return}memCall({op:"mset",email:t.dataset.em,act:t.dataset.mset})});
 function visHTML(){
   return `<h4>開啟記錄</h4><p class="rhint">只記隨機代號、裝置、版本同時間；終極管理者版不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
 
@@ -590,7 +593,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
     res[l.k]=[l.m,mins,km];const tr=document.createElement("tr");const df=mins==null?"":Math.abs(mins-l.m)>=10?" style=\"color:var(--warn);font-weight:700\"":"";tr.innerHTML=`<td>${nm(l.a)} → ${nm(l.b)}</td><td class="num">${l.m}</td><td class="num"${df}>${mins==null?"失敗":mins}</td><td class="num">${km==null?"":km}</td>`;d.querySelector("#rcb").appendChild(tr);
     d.querySelector("#rcp").textContent=`${i+1} / ${legs.length}`;d.querySelector("#rct").value="RC "+JSON.stringify(res);await new Promise(r=>setTimeout(r,450))}
   d.querySelector("#rcp").textContent=stop?"已停止":`完成：${legs.length} 段。紅色＝和現時相差 10 分鐘或以上。`});
-function toolsHTML(){return `<details class="tools" id="tools"><summary aria-label="工具" title="工具"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="vh">工具</span></summary><div class="tmenu">${DT?`<button type="button" class="mini" id="rtcheck">重新計車程（實際路線）</button>`:""}${DT?privHTML():""}${OWNER?visHTML():""}${DT?edBackupHTML():""}
+function toolsHTML(){return `<details class="tools" id="tools"><summary aria-label="工具" title="工具"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="vh">工具</span></summary><div class="tmenu">${DT?`<button type="button" class="mini" id="rtcheck">重新計車程（實際路線）</button>`:""}${DT?privHTML():""}${OWNER?memHTML()+visHTML():""}${DT?edBackupHTML():""}
   <h4>預覽其他人看到的版本（只供看）</h4><div class="row"><a class="mini" href="#dt5x-pub">公開版</a><a class="mini" href="#dt5x-real">真實版</a></div>
   <h4>帳戶</h4><span class="syncst">資料只存在這部機；要搬去另一部機，用下面「匯出／匯入」</span>
   ${ROLE?`<div class="row"><button type="button" class="mini" id="sy-off">登出</button></div>`:""}
@@ -634,7 +637,7 @@ document.addEventListener("change",e=>{if(e.target.id!=="bk-imp"||!e.target.file
 setTimeout(()=>{if(!SHARED)return;const bn=document.createElement("div");bn.className="pvbar on";bn.innerHTML=`<svg class="ii" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> 你打開了一個分享的行程方案（只供看）　<a href="#" id="shapply">套用到我部機</a><a href="${location.pathname}">不要，再看我的</a>`;
   document.querySelector("h1").insertAdjacentElement("afterend",bn);document.getElementById("shapply").addEventListener("click",ev=>{ev.preventDefault();if(!confirm("用這個方案取代你部機的調整？"))return;EDITS=SHARED;store.set("iceland-edit",JSON.stringify(EDITS));location.href=location.pathname})},0);try{const vb=document.getElementById("vbadge");vb.textContent=(DT?"管理者版":REAL?"真實版":PV?"公開版":"")+(PV?"（預覽）":"");if(!vb.textContent)vb.remove();
   try{const msg=sessionStorage.getItem("iceland-login-msg");if(msg){setTimeout(()=>{try{sessionStorage.removeItem("iceland-login-msg")}catch(e){}},4000);const n=document.createElement("p");n.className="loginmsg";n.setAttribute("role","status");n.textContent=msg;const sub=document.querySelector(".hero .sub");if(sub)sub.insertAdjacentElement("afterend",n);setTimeout(()=>n.remove(),6000)}}catch(e){}
-  /* 登入掣：放在標題右上角（搜尋掣旁邊），每頁、手機電腦都見到 */if(!ROLE&&!PV){const hs=document.getElementById("hsearch");if(hs){const lb=document.createElement("button");lb.type="button";lb.className="hlogin";lb.textContent="登入";lb.onclick=loginOpen;hs.parentNode.insertBefore(lb,hs)}}
+  /* 登入掣：放在標題右上角（搜尋掣旁邊），每頁、手機電腦都見到 */if(!DT&&!PV){const hs=document.getElementById("hsearch");if(hs){const lb=document.createElement("button");lb.type="button";lb.className="hlogin";lb.textContent=!ROLE?"登入":ROLE==="pending"?"申請中":"登出";lb.onclick=!ROLE?loginOpen:()=>{if(!confirm(ROLE==="pending"?"申請等緊管理員批准。要登出嗎？":"登出？"))return;logoutLocal();location.reload()};hs.parentNode.insertBefore(lb,hs)}}
   if(DT||PV){const b=document.createElement("div");b.className="pvbar"+(PV?" on":"");
     if(PV){b.innerHTML=`👀 你現在正在預覽「${PV==="pub"?"公開版":"真實版"}」：只供看，不會儲存任何改動　<a href="${location.pathname}">返回管理者版</a><a href="#dt5x-${PV==="pub"?"real":"pub"}">看${PV==="pub"?"真實版":"公開版"}</a>`;document.querySelector("h1").insertAdjacentElement("afterend",b)}
     else setTimeout(()=>{b.innerHTML=toolsHTML();document.querySelector("h1").insertAdjacentElement("afterend",b)},0)}}catch(e){}
@@ -1744,7 +1747,7 @@ function card(raw){
   const sunBtn=(()=>{const so=DT&&(raw.opt||[]).find(o=>o.sun);if(so){const on=optPicked(raw).includes(so.id);return `<button type="button" class="sunbtn noen" data-suntog="${raw.d}|${so.id}" aria-pressed="${on}" title="${escA(so.t)}">${SI(SUNI)}<span>${so.lab||"日出"}</span></button>`}if(!DT||!raw.view||!raw.view.opts.some(o=>o.id==="sunrise"))return "";const on=viewId(raw)==="sunrise",back=raw.view.def&&raw.view.def!=="sunrise"?raw.view.def:raw.view.opts.find(o=>o.id!=="sunrise").id;
         return `<button type="button" class="sunbtn noen" data-view="${raw.d}|${on?back:"sunrise"}" aria-pressed="${on}" title="${on?"按一下取消日出行程":"按一下加入日出行程"}">${SI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}<span>日出</span></button>`})();
   return `<article class="day${day.only?" dtonly":""}" data-d="${day.d}" style="--dc:${dayCol(day.d)}">
-    <h3><span>${day.d>=1?`第 ${day.d} 日`:dLab(day.d)} · ${String(day.date).replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")}${day.d>=1?`<span class="dwx" data-wxd="${day.d}" hidden></span>`:""}${day.tag?`<span class="vtag">${day.tag}</span>`:""}</span>${wkm?`<small>徒步約 ${wkm} km（不用開車）</small>`:day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}${!REAL&&!DT?"":`<span class="h3act">${sunBtn}${String(pickH).replace(/\s+/g,"")?`<button type="button" class="optbtn" data-optdlg="${raw.d}">${SI('<path d="M4 6h10M4 12h10M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="12" r="2"/>')}<span>可選行程${(()=>{const n=(RECP[raw.d]||[]).filter(x=>!/^sun/.test(x)).length;return n?` · ${n}`:""})()}</span></button>`:""}<details class="dmore"><summary aria-label="更多" title="更多">⋯</summary><div class="dmm"><button type="button" class="cuopen" ${DT&&!SHARED?`data-addtog="${raw.d}" aria-expanded="${ADDOPEN.has(raw.d)}"`:`data-cuopen="${raw.d}"`}>${DT&&!SHARED&&ADDOPEN.has(raw.d)?"收起調整":"調整行程"}</button>${DT||!REAL?"":`<button type="button" class="cpday" data-cpday="${raw.d}">複製行程</button>`}</div></details></span>`}</h3>${(()=>{const fk=SQ[0],tk=SQ[SQ.length-1];if(!fk||!pts[fk])return "";const nn=k=>pts[k]?String(nm(k)).replace(/（.*/,""):"",reg=fk===tk||!tk?nn(fk):`${nn(fk)} → ${nn(tk)}`,I=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+    <h3><span>${dLab(day.d)} · ${String(day.date).replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")}${day.d>=1?`<span class="dwx" data-wxd="${day.d}" hidden></span>`:""}${day.tag?`<span class="vtag">${day.tag}</span>`:""}</span>${wkm?`<small>徒步約 ${wkm} km（不用開車）</small>`:day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}${!REAL&&!DT?"":`<span class="h3act">${sunBtn}${String(pickH).replace(/\s+/g,"")?`<button type="button" class="optbtn" data-optdlg="${raw.d}">${SI('<path d="M4 6h10M4 12h10M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="12" r="2"/>')}<span>可選行程${(()=>{const n=(RECP[raw.d]||[]).filter(x=>!/^sun/.test(x)).length;return n?` · ${n}`:""})()}</span></button>`:""}<details class="dmore"><summary aria-label="更多" title="更多">⋯</summary><div class="dmm"><button type="button" class="cuopen" ${DT&&!SHARED?`data-addtog="${raw.d}" aria-expanded="${ADDOPEN.has(raw.d)}"`:`data-cuopen="${raw.d}"`}>${DT&&!SHARED&&ADDOPEN.has(raw.d)?"收起調整":"調整行程"}</button>${DT||!REAL?"":`<button type="button" class="cpday" data-cpday="${raw.d}">複製行程</button>`}</div></details></span>`}</h3>${(()=>{const fk=SQ[0],tk=SQ[SQ.length-1];if(!fk||!pts[fk])return "";const nn=k=>(k==="hjok"&&pts.jks&&(k="jks"),pts[k]?String(nm(k)).replace(/（.*/,""):""),reg=fk===tk||!tk||nn(fk)===nn(tk)?nn(fk):`${nn(fk)} → ${nn(tk)}`,I=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
       const dl=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride),rawT=dl.reduce((a,l)=>a+l.m,0),bufT=dl.reduce((a,l)=>a+buf(l.m),0),lgMax=Math.max(0,...dl.map(l=>l.m));
       const pl=EP(day.plan,DSH(day.d)),sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null},di=depI(pl),t0=di>=0?sm(pl[di][0]):null;
       let t1=null;pl.forEach(r=>{const p=String(r[1]).replace(/<[^>]*>/g,"");if(r[2]!=="y"&&/^(到|入住)|、入住|入住、/.test(p)&&sm(r[0])!=null)t1=sm(r[0])});if(t1==null&&day.arrive)t1=sm(day.arrive);
@@ -2120,7 +2123,7 @@ function renderTips(){
   const tdl=xs=>`<dl class="tipsdl tgrid">${xs.map(([a,b,h,o])=>`<div><dt>${a}</dt><dd>${b}${h?ieB("tip",h+"|"+(o||a),"text",b):""}</dd></div>`).join("")}</dl>`;
   const homeH=(()=>{let TD=null;try{TD=todayDay()}catch(e){}const first=days.find(x=>x.d>=1),pre=nowIS()<new Date(Date.UTC(2027,8,12)),raw=TD||(pre?first:null);let dh="";
     if(raw){const day=R(raw),k=sunKey[day.d],Nd=254+day.d,ns=(day.notes||[]).filter(n=>!/虛線框/.test(n[0])).map(n=>`<li>${hr(n[0])}</li>`).join(""),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((a,l)=>a+l.m,0);
-      dh=`<div class="thd"><div class="thd-h"><b>${TD?"今日":"第一日"}・D${day.d} ${day.date}</b><button type="button" class="stlink" data-goday="${day.d}">看行程 ›</button></div><ul class="thd-f">${DT&&k&&pts[k]?`<li>日出 ${sunAt(Nd,pts[k][2],pts[k][1],1)}・日落 ${sunAt(Nd,pts[k][2],pts[k][1],0)}</li>`:""}${tot?`<li>車程約 ${fmt(tot)}，日落前要開完</li>`:""}</ul>${ns?`<ul class="thd-n">${ns}</ul>`:""}</div>`}
+      dh=`<div class="thd"><div class="thd-h"><b>${TD?"今日・":""}D${day.d} ${day.date}</b><button type="button" class="stlink" data-goday="${day.d}">看行程 ›</button></div><ul class="thd-f">${DT&&k&&pts[k]?`<li>日出 ${sunAt(Nd,pts[k][2],pts[k][1],1)}・日落 ${sunAt(Nd,pts[k][2],pts[k][1],0)}</li>`:""}${tot?`<li>車程約 ${fmt(tot)}，日落前要開完</li>`:""}</ul>${ns?`<ul class="thd-n">${ns}</ul>`:""}</div>`}
     const OFF=[["天氣","vedur.is","https://en.vedur.is/"],["安全警告","safetravel.is","https://safetravel.is/"],["路況","umferdin.is・電話 1777","https://umferdin.is/en"],["極光預報","vedur.is","https://en.vedur.is/weather/forecasts/aurora/"]];
     window.__homeDh=dh;return `<h3 class="tht">官方資訊</h3><div class="thoff">${OFF.map(([a,b,u])=>`<a href="${u}" target="_blank" rel="noopener"><b>${a}</b><small>${b} ↗</small></a>`).join("")}</div>`})();
   const sosBody=`${sec("sos-own",`保險和租車緊急電話（自己填，只存在這部機）`,`<div class="emin">${EMIN.map(([k,l])=>`<label>${l}<input type="text" data-em="${k}" value="${escA(EMV[k]||"")}" placeholder="未填" inputmode="${k==="pol"?"text":"tel"}">${EMV[k]&&k!=="pol"?`<a href="tel:${escA(String(EMV[k]).replace(/[^\d+]/g,""))}">撥打</a>`:""}</label>`).join("")}</div>`)}`;
@@ -3001,7 +3004,7 @@ const TODAY={d:null,docMode:"date",
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${raw.d>=1?`第 ${raw.d} 日`:dLab(raw.d)}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"回準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${dLab(raw.d)}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"回準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
       <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}</div>
       ${TODAY.tiles(raw,day)}</section>
       <section class="tcard tsched"><div class="thd2 noen"><b>🕒 時間表</b></div>${TODAY.sched(raw)}</section>${docs}`;
