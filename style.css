@@ -3061,3 +3061,22 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .landing .lenter{margin-top:8px;width:100%;border:0;border-radius:999px;padding:12px;background:#15506a;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
 .landing.st-almost .lenter{background:#b5532f}.landing.st-early .lenter{background:#2b7a8f}
 @media (min-width:700px){.landing{align-items:center}.landing .lbox{margin:0}}
+/* ===== Nordic Editorial：冰川藍、霧灰、米白、深藍 ===== */
+:root{--bg:#f4f1ea;--card:#fffdf8;--fg:#14283a;--muted:#667985;--line:#ddd8cb;--sea:#d3e5ee;--land:#f1ede3;--route:#2b6f95;--pill:#fffdf8;--pill-fg:#1b4a68;--shadow:0 1px 2px rgba(20,40,58,.05),0 8px 24px rgba(20,40,58,.07)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}}
+:root[data-theme="dark"]{--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}
+.tcard,.fcd,.ovplan,.ovhero{border-radius:20px}
+.tdate,.ovhero h1,.ovhero h2,.thd2 b,.ovplan h2,.ovplan h3{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.01em}
+.tdate{font-size:28px}
+.thero .tsub{letter-spacing:.14em;text-transform:uppercase;color:var(--route)}
+.tcard.tquick{border-top:3px solid #c9a45c}
+/* 倒數卡 F */
+.fcd{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);padding:18px}
+.fcd .fct{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.fcd .fct b{font:700 34px/1.1 Georgia,"Noto Serif TC",serif;color:var(--fg)}.fcd .fct span{color:var(--muted);font-size:13px}
+.fcd .fcb{height:10px;border-radius:9px;background:var(--line);margin:16px 6px 8px;position:relative}
+.fcd .fcb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#4aa3c7,#14283a)}
+.fcd .fcb u{position:absolute;top:-8px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
+.fcd .fcr{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.fcd .fci{margin-top:6px;justify-content:flex-start}
+.hero h1{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.03em}

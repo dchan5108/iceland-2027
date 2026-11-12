@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-aur">
+<link rel="stylesheet" href="style.css?v=2026-11-13-nord">
 
 </head>
 <body>
@@ -2674,11 +2674,10 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
 /* 準備頁頂部：出發倒數 */
-function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
-  /* 倒數卡（極光款）：大數字倒數、日期、冰島現在幾點 */
-  const t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
-  const big=dd>0?`<b>${dd}</b><span>日後出發</span>`:now<Date.UTC(2027,8,24)?`<b>旅程中</b><span></span>`:`<b>完成</b><span></span>`;
-  return `<section class="aurc noen" aria-label="倒數"><div class="aurn">${big}</div><div class="aurm"><span>9月12日 – 9月23日</span><span>冰島時間 ${hh}:${mm}</span></div></section>`}
+function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5),t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
+  /* 倒數卡（F 款）：路線進度條，飛機由今日向冰島飛 */
+  const S=Date.UTC(2026,10,12),p=Math.max(0,Math.min(100,(now-S)/(Date.UTC(2027,8,12)-S)*100)),big=dd>0?`${dd} 日後出發`:now<Date.UTC(2027,8,24)?"旅程中":"完成";
+  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${dd>0?p:100}%"></i><u style="left:${dd>0?p:100}%">✈️</u></div><div class="fcr"><span>今日</span><span>出發 🇮🇸</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
