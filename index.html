@@ -140,6 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-13-nob"></script>
+<script src="landing.js?v=2026-11-13-lp1"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -2749,8 +2750,9 @@ const TODAY={d:null,docMode:"date",
   /* 今日重點：路線、出發時間、3–5 個主要停留點（住宿在上面的格） */
   quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
-    if(!rt&&!dep&&!st.length)return "";
-    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div><dl>${rt?`<div><dt>路線</dt><dd>${E(rt)}</dd></div>`:""}${dep?`<div><dt>出發</dt><dd class="tnum"><b>${E(dep)}</b></dd></div>`:""}${st.length?`<div><dt>停留</dt><dd><ol>${st.map(x=>`<li>${E(x)}</li>`).join("")}</ol></dd></div>`:""}</dl></section>`}catch(e){return ""}},
+    const kk=ks.filter(k=>Q[k]||pts[k]).slice(0,4),bd=kk.map(k=>[k,String(nm(k)).replace(/（.*?）/g,"").trim()]);
+    if(!rt&&!dep&&!bd.length)return "";
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div><dl>${rt?`<div><dt>路線</dt><dd>${E(rt)}</dd></div>`:""}${dep?`<div><dt>出發</dt><dd class="tnum"><b>${E(dep)}</b></dd></div>`:""}</dl>${bd.length?`<div class="bdgs noen">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
@@ -2791,7 +2793,12 @@ try{const vt=[...document.querySelectorAll(".bnav [role=tab]")].filter(b=>!b.hid
 try{const TD=todayDay();if(TD&&HPHASE()===3&&!sessionStorage.getItem("iceland-auto-today")){sessionStorage.setItem("iceland-auto-today","1");select(TD.d)}}catch(e){}
 
 try{if(!$("home").hidden)renderHome()}catch(e){}
-
+/* 倒數封面：每個分頁開啟時出現一次，按「直接瀏覽」或登入後進入 */
+try{if(window.LANDING&&!sessionStorage.getItem("iceland-landing")&&!document.getElementById("landing")){
+  const n=nowIS(),left=Math.ceil((Date.UTC(2027,8,12)-n)/864e5),td=todayDay(),o={left,role:!!localStorage.getItem("iceland-role"),gButton};
+  if(td){const raw=td,dt=new Date(Date.UTC(2027,8,11+raw.d)),k=(raw.legs||[]).flatMap(l=>[l.a,l.b]).find(k=>pts[k]&&pts[k][3]==="spot");o.trip=true;o.dayKey=k;o.dateTxt="週"+"日一二三四五六"[dt.getUTCDay()]+" 9月"+dt.getUTCDate()+"日";o.dayTxt=dLab(raw.d)}
+  else if(left<=0)o.left=0,o.trip=false;
+  if(td||left>0)LANDING.show(o)}}catch(e){}
 }
 privUnlock().then(()=>__load(__start),()=>__load(__start));
 </script>
