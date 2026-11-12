@@ -147,7 +147,8 @@ const OVR_STAY=rows=>rows.map(r=>{const L=t=>String(t||"").split("\n").map(x=>x.
 const OVR_TIPS=rows=>{const g=[];rows.forEach(r=>{const h=r["分組"]||"其他";let x=g.find(y=>y[0]===h);if(!x){x=[h,[]];g.push(x)}x[1].push([r["項目"]||"",r["內容"]||""])});return g};
 let SHCF={};
 /* 開啟記錄：隨機裝置代號（只存在這部機）、版本、裝置類型；預覽模式和本機檔案不記 */
-function visitQ(){try{if(location.protocol==="file:"&&!window.__VLOG)return "";const h=location.hash.replace("#",""),q=new URLSearchParams(location.search);if(/^dt5x-/.test(h))return "";
+const devType=()=>{const u=navigator.userAgent||"";return /iPhone/.test(u)?"iPhone":/iPad/.test(u)?"iPad":/Android/.test(u)?(/Mobile/.test(u)?"Android 手機":"Android 平板"):/Macintosh/.test(u)?(navigator.maxTouchPoints>1?"iPad":"Mac"):/Windows/.test(u)?"Windows":"其他"};
+function visitQ(){try{if(location.protocol==="file:"&&!window.__VLOG)return "";if(localStorage.getItem("iceland-gsk"))return "";const h=location.hash.replace("#",""),q=new URLSearchParams(location.search);if(/^dt5x-/.test(h))return "";
   try{const rl=+sessionStorage.getItem("iceland-sync-rl")||0;if(Date.now()-rl<20000)return ""}catch(e){}
   const m=localStorage.getItem("iceland-mode"),r=localStorage.getItem("iceland-key")?localStorage.getItem("iceland-role"):"",v=r==="owner"?"own":r==="admin"?"dt":(h==="dt5x"||q.has("dt5x")||m==="d")?"dt":(h==="n8f3"||q.has("n8f3")||m==="r")?"real":"pub";if(v==="own")return "";
   let id=localStorage.getItem("iceland-dev");if(!/^[a-z0-9]{4,12}$/.test(id||"")){id=Math.random().toString(36).slice(2,8).replace(/[^a-z0-9]/g,"x").padEnd(6,"x");localStorage.setItem("iceland-dev",id)}
@@ -161,7 +162,7 @@ function privWipe(){try{["iceland-key","iceland-role","iceland-sync-user","icela
 const GCLIENT="147893735528-nu3c7upfv480ciatt1u7fg2jm8ju8jcn.apps.googleusercontent.com";
 function privStore(pt,role){const N=40000;let i=0;for(;i*N<pt.length;i++)localStorage.setItem("iceland-priv-"+i,pt.slice(i*N,(i+1)*N));for(let j=i;j<i+10;j++)localStorage.removeItem("iceland-priv-"+j);
   localStorage.setItem("iceland-key","1");localStorage.setItem("iceland-role",["owner","admin","real","docs","pending"].includes(role)?role:"pending")}
-function gRefresh(sk){try{fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gpull",sk})}).then(r=>r.json()).then(j=>{
+function gRefresh(sk){try{fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"gpull",sk,lm:/^#?dt5x-/.test(location.hash)?"":devType()})}).then(r=>r.json()).then(j=>{
   if(j&&j.err==="sess"){localStorage.removeItem("iceland-gsk");privWipe();try{sessionStorage.setItem("iceland-login-msg","登入已失效，請再用 Gmail 登入")}catch(e){}return}
   if(j&&j.ok){let old="";for(let i=0;;i++){const c=localStorage.getItem("iceland-priv-"+i);if(c==null||c==="")break;old+=c}
     const rc=localStorage.getItem("iceland-role")!==j.role;if(old!==j.priv||rc){privStore(j.priv,j.role);try{sessionStorage.setItem("iceland-login-msg",rc?(j.role==="pending"?"申請已收到，等管理員批准":"權限已更新"):"資料已更新")}catch(e){}if(rc)location.reload()}}}).catch(()=>{})}catch(e){}}
@@ -448,8 +449,10 @@ async function visLoad(){const out=document.getElementById("vis-out");if(!out)re
     if(j.err){out.innerHTML=`<p class="rhint">${j.err==="pass"?"通關密碼不正確":"讀取失敗："+escA(j.err)}</p>`;return}
     const V=j.visits||[];if(!V.length){out.innerHTML=`<p class="rhint">未有記錄（要部署新版 Apps Script 之後先開始記）。</p>`;return}
     const N=devNames(),me=localStorage.getItem("iceland-dev"),f=t=>new Date(t).toLocaleString("zh-HK",{hour12:false,month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
-    const VG=[["",/終極/],["管理者版",/^管理者/],["真實版",/真實/],["大眾版",/公開|大眾/],["其他",/./]],used=new Set();
-    out.innerHTML=VG.map(([gn,re])=>{const L=V.filter(x=>!used.has(x)&&re.test(x.ver||"其他"));L.forEach(x=>used.add(x));if(!L.length||!gn)return "";return `<h4 class="visg">${gn}<small>${L.length} 部裝置・${L.reduce((a,x)=>a+x.n,0)} 次</small></h4><div class="gtw" tabindex="0" role="region" aria-label="${gn}開啟記錄（可左右捲動）"><table class="vistab"><thead><tr><th>裝置</th><th>最近打開</th><th>次數</th><th>第一次</th></tr></thead><tbody>${L.map(x=>`<tr><td><input type="text" class="visname" data-dev="${escA(x.id)}" value="${escA(N[x.id]||"")}" placeholder="${escA(x.type||"裝置")} ${escA(x.id.slice(0,4))}" aria-label="裝置名稱 ${escA(x.id)}"><small>${escA(x.type||"")}${x.id===me?"・<b>這部機</b>":""}</small></td><td>${f(x.last)}<details><summary>最近 ${x.recent.length} 次</summary><small>${x.recent.map(r=>f(r[0])).join("<br>")}</small></details></td><td>${x.n}</td><td>${f(x.first)}</td></tr>`).join("")}</tbody></table></div>`}).join("")}
+    const M=V.filter(x=>x.who&&x.who!=="未登入"),A=V.filter(x=>x.who==="未登入");
+    const row=(nmH,x)=>`<tr><td>${nmH}</td><td>${f(x.last)}<details><summary>最近 ${x.recent.length} 次</summary><small>${x.recent.map(t=>f(t)).join("<br>")}</small></details></td><td>${x.n}</td><td>${f(x.first)}</td></tr>`;
+    const tab=(gn,L,h)=>!L.length?"":`<h4 class="visg">${gn}<small>${L.length} ${gn==="成員"?"人":"部裝置"}・${L.reduce((a,x)=>a+x.n,0)} 次</small></h4><div class="gtw" tabindex="0" role="region" aria-label="${gn}開啟記錄（可左右捲動）"><table class="vistab"><thead><tr><th>${gn==="成員"?"Gmail":"裝置"}</th><th>最近打開</th><th>次數</th><th>第一次</th></tr></thead><tbody>${L.map(h).join("")}</tbody></table></div>`;
+    out.innerHTML=tab("成員",M,x=>row(`<b style="overflow-wrap:anywhere">${escA(x.who)}</b><small>${escA(x.role||"")}${x.type?"・"+escA(x.type):""}</small>`,x))+tab("未登入",A,x=>row(`<input type="text" class="visname" data-dev="${escA(x.id)}" value="${escA(N[x.id]||"")}" placeholder="${escA(x.type||"裝置")} ${escA(x.id.slice(0,4))}" aria-label="裝置名稱 ${escA(x.id)}"><small>${escA(x.type||"")}${x.id===me?"・<b>這部機</b>":""}</small>`,x))}
   catch(e){out.innerHTML=`<p class="rhint">讀取失敗（沒有網絡？）</p>`}}
 document.addEventListener("click",e=>{if(!e.target.closest)return;if(e.target.closest("#vis-load"))visLoad();});
 document.addEventListener("change",e=>{const t=e.target;if(!t.classList||!t.classList.contains("visname"))return;const N=devNames(),v=t.value.trim().slice(0,30);if(v)N[t.dataset.dev]=v;else delete N[t.dataset.dev];store.set("iceland-devnames",JSON.stringify(N))});
@@ -468,7 +471,7 @@ function memDraw(ms){const o=$("mem-out");if(!o)return;if(!ms.length){o.innerHTM
 async function memCall(body){const o=$("mem-out");try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify(Object.assign({sk:localStorage.getItem("iceland-gsk")},body))});const j=await r.json();if(j.ok)memDraw(j.members||[]);else o.innerHTML=`<p class="rhint">${(j.sv||0)<7?"Apps Script 未更新到新版本":"讀取失敗："+DOCX.esc(j.err||"")}</p>`}catch(e){o.innerHTML=`<p class="rhint">連線失敗，請檢查網絡</p>`}}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#mem-load,[data-mset]");if(!t)return;if(t.id==="mem-load"){$("mem-out").innerHTML=`<p class="rhint">讀取中…</p>`;memCall({op:"members"});return}memCall({op:"mset",email:t.dataset.em,act:t.dataset.mset})});
 function visHTML(){
-  return `<h4>開啟記錄</h4><p class="rhint">只記隨機代號、裝置、版本同時間；終極管理者版不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
+  return `<h4>開啟記錄</h4><p class="rhint">登入的人按 Gmail 記，未登入按裝置記；你自己不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
 
 /* 管理者工具：用 OpenStreetMap 實際道路（OSRM）重新計每段車程，結果可以複製給 Claude 更新 */
 function rcLegs(){const out=new Map(),add=(a,b,m,via)=>{if(!pts[a]||!pts[b]||a===b)return;via=(via||[]).filter(v=>VIAC[v]);const k=a+">"+b+(via.length?"|"+via.join(","):"");if(!out.has(k))out.set(k,{k,a,b,m,via})};
