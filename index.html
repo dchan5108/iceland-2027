@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-gl">
+<link rel="stylesheet" href="style.css?v=2026-11-13-gl2">
 
 </head>
 <body>
@@ -140,7 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-13-nob"></script>
-<script src="landing.js?v=2026-11-13-lp3"></script>
+<script src="landing.js?v=2026-11-13-lp4"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1584,7 +1584,6 @@ function ovPlan(){const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.fin
   const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
   return `<section class="hcard glance noen"><div class="glh"><h3>Journey at a glance</h3><small>旅程一覽</small></div>
   <div class="glst"><div>${ic('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>')}<b>${N}</b><small>日</small></div><div>${ic('<path d="M4 18c3-8 13-4 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/>')}<b>2,000</b><small>公里</small></div><div>${ic('<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.8-3.5 3-5 5.5-5s4.7 1.5 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.4-.4 4.4 1 5 4.3"/>')}<b>7</b><small>人</small></div><div>${ic('<circle cx="12" cy="12" r="8"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/>')}<b>1</b><small>環島公路</small></div></div>
-  <div class="glrt">${RG.map(([d,n],i)=>`${i?'<i aria-hidden="true"></i>':""}<button type="button" data-hgo="${d}">${n}</button>`).join("")}</div>
   ${window.LANDING&&HL.length?`<div class="glhl"><div class="glk">旅程亮點</div><div class="glb">${HL.map(k=>`<button type="button" data-hgo="${dOf(k)}">${LANDING.badge(k,84)}<span>${String(nm(k)).replace(/（.*?）/g,"").trim()}</span></button>`).join("")}</div></div>`:""}</section>`}
 function overview(){
   return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
@@ -2707,7 +2706,7 @@ const TODAY={d:null,docMode:"date",
     const drv=lis[1]||(o&&o.drv)||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];let sun="";
     if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div><div class="sunbar"></div>`}
-    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS">${drv?`<span class="dhp">${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}</span>`:""}${ht?`<span class="dhp">🏠 ${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</span>`:DOCX.clip(sd)}</div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
+    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS">${drv?`${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}`:""}${ht?`${drv?" · ":""}🏠 ${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}`:""}${DOCX.clip(sd)}</div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
   /* 每日資料（舊：一大格）：已經改用 headB */
   info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
