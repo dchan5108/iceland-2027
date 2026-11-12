@@ -38,14 +38,14 @@ const TXT={early:["籌備中","Early Planning","一步一步，慢慢靠近冰�
 /* o: {left, dateTxt, dayTxt, dayKey, role(已登入?), gButton, onEnter} */
 function show(o){const st=o.trip?"trip":STAGE(o.left),T=TXT[st];
   const el=document.createElement("div");el.className="landing st-"+st;el.id="landing";
-  const big=st==="trip"?`<div class="lwel">Welcome<br>to Iceland</div><div class="lsub">${o.dateTxt||""}${o.dayTxt?" · "+o.dayTxt:""}</div>`:`<div class="lnum"><b>${o.left}</b><span>Days to go</span></div><div class="lsub">9月12日 – 9月23日${st==="early"?"":" · "+T[2]}</div>`;
+  const big=st==="trip"?`<div class="lwel">Welcome<br>to Iceland</div><div class="lsub">${o.dateTxt||""}${o.dayTxt?" · "+o.dayTxt:""}</div>`:`<div class="lnum"><b>${o.left}</b><span>Days to go</span></div><div class="lsub">9月12日 – 9月23日</div>`;
   el.innerHTML=scene(st,st==="trip"?o.dayKey:null)+`<div class="lbox"><div class="ltitle">ICELAND 2027</div><div class="lring"><i></i>RING ROAD · 12–23 SEPTEMBER<i></i></div>
-  <div class="lcard"><div class="ltag"><b>${T[1]}</b><span>${T[0]}</span></div>${big}<div class="lg" id="lgbox"></div><p class="lmsg" id="lgmsg"></p><button type="button" class="lenter" id="lenter">${o.role?"進入網站":"直接瀏覽  ›"}</button></div></div>`;
+  <div class="lcard"><div class="ltag"><b>${T[1]}</b><span>${T[0]}</span></div>${big}<div class="lg" id="lgbox"></div><p class="lmsg" id="lgmsg"></p>${o.role?`<button type="button" class="lenter" id="lenter">進入網站</button>`:`<p class="lnote">請用 Gmail 登入後瀏覽</p>`}</div></div>`;
   document.body.appendChild(el);document.documentElement.style.overflow="hidden";
   const close=()=>{el.remove();document.documentElement.style.overflow="";try{sessionStorage.setItem("iceland-landing","1")}catch(e){}};
-  el.querySelector("#lenter").onclick=close;
+  if(o.role)el.querySelector("#lenter").onclick=close;
   if(!o.role)o.gButton(el.querySelector("#lgbox"),el.querySelector("#lgmsg"));
-  document.addEventListener("keydown",function f(e){if(e.key==="Escape"&&document.getElementById("landing")){close();document.removeEventListener("keydown",f)}});
+  document.addEventListener("keydown",function f(e){if(o.role&&e.key==="Escape"&&document.getElementById("landing")){close();document.removeEventListener("keydown",f)}});
   return el}
 window.LANDING={badge,scene,show,keyMotif:k=>KEYM[k]||"road"};
 })();

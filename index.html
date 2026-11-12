@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-nord">
+<link rel="stylesheet" href="style.css?v=2026-11-13-nord2">
 
 </head>
 <body>
@@ -140,7 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-13-nob"></script>
-<script src="landing.js?v=2026-11-13-lp1"></script>
+<script src="landing.js?v=2026-11-13-lp2"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -2695,13 +2695,13 @@ const TODAY={d:null,docMode:"date",
     if(/[A-Za-zÀ-ÿ]/.test(h)){h=h.replace(/[\u4e00-\u9fff]+/g,"").replace(/\s{2,}/g," ").trim();if(!h||h===lat)return "未訂"}else if(!/山屋/.test(h))return "未訂";return h},
   /* 每日頭格（設計 B）：路線大字、車程＋住宿、右上天氣、日照條 */
   wxIcon:c=>c==null?"⏳":c===0?"☀️":c<=2?"🌤️":c===3?"☁️":c<=48?"🌫️":c<=67?"🌧️":c<=77?"❄️":c<=82?"🌦️":c<=86?"🌨️":"⛈️",
-  headB(raw,day,ds){const E=DOCX.esc,lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim();
+  headB(raw,day,ds,o){const E=DOCX.esc,lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim();
     const toLat=t=>{const x=lat(t);if(x)return x;const z=String(t).replace(/[（(][^）)]*[）)]/g,"").trim(),hit=ENN.find(([c])=>z.includes(c));return hit?hit[1]:z};
-    const lis=ds?[...ds.querySelectorAll("ul > li > span")].map(x=>x.textContent.trim()):[];let rt=lis[0]||"";rt=rt.split("→").map(toLat).filter(Boolean).join(" → ");if((day.legs||[]).some(l=>l.walk)||!rt)rt=lat(TODAY.place[raw.d]||"").replace(/^\s*→\s*/,"");
-    const drv=lis[1]||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
+    const lis=ds?[...ds.querySelectorAll("ul > li > span")].map(x=>x.textContent.trim()):[];let rt=lis[0]||(o&&o.rt)||"";rt=rt.split("→").map(toLat).filter(Boolean).join(" → ");if((day.legs||[]).some(l=>l.walk)||!rt)rt=lat(TODAY.place[raw.d]||"").replace(/^\s*→\s*/,"");
+    const drv=lis[1]||(o&&o.drv)||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];let sun="";
     if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div><div class="sunbar"></div>`}
-    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS">${drv?`${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}`:""}${ht?`${drv?" · ":""}🏠 ${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}`:""}${DOCX.clip(sd)}</div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
+    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS">${drv?`<span class="dhp">${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}</span>`:""}${ht?`<span class="dhp">🏠 ${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</span>`:DOCX.clip(sd)}</div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
   /* 每日資料（舊：一大格）：已經改用 headB */
   info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
@@ -2750,15 +2750,15 @@ const TODAY={d:null,docMode:"date",
   quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
     const kk=ks.filter(k=>Q[k]||pts[k]).slice(0,4),bd=kk.map(k=>[k,String(nm(k)).replace(/（.*?）/g,"").trim()]);
-    if(!rt&&!dep&&!bd.length)return "";
-    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div><dl>${rt?`<div><dt>路線</dt><dd>${E(rt)}</dd></div>`:""}${dep?`<div><dt>出發</dt><dd class="tnum"><b>${E(dep)}</b></dd></div>`:""}</dl>${bd.length?`<div class="bdgs noen">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
+    if(!dep&&!bd.length)return "";
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div><dl>${dep?`<div><dt>出發</dt><dd class="tnum"><b>${E(dep)}</b></dd></div>`:""}</dl>${bd.length?`<div class="bdgs noen">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
     box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${dLab(raw.d)}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"回準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
       <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}</div>
-      ${TODAY.tiles(raw,day)}</section>${TODAY.quick(raw,day)}
+      <div class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=dl.reduce((a,l)=>a+(l.m||0),0),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`車程約 ${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</div></section>${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}<button type="button" class="tfull" data-tfull="${raw.d}">看完整時間表 ›</button>`;
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
@@ -2793,11 +2793,10 @@ try{const TD=todayDay();if(TD&&HPHASE()===3&&!sessionStorage.getItem("iceland-au
 
 try{if(!$("home").hidden)renderHome()}catch(e){}
 /* 倒數封面：每個分頁開啟時出現一次，按「直接瀏覽」或登入後進入 */
-try{if(window.LANDING&&!sessionStorage.getItem("iceland-landing")&&!document.getElementById("landing")){
-  const n=nowIS(),left=Math.ceil((Date.UTC(2027,8,12)-n)/864e5),td=todayDay(),o={left,role:!!localStorage.getItem("iceland-role"),gButton};
+try{if(window.LANDING&&(!localStorage.getItem("iceland-role")||!sessionStorage.getItem("iceland-landing"))&&!document.getElementById("landing")){
+  const n=nowIS(),left=Math.ceil((Date.UTC(2027,8,12)-n)/864e5),td=todayDay(),o={left:Math.max(0,left),role:!!localStorage.getItem("iceland-role"),gButton};
   if(td){const raw=td,dt=new Date(Date.UTC(2027,8,11+raw.d)),k=(raw.legs||[]).flatMap(l=>[l.a,l.b]).find(k=>pts[k]&&pts[k][3]==="spot");o.trip=true;o.dayKey=k;o.dateTxt="週"+"日一二三四五六"[dt.getUTCDay()]+" 9月"+dt.getUTCDate()+"日";o.dayTxt=dLab(raw.d)}
-  else if(left<=0)o.left=0,o.trip=false;
-  if(td||left>0)LANDING.show(o)}}catch(e){}
+  LANDING.show(o)}}catch(e){}
 }
 privUnlock().then(()=>__load(__start),()=>__load(__start));
 </script>
