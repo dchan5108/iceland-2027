@@ -1,6 +1,6 @@
 /* keeps a copy of the trip page so it opens without internet; always tries the newest version first */
-const C="iceland-2027-v3";
-self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./","./index.html","./style.css","./trip.js"])).then(()=>self.skipWaiting()))});
+const C="iceland-2027-v4";
+self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./","./index.html","./style.css","./trip.js","./data.js"])).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{
   const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);
