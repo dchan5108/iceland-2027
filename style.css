@@ -3094,3 +3094,25 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tdsB .dhB{padding-top:12px;border-top:1px solid var(--line)}
 .thero .tbtns{margin-bottom:12px}
 .tdsB,.tdsB:after{border-bottom:0!important;box-shadow:none!important}
+/* ===== Journey at a glance ===== */
+.glance{padding:20px 18px}
+.glh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px}
+.glh h3{margin:0;font:700 22px/1.2 Georgia,"Noto Serif TC",serif;color:var(--fg)}
+.glh small{color:var(--muted);font-size:12px;letter-spacing:.12em}
+.glst{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
+.glst>div{display:grid;justify-items:center;gap:2px;padding:14px 4px;color:var(--route)}
+.glst>div+div{border-left:1px solid var(--line)}
+.glst b{font:700 26px/1.1 Georgia,serif;color:var(--fg);font-variant-numeric:tabular-nums}
+.glst small{font-size:11.5px;color:var(--muted)}
+.glrt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;margin:16px 0 4px}
+.glrt button{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:6px 11px;font:600 12.5px/1 system-ui,sans-serif;cursor:pointer}
+.glrt i{width:10px;height:1px;background:var(--muted);opacity:.6}
+.glhl{margin-top:18px}
+.glk{font:700 15px Georgia,"Noto Serif TC",serif;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.glk:before{content:"";width:18px;height:2px;background:#c9a45c}
+.glb{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 8px}
+@media (min-width:700px){.glb{grid-template-columns:repeat(6,1fr)}}
+.glb button{border:0;background:none;padding:0;display:grid;justify-items:center;gap:6px;color:var(--fg);cursor:pointer;font:600 12px/1.3 system-ui,sans-serif}
+.glb svg,.tquick .bdg svg{filter:drop-shadow(0 4px 8px rgba(20,40,58,.18));transition:transform .2s}
+.glb button:hover svg{transform:translateY(-2px)}
+#homeKnow .tipcard{border-left:3px solid #c9a45c}
