@@ -1574,7 +1574,6 @@ function ovHero(){try{
   let bk="";if(DT||REAL)try{const T=taskAll().map(t=>tStat(t).s).filter(x=>x!=="na"),ok=T.filter(x=>x==="done"||x==="recheck").length;bk=`<button type="button" class="ovh-go" data-ovprep="1">預訂 ${ok} / ${T.length} 已完成 ›</button>`}catch(e){}
   const ACT=["藍湖","斯奈山半島","米湖地熱區","賞鯨","冰河湖","冰川健行","黑沙灘","黃金圈"];
   return `<section class="ovhero noen"><div class="ovh-t"><small>2027 年 9 月 12–23 日</small><h2>冰島環島之旅</h2><p>${N} 日 · 順時針環島 · 約 2,000 km · 7 人</p></div>
-  <div class="ovh-act">${ACT.map(a=>`<span>${a}</span>`).join("")}</div>
   ${bpassHTML()}${bk?`<div class="ovh-rem">${bk}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
@@ -2392,7 +2391,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;
   if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${ovPlan()}${PH===2?LINKS:""}`;
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${ovPlan()}${LINKS}<div id="homeMore"></div>`;
   {const sl=$("homeMapSlot"),mc=$("mapcol");if(sl&&mc){sl.appendChild(mc);requestAnimationFrame(()=>{try{drawMap();fit({x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60})}catch(e){}})}}
   box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
