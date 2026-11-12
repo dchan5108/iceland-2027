@@ -3107,3 +3107,14 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .glb svg,.tquick .bdg svg{filter:drop-shadow(0 4px 8px rgba(20,40,58,.18));transition:transform .2s}
 .glb button:hover svg{transform:translateY(-2px)}
 #homeKnow .tipcard{border-left:3px solid #c9a45c}
+.tbtns .troute{background:var(--card);border-color:var(--line);color:var(--fg)}
+.tbtns .tfull2{margin-left:auto;border:0;background:none;color:var(--route);font-weight:600;padding:0 4px}
+.tdep{display:flex;align-items:center;gap:10px;font-size:15px;padding:14px 16px}
+.tdep .tdi{font-size:20px}.tdep b{font-variant-numeric:tabular-nums}.tdep .late{color:var(--stay)}
+@media (max-width:700px){#home .ovmap .sn,#home .ovmap .sf,#home .ovmap .sfi,#home .ovmap .meal,#home .ovmap .pt:not(.stay),#home .ovmap .lbl,#home .ovmap .ctl,#home .ovmap .pill{display:none!important}}
+/* 頭格：固定三行（路線／車程／住宿），每日排版一致 */
+.dhB{min-height:84px}.dhL{flex:1}
+.dhR{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dhS{display:grid!important;gap:3px}
+.dhS>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dhW{width:86px}
