@@ -3131,3 +3131,17 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 @keyframes lzoom{from{transform:scale(1.08)}to{transform:scale(1)}}
 @keyframes lshim{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.landing,.landing *{animation:none!important;transition:none!important}}
+/* 今日頁頭格撐滿、不溢出 */
+.thero{min-width:0;overflow:hidden}
+.thero>.tdsB,.tdsB .dhB{width:100%;box-sizing:border-box;align-self:stretch}
+.tdsB .dhL{min-width:0;flex:1 1 auto}
+/* 徽章：一行排完，名稱不加箭咀 */
+.tquick .bdgs{grid-template-columns:repeat(var(--n,4),minmax(0,1fr))!important}
+.tquick .bdg span{font-size:11.5px}
+.tquick .bdg span:after{content:none}
+/* 電腦版今日行程：左邊今日（窄欄），右邊地圖 */
+@media (min-width:1000px){
+ #home[data-mode=day] #homeL{display:grid!important;grid-template-columns:minmax(0,600px) minmax(0,1fr)!important;align-items:start!important;gap:16px}
+ #home[data-mode=day] #homeTop{grid-column:1!important;grid-row:1!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:none!important}
+ #home[data-mode=day] #homeMap{grid-column:2!important;grid-row:1!important;position:sticky;top:16px}
+}

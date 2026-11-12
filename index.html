@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-lp5">
+<link rel="stylesheet" href="style.css?v=2026-11-13-d2">
 
 </head>
 <body>
@@ -2361,7 +2361,7 @@ function TIPMOVE(){try{renderTips()}catch(e){return}const pn=k=>$("tc-"+k),wrap=
   if(pg==="prep"){wrap("prepKnow","📖","出發須知","know")}
   if(pg==="budget"){wrap("budSave","💡","省錢貼士","save")}}
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
-function renderHome(){const box=$("homeTop");if(!box)return;{const mc=$("mapcol");if(mc&&box.contains(mc))($("homeMap")||$("view-trip")).appendChild(mc)}
+function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mode="";{const mc=$("mapcol");if(mc&&box.contains(mc))($("homeMap")||$("view-trip")).appendChild(mc)}
   let TD=null;try{TD=todayDay()}catch(e){}const T0=Date.UTC(2027,8,12),dd=Math.ceil((T0-nowIS())/864e5),N=days.filter(x=>x.d>=1).length;
   const prog=TD&&TD.d>=1?`<div class="hbig">第 ${TD.d} 日<small> / ${N} 日</small></div><div class="hbar"><i style="width:${Math.round(TD.d/N*100)}%"></i></div>`:dd>0?`<div class="hbig">${dd}<small> 日後出發</small></div><div class="hbar"><i style="width:0%"></i></div>`:`<div class="hbig">旅程完成</div>`;
   /* 重要提醒：今日（出發前就是第一日）的出發時間、重點行程、天氣 */
@@ -2390,11 +2390,11 @@ function renderHome(){const box=$("homeTop");if(!box)return;{const mc=$("mapcol"
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a>
     <a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div>
     </section>`;
-  if(LIVE){box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+  if(LIVE){$("home").dataset.mode="day";box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     TIPMOVE();return}
   /* 準備期：總覽是「準備 ⇄ 每日行程」的翻頁：準備頁按 › 去第一日，第一日按 ‹ 回準備 */
     TODAY.prevHook=null;
-  if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+  if(PH===1&&HOMEV==="day"){$("home").dataset.mode="day";TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
   box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${PH===2?`<div id="homeKnow"></div>`:""}${ovPlan()}${LINKS}`;
@@ -2759,7 +2759,7 @@ const TODAY={d:null,docMode:"date",
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
     const kk=ks.filter(k=>Q[k]||pts[k]).slice(0,4),bd=kk.map(k=>[k,String(nm(k)).replace(/（.*?）/g,"").trim()]);
     if(!bd.length)return "";
-    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div>${bd.length?`<div class="bdgs noen">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
