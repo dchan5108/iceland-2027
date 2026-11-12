@@ -2675,9 +2675,9 @@ renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(
 /* 準備頁頂部：出發倒數 */
 function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
   /* 倒數卡（極光款）：大數字倒數、日期、冰島現在幾點 */
-  const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0");
+  const t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
   const big=dd>0?`<b>${dd}</b><span>日後出發</span>`:now<Date.UTC(2027,8,24)?`<b>旅程中</b><span></span>`:`<b>完成</b><span></span>`;
-  return `<section class="aurc noen" aria-label="倒數"><div class="aurn">${big}</div><div class="aurm"><span>9月12日 – 9月23日</span><span>冰島現在 ${hh}:${mm}</span></div></section>`}
+  return `<section class="aurc noen" aria-label="倒數"><div class="aurn">${big}</div><div class="aurm"><span>9月12日 – 9月23日</span><span>冰島時間 ${hh}:${mm}</span></div></section>`}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
