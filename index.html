@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-home2">
+<link rel="stylesheet" href="style.css?v=2026-11-13-home5">
 
 </head>
 <body>
@@ -1569,23 +1569,13 @@ function cmpxH(){let CX;try{CX=CMPX}catch(e){return ""}if(!DT||!Array.isArray(CX
   return `<details class="cmpx"><summary>原定行程 vs 網站版本 <small>只限管理者</small></summary><div class="gtw"><table class="gt cmpt"><thead><tr><th>日期</th><th>原定（10/20）</th><th>網站現在</th><th>分別</th></tr></thead><tbody>${CX.map(([dt,o,df,f])=>`<tr class="${f?"diff":""}"><td class="gn">${dt}</td><td>${o}</td><td>${cur(dt)}</td><td>${f?"⚠ ":""}${df}</td></tr>`).join("")}</tbody></table></div></details>`}
 /* 總表頂：旅程封面（標題、日期、環島路線示意圖、摘要、少量提醒） */
 function ovHero(){try{
-  const D=days.filter(x=>x.d>=1),N=D.length,X=lon=>((lon+24.9)*0.4226*100).toFixed(1),Y=lat=>((66.65-lat)*100).toFixed(1);
-  const chain=[];D.forEach(r=>{let day;try{day=R(r)}catch(e){day=r}const lg=(day.legs||[]).filter(l=>!l.c2&&!l.hide);const k=lg.length?lg[lg.length-1].b:null;if(!k||!pts[k])return;
-    const n=String(nm(k)).replace(/（.*?）/g,"").replace(/・.*$/,"").trim();if(chain.length&&chain[chain.length-1].n===n){chain[chain.length-1].d2=r.d;return}chain.push({n,k,d:r.d,d2:r.d})});
-  const P=chain.map(c=>[X(pts[c.k][1]),Y(pts[c.k][2])]);
-  const land=DATA.coast.map((c,i)=>(i?"L":"M")+X(c[0])+" "+Y(c[1])).join("")+"Z";
-  const ring="M"+P.map(p=>p.join(" ")).join("L");
-  /* 標籤：同一地方合併（例如 D1、D10–11 雷克雅維克）；機場附近那晚不標 */
-  const G=[];chain.forEach((c,i)=>{const n=c.n.replace(/附近住處$|附近$/,"");if(/機場|油站/.test(n))return;const dl=c.d===c.d2?"D"+c.d:"D"+c.d+"–"+c.d2;const g=G.find(x=>x.n===n);if(g){g.ds.push(dl);return}G.push({n,ds:[dl],x:+P[i][0],y:+P[i][1]})});
-  const dots=P.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6"/>`).join("")+G.map(g=>{const L=g.x>300,T=g.y<60;
-    return `<text x="${g.x+(L?-11:11)}" y="${g.y+(T?-10:6)}" text-anchor="${L?"end":"start"}"><tspan class="dd">${escA(g.ds.join("、"))}</tspan> ${escA(g.n)}</text>`}).join("");
+  const N=days.filter(x=>x.d>=1).length;
   const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
   let bk="";if(DT||REAL)try{const T=taskAll().map(t=>tStat(t).s).filter(x=>x!=="na"),ok=T.filter(x=>x==="done"||x==="recheck").length;bk=`<button type="button" class="ovh-go" data-ovprep="1">預訂 ${ok} / ${T.length} 已完成 ›</button>`}catch(e){}
   const ACT=["藍湖","斯奈山半島","米湖地熱區","賞鯨","冰河湖","冰川健行","黑沙灘","黃金圈"];
   return `<section class="ovhero noen"><div class="ovh-t"><small>2027 年 9 月 12–23 日</small><h2>冰島環島之旅</h2><p>${N} 日 · 順時針環島 · 約 2,000 km · 7 人</p></div>
-  <svg class="ovh-map" viewBox="-10 -10 489 350" role="img" aria-label="冰島環島路線示意圖"><path class="land" d="${land}"/><path class="ring" d="${ring}"/>${dots}</svg>
   <div class="ovh-act">${ACT.map(a=>`<span>${a}</span>`).join("")}</div>
-  <div class="ovh-rem"><span>${dd>0?`還有 <b>${dd}</b> 日出發`:now<Date.UTC(2027,8,24)?"旅程進行中":"旅程完成"}</span>${bk}</div></section>`}catch(e){return ""}}
+  ${bpassHTML()}${bk?`<div class="ovh-rem">${bk}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
 function ovPlan(){const dt=d=>{const r=days.find(x=>x.d===d);return r?String(r.date).replace(/（[^）]*）/g,"").replace(/\s+/g,""):""};
@@ -2334,7 +2324,7 @@ function view(v){
   $("home").hidden=v!=="home";$("today").hidden=v!=="today";$("view-trip").hidden=v!=="trip";$("prep").hidden=!(v==="prep"||v==="budget");$("tips").hidden=v!=="links";$("stays").hidden=false;if(v==="prep"&&(PSUB==="stay"||PSUB==="book"))try{renderStays()}catch(e){}
   $("prep").classList.toggle("budonly",v==="budget");
   [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});
-  {const mc=$("mapcol");if(mc){if(false){const ht=$("homeMap");if(ht&&mc.parentElement!==ht){ht.appendChild(mc)}}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
+  {const mc=$("mapcol");if(mc){if(v==="home"){const ht=$("homeMap");if(ht&&mc.parentElement!==ht){ht.appendChild(mc)}}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}}
   if(v==="today"){try{TODAY.render()}catch(e){}}
@@ -2402,7 +2392,8 @@ function renderHome(){const box=$("homeTop");if(!box)return;
   if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}${ovPlan()}${PH===2?LINKS:""}`;
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${ovPlan()}${PH===2?LINKS:""}`;
+  {const sl=$("homeMapSlot"),mc=$("mapcol");if(sl&&mc){sl.appendChild(mc);requestAnimationFrame(()=>{try{drawMap();fit({x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60})}catch(e){}})}}
   box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急的 3 件任務＋下一個重要日子；旅程期間＝今日有預約的活動 */
@@ -2584,7 +2575,7 @@ try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.fo
 /* 無障礙：只圖示的按鈕，滑鼠停留時顯示文字說明 */
 try{const tip=r=>{(r.querySelectorAll?r.querySelectorAll("button[aria-label]:not([title]),a[aria-label]:not([title])"):[]).forEach(b=>b.title=b.getAttribute("aria-label"))};tip(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)tip(n.parentNode||n)}))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
-const BUILD="2026-11-13-home";
+const BUILD="2026-11-13-home3";
 let STALE=false;try{STALE=localStorage.getItem("iceland-build")!==BUILD}catch(e){}
 if(STALE){(async()=>{let ok=false;try{if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()))}if(self.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}localStorage.removeItem("iceland-content-cache");localStorage.setItem("iceland-build",BUILD);ok=true}catch(e){}if(ok)location.reload()})()}
 try{if(!STALE&&"serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
@@ -2683,14 +2674,15 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
 /* 準備頁頂部：出發倒數 */
-function prepHero(){const box=$("prepHero");if(!box)return;const N=days.filter(x=>x.d>=1).length,now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
+function bpassHTML(){const N=days.filter(x=>x.d>=1).length,now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
   /* 倒數卡（登機證款）：左邊出發地（墨爾本／香港）→ 冰島，右邊撕開部分是倒數；顯示冰島現在幾點 */
   const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0");
   const stub=dd>0?`<b>${dd}</b><span>天後出發</span>`:now<Date.UTC(2027,8,24)?`<b>✈</b><span>旅程中</span>`:`<b>✓</b><span>完成</span>`;
-  box.innerHTML=`<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">冰島 2027 · ${N} 日環島 · 7 人</div>
-    <div class="bprt"><div class="bpo"><div><b>墨爾本</b><small>MEL</small></div><div><b>香港</b><small>HKG</small></div></div><svg class="bpl" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 20 C28 -4 62 28 90 8"/></svg><div class="bpd"><b>冰島</b><small>KEF</small></div></div>
+  return `<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">冰島 2027 · ${N} 日環島 · 7 人</div>
+    <div class="bprt"><div class="bpo"><div><b>墨爾本</b><small>MEL</small></div><div><b>香港</b><small>HKG</small></div></div><div class="bpl2" aria-hidden="true"><i>✈</i></div><div class="bpd"><b>冰島</b><small>KEF</small></div></div>
     <div class="bpg"><span>出發<b>9月12日</b></span><span>回程<b>9月23日</b></span><span>冰島現在<b>${hh}:${mm}</b></span></div></div>
     <div class="bps">${stub}</div></section>`}
+function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 

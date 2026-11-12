@@ -2991,3 +2991,24 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #home .ovhero{margin-bottom:14px}
 /* 總覽電腦版：封面和旅程安排並排 */
 @media (min-width:1000px){#home #homeTop{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)!important;align-items:start}#home .ovhero{margin:0}}
+
+/* 倒數卡：直線虛線＋飛機；電腦版限闊 */
+.bpass .bpl2{position:relative;height:2px;border-top:2px dashed color-mix(in srgb,var(--route) 55%,transparent);margin:0 6px}
+.bpass .bpl2 i{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%);font-style:normal;font-size:15px;color:var(--route);background:var(--card);padding:0 6px;line-height:1}
+@media (min-width:761px){.bpass{max-width:560px!important}}
+#home .bpass{margin:4px 0 0;max-width:none!important}
+/* 預訂清單（按日子）：D 編號固定闊度，日期對齊 */
+.bkd{display:inline-block;min-width:2.6em}
+
+/* 總覽：互動地圖放在封面和旅程安排之間（電腦版：左邊封面＋安排，右邊地圖） */
+#home #homeL{grid-template-columns:minmax(0,1fr)!important}
+#home #homeTop{display:grid!important;gap:14px;grid-template-columns:minmax(0,1fr)!important}
+#home .ovmap{padding:0!important;overflow:hidden;min-height:340px}
+#home .ovmap #mapcol{position:relative!important;top:auto!important;height:340px!important;width:100%!important;margin:0!important}
+@media (min-width:1000px){
+  #home #homeTop{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)!important;grid-template-areas:"hero map" "plan map";align-items:start}
+  #home .ovhero{grid-area:hero}#home .ovplan{grid-area:plan}#home .ovmap{grid-area:map;position:sticky;top:16px}
+  #home .ovmap,#home .ovmap #mapcol{height:min(78vh,640px)!important}}
+#home .ovmap .mapbox{height:100%!important;aspect-ratio:auto!important;max-height:none!important}
+#home .ovmap #map{width:100%!important;height:100%!important}
+#home .ovmap .rmode{display:none!important}
