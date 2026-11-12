@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-home5">
+<link rel="stylesheet" href="style.css?v=2026-11-13-home6">
 
 </head>
 <body>
@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-13-ov"></script>
+<script src="trip.js?v=2026-11-13-nob"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1574,7 +1574,7 @@ function ovHero(){try{
   let bk="";if(DT||REAL)try{const T=taskAll().map(t=>tStat(t).s).filter(x=>x!=="na"),ok=T.filter(x=>x==="done"||x==="recheck").length;bk=`<button type="button" class="ovh-go" data-ovprep="1">預訂 ${ok} / ${T.length} 已完成 ›</button>`}catch(e){}
   const ACT=["藍湖","斯奈山半島","米湖地熱區","賞鯨","冰河湖","冰川健行","黑沙灘","黃金圈"];
   return `<section class="ovhero noen"><div class="ovh-t"><small>2027 年 9 月 12–23 日</small><h2>冰島環島之旅</h2><p>${N} 日 · 順時針環島 · 約 2,000 km · 7 人</p></div>
-  ${bpassHTML()}${bk?`<div class="ovh-rem">${bk}</div>`:""}</section>`}catch(e){return ""}}
+  ${bpassHTML()}${bk||DT?`<div class="ovh-rem">${bk}${DT?`<button type="button" class="ovh-go" data-hv="day">預覽旅程中 ›</button>`:""}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
 function ovPlan(){const dt=d=>{const r=days.find(x=>x.d===d);return r?String(r.date).replace(/（[^）]*）/g,"").replace(/\s+/g,""):""};
@@ -2391,7 +2391,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;
   if(PH===1&&HOMEV==="day"){TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${ovPlan()}${LINKS}<div id="homeMore"></div>`;
+  box.innerHTML=`${PH===2?`<div id="homeToday"></div>`:""}${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${ovPlan()}${LINKS}`;
   {const sl=$("homeMapSlot"),mc=$("mapcol");if(sl&&mc){sl.appendChild(mc);requestAnimationFrame(()=>{try{drawMap();fit({x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60})}catch(e){}})}}
   box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
@@ -2749,13 +2749,18 @@ const TODAY={d:null,docMode:"date",
       if(drv)return `<li class="tdrv"><span class="tt0">${E0(t)}</span><span class="tdx">🚗 ${E0(a.replace(/<[^>]*>/g,"").split("；")[0])}</span></li>`;
       const nu=k&&r[2]!=="m"?TODAY.navUrl(k):"",ds=DOCX.match(a);
       return `<li class="${r[2]==="m"?"tmeal":""}"><span class="tt0">${E0(t)}</span><span class="tnm">${r[2]==="m"?"🍽️ ":""}${E0(TODAY.title(a))}${DOCX.clip(ds)}</span>${nu?`<a class="tnav noen" href="${nu}" target="_blank" rel="noopener" aria-label="導航" title="導航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l7 18-7-4-7 4z"/></svg></a>`:""}</li>`}).join("")},
+  /* 今日重點：路線、出發時間、3–5 個主要停留點（住宿在上面的格） */
+  quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
+    const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
+    if(!rt&&!dep&&!st.length)return "";
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div><dl>${rt?`<div><dt>路線</dt><dd>${E(rt)}</dd></div>`:""}${dep?`<div><dt>出發</dt><dd class="tnum"><b>${E(dep)}</b></dd></div>`:""}${st.length?`<div><dt>停留</dt><dd><ol>${st.map(x=>`<li>${E(x)}</li>`).join("")}</ol></dd></div>`:""}</dl></section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
     box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${dLab(raw.d)}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"回準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
       <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}</div>
-      ${TODAY.tiles(raw,day)}</section>
+      ${TODAY.tiles(raw,day)}</section>${TODAY.quick(raw,day)}
       <section class="tcard tsched"><div class="thd2 noen"><b>🕒 時間表</b></div>${TODAY.sched(raw)}</section>${docs}`;
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull);window.scrollTo(0,0)});
