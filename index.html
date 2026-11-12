@@ -2984,6 +2984,11 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 所有導航按鈕統一：同一個箭嘴圖示（和右下角「導航」一樣）、同一款小按鈕 */
 .drvpill,.plink.navpill{display:inline-flex!important;align-items:center;gap:4px;font-size:12px!important;font-weight:700!important;color:var(--route)!important;background:var(--fill)!important;border-radius:999px!important;padding:0 10px!important;height:26px;line-height:1!important;white-space:nowrap;text-decoration:none!important;box-sizing:border-box}
 .drvpill::before,.plink.navpill::before{content:"";width:11px;height:11px;flex:none;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l7 19-7-4-7 4z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l7 19-7-4-7 4z'/%3E%3C/svg%3E") center/contain no-repeat}
+
+/* 總表：電腦版欄位（之前被舊規則蓋過，文字欄只有 5.4em） */
+.ov .ovrow.ovB{grid-template-columns:62px minmax(0,1fr) 14px!important}
+/* 電腦版：整日導航和日落線之間留多一點空位 */
+@media (min-width:820px){#panel .dsum2.dsB>.dact{margin-top:14px!important}}
 </style>
 
 </head>
@@ -3802,13 +3807,14 @@ function drawMap(){
   
   const pills=[],TOPL=[];
   D.forEach(day=>day.legs.forEach((g,j,arr)=>{
+    if(g.ride&&day.d<0)return;   /* 徒步團巴士：不畫虛線 */
     const [x1,y1]=P(pts[g.a][1],pts[g.a][2]),[x2,y2]=P(pts[g.b][1],pts[g.b][2]),id=`lg${day.d}_${j}`,n=arr.length;
     const lg=el("linearGradient",{id,gradientUnits:"userSpaceOnUse",x1,y1,x2,y2},null,defs);
     el("stop",{offset:0,"stop-color":colAt((day.d+j/n)/13)},null,lg);el("stop",{offset:1,"stop-color":colAt((day.d+(j+1)/n)/13)},null,lg);
     const nd=g.walk||g.ride,rp=nd?null:rtPts(g);if(!rp&&!nd)rtWant(g,sel===day.d);
     const shp=rp?{tag:"path",a:{d:"M"+rp.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L"),fill:"none","stroke-linejoin":"round"}}:{tag:"line",a:{x1,y1,x2,y2}};
     const olEl=el(shp.tag,{...shp.a,stroke:"#ffffff","stroke-width":7.5,"stroke-linecap":"round",opacity:.95,"vector-effect":"non-scaling-stroke","data-day":day.d});
-    const clEl=el(shp.tag,{...shp.a,stroke:g.c2||g.pk?OKC():`url(#${id})`,"stroke-width":g.c2?3:g.pk?6:3.6,"stroke-linecap":"round","stroke-dasharray":g.walk?"1 7":g.c2?"2 5":g.ride||day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
+    const clEl=el(shp.tag,{...shp.a,stroke:g.walk?"var(--chg)":g.c2||g.pk?OKC():`url(#${id})`,"stroke-width":g.c2?3:g.pk?6:3.6,"stroke-linecap":"round","stroke-dasharray":g.walk?"none":g.c2?"2 5":g.ride||day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
     if(g.pk||g.c2)TOPL.push(olEl,clEl);
     const mid=rp?rp[Math.floor(rp.length/2)]:[(x1+x2)/2,(y1+y2)/2];
     if(g.walk)pills.push([mid[0],mid[1],"徒步 "+g.walk+" km",day.d]);else if(!g.ride&&(g.m>=30||(g.pk&&g.m>=20))&&!g.hide&&!g.city)pills.push([mid[0],mid[1],short(dT(g.m)),day.d]);
@@ -5810,7 +5816,7 @@ const DOCX={
   esc:s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),
   clip:(ds,cls)=>ds.length?`<button type="button" class="docb ${cls||""}" data-docs="${ds.map(x=>x.id).join(",")}" aria-label="看預訂文件"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5l-7.8 7.8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.4 8.4a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></svg>${ds.length>1?`<i>${ds.length}</i>`:""}</button>`:"",
   thumb:x=>x.qr&&x.qr[0]?`<img src="${x.qr[0]}" alt="">`:x.img&&x.img[0]?`<img src="${x.img[0]}" alt="">`:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>`,
-  item:x=>`<button type="button" class="docit" data-docs="${x.id}"><span class="dth">${DOCX.thumb(x)}</span><span class="dtx"><b>${DOCX.esc(x.t)}</b><small><em class="dtag">${DOCX.esc(x.type||"文件")}</em>${DOCX.esc(x.sub||x.when||"")}</small></span>${(x.qr&&x.qr.length)||(x.img&&x.img.length)||x.email?"":`<span class="dmiss">未有文件</span>`}</button>`,
+  item:x=>`<button type="button" class="docit" data-docs="${x.id}"><span class="dth">${DOCX.thumb(x)}</span><span class="dtx"><b>${DOCX.esc(x.t)}</b><small><em class="dtag">${DOCX.esc(x.type||"文件")}</em>${DOCX.esc(x.sub||x.when||"")}</small></span>${(x.qr&&x.qr.length)||(x.img&&x.img.length)||x.email||(x.files&&x.files.length)?"":`<span class="dmiss">未有文件</span>`}</button>`,
   /* 全部票券：按日期／按類型 */
   listH(mode){const A=DOCX.all();if(!A.length)return `<p class="rhint">未有票券。訂好之後將確認 email、截圖或者 QR code 交給 Claude，就會加入這裡。</p>`;
     const key=mode==="type"?(x=>x.type||"其他"):(x=>x.date||"未定日子"),G=[];A.forEach(x=>{const k=key(x);let g=G.find(y=>y.k===k);if(!g)G.push(g={k,xs:[]});g.xs.push(x)});
