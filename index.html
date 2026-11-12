@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-h3">
+<link rel="stylesheet" href="style.css?v=2026-11-13-lp5">
 
 </head>
 <body>
@@ -140,7 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-13-nob"></script>
-<script src="landing.js?v=2026-11-13-lp4"></script>
+<script src="landing.js?v=2026-11-13-lp5"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -317,7 +317,7 @@ function gButton(box,msg){const go=()=>{try{google.accounts.id.initialize({clien
     try{let j,raw="";try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"glogin",idt:resp.credential})});raw=await r.text();j=JSON.parse(raw)}
       catch(e){const t=String(raw||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();msg.textContent=raw?"Apps Script 出錯："+(t.match(/(?:Error|錯誤|Exception)[^.。]{0,160}/i)||[t.slice(0,160)])[0]:"連線失敗（"+(e&&e.message||e)+"）";return}
       if(j.ok){privStore(j.priv||"",j.role);localStorage.setItem("iceland-gsk",j.sk);["iceland-sync-user","iceland-sync-pass","iceland-sync-url"].forEach(k=>localStorage.removeItem(k));
-        try{sessionStorage.setItem("iceland-login-msg",j.role==="pending"?"已登入，申請已提交，等管理員批准":"已登入")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
+        try{sessionStorage.setItem("iceland-landing","1");const lp=document.getElementById("landing");if(lp)lp.classList.add("out")}catch(e){}try{sessionStorage.setItem("iceland-login-msg",j.role==="pending"?"已登入，申請已提交，等管理員批准":"已登入")}catch(e){}msg.textContent="登入成功，載入中…";location.reload();return}
       msg.textContent=j.err==="gdeny"?`這個 Gmail（${j.email||""}）的申請未獲批准`:j.err==="gtoken"?"Google 登入失敗，請再試一次":(j.sv||0)<7?"Apps Script 未更新到新版本":"登入失敗："+(j.err||"")}catch(e){msg.textContent="連線失敗，請檢查網絡"}}});
     google.accounts.id.renderButton(box,{theme:"outline",size:"large",shape:"pill",text:"signin_with",locale:"zh-TW",width:260})}catch(e){msg.textContent="Google 登入載入失敗"}};
   if(window.google&&google.accounts&&google.accounts.id){go();return}
