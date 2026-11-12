@@ -3019,3 +3019,20 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tquick dt{font-size:12px;font-weight:700;color:var(--muted)}
 .tquick dd{margin:0;color:var(--fg);font-size:15px}
 .tquick ol{margin:0;padding-left:1.2em;display:grid;gap:2px}
+
+/* 倒數卡：極光 */
+.aurc{position:relative;overflow:hidden;border-radius:18px;padding:18px 20px 16px;color:#eafff6;background:
+ radial-gradient(120% 70% at 20% 0%,rgba(80,255,170,.55),transparent 60%),
+ radial-gradient(90% 60% at 85% 10%,rgba(150,110,255,.45),transparent 65%),
+ radial-gradient(80% 50% at 55% 35%,rgba(40,220,200,.35),transparent 70%),
+ linear-gradient(180deg,#0b1d33 0%,#081426 100%);display:grid;gap:10px;margin:4px 0 0}
+.aurc::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(180deg,transparent,rgba(4,10,20,.55));pointer-events:none}
+.aurc>*{position:relative;z-index:1}
+.aurc .aurn{display:flex;align-items:baseline;gap:8px}
+.aurc .aurn b{font-size:52px;line-height:1;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(80,255,170,.35)}
+.aurc .aurn span{font-size:15px;font-weight:700;opacity:.9}
+.aurc .aurm{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:13px;font-weight:600;opacity:.85;font-variant-numeric:tabular-nums}
+@media (min-width:761px){#prepHero .aurc{max-width:560px}}
+/* 今日須知 */
+.tnotes ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:6px;font-size:14.5px}
+.tfull{display:block;margin:4px auto 0;border:0;background:none;color:var(--route);font:inherit;font-weight:700;cursor:pointer;padding:10px}

@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-home6">
+<link rel="stylesheet" href="style.css?v=2026-11-13-aur">
 
 </head>
 <body>
@@ -2673,14 +2673,11 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
 /* 準備頁頂部：出發倒數 */
-function bpassHTML(){const N=days.filter(x=>x.d>=1).length,now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
-  /* 倒數卡（登機證款）：左邊出發地（墨爾本／香港）→ 冰島，右邊撕開部分是倒數；顯示冰島現在幾點 */
+function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
+  /* 倒數卡（極光款）：大數字倒數、日期、冰島現在幾點 */
   const t=new Date(now),hh=String(t.getUTCHours()).padStart(2,"0"),mm=String(t.getUTCMinutes()).padStart(2,"0");
-  const stub=dd>0?`<b>${dd}</b><span>天後出發</span>`:now<Date.UTC(2027,8,24)?`<b>✈</b><span>旅程中</span>`:`<b>✓</b><span>完成</span>`;
-  return `<section class="bpass noen" aria-label="倒數"><div class="bpm"><div class="bpk">冰島 2027 · ${N} 日環島 · 7 人</div>
-    <div class="bprt"><div class="bpo"><div><b>墨爾本</b><small>MEL</small></div><div><b>香港</b><small>HKG</small></div></div><div class="bpl2" aria-hidden="true"><i>✈</i></div><div class="bpd"><b>冰島</b><small>KEF</small></div></div>
-    <div class="bpg"><span>出發<b>9月12日</b></span><span>回程<b>9月23日</b></span><span>冰島現在<b>${hh}:${mm}</b></span></div></div>
-    <div class="bps">${stub}</div></section>`}
+  const big=dd>0?`<b>${dd}</b><span>日後出發</span>`:now<Date.UTC(2027,8,24)?`<b>旅程中</b><span></span>`:`<b>完成</b><span></span>`;
+  return `<section class="aurc noen" aria-label="倒數"><div class="aurn">${big}</div><div class="aurm"><span>9月12日 – 9月23日</span><span>冰島現在 ${hh}:${mm}</span></div></section>`}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
@@ -2761,7 +2758,8 @@ const TODAY={d:null,docMode:"date",
     box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${dLab(raw.d)}</div><div class="tdrow"><h2 class="tdate">週${wd} 9月${dt.getUTCDate()}日</h2><span class="tpn"><button type="button" data-tgo="-1" ${i<=0&&!TODAY.prevHook?"disabled":""} aria-label="${i<=0&&TODAY.prevHook?"回準備":"前一日"}">‹</button><button type="button" data-tgo="1" ${i>=L.length-1?"disabled":""} aria-label="後一日">›</button></span></div>
       <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}</div>
       ${TODAY.tiles(raw,day)}</section>${TODAY.quick(raw,day)}
-      <section class="tcard tsched"><div class="thd2 noen"><b>🕒 時間表</b></div>${TODAY.sched(raw)}</section>${docs}`;
+      ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}<button type="button" class="tfull" data-tfull="${raw.d}">看完整時間表 ›</button>`;
+    box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull);window.scrollTo(0,0)});
     TODAY.wx(raw,day)}
