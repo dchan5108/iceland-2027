@@ -2959,3 +2959,24 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ov .ovrow.ovB{grid-template-columns:62px minmax(0,1fr) 14px!important}
 /* 電腦版：整日導航和日落線之間留多一點空位 */
 @media (min-width:820px){#panel .dsum2.dsB>.dact{margin-top:14px!important}}
+
+/* 總表頂：旅程封面 */
+.ovhero{background:var(--card);border-radius:18px;padding:18px 18px 14px;margin:0 0 14px;display:grid;gap:10px}
+.ovhero .ovh-t small{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.ovhero .ovh-t h2{margin:2px 0 4px;font-size:24px;line-height:1.2;color:var(--fg);text-wrap:balance}
+.ovhero .ovh-t p{margin:0;font-size:13px;color:var(--muted)}
+.ovhero .ovh-map{width:100%;max-width:560px;height:auto;justify-self:center;overflow:visible}
+.ovhero .ovh-map .land{fill:color-mix(in srgb,var(--route) 10%,var(--card));stroke:color-mix(in srgb,var(--route) 35%,transparent);stroke-width:1.5;stroke-linejoin:round}
+.ovhero .ovh-map .ring{fill:none;stroke:var(--route);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.ovhero .ovh-map circle{fill:var(--card);stroke:var(--route);stroke-width:3}
+.ovhero .ovh-map .dd{fill:var(--route)}
+.ovhero .ovh-map text{font-size:17px;font-weight:700;fill:var(--fg);paint-order:stroke;stroke:var(--card);stroke-width:3.5px;stroke-linejoin:round}
+.ovhero .ovh-act{display:flex;flex-wrap:wrap;gap:6px}
+.ovhero .ovh-act span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--route) 12%,transparent);color:var(--fg)}
+.ovhero .ovh-rem{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;font-size:13px;color:var(--muted);border-top:.5px solid var(--line);padding-top:10px}
+.ovhero .ovh-rem b{color:var(--fg);font-size:16px;font-variant-numeric:tabular-nums}
+.ovhero .ovh-go{border:0;background:none;color:var(--route);font:inherit;font-weight:700;cursor:pointer;padding:0}
+/* 倒數卡：電腦版不要拉得太闊；下面三格對齊 */
+@media (min-width:761px){.bpass{max-width:600px}}
+.bpass .bpg{grid-template-columns:repeat(3,minmax(0,1fr))!important;justify-content:stretch!important}
+.bpass .bpg span:nth-child(2){text-align:center}.bpass .bpg span:nth-child(3){text-align:right}

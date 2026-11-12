@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-12-css">
+<link rel="stylesheet" href="style.css?v=2026-11-13-ov">
 
 </head>
 <body>
@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-13-data"></script>
+<script src="trip.js?v=2026-11-13-ov"></script>
 <script src="data.js?v=2026-11-13-data"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1567,8 +1567,28 @@ const scenH=()=>`<div class="scenbox"><span class="sl">冰川健行（D7）</spa
 function cmpxH(){let CX;try{CX=CMPX}catch(e){return ""}if(!DT||!Array.isArray(CX)||!CX.length)return "";
   const cur=dt=>{const raw=days.find(x=>String(x.date).startsWith(dt+"（"));if(!raw)return "—";const day=R(raw);const r=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");return `<b>${dLab(raw.d)}</b> ${r}${day.stay?`<small>住：${day.stay}</small>`:""}`};
   return `<details class="cmpx"><summary>原定行程 vs 網站版本 <small>只限管理者</small></summary><div class="gtw"><table class="gt cmpt"><thead><tr><th>日期</th><th>原定（10/20）</th><th>網站現在</th><th>分別</th></tr></thead><tbody>${CX.map(([dt,o,df,f])=>`<tr class="${f?"diff":""}"><td class="gn">${dt}</td><td>${o}</td><td>${cur(dt)}</td><td>${f?"⚠ ":""}${df}</td></tr>`).join("")}</tbody></table></div></details>`}
+/* 總表頂：旅程封面（標題、日期、環島路線示意圖、摘要、少量提醒） */
+function ovHero(){try{
+  const D=days.filter(x=>x.d>=1),N=D.length,X=lon=>((lon+24.9)*0.4226*100).toFixed(1),Y=lat=>((66.65-lat)*100).toFixed(1);
+  const chain=[];D.forEach(r=>{let day;try{day=R(r)}catch(e){day=r}const lg=(day.legs||[]).filter(l=>!l.c2&&!l.hide);const k=lg.length?lg[lg.length-1].b:null;if(!k||!pts[k])return;
+    const n=String(nm(k)).replace(/（.*?）/g,"").replace(/・.*$/,"").trim();if(chain.length&&chain[chain.length-1].n===n){chain[chain.length-1].d2=r.d;return}chain.push({n,k,d:r.d,d2:r.d})});
+  const P=chain.map(c=>[X(pts[c.k][1]),Y(pts[c.k][2])]);
+  const land=DATA.coast.map((c,i)=>(i?"L":"M")+X(c[0])+" "+Y(c[1])).join("")+"Z";
+  const ring="M"+P.map(p=>p.join(" ")).join("L");
+  /* 標籤：同一地方合併（例如 D1、D10–11 雷克雅維克）；機場附近那晚不標 */
+  const G=[];chain.forEach((c,i)=>{const n=c.n.replace(/附近住處$|附近$/,"");if(/機場|油站/.test(n))return;const dl=c.d===c.d2?"D"+c.d:"D"+c.d+"–"+c.d2;const g=G.find(x=>x.n===n);if(g){g.ds.push(dl);return}G.push({n,ds:[dl],x:+P[i][0],y:+P[i][1]})});
+  const dots=P.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6"/>`).join("")+G.map(g=>{const L=g.x>300,T=g.y<60;
+    return `<text x="${g.x+(L?-11:11)}" y="${g.y+(T?-10:6)}" text-anchor="${L?"end":"start"}"><tspan class="dd">${escA(g.ds.join("、"))}</tspan> ${escA(g.n)}</text>`}).join("");
+  const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5);
+  let bk="";if(DT||REAL)try{const T=taskAll().map(t=>tStat(t).s).filter(x=>x!=="na"),ok=T.filter(x=>x==="done"||x==="recheck").length;bk=`<button type="button" class="ovh-go" data-ovprep="1">預訂 ${ok} / ${T.length} 已完成 ›</button>`}catch(e){}
+  const ACT=["藍湖","斯奈山半島","米湖地熱區","賞鯨","冰河湖","冰川健行","黑沙灘","黃金圈"];
+  return `<section class="ovhero noen"><div class="ovh-t"><small>2027 年 9 月 12–23 日</small><h2>冰島環島之旅</h2><p>${N} 日 · 順時針環島 · 約 2,000 km · 7 人</p></div>
+  <svg class="ovh-map" viewBox="-10 -10 489 350" role="img" aria-label="冰島環島路線示意圖"><path class="land" d="${land}"/><path class="ring" d="${ring}"/>${dots}</svg>
+  <div class="ovh-act">${ACT.map(a=>`<span>${a}</span>`).join("")}</div>
+  <div class="ovh-rem"><span>${dd>0?`還有 <b>${dd}</b> 日出發`:now<Date.UTC(2027,8,24)?"旅程進行中":"旅程完成"}</span>${bk}</div></section>`}catch(e){return ""}}
+document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 function overview(){
-  return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
+  return `${ovHero()}${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");
     /* 總表：每日一張細版頭格（路線大字、交通、住宿） */
     let rl="";try{rl=TODAY.routeLat(raw,day)}catch(e){rl=route}
@@ -2561,7 +2581,7 @@ try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.fo
 /* 無障礙：只圖示的按鈕，滑鼠停留時顯示文字說明 */
 try{const tip=r=>{(r.querySelectorAll?r.querySelectorAll("button[aria-label]:not([title]),a[aria-label]:not([title])"):[]).forEach(b=>b.title=b.getAttribute("aria-label"))};tip(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)tip(n.parentNode||n)}))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* offline: on the GitHub site a service worker keeps a copy of the page after the first visit */
-const BUILD="2026-11-13-data";
+const BUILD="2026-11-13-ov";
 let STALE=false;try{STALE=localStorage.getItem("iceland-build")!==BUILD}catch(e){}
 if(STALE){(async()=>{let ok=false;try{if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()))}if(self.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}localStorage.removeItem("iceland-content-cache");localStorage.setItem("iceland-build",BUILD);ok=true}catch(e){}if(ok)location.reload()})()}
 try{if(!STALE&&"serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
