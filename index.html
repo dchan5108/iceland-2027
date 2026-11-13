@@ -522,6 +522,8 @@ if(DT){days.unshift(...PRE);const v=+(store.get("iceland-day2")??ALL);if(days.so
 else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.some(x=>x.d===sel))sel=ALL}
 /* 日期短寫：單日「9月14日（二）」；跨日「9月7–10日」（徒步等），手機標題不會太長 */
 const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[–-]\s*(\d{1,2})\/(\d{1,2})/);if(m)return m[1]===m[3]?`${m[1]}月${m[2]}–${m[4]}日`:`${m[1]}月${m[2]}日–${m[3]}月${m[4]}日`;return s.replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")};
+/* 私人小行程（y 行）：「出發去 X／開回 X」也有導航 */
+const YNAV=a=>{const m=String(a).replace(/<[^>]*>/g,"").match(/^(?:出發去|開一部車去|開車去|開去|開回)\s*([^\s（(，,]+)/);if(!m)return "";const nm0=m[1],k=Object.keys(pts).find(k=>String(pts[k][0]).includes(nm0)),q=k?qn(k):nm0+", Iceland";return ` data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
 const dLab=d=>d===-5?"H0":d===-4?"徒步":d<0?(days.find(x=>x.d===d)||{date:""}).date.replace(/（[^）]*）/g,"").replace(/\s/g,""):`D${d}`;
 const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-OFS;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
 const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
@@ -1146,7 +1148,7 @@ function richRows(day){
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn="";
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
     const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
-    return `${sep}<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}${pri?" pri":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${svc?" svc":""}${pri?" pri":""}${longD?" longd":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}"${SN[i]?` data-sn="${SN[i]}"`:""}${SK[i]?` data-sk="${SK[i]}"`:""}${isDep&&!SK[i]?drvTo(i):""}>${btn}${inner}</span>`});
+    return `${sep}<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}${pri?" pri":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${svc?" svc":""}${pri?" pri":""}${longD?" longd":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}"${SN[i]?` data-sn="${SN[i]}"`:""}${SK[i]?` data-sk="${SK[i]}"`:""}${isDep&&!SK[i]?drvTo(i):""}${f==="y"&&!SK[i]?YNAV(a):""}>${btn}${inner}</span>`});
    /* 補開車行：某站前面沒有開車行（也不是早上出發那一行），就按車程自動加一行「開車去 X · 約 N」，出發時間＝上一行結束時間 */
    try{const sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/);return m?{s:+m[1]*60+ +m[2],e:m[3]!=null?+m[3]*60+ +m[4]:+m[1]*60+ +m[2]}:null},hm=x=>`${String(Math.floor(x/60)%24).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`,
        du=x=>{x=Math.round(x);const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`};
