@@ -140,7 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-13-troll"></script>
-<script src="landing.js?v=2026-11-13-lp5"></script>
+<script src="landing.js?v=2026-11-13-lp6"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -2791,8 +2791,10 @@ try{const TD=todayDay();if(TD&&HPHASE()===3&&!sessionStorage.getItem("iceland-au
 
 try{if(!$("home").hidden)renderHome()}catch(e){}
 /* 倒數封面：每個分頁開啟時出現一次，按「直接瀏覽」或登入後進入 */
-try{if(window.LANDING&&(!localStorage.getItem("iceland-role")||!sessionStorage.getItem("iceland-landing"))&&!document.getElementById("landing")){
-  const n=nowIS(),left=Math.ceil((Date.UTC(2027,8,12)-n)/864e5),td=todayDay(),o={left:Math.max(0,left),role:!!localStorage.getItem("iceland-role"),gButton};
+/* 已登入（有 Gmail 工作階段＋角色）就直接進入，不顯示封面 */
+const AUTHED=(()=>{try{return !!(localStorage.getItem("iceland-gsk")&&ROLE)}catch(e){return false}})();
+try{if(window.LANDING&&!AUTHED&&!document.getElementById("landing")){
+  const n=nowIS(),left=Math.ceil((Date.UTC(2027,8,12)-n)/864e5),td=todayDay(),o={left:Math.max(0,left),role:false,gButton};
   if(td){const raw=td,dt=new Date(Date.UTC(2027,8,11+raw.d)),k=(raw.legs||[]).flatMap(l=>[l.a,l.b]).find(k=>pts[k]&&pts[k][3]==="spot");o.trip=true;o.dayKey=k;o.dateTxt="週"+"日一二三四五六"[dt.getUTCDay()]+" 9月"+dt.getUTCDate()+"日";o.dayTxt=dLab(raw.d)}
   LANDING.show(o)}}catch(e){}
 }

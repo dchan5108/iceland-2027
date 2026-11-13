@@ -50,7 +50,7 @@ function show(o){const st=o.trip?"trip":STAGE(o.left),T=TXT[st];
   const el=document.createElement("div");el.className="landing st-"+st;el.id="landing";
   const big=st==="trip"?`<div class="lwel">Welcome<br>to Iceland</div><div class="lsub">${o.dateTxt||""}${o.dayTxt?" · "+o.dayTxt:""}</div>`:`<div class="lnum"><b>${o.left}</b><span>Days to go</span></div><div class="lsub">9月12日 – 9月23日</div>`;
   el.innerHTML=scene(st,st==="trip"?o.dayKey:null)+`<div class="lbox"><div class="ltitle">ICELAND 2027</div><div class="lring"><i></i>RING ROAD · 12–23 SEPTEMBER<i></i></div>
-  <div class="lcard"><div class="ltag"><b>${T[1]}</b><span>${T[0]}</span></div>${big}<div class="lg" id="lgbox"></div><p class="lmsg" id="lgmsg"></p>${o.role?`<button type="button" class="lenter" id="lenter">進入網站</button>`:`<p class="lnote">請用 Gmail 登入後瀏覽</p>`}</div></div>`;
+  <div class="lcard"><div class="ltag"><b>${T[1]}</b><span>${T[0]}</span></div>${big}${o.role?"":`<div class="lg" id="lgbox"></div><p class="lmsg" id="lgmsg"></p>`}${o.role?`<button type="button" class="lenter" id="lenter">進入網站</button>`:`<p class="lnote">請用 Gmail 登入後瀏覽</p>`}</div></div>`;
   document.body.appendChild(el);document.documentElement.style.overflow="hidden";
   const close=()=>{try{sessionStorage.setItem("iceland-landing","1")}catch(e){}el.classList.add("out");document.documentElement.style.overflow="";setTimeout(()=>el.remove(),450)};
   if(o.role)el.querySelector("#lenter").onclick=close;
