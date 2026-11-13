@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-sf">
+<link rel="stylesheet" href="style.css?v=2026-11-13-ost">
 
 </head>
 <body>
@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-13-troll"></script>
+<script src="trip.js?v=2026-11-13-ai"></script>
 <script src="landing.js?v=2026-11-13-lp6"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
@@ -277,6 +277,9 @@ const OFS=0;
 /* 版本只看登入身分（Gmail）：owner／admin＝管理者版；real＝真實版；docs、pending＝公開版。不再用網址分版本。 */
 const ROLE=(()=>{try{return localStorage.getItem("iceland-key")?(localStorage.getItem("iceland-role")||""):""}catch(e){return ""}})();
 let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE==="real";
+/* 可選活動狀態：AI 建議（資料標 ai，未經你核准）只給你本人看，不能加入行程；核准＝在資料拿走 ai 標記。 */
+if(!OWNER)days.forEach(x=>{const f=p=>p&&p.filter(r=>!(r[2]==="o"&&r[4]==="ai"));x.plan=f(x.plan);if(x.v)for(const k in x.v)if(x.v[k].plan)x.v[k].plan=f(x.v[k].plan);if(x.view)x.view.opts.forEach(o=>{if(o.plan)o.plan=f(o.plan)});if(x.real&&x.real.plan)x.real.plan=f(x.real.plan);if(x.opt)x.opt=x.opt.filter(o=>!o.ai)});
+const OST=(added,ai)=>added?`<span class="ost on">已加入行程</span>`:ai?`<span class="ost ai">AI 建議・未核准</span>`:`<span class="ost">已核准</span>`;
 try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","iceland-sync-pass","iceland-sync-t"].forEach(k=>localStorage.removeItem(k))}catch(e){}
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
 const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
@@ -1016,7 +1019,7 @@ const drvTxt=a=>String(a).replace(/[（(]((?:車程)?約[^）)]*)[）)]/,"｜$1"
 const rowRank=r=>(TAGS[r[2]]?2:0)+(/^(退房出發|退房|出發|前往|開車|開去|返回)/.test(String(r[1]).replace(/<[^>]*>/g,""))?1:0);
 function rowStops(day,plan){
   const att=plan.map(()=>[]),order=plan.map((r,i)=>i).sort((a,b)=>rowRank(plan[a])-rowRank(plan[b]));
-  for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].push(k);break}}}
+  for(const k in SPKW){for(const i of order){const txt=String(plan[i][1]).split("｜")[0];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].push(k);break}}}
   const out=plan.map(()=>null),sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
   sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
     const okRow=j=>j>last&&plan[j][2]!=="y"&&out[j]==null&&!/第二部車/.test(plan[j][1])&&!isDrv(plan[j][1]);let j=-1;
@@ -1067,6 +1070,7 @@ function splitRow(a){let html="";a=String(a).replace(/<details class='stinfo'>[\
     const inside=a.slice(i+1,j),after=a.slice(j+1).replace(/^[；，、。\s]+/,"");const ps=inside.split("；");name=a.slice(0,i).trim();intro=ps[0];more=[...ps.slice(1),after].filter(Boolean).join("；")}
   const q=name.indexOf("：");if(q>1&&name.length>18&&!/^(早餐|午餐|晚餐|小吃)/.test(name)){const rest=name.slice(q+1).trim();name=name.slice(0,q).trim();if(intro)more=[intro,more].filter(Boolean).join("；");intro=rest}
   const c=name.indexOf("，");if(c>4&&name.length>16){const rest=name.slice(c+1).trim();name=name.slice(0,c).trim();if(intro){more=[intro,more].filter(Boolean).join("；");intro=rest}else intro=rest}
+  if(/｜/.test(more))more=more.split("｜").map(x=>x.trim()).filter(Boolean).map(x=>"・"+x).join("<br>");
   return {name,intro,more,html}}
 
 /* 徒步高度圖：資料在 day.prof = [[km, 海拔 m, 地名?], ...]；有地名的點當山屋／終點，最高點自動標示 */
@@ -1082,7 +1086,7 @@ function richRows(day){
   /* 中途「出發去下一站」：不當景點，只顯示做小小一行車程 */
   const dep0=depI(plan),isConn=i=>{const r=plan[i];if(!r||i===dep0||r[2]==="y"||r[2]==="m"||TAGS[r[2]])return false;const p=String(r[1]).replace(/<[^>]*>/g,"");return /^(前往|開車|開去|出發|返回|駛往|沿|經|南下|北上)/.test(p)&&!/^(早餐|午餐|晚餐|小吃)/.test(p)&&!/入住|抵達/.test(p.split(/[（(：]/)[0])};
   const order=plan.map((r,i)=>i).sort((a,b)=>rowRank(plan[a])-rowRank(plan[b]));
-  for(const k in SPKW){for(const i of order){const txt=plan[i][1];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
+  for(const k in SPKW){for(const i of order){const txt=String(plan[i][1]).split("｜")[0];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
   /* map stop numbers (same as the map and the drive list) shown on the matching timetable rows */
   const SN={},SK={};if(day.ekeys){let n=0,pv=null;day.ekeys.forEach((k,i)=>{if(k&&pts[k]&&k!==pv){n++;SN[i]=n;SK[i]=k;pv=k}})}else{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
     sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
@@ -1516,9 +1520,9 @@ function card(raw){
   const pubDep=false&&!REAL?(()=>{const i=depI(day.plan);return i>=0&&/^\d{1,2}:\d{2}$/.test(day.plan[i][0])?`<div class="golin"><span>出發：<b>${day.plan[i][0]}</b></span></div>`:""})():"";
   const pickH=(window.__PK=window.__PK||{})[raw.d]=`${DT&&raw.choice&&(!raw.choice.onlyView||viewId(raw)===raw.choice.onlyView)?`<div class="sub2">${raw.choice.label}</div><p class="rhint">${cPicked(raw)?` <button type="button" class="mini" data-cclear="${raw.d}">清除</button>`:""}</p><ul class="opick">${raw.choice.opts.map(o=>`<li><label><input type="radio" name="cp${raw.d}" data-cpick="${raw.d}|${o.id}"${cPicked(raw)===o.id?" checked":""}><span>${o.t}</span></label></li>`).join("")}</ul>`:""}
     ${(()=>{if(!DT&&!REAL)return "";const xv=raw.v?raw.v[scen]:null,os=((xv&&xv.plan)?xv.plan:(raw.real?raw.real.plan:raw.plan)).filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
-      return `<div class="sub2">可選行程</div><p class="rhint">${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>`<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${pk.includes(oKey(r[1]))?" checked":""}><span>${r[1]}</span><small>${r[0]}</small></label></li>`).join("")}</ul>`})()}
+      return `<div class="sub2">可選行程</div><p class="rhint">${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>{const on=pk.includes(oKey(r[1])),ai=r[4]==="ai"&&!on,sg=String(r[1]).split("｜");return `<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${on?" checked":""}${ai?" disabled":""}><span>${sg[0]} ${OST(on,ai)}</span><small>${r[0]}</small></label>${sg.length>1?`<details class="odet"><summary>詳情</summary><ul>${sg.slice(1).map(t=>`<li>${t}</li>`).join("")}</ul></details>`:""}</li>`}).join("")}</ul>`})()}
     ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}）</div>${raw.recHint?`<p class="rhint">${raw.recHint}${ieB("rec",raw.d,"hint",raw.recHint)}</p>`:""}${(DT||REAL)?`<p class="rhint">${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add}</span>${ieB("opt",o.id,"add",o.add)}</summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}${ieB("opt",o.id,"d",o.d)}</p>`:""}</details>`).join("")}</div>`:""}
-    ${(raw.opt||[]).some(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw))))?`<div class="sub2">推薦可選（時間夠先去）</div>${(DT||REAL)?`<p class="rhint">${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.filter(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw)))).map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add}</span>${ieB("opt",o.id,"add",o.add)}</summary><p>${o.d}</p>${o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(qn(o.k))}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}${wpickH(raw)}</div>`:""}`;
+    ${(raw.opt||[]).some(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw))))?`<div class="sub2">推薦可選（時間夠先去）</div>${(DT||REAL)?`<p class="rhint">${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.filter(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw)))).map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}${o.ai&&!optPicked(raw).includes(o.id)?" disabled":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add}</span>${ieB("opt",o.id,"add",o.add)}${(DT||REAL)?OST(optPicked(raw).includes(o.id),o.ai):""}</summary><p>${o.d}</p>${o.k&&SP[o.k]?spDetail(o.k):o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(qn(o.k))}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}${wpickH(raw)}</div>`:""}`;
   const infoH=`${nvBanner(raw)}${wxH}${(()=>{if(!REAL)return "";const all=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]),ks=all.filter(k=>WC[k].startsWith("有"));return all.length?`<div class="dnote wc"><div class="dnh">廁所</div><p>${ks.length?ks.map(k=>nm(k)).join("、"):"景點沒有廁所，用午餐地點或油站"}</p></div>`:""})()}${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}${auroraHTML(day)}${AT.warnH(day)}`;
   const legsH=`<div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a></div>${legs&&day.legs.every(l=>l.walk||l.ride)?`<div class="sub2">路段（徒步路線＋團體巴士，不用自己開車）</div>${legs}`:legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（實際）":(REAL?"車程（已加預留）":"車程")}</div>${legs}`:""}`;
   const dnav=cls=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav ${cls}"><button type="button"${pv?` data-go="${pv.d}"`:gh}>‹ ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">全部日子</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} ›</button></div>`};
