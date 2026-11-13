@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-bc3">
+<link rel="stylesheet" href="style.css?v=2026-11-13-gl5">
 
 </head>
 <body>
@@ -1578,9 +1578,9 @@ document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[da
 function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:DT,now:nowIS()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
   const RG=[[1,"Reykjavík"],[2,"Snæfellsnes"],[3,"Akureyri"],[4,"Mývatn"],[5,"East Fjords"],[6,"Jökulsárlón"],[8,"Vík"],[9,"Golden Circle"]];
   const HL=["goda","vest","jok","reyn","husa","geys"].filter(k=>pts[k]);
-  const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-  return `<section class="hcard glance ovplan noen"><div class="glh"><h3>Journey at a glance</h3><small>旅程一覽</small></div>
-  <div class="glst"><div>${ic('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>')}<b>${N}</b><small>日</small></div><div>${ic('<path d="M4 18c3-8 13-4 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/>')}<b>2,000</b><small>公里</small></div><div>${ic('<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.8-3.5 3-5 5.5-5s4.7 1.5 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.4-.4 4.4 1 5 4.3"/>')}<b>7</b><small>人</small></div><div>${ic('<circle cx="12" cy="12" r="8"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/>')}<b>1</b><small>環島公路</small></div></div>
+  const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  return `<section class="hcard glance ovplan noen"><div class="glh"><small>旅程一覽</small><h3>Journey at a Glance</h3></div>
+  <div class="glst"><div>${ic('<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>')}<b>${N}</b><small>Days<span><i> / </i>天</span></small></div><div>${ic('<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>')}<b class="sm">2,000</b><small>Kilometers<span><i> / </i>公里</span></small></div><div>${ic('<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>')}<b>7</b><small>Travelers<span><i> / </i>人</span></small></div><div>${ic('<path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m10 0a2 2 0 104 0"/>')}<b>2</b><small>Vehicles<span><i> / </i>輛車</span></small></div></div>
   ${window.BADGES?`<div class="bc" id="badgeBox"></div>`:""}</section>`}
 function overview(){
   return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);

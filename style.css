@@ -3159,3 +3159,20 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .opick .odet{margin:2px 0 4px 26px;font-size:12.5px}.opick .odet summary{cursor:pointer;color:var(--route);font-size:12px}.opick .odet ul{margin:4px 0 0;padding-left:18px}
 .opick input:disabled{opacity:.4}
 .lseg{grid-column:1/-1;margin-bottom:4px}
+/* Journey at a Glance（雜誌款） */
+.glance{background:#FDFBF7;border-color:#EFECE6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .glance{background:var(--card);border-color:var(--line)}}
+:root[data-theme="dark"] .glance{background:var(--card);border-color:var(--line)}
+.glh{display:block;margin-bottom:20px}
+.glh small{display:block;font:600 11.5px/1 system-ui,sans-serif;letter-spacing:.15em;color:#8C857B;margin-bottom:6px}
+.glh h3{font:700 24px/1.2 Georgia,"Noto Serif TC",serif}
+.glst{border-block:0;align-items:center}
+.glst>div{padding:6px 4px;color:#4A607A;gap:0}
+.glst>div+div{border-left:0;position:relative}
+.glst>div+div:before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:32px;background:#E5E0D8}
+.glst svg{width:24px;height:24px;margin-bottom:8px}
+.glst b{font-size:30px;letter-spacing:-.01em;margin-bottom:4px}.glst b.sm{font-size:24px;line-height:36px}
+.glst small{font-size:11.5px;font-weight:500;color:#6B7280}
+@media (max-width:420px){.glst b{font-size:26px}.glst b.sm{font-size:20px;line-height:31px}.glst small{font-size:10.5px}}
+@media (max-width:520px){.glst small{line-height:1.35}.glst small span{display:block}}
+.glst small i{font-style:normal}@media (max-width:520px){.glst small i{display:none}}
