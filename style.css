@@ -3377,3 +3377,6 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .golin.drvc .drvxb .dwarn{flex-basis:100%}
 .golin.drvc .drvx>summary{display:inline-block}
 .golin.drvc .dlyx .dwarn2{margin:6px 0 0;color:#a35d12;font-weight:600}
+.dmm .dmseg{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:13px}.dmm .dmseg>span:first-child{color:var(--muted);white-space:nowrap}.dmm .dmseg .seg button{font-size:12px;padding:3px 9px}
+.dmm .dmseg{flex-direction:column;align-items:flex-start;gap:6px;padding:8px 12px 10px}.dmm .dmseg .seg{display:inline-flex;flex-wrap:nowrap;white-space:nowrap;padding:2px;border-radius:999px;background:var(--fill)}.dmm .dmseg .seg button{display:inline-block!important;width:auto!important;white-space:nowrap!important;writing-mode:horizontal-tb;padding:4px 12px!important;border-radius:999px;margin:0!important;text-align:center}
+.dmm .dmseg .seg button[aria-pressed="true"]{background:var(--card)!important;color:var(--route)!important;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
