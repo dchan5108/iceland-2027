@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-wk1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-gap1">
 
 </head>
 <body>
@@ -2135,7 +2135,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
         const note=(mm[2]||"").split("，").filter(x=>x&&!/^前往/.test(x)),ds=a.querySelectorAll(".tl-d");
         ds.forEach(d=>{const v=d.textContent.replace(/[，,]?\s*由[^，,]*?開車約 ?[\d小時分鐘 ]+$/,"").replace(/[，,]?\s*約 ?[\d小時分鐘 ]+$/,"").trim();if(!v)d.remove();else d.textContent=v});
         const dm=+a.dataset.dm;line=[dm?"約 "+fmt(dm):"",...note].filter(Boolean).join(" · ");tn.textContent=mm[1];tn.classList.add("noen")}
-      a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo${line?" depline":""}" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener">${line?`<span class="depm"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${DOCX.esc(line)}</span>`:""}<span class="drvpill">${a.dataset.walk?"🚶 步行導航":a.dataset.bus?"🚌 公車導航":"導航"}</span></a>`)}
+      a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo${line?" depline":""}" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener">${line?`<span class="depm"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${DOCX.esc(line)}</span>`:""}<span class="drvpill">${a.dataset.walk?"🚶 導航":a.dataset.bus?"🚌 導航":"導航"}</span></a>`)}
     if(a.classList.contains("drv"))return;
     const t=a.previousElementSibling&&a.previousElementSibling.classList.contains("t")?a.previousElementSibling:null;
     if(live&&t&&!t.querySelector(".tick")){t.insertAdjacentHTML("beforeend",`<button type="button" class="tick noen" data-tick="${d}|${i}" aria-label="已到"></button>`)}
