@@ -2717,10 +2717,10 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
   tm(s){const m=String(s).match(/(\d{1,2}):(\d{2})/g);return m?m.map(x=>{const [h,mi]=x.split(":").map(Number);return h*60+mi}):[]},
   wrap(el,k,txt){if(!el||el.dataset.dtw)return null;el.dataset.dtw=1;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,hit=null;
     while(n=w.nextNode()){if(n.parentElement.closest(".drvpill,.dtm,.alrt"))continue;const re=/(車程)?約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/;const m=n.textContent.match(re);if(!m||!/\d/.test(m[0]))continue;
-      const mm=this.pm(m[0]);if(!mm)continue;const t=this.kind(k,txt,mm),b=this.buf(mm,t);const sp=document.createElement("span");sp.className="dtm";sp.dataset.m=mm;sp.dataset.b=b;sp.dataset.pre=m[1]||"";sp.title="預鬆原因："+this.why(t);
+      const mm=this.pm(m[0]);if(!mm)continue;const t=this.kind(k,txt,mm),b=this.buf(mm,t);const sp=document.createElement("span");sp.className="dtm";sp.dataset.m=mm;sp.dataset.b=b;sp.dataset.pre=m[1]||"";sp.title="行程預算緩衝："+this.why(t);
       const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);r.surroundContents(sp);hit=sp;break}
     return hit},
-  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=`${sp.dataset.pre}${this.on?"預鬆約 ":"約 "}${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
+  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=`${sp.dataset.pre}${this.on?"行程預算約 ":"約 "}${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
     (root||document).querySelectorAll("[data-drvbuf]").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.drvbuf==="1")===this.on)));
     (root||document).querySelectorAll(".rushA").forEach(x=>x.hidden=!this.on)},
   apply(root){if(!(DT||REAL)||!root)return;root.querySelectorAll(".sched.rich").forEach(sc=>{if(sc.dataset.drv)return;sc.dataset.drv=1;
@@ -2737,12 +2737,12 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
       if(dep==null)dep=ts.length?ts[ts.length>1&&!el.classList.contains("drv")&&!box.closest(".depline")?1:0]:last;if(dep==null)return;
       let nxt=null;for(let j=ix+1;j<kids.length;j++){if(kids[j].classList.contains("t")){const x=this.tm(kids[j].textContent);if(x.length){nxt=x[0];break}}}
       if(nxt==null)return;const gap=(nxt-dep+1440)%1440,b=+sp.dataset.b,m=+sp.dataset.m;
-      if(b>gap&&gap>=m-5){const over=b-gap;late.push(over);sp.insertAdjacentHTML("afterend",`<span class="alrt rushA noen" title="按預鬆車程計，會比下一項時間遲">預鬆會遲 ${this.fm(over)}</span>`)}});
+      if(b>gap&&gap>=m-5){const over=b-gap;late.push(over);sp.insertAdjacentHTML("afterend",`<span class="alrt rushA noen" title="按行程預算車程計，會比下一項時間遲">行程預算會遲 ${this.fm(over)}</span>`)}});
     const mx=late.length?Math.max(...late):0,rushed=mx>=30||late.length>=3;
-    const warn=[late.length?`預鬆計 ${late.length} 段會遲，最多 ${this.fm(mx)}${rushed?"・偏趕":""}`:"",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean).join("；");
+    const warn=[late.length?`按行程預算計 ${late.length} 段會遲，最多 ${this.fm(mx)}${rushed?"・偏趕":""}`:"",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean).join("；");
     const art=sc.closest("article.day"),dd=art?+art.dataset.d:NaN,x=(window.TRIP.DLY||{})[dd],E=DOCX.esc;
     const dly=x?`<details class="dlyx"><summary>⏱ 遲 20–40 分鐘點算</summary><p><b>必去：</b>${x.m.map(E).join("、")}</p><p><b>可彈性：</b>${x.o.map(E).join("、")}</p><ol>${x.s.map(v=>`<li>${E(v)}</li>`).join("")}</ol><p><b>到達：</b>${E(x.i)}</p><p class="dlyn">只係建議，行程同活動時間唔會自動改。</p></details>`:"";
-    const seg=`<span class="drvseg" title="車程：實際／預鬆"><span class="dsl">車程</span><span class="seg"><button type="button" data-drvbuf="0">實際</button><button type="button" data-drvbuf="1">預鬆</button></span></span>`;
+    const seg=`<span class="drvseg" title="導航時間：Google Maps 原始預計行車時間；行程預算：按當日行程鬆緊、景點數量同活動安排加入緩衝後嘅規劃車程"><span class="dsl">車程</span><span class="seg"><button type="button" data-drvbuf="0" title="Google Maps 原始預計行車時間">導航時間</button><button type="button" data-drvbuf="1" title="按當日行程鬆緊、景點數量同活動安排加入緩衝後嘅規劃車程">行程預算</button></span></span>`;
     const tail=`${seg}${warn?`<small class="dwarn">⚠ ${E(warn)}</small>`:""}${dly}`;
     const host=art?art.querySelector(":scope>.golin.g1"):null;
     if(host&&!host.querySelector(".drvseg")){host.classList.add("drvc");const lt=host.querySelector("b.late");if(lt)lt.title="最遲出發只係提醒，唔會自動改行程";host.insertAdjacentHTML("beforeend",tail)}
