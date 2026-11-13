@@ -3270,3 +3270,13 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched .a.hasdoc .tl-h,.sched .a.hasdoc>b:first-child{padding-right:40px}
 .sched.rich .a.hasdoc:has(>.depgo:not(.depline))>.docb.docr{right:100px}
 .sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{padding-right:118px}
+/* 今日卡：「當日路線 ›」「完整時間表 ›」同款、一齊靠右 */
+.tbtns>a.troute.tlink{margin-left:auto;padding:0!important}
+.tbtns>a.troute.tlink::after{content:" ›"}
+.tbtns>a.troute.tlink+.tfull2{margin-left:14px;padding:0}
+/* 行程內「出發去 X」等導航掣：和其他導航掣同一條右邊線、對齊標題第一行 */
+.sched.rich .a .depgo:not(.depline){right:0;top:11px}
+.sched.rich .a:has(>.depgo:not(.depline)) .tl-h{padding-right:66px}
+.sched .a>.docb.docr{right:0;top:10px}
+.sched.rich .a.hasdoc:has(>.depgo:not(.depline))>.docb.docr{right:66px}
+.sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{padding-right:100px}
