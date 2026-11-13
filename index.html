@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-al1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-drv1">
 
 </head>
 <body>
@@ -139,10 +139,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-sk1"></script>
+<script src="trip.js?v=2026-11-14-drv1"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
-<script src="data.js?v=2026-11-14-sk1"></script>
+<script src="data.js?v=2026-11-14-drv1"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -2702,6 +2702,49 @@ function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/86
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
+/* ===== 車程：實際 ↔ 預鬆（按路段類型加緩衝；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
+const DRV={on:store.get("iceland-drvbuf")==="1",
+  GRAV:["kolu","vest","fjall","ytri","grjo"],MTK:["seyd","gufu","hvera","raufar","viti","leir"],
+  MT:/山口|Fjarðarheiði|Hellisheiði|Þrengsli|Öxi|Holtavörðuheiði|Möðrudal/,
+  HOT:/Lagoon|溫泉|Nature Baths|GeoSea|泳池|Sundhöllin|Laugardalslaug|Nauthólsvík|地熱海灘|Vök|Hrunalaug|Seljavallalaug/i,
+  NOHOT:/只可以看|不可以浸|浸腳|出發去|開車|開去|回住處|^午餐|^晚餐|^早餐/,
+  pm(s){const m=String(s).match(/約\s?(?:(\d+)\s?(?:個)?小時)?\s?(?:(\d+)\s?分(?:鐘)?)?/);if(!m||(!m[1]&&!m[2]))return null;return (+m[1]||0)*60+(+m[2]||0)},
+  fm(x){const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`},
+  /* 緩衝：短途／市區（20 分鐘或以下）＋25%（最少 5 分鐘）＋泊車 5 分鐘；公路＋10%＋泊車 5 分鐘；山路／山口再加 10 分鐘；碎石路段再加 10 分鐘；最後進位到 5 分鐘 */
+  kind(k,txt,m){const g=this.GRAV.includes(k)||/碎石/.test(txt),mt=this.MTK.includes(k)||this.MT.test(txt);return {c:m<=20,g,mt}},
+  buf(m,t){let b=t.c?m+Math.max(5,Math.round(m*.25))+5:m+Math.round(m*.1)+5;if(t.mt)b+=10;if(t.g)b+=10;return Math.ceil(b/5)*5},
+  why(t){return [t.c?"市區／短途：塞車、搵車位":"公路：慢車、修路、停車影相",t.mt?"山路／山口：彎多、霧":"",t.g?"碎石路段：要慢駛":""].filter(Boolean).join("；")},
+  tm(s){const m=String(s).match(/(\d{1,2}):(\d{2})/g);return m?m.map(x=>{const [h,mi]=x.split(":").map(Number);return h*60+mi}):[]},
+  wrap(el,k,txt){if(!el||el.dataset.dtw)return null;el.dataset.dtw=1;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,hit=null;
+    while(n=w.nextNode()){if(n.parentElement.closest(".drvpill,.dtm,.alrt"))continue;const re=/(車程)?約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/;const m=n.textContent.match(re);if(!m||!/\d/.test(m[0]))continue;
+      const mm=this.pm(m[0]);if(!mm)continue;const t=this.kind(k,txt,mm),b=this.buf(mm,t);const sp=document.createElement("span");sp.className="dtm";sp.dataset.m=mm;sp.dataset.b=b;sp.dataset.pre=m[1]||"";sp.title="預鬆原因："+this.why(t);
+      const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);r.surroundContents(sp);hit=sp;break}
+    return hit},
+  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=`${sp.dataset.pre}${this.on?"預鬆約 ":"約 "}${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
+    (root||document).querySelectorAll(".drvbar [data-drvbuf]").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.drvbuf==="1")===this.on)));
+    (root||document).querySelectorAll(".rushA").forEach(x=>x.hidden=!this.on)},
+  apply(root){if(!(DT||REAL)||!root)return;root.querySelectorAll(".sched.rich").forEach(sc=>{if(sc.dataset.drv)return;sc.dataset.drv=1;
+    const kids=[...sc.children],late=[],hot=[];let last=null;
+    kids.forEach((el,ix)=>{if(el.classList.contains("t")){const ts=this.tm(el.textContent);if(ts.length)last=ts[0];return}
+      if(!el.classList.contains("a"))return;const tEl=el.previousElementSibling&&el.previousElementSibling.classList.contains("t")?el.previousElementSibling:null,ts=tEl?this.tm(tEl.textContent):[];
+      const txt=el.textContent,k=el.dataset.to||el.dataset.sk||"";
+      /* 溫泉：少於 2 小時就標出 */
+      const nm=(el.querySelector(".tl-n")||el).textContent;if(this.HOT.test(nm)&&!this.NOHOT.test(nm)&&ts.length>=2){const du=(ts[1]-ts[0]+1440)%1440;if(du<120){hot.push(nm.trim());const h=el.querySelector(".tl-h")||el;h.insertAdjacentHTML("beforeend",`<span class="alrt hotA noen" title="溫泉最少預 2 小時（換衫、沖身、浸、休息）">溫泉只得 ${this.fm(du)}</span>`)}}
+      /* 開車：出發行、自動開車行、早上出發細字 */
+      const box=el.classList.contains("drv")?el.querySelector(".drvgo")||el:el.querySelector(".depline .depm");
+      const sp=box?this.wrap(box,k,txt):null;el.querySelectorAll(".tl-m").forEach(m=>{if(/車程/.test(m.textContent))this.wrap(m,k,txt)});
+      if(!sp)return;let dep=null;const dt=el.querySelector(".drvt");if(dt){const x=this.tm(dt.textContent);if(x.length)dep=x[0]}
+      if(dep==null)dep=ts.length?ts[ts.length>1&&!el.classList.contains("drv")&&!box.closest(".depline")?1:0]:last;if(dep==null)return;
+      let nxt=null;for(let j=ix+1;j<kids.length;j++){if(kids[j].classList.contains("t")){const x=this.tm(kids[j].textContent);if(x.length){nxt=x[0];break}}}
+      if(nxt==null)return;const gap=(nxt-dep+1440)%1440,b=+sp.dataset.b,m=+sp.dataset.m;
+      if(b>gap&&gap>=m-5){const over=b-gap;late.push(over);sp.insertAdjacentHTML("afterend",`<span class="alrt rushA noen" title="按預鬆車程計，會比下一項時間遲">預鬆會遲 ${this.fm(over)}</span>`)}});
+    const mx=late.length?Math.max(...late):0;
+    const msg=[late.length?`按預鬆車程，今日有 ${late.length} 段會遲（最多 ${this.fm(mx)}）${mx>=30||late.length>=3?"：行程偏趕":""}`:"按預鬆車程計都趕得切",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean);
+    sc.insertAdjacentHTML("beforebegin",`<div class="drvbar noen${late.length||hot.length?" warn":""}"><span class="dbl">車程</span><span class="seg"><button type="button" data-drvbuf="0">實際</button><button type="button" data-drvbuf="1">預鬆</button></span><span class="dbm">${msg.map(x=>`<span>${/遲|趕|少於/.test(x)?"⚠ ":""}${x}</span>`).join("")}</span></div>`)});
+    this.show(root)}};
+try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}}}catch(e){}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();DRV.on=b.dataset.drvbuf==="1";store.set("iceland-drvbuf",DRV.on?"1":"0");DRV.show(document)},true);
+
 
 const TODAY={d:null,docMode:"date",
   ids:()=>[...document.querySelectorAll("#chips button[data-d]")].map(b=>+b.dataset.d).filter(d=>days.some(x=>x.d===d)),
