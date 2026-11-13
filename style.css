@@ -3241,3 +3241,11 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #mroute{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 4px 14px rgba(20,40,58,.10)!important;backdrop-filter:none!important;padding:14px 16px!important}
 #budget *:not(.you){box-shadow:none!important}
 .tbtns>button,.tbtns>a.troute{height:40px;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;line-height:1}.tbtns>a.troute svg{color:var(--route)}
+/* 今日頁路線卡：獨立一張，與行程頁路線卡同款 */
+#todayIn .tdsB{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important;padding:var(--pad-card)!important;margin:0!important;box-shadow:none!important}
+#todayIn .tdsB .dhB{padding-top:0!important;border-top:0!important}
+/* 「當日路線」「完整時間表」都是文字連結 */
+.tbtns>a.troute.tlink{height:auto;border:0!important;background:none!important;padding:0 4px!important;color:var(--route)!important;font-weight:600}
+.tbtns>a.troute.tlink svg{display:none}
+.tbtns .tfull2{margin-left:auto}
+.thero .tbtns{margin-bottom:0!important}
