@@ -3335,3 +3335,17 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 
 .golin.drvc .dwarn{color:#a35d12!important}
 .sched.rich .alrt.rushA{background:color-mix(in srgb,#e08a2e 14%,transparent)!important;color:#a35d12!important}
+
+/* 行程時間模擬（管理者） */
+.simbox{border-radius:14px;background:var(--fill);padding:10px 12px;margin:0 0 10px;font-size:13px}
+.simbox .simh{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.simbox select{font:inherit;padding:4px 8px;border-radius:8px}
+.simbox .simst{margin:8px 0 4px;font-weight:700}
+.simbox.sim-ok .simst{color:#2e7d4f}.simbox.sim-adj .simst{color:#a35d12}.simbox.sim-bad .simst{color:#b23a36}
+.simbox .siml{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:4px}
+.simbox .siml li{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;line-height:1.45}
+.simbox .stm{font-variant-numeric:tabular-nums;color:var(--muted);min-width:7.5em}
+.simbox .snm{flex:1 1 10em;min-width:0}
+.simbox .siml em{font-style:normal;font-size:12px;padding:1px 7px;border-radius:999px;background:var(--card)}
+.simbox .siml li.ok em{color:#2e7d4f}.simbox .siml li.adj em{color:#a35d12}.simbox .siml li.bad em{color:#b23a36;font-weight:700}
+.simbox select{font-size:13px!important;padding:3px 6px!important;min-height:0!important;width:auto!important}
