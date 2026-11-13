@@ -2144,19 +2144,28 @@ const BKHIDE=/^(不接受訂位|Vök Baths|GeoSea|Messinn|Settlement Center|Stri
    自動「要再確認」：免費取消期限前 14 日；受天氣影響的活動出發前 7 日（在那段時間再選「已訂」就當確認了）。 */
 const TIMP=/^(租車|9\/\d+ 住宿|.*冰川健行|旅遊保險|駕駛執照|離線地圖)/,TWX=/獨木舟|冰川健行|賞鯨|冰浮|騎馬|浮潛/;
 const PREDUE={"旅遊保險":"asap","駕駛執照":"2027-07-31","8 月尾再確認":"2027-08-31"},PREDEF="2027-08-29";
-const CANCDEF=()=>DT?{bk4_2:"2027-08-23"}:{};
+/* 徒步團免費取消期限：按名稱搵返嗰行（BOOKDT 行數會變） */
+const CANCDEF=()=>{if(!DT)return {};const i=(BOOKDT[1]||[]).findIndex(r=>/Laugavegur/.test(r[0]));return i>=0?{[`bk${BOOK.length}_${i}`]:"2027-08-23"}:{}};
+/* 已揀／已訂住宿：用官方網站（只限現有資料已有嘅網址）；冇就留空，唔再自動跳去 Airbnb 搜尋 */
+/* D&T 自己嘅住宿：同一間（名一樣）喺「Dorcas & Tebe 預訂」再出現一次就合併成一張，資料（供應商、確認編號、條款）全部保留 */
+const dtnKey=x=>String(x&&x[1]||"").split(/[，,（(]/)[0].trim(),
+  dtnBk=x=>{const k=dtnKey(x);return k?(BOOKDT[1]||[]).map((r,ri)=>[r,ri]).filter(([r])=>String(r[0]).includes(k)):[]},
+  dtnNote=x=>{const ps=[];const add=t=>String(t||"").split("；").map(v=>v.trim()).filter(Boolean).forEach(v=>{if(!ps.includes(v))ps.push(v)});add(x[3]);dtnBk(x).forEach(([r])=>add((r[2]&&r[2]!=="—"?r[2]+"：":"")+r[4]));return ps.join("；")},
+  dtnLink=x=>{if(x[4])return x[4];const k=dtnKey(x);const d=k&&(PRIV.DOCS||[]).find(o=>String(o.t||"").includes(k)&&o.files&&o.files[0]);return d?d.files[0][1]:""};
+const STAYURL=[[/Miðhraun|Lava Resort/i,"https://lavaresort.is"],[/Mr Iceland/i,"https://mriceland.is"]],stayURL=t=>{const m=STAYURL.find(([r])=>r.test(t));return m?m[1]:""};
 function taskAll(){const L=[],dn=n=>{const m=String(n).match(/D(-?\d+)/);return m?+m[1]:null};
   const link=t=>{t=String(t||"");const u=t.match(/\b([a-z0-9-]+\.(?:is|com|net|org|co\.uk))\b/i);if(u)return "https://"+u[1];const ph=t.match(/\+\d[\d ]{6,}/);return ph?"tel:"+ph[0].replace(/ /g,""):""};
   const cats=DT?[...BOOK,BOOKDT]:BOOK;
-  cats.forEach(([h,rows],ci)=>rows.forEach((r,ri)=>{if(BKHIDE.test(r[0])||r[0]==="不接受訂位"||r[0]==="住宿")return;const id=`bk${ci}_${ri}`,d=dn(r[1]);
+  const dupBk=new Set();if(DT)try{DTNIGHTS.forEach(x=>dtnBk(x).forEach(([r,ri])=>dupBk.add(ri)))}catch(e){}
+  cats.forEach(([h,rows],ci)=>rows.forEach((r,ri)=>{if(BKHIDE.test(r[0])||r[0]==="不接受訂位"||r[0]==="住宿")return;if(ci===BOOK.length&&rows===BOOKDT[1]&&dupBk.has(ri))return;const id=`bk${ci}_${ri}`,d=dn(r[1]);
     L.push({id,kind:"bk",name:r[0],cat:h.replace(/（.*）/,""),day:d!=null&&d>=1?d:null,when:r[1],due:bkDue(r),link:link(r[2]),r,legacy:!!BKC[id]||/^已訂/.test(String(r[4]||""))})}));
   const PREHIDE=/^(溫泉用品|轉插和充電|信用卡|取車檢查|8 月尾再確認|預訂確認)$/;
   [...(DT&&FLIGHTS?[[["機票","每人自己買；按「航班」看航段"],"fly"]]:[]),...PRECHK.map((x,i)=>[x,"p"+i]).filter(([x])=>!PREHIDE.test(x[0]))].forEach(([[a,b],id])=>{
     const dd=PREDUE[a]||PREDEF;L.push({id,kind:"pre",name:a,note:b,day:null,due:dd==="asap"?{asap:1}:{d:new Date(dd+"T00:00:00Z"),sug:1},legacy:!!PREK[id]})});
   STAYS.forEach((x,i)=>{const id="stay"+i;let o=null;try{o=stayInfo(i,x[0])}catch(e){}const nm=o&&o.name?o.name:x[1].replace(/（.*?）/g,"");
     L.push({id,kind:"stay",si:i,name:`${x[0].replace(/（.*）/,"")} 住宿：${nm}`,disp:(d=>/^[A-Za-zÀ-ÿÞþÐð]/.test(d)?d.replace(/[\s\u4e00-\u9fff]+$/,""):d)(String(nm).replace(/\s*[（(][^）)]*[）)]\s*/g," ").trim()),sub:["住宿",(x[1].match(/第 ?\d+ ?晚/)||[""])[0]].filter(Boolean).join(" · "),note:x[2]==="已選"?"已選":"",day:dn(x[0]),due:{asap:1},legacy:!!BKC[id],
-      link:x[6]?"":`https://www.airbnb.com/s/${encodeURIComponent(x[1].split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7`})});
-  if(DT)try{DTNIGHTS.forEach((x,i)=>L.push({id:"dtn"+i,kind:"dtn",name:`${x[0]} 住宿（D&T）：${x[1]}`,note:x[3],day:null,due:null,legacy:x[2]==="已訂",na0:x[2]==="已包"}))}catch(e){/* 開頁時 DTNIGHTS 可能未準備好 */}
+      link:(/^已(揀|選|訂)/.test(x[2])||BKC[id])?stayURL(x[1]+" "+nm):x[6]?"":`https://www.airbnb.com/s/${encodeURIComponent(x[1].split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7`})});
+  if(DT)try{DTNIGHTS.forEach((x,i)=>L.push({id:"dtn"+i,kind:"dtn",name:`${x[0]} 住宿（D&T）：${x[1]}`,note:dtnNote(x),day:null,due:null,link:dtnLink(x),legacy:x[2]==="已訂",na0:x[2]==="已包"}))}catch(e){/* 開頁時 DTNIGHTS 可能未準備好 */}
   return L}
 function tStat(t){const x=TASK[t.id],now=+todayISO();let s=x&&x.s?x.s:t.na0?"na":t.legacy?"done":"todo",auto="";
   if(s==="done"){const cx=CANC[t.id]||CANCDEF()[t.id];let from=null;
@@ -2214,7 +2223,7 @@ function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntri
     const map=murl||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(String(o&&o.addr&&!/待|未列/.test(o.addr)?o.addr:area).replace(/：.*/,"").split("／")[0]+" Iceland"));
     sx=`<div class="tkst"><p>${why}</p>${stayInfoHTML(i,night,b)}${!b&&status!=="已選"&&(cheap.length||conv.length)?`<div class="opts">${cheap.length?`<div><b>最便宜</b><ul>${cheap.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,x])=>`<li>${n}<small>${x}</small></li>`).join("")}</ul></div>`:""}</div>`:""}<a class="plink" href="${escA(map)}" target="_blank" rel="noopener">Google Maps ↗</a></div>`}catch(e){/* 開頁時住宿資料未準備好 */}
   return `<li class="tk tk-${s}" data-ts="${s}" data-tid="${t.id}"><div class="tk-h"><select class="tst st ${TST[s][1]}" data-task="${t.id}"${RO?" disabled":""} aria-label="狀態：${String(t.name).replace(/<[^>]*>/g,"")}">${Object.keys(TST).map(k=>`<option value="${k}"${k===s?" selected":""}>${lab[k]}</option>`).join("")}</select><span class="bkn${subI&&!/[\u4e00-\u9fff]/.test(t.disp)?" noen":""}">${subI?t.disp:t.name}</span>${imp&&!subI?`<span class="tkimp">重要</span>`:""}</div>
-   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":"去訂"} ↗</a>`:""}${more||sx||payH?`<button type="button" class="tkdet" aria-expanded="false">詳情</button><div class="bkmore tkmore" hidden>${payH}${more?`<dl>${more}</dl>`:""}${sx}</div>`:""}</div>`:""}
+   ${meta?`<div class="bkm">${meta}</div>`:""}${t.link||more||sx||payH?`<div class="tk-a">${t.link?`<a class="tkln" href="${t.link}" target="_blank" rel="noopener">${t.link.startsWith("tel:")?"打電話":/airbnb/.test(t.link)?"Airbnb":/drive\.google/.test(t.link)?"確認信":t.kind==="stay"||t.kind==="dtn"?"官方網站":"去訂"} ↗</a>`:""}${more||sx||payH?`<button type="button" class="tkdet" aria-expanded="false">詳情</button><div class="bkmore tkmore" hidden>${payH}${more?`<dl>${more}</dl>`:""}${sx}</div>`:""}</div>`:""}
    ${t.id==="fly"?`<details class="flc"${FLYOPEN?" open":""}><summary>航班</summary>${FLIGHTS.replace(' id="g-fly"',"").replace('<h3 class="bkh">機票</h3>',"")}</details>`:""}
 </li>`}
 let TKF="todo";   /* 預設只看未訂／未做 */
@@ -2294,7 +2303,7 @@ function renderStays(){
     <div class="sd-t"><small>已選未訂</small><b>${picked}<span>晚</span></b><small class="sub">${N-done-picked} 晚還未選</small></div>
     ${true?"":`<div class="sd-t"><small>住宿預算（全組）</small><b>${fI(feeT)}<span>ISK</span></b><small class="sub">每人約 ${fI(feeT/ppl)} ISK・${cvx(feeT/ppl)}</small></div>`}
    </div>
-   ${DT?`<details class="card2 dtn"><summary><h3>Dorcas & Tebe 自己的晚上（9/6–9/11）</h3></summary><ul>${DTNIGHTS.map(([d,a,s2,n])=>`<li><b>${d}</b> ${a}　<span class="st ${s2==="已包"||s2==="已訂"?"ok":"todo"}">${s2}</span><br><small>${n}</small></li>`).join("")}</ul></details>`:""}
+   ${DT?`<details class="card2 dtn"><summary><h3>Dorcas & Tebe 自己的晚上（9/6–9/11）</h3></summary><ul>${DTNIGHTS.map(x=>{const [d,a,s2]=x,n=dtnNote(x),u=dtnLink(x);return `<li><b>${d}</b> ${a}　<span class="st ${s2==="已包"||s2==="已訂"?"ok":"todo"}">${s2}</span><br><small>${n}</small>${u?` <a href="${escA(u)}" target="_blank" rel="noopener">確認信 ↗</a>`:""}</li>`}).join("")}</ul></details>`:""}
    <ol class="stl3">${STAYS.map(([night,area,status,why,cheap,conv,murl],i)=>{const d=dn(night),col=d!=null?dayCol(d):"var(--route)",b=booked(i),o=stayInfo(i,night),fe=fees[i];
      const nm0=o&&o.name?o.name:area,addr=o&&o.addr&&!/待|未列/.test(o.addr)?o.addr:"",stc=b?"ok":st(status),stt=b?"已訂":status==="已選"?"已選・未訂":status;
      return `<li class="sn" style="--dc:${col}"><div class="sn-d"><b>${night.replace(/（.*）/,"")}</b><small>${(night.match(/（(.*)）/)||["",""])[1]}</small></div>
@@ -2303,7 +2312,7 @@ function renderStays(){
        <div class="stc-b"><p class="why">${why}</p>
         ${stayInfoHTML(i,night,b)}
         ${!b&&status!=="已選"&&(cheap.length||conv.length)?`<div class="opts">${cheap.length?`<div><b>最便宜</b><ul>${cheap.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}${conv.length?`<div><b>最方便</b><ul>${conv.map(([n,t])=>`<li>${n}<small style="display:block;color:var(--muted)">${t}</small></li>`).join("")}</ul></div>`:""}</div>`:""}
-        <div class="act"><label class="bkd2"><input type="checkbox" data-stay="${i}"${b?" checked":""}>已訂好</label>${b&&STAYBUD[i]?actHTML(STAYBUD[i]):""}<a class="stnav" href="${escA(nav(area,murl))}" target="_blank" rel="noopener">${IC.pin}地圖 ↗</a>${murl?"":`<a href="https://www.airbnb.com/s/${encodeURIComponent(area.split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7" target="_blank" rel="noopener">Airbnb ↗</a>`}</div>
+        <div class="act"><label class="bkd2"><input type="checkbox" data-stay="${i}"${b?" checked":""}>已訂好</label>${b&&STAYBUD[i]?actHTML(STAYBUD[i]):""}<a class="stnav" href="${escA(nav(area,murl))}" target="_blank" rel="noopener">${IC.pin}地圖 ↗</a>${(b||/^已(揀|選|訂)/.test(status))?(stayURL(area+" "+nm0)?`<a href="${escA(stayURL(area+" "+nm0))}" target="_blank" rel="noopener">官方網站 ↗</a>`:DT?`<span class="rhint">訂房連結待確認</span>`:""):murl?"":`<a href="https://www.airbnb.com/s/${encodeURIComponent(area.split(/[：／（]/)[0].replace(/\s.*$/,""))}--Iceland/homes?adults=7" target="_blank" rel="noopener">Airbnb ↗</a>`}</div>
        </div></details></li>`}).join("")}</ol>`}
 document.addEventListener("change",e=>{const i=e.target.dataset&&e.target.dataset.stay;if(i==null)return;if(e.target.checked)BKC["stay"+i]=1;else delete BKC["stay"+i];store.set("iceland-bkc",JSON.stringify(BKC));const y=window.scrollY;renderStays();try{window.scrollTo(0,y)}catch(err){}});
 /* ---- 行李 ---- */
