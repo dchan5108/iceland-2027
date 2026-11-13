@@ -3148,3 +3148,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 頭格一律用 block，避免 Safari 把 grid 欄縮成內容寬度 */
 .dsum2.dsB{display:block!important;width:100%;box-sizing:border-box}
 .dsum2.dsB>.dhB,.dsum2.dsB>.sunlab,.dsum2.dsB>.sunbar{width:100%;box-sizing:border-box}
+/* 徒步高度圖：電腦版不放大字 */
+.hprof svg{max-width:440px;margin:0 auto}
+/* 倒數：在總覽封面卡內不再加一層卡 */
+.ovhero .fcd{background:none;border:0;box-shadow:none;border-radius:0;padding:12px 0 0;border-top:.5px solid var(--line)}
