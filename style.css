@@ -3158,3 +3158,4 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ost.ai{background:color-mix(in srgb,#c9a45c 22%,transparent);color:#8a6a28}
 .opick .odet{margin:2px 0 4px 26px;font-size:12.5px}.opick .odet summary{cursor:pointer;color:var(--route);font-size:12px}.opick .odet ul{margin:4px 0 0;padding-left:18px}
 .opick input:disabled{opacity:.4}
+.lseg{grid-column:1/-1;margin-bottom:4px}

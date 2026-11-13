@@ -4,32 +4,35 @@
    - 狀態：S[id]=1 手動解鎖、0 手動撤銷、沒有＝自動（只有里程碑有自動規則） */
 (function(){
 const DEF=[
- // [id, 類別, 名稱, 英文, 圖案（landing motif 或 glyph:xxx）, 說明]
- ["goda","place","眾神瀑布","Goðafoss","horseshoe","親眼看過眾神瀑布的半月形水簾。"],
- ["dett","place","黛提瀑布","Dettifoss","canyon","歐洲水量最大的瀑布之一。"],
- ["vest","place","Vestrahorn","Vestrahorn","mountain","黑沙灘倒映尖山。"],
- ["jok","place","冰河湖","Jökulsárlón","ice","冰山在湖上漂流。"],
- ["dia","place","鑽石沙灘","Diamond Beach","diamond","黑沙上的碎冰。"],
- ["skog","place","斯科加爾瀑布","Skógafoss","waterfall","站在 60 米水簾前。"],
- ["walk","exp","冰川行者","Glacier Walker","snow","踏上冰川。"],
- ["climb","exp","攀冰者","Ice Climber","climb","用冰斧和冰爪攀上冰牆。"],
- ["paddle","exp","北極划手","Arctic Paddler","kayak","在冰島的水上划艇。"],
- ["trek","exp","高地徒步者","Highland Trekker","rhyo","走過高地徒步路線。"],
- ["hot","exp","溫泉探索者","Hot Spring Explorer","hot","泡過冰島的地熱溫泉。"],
- ["first","mile","冰島第一天","First Day in Iceland","glyph:plane","抵達冰島。"],
- ["half","mile","環島過半","Halfway Around Iceland","glyph:half","環島路程走了一半。"],
- ["ring","mile","完成環島","Ring Road Complete","glyph:ring","繞完 1 號環島公路。"],
- ["last","mile","最後一天","Last Day in Iceland","glyph:sun","冰島的最後一天。"],
- ["aurora","secret","極光見證者","Aurora Witness","aurora","親眼見到北極光。"],
- ["whale","secret","鯨魚的招呼","Whale Hello","whale","見到鯨魚躍出水面或擺尾。"]
+ // [id, 類別, 名稱, 英文, （未用）, 說明, 解鎖提示]
+ ["goda","place","眾神瀑布","Goðafoss","","北部最上鏡的半月形瀑布。","到過眾神瀑布就解鎖"],
+ ["dett","place","黛提瀑布","Dettifoss","","歐洲水量最大的瀑布之一，站近就感受到地面震動。","到過黛提瀑布就解鎖"],
+ ["vest","place","Vestrahorn 尖峰","Vestrahorn","","黑沙丘後的鋸齒山峰，退潮時有倒影。","到過 Stokksnes／Vestrahorn 就解鎖"],
+ ["jok","place","冰河湖","Jökulsárlón","","藍白冰山在湖上慢慢漂向大海。","到過冰河湖就解鎖"],
+ ["dia","place","鑽石沙灘","Diamond Beach","","黑沙灘上散落晶瑩的碎冰。","到過鑽石沙灘就解鎖"],
+ ["skog","place","斯科加爾瀑布","Skógafoss","","60 米高的水簾，晴天常見彩虹。","到過斯科加爾瀑布就解鎖"],
+ ["walk","exp","冰川行者","Glacier Walker","","穿上冰爪，在冰川上行走。","完成冰川健行就解鎖"],
+ ["climb","exp","攀冰者","Ice Climber","","用冰斧和冰爪攀上冰牆。","完成攀冰就解鎖"],
+ ["paddle","exp","北極划手","Arctic Paddler","","在冰島的湖或峽灣划艇。","完成划艇或獨木舟就解鎖"],
+ ["trek","exp","高地徒步者","Highland Trekker","","走過彩色山嶺的高地路線。","完成高地徒步就解鎖"],
+ ["hot","exp","溫泉探索者","Hot Spring Explorer","","在冰島泡過地熱溫泉。","泡過任何一個冰島溫泉就解鎖"],
+ ["first","mile","冰島第一天","First Day in Iceland","","正式踏上冰島。","抵達冰島當日自動解鎖"],
+ ["half","mile","環島過半","Halfway Around Iceland","","環島路程已經走了一半。","旅程第 6 日自動解鎖"],
+ ["last","mile","最後一天","Last Day in Iceland","","在冰島的最後一天。","旅程最後一日自動解鎖"],
+ ["aurora","secret","極光見證者","Aurora Witness","","親眼看見北極光在夜空舞動。",""],
+ ["whale","secret","鯨魚的招呼","Whale Hello","","看到鯨魚浮出水面或擺尾。",""]
 ];
 const CAT={place:"地方與自然",exp:"體驗",mile:"里程碑",secret:"隱藏徽章"};
 /* 里程碑自動規則：按冰島日期（旅程進度），不按行程時間 */
-const AUTO={first:"2027-09-12",half:"2027-09-17",ring:"2027-09-22",last:"2027-09-23"};
+const AUTO={first:"2027-09-12",half:"2027-09-17",last:"2027-09-23"};
 const CK="iceland-badges";
 let S={},X={},hostEl=null;
 try{S=JSON.parse(localStorage.getItem(CK)||"{}")||{}}catch(e){S={}}
-const has=id=>{if(S[id]===1)return true;if(S[id]===0)return false;const a=AUTO[id];return !!a&&X.now>=Date.parse(a+"T00:00:00Z")};
+/* S[id]：日期字串或 1＝已解鎖（管理員）、0＝撤銷、沒有＝自動 */
+const has=id=>{const v=S[id];if(v===0)return false;if(v===1||typeof v==="string")return true;const a=AUTO[id];return !!a&&X.now>=Date.parse(a+"T00:00:00Z")};
+const when=id=>{const v=S[id];const d=typeof v==="string"?v:v==null&&AUTO[id]?AUTO[id]:"";const m=d.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[1]} 年 ${+m[2]} 月 ${+m[3]} 日`:""};
+const OK="iceland-bc-open";let OPEN=true;try{OPEN=localStorage.getItem(OK)!=="0"}catch(e){}
+let FRESH=null;
 /* ===== 琺瑯徽章圖案：金屬邊框＋金線掐絲（cloisonné）＋琺瑯光澤 ===== */
 let U=0;
 /* 每款：[底色上, 底色下, 場景(u, O＝金線組開頭)] */
@@ -47,7 +50,6 @@ const ART={
  hot:['#b7d3e2','#efe2cf',(u,O)=>`${O}<path d="M8 58q42-10 84 0v34H8Z" fill="#7a6a5c"/><ellipse cx="50" cy="74" rx="34" ry="11" fill="#e8eee9"/><ellipse cx="50" cy="74" rx="29" ry="8.4" fill="#4fbfc4"/><path d="M14 72 22 66 28 70 22 76ZM74 66 84 68 86 74 78 76Z" fill="#4a3f38"/></g><ellipse cx="50" cy="74" rx="18" ry="4.4" fill="#8fe2dc"/><ellipse cx="44" cy="72.4" rx="7" ry="1.2" fill="#fff" opacity=".7"/><path d="M36 64q-7-10 2-17t-2-14M50 62q-7-12 2-20t-2-16M64 64q-6-9 2-15" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55"/>`],
  first:['#16324a','#0b1a28',(u,O)=>`${[[22,30],[34,20],[66,22],[80,34],[50,16],[28,44],[76,50]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".9" fill="#f3e3b5" opacity=".85"/>`).join("")}<path d="M24 72q8-10 22-12t22 6 10 6q-6 6-18 6t-18-2-18-4Z" fill="#2c5874" stroke="url(#${u}g)" stroke-width=".9"/><path d="M16 50Q40 26 78 34" stroke="url(#${u}g)" stroke-width="1" stroke-dasharray="2 2.4" fill="none"/><path d="M78 30.6c1.8-.2 3 .8 3.2 2.4l.4 5.6 8 6.4.2 2.6-8.6-3.4.6 5.6 3 2.2v1.8l-4.4-1.2-4.6 1.6-.2-1.8 3-2.6-.8-5.6-9 2.8.4-2.6 8.4-5.6-.4-5.6c-.2-1.6.8-2.8 2.4-3Z" fill="url(#${u}g)" transform="rotate(62 78 40)"/><circle cx="46" cy="66" r="1.6" fill="#c4452f"/>`],
  half:['#16324a','#0b1a28',(u,O)=>`<circle cx="50" cy="52" r="24" stroke="#2c5874" stroke-width="7" fill="none"/><path d="M50 28A24 24 0 0 1 50 76" stroke="url(#${u}g)" stroke-width="7" fill="none"/><path d="M50 28A24 24 0 0 1 50 76" stroke="#fff" stroke-width="1" fill="none" opacity=".35" stroke-dasharray="2 3"/><circle cx="50" cy="76" r="5" fill="#c4452f" stroke="url(#${u}g)" stroke-width="1.2"/><path d="M50 40l3 9 9 3-9 3-3 9-3-9-9-3 9-3Z" fill="url(#${u}g)"/><circle cx="50" cy="52" r="2" fill="#0b1a28"/>`],
- ring:['#16324a','#0b1a28',(u,O)=>`${[0,1,2,3,4,5,6,7,8,9].map(i=>{const a=(-150+i*13)*Math.PI/180,b=(-30-i*13)*Math.PI/180;return `<ellipse cx="${(50+30*Math.cos(a)).toFixed(1)}" cy="${(54+30*Math.sin(a)).toFixed(1)}" rx="3.2" ry="1.5" transform="rotate(${-150+i*13+90} ${(50+30*Math.cos(a)).toFixed(1)} ${(54+30*Math.sin(a)).toFixed(1)})" fill="url(#${u}g)"/><ellipse cx="${(50+30*Math.cos(b)).toFixed(1)}" cy="${(54+30*Math.sin(b)).toFixed(1)}" rx="3.2" ry="1.5" transform="rotate(${-30-i*13+90} ${(50+30*Math.cos(b)).toFixed(1)} ${(54+30*Math.sin(b)).toFixed(1)})" fill="url(#${u}g)"/>`}).join("")}<path d="M38 34h24l4 6v20q0 12-16 18-16-6-16-18V40Z" fill="#f4f1ea" stroke="url(#${u}g)" stroke-width="1.6"/><text x="50" y="64" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#14283a">1</text>`],
  last:['#f0a36a','#3d3f7a',(u,O)=>`<circle cx="50" cy="58" r="15" fill="#ffd27a"/><circle cx="50" cy="58" r="20" fill="#ffd27a" opacity=".25"/>${O}<path d="M8 62h84v30H8Z" fill="#2b3f66"/><path d="M8 62 22 58 30 60 36 54 40 50 42 38 44 50 48 54 56 58 70 56 92 62Z" fill="#1d2440"/></g><path d="M40 66h20M36 72h28M42 78h16" stroke="#ffd27a" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M42 38v-6M40.6 33.4h2.8" stroke="#1d2440" stroke-width="1"/>`],
  aurora:['#0b2748','#14405e',(u,O)=>`${[[16,30],[28,18],[72,20],[84,34],[50,14],[22,44],[62,28],[40,24]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i%3?.8:1.2}" fill="#fff" opacity=".85"/>`).join("")}<path d="M4 58q16-30 36-18t34-22 26 4" stroke="#5ff0a8" stroke-width="12" fill="none" opacity=".45" stroke-linecap="round"/><path d="M8 50q16-24 34-12t30-18 24 2" stroke="#9cffc8" stroke-width="3" fill="none" opacity=".7" stroke-linecap="round"/><path d="M14 44q18-18 34-8t28-14" stroke="#b08cff" stroke-width="5" fill="none" opacity=".4" stroke-linecap="round"/>${O}<path d="M8 74 22 60 32 66 50 50 66 64 80 56 92 64V92H8Z" fill="#0d1b27"/><path d="M8 82q42-6 84 0v10H8Z" fill="#14293a"/></g><path d="M50 50 47 55 50 54 52 57 54 54Z" fill="#cfe3ee" opacity=".7"/>`],
  whale:['#9fc6dc','#eee6d6',(u,O)=>`${O}<path d="M8 50 22 42 36 48 54 38 72 46 92 40V56H8Z" fill="#8aa6b6"/><path d="M8 56h84v36H8Z" fill="#2f6f92"/><path d="M50 78V60q-7-1-12-6-5-5-7-12 10 1 19 10 9-9 19-10-2 7-7 12-5 5-12 6Z" fill="#1c2830"/></g><path d="M50 60q-6-1-11-5 6 1 11 3 5-2 11-3-5 4-11 5Z" fill="#4c6878"/><path d="M38 78q6-4 12 0t12 0" stroke="#fff" stroke-width="2" fill="none"/><circle cx="34" cy="50" r="1.3" fill="#fff"/><circle cx="66" cy="48" r="1.1" fill="#fff"/><circle cx="62" cy="44" r=".8" fill="#fff"/><path d="M8 68q10-3 21 0t21 0 21 0 21 0M8 84q10-3 21 0t21 0 21 0 21 0" stroke="#cfe3ee" stroke-width="1.1" fill="none" opacity=".55"/>`]
@@ -70,17 +72,27 @@ function art(b,sz){const a=ART[b[0]];if(!a)return "";const u="bp"+(++U),O=`<g st
 <path d="M91 60A42 42 0 0 1 62 91" stroke="#3d2a10" stroke-width="1.4" fill="none" opacity=".35" stroke-linecap="round"/></svg>`}
 const Q=`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="qr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9aa6ae"/><stop offset=".5" stop-color="#4c5862"/><stop offset="1" stop-color="#8b979f"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#qr)"/><circle cx="50" cy="50" r="41" fill="#1b2832"/><circle cx="50" cy="50" r="41" fill="none" stroke="#6d7a84" stroke-width="1"/><text x="50" y="63" text-anchor="middle" font-size="36" font-family="Georgia,serif" fill="#6d7a84">?</text></svg>`;
 function render(){if(!hostEl||!hostEl.isConnected)return;const main=DEF.filter(b=>b[1]!=="secret"),got=main.filter(b=>has(b[0])).length,sec=DEF.filter(b=>b[1]==="secret"&&has(b[0])).length;
- hostEl.innerHTML=`<div class="bc-h"><div class="glk">冒險徽章</div><span class="bc-n">${got}/${main.length}${sec?` ・隱藏 +${sec}`:""}</span></div><div class="bc-bar"><i style="width:${(got/main.length*100).toFixed(0)}%"></i></div>`+
- Object.keys(CAT).map(c=>`<div class="bc-cat">${CAT[c]}</div><div class="bc-g">${DEF.filter(b=>b[1]===c).map(b=>{const on=has(b[0]),hid=c==="secret"&&!on;return `<button type="button" class="bc-b${on?"":" lk"}" data-bdg="${b[0]}">${hid?Q:art(b,76)}<span>${hid?"？？？":b[2]}</span></button>`}).join("")}</div>`).join("")+(X.note?`<p class="rhint">${X.note}</p>`:"")}
-async function call(body){const sk=localStorage.getItem("iceland-gsk");if(!sk||!X.url)throw new Error("login");const r=await fetch(X.url,{method:"POST",body:JSON.stringify(Object.assign({sk},body))});const j=await r.json();if(!j.ok)throw new Error(j.err||((j.sv||0)<9?"old":"err"));return j.badges||{}}
+ hostEl.innerHTML=`<button type="button" class="bc-h" data-bctog aria-expanded="${OPEN}"><span class="glk">冒險徽章</span><span class="bc-n">${got}/${main.length}${sec?` ・隱藏 +${sec}`:""}<i class="bc-cv" aria-hidden="true">›</i></span></button><div class="bc-bar"><i style="width:${(got/main.length*100).toFixed(0)}%"></i></div>`+
+ (OPEN?`<div class="bc-body">`+Object.keys(CAT).map(c=>`<div class="bc-cat">${CAT[c]}</div><div class="bc-g">${DEF.filter(b=>b[1]===c).map(b=>{const on=has(b[0]),hid=c==="secret"&&!on;return `<button type="button" class="bc-b${on?"":" lk"}${FRESH===b[0]?" new":""}" data-bdg="${b[0]}">${hid?Q:art(b,76)}<span>${hid?"？？？":b[2]}</span></button>`}).join("")}</div>`).join("")+`</div>`:"")+(X.note?`<p class="bc-note">${X.note}</p>`:"");FRESH=null}
+const ERR={login:"未登入，請先用 Gmail 登入。",sess:"登入已過期，請重新登入一次。",admin:"只有管理員可以更改徽章。",old:"Apps Script 未更新到最新版本（v10）。",server:"伺服器出錯，未能儲存（Apps Script 可能要重新部署或授權）。",net:"網絡連線失敗，未能儲存。",id:"徽章代號不正確。"};
+async function call(body){const sk=localStorage.getItem("iceland-gsk");if(!sk||!X.url)throw new Error("login");let r,j;
+ try{r=await fetch(X.url,{method:"POST",body:JSON.stringify(Object.assign({sk},body))})}catch(e){throw new Error("net")}
+ try{j=await r.json()}catch(e){throw new Error("server")}
+ if(!j.ok)throw new Error(j.err==="op"?"old":j.err==="sess"?"sess":j.err&&ERR[j.err]?j.err:(j.sv||0)<10&&body.op==="bset"?"old":j.err||"server");return j.badges||{}}
 function save(m){S=m||{};try{localStorage.setItem(CK,JSON.stringify(S))}catch(e){}render()}
-async function pull(){try{save(await call({op:"badges"}));X.note=""}catch(e){X.note=X.admin&&e.message==="old"?"徽章未能同步：Apps Script 要更新到 v9。":"";render()}}
-function open(id){const b=DEF.find(x=>x[0]===id);if(!b)return;const on=has(id),hid=b[1]==="secret"&&!on,d=document.createElement("dialog");d.className="bc-dlg";
- d.innerHTML=`<div class="bc-art${on?"":" lk"}">${hid?Q:art(b,148)}</div><div class="bc-cat2">${CAT[b[1]]}</div><h3>${hid?"隱藏徽章":b[2]}</h3><p class="bc-en">${hid?"":b[3]}</p><p>${hid?"在旅途中發現就會解鎖。":b[5]}</p><p class="bc-st">${on?"已收集":"未收集"}${AUTO[id]&&S[id]==null?"（按旅程進度自動）":S[id]!=null?"（管理員設定）":""}</p>${X.admin?`<div class="bc-ad"><button type="button" data-bset="${id}|1">解鎖</button><button type="button" data-bset="${id}|0">撤銷</button>${AUTO[id]?`<button type="button" data-bset="${id}|">回復自動</button>`:""}</div><p class="bc-msg"></p>`:""}<button type="button" class="bc-x" data-bcx>關閉</button>`;
- document.body.appendChild(d);d.addEventListener("close",()=>d.remove());d.addEventListener("click",async e=>{if(e.target===d||e.target.closest("[data-bcx]")){d.close();return}const t=e.target.closest("[data-bset]");if(!t)return;const [i,v]=t.dataset.bset.split("|"),msg=d.querySelector(".bc-msg");msg.textContent="儲存中…";
-  try{save(await call({op:"bset",id:i,v:v===""?null:+v}));d.close()}catch(er){msg.textContent=er.message==="old"?"Apps Script 要更新到 v9 先可以儲存。":er.message==="admin"?"只有管理員可以改。":"儲存失敗，請稍後再試。"}});
+async function pull(){try{save(await call({op:"badges"}));X.note=""}catch(e){X.note=X.admin&&e.message!=="login"?"徽章未能同步："+(ERR[e.message]||e.message):"";render()}}
+function open(id){const b=DEF.find(x=>x[0]===id);if(!b)return;const on=has(id),hid=b[1]==="secret"&&!on,d=document.createElement("dialog");d.className="bc-dlg";const dt=on?when(id):"";
+ d.innerHTML=`<div class="bc-art${on?"":" lk"}">${hid?Q:art(b,148)}</div><div class="bc-cat2">${CAT[b[1]]}</div><h3>${hid?"隱藏徽章":b[2]}</h3><p class="bc-en">${hid?"":b[3]}</p><p>${hid?"在旅途中有意外發現就會解鎖。":b[5]}</p><p class="bc-st">${on?`✓ 已收集${dt?`・${dt}`:""}`:hid?"":`未收集・${b[6]}`}</p>${X.admin?`<div class="bc-ad">${on?"":`<button type="button" data-bset="${id}|1">解鎖</button>`}${on?`<button type="button" data-bset="${id}|0">撤銷</button>`:""}${AUTO[id]&&S[id]!=null?`<button type="button" data-bset="${id}|">回復自動</button>`:""}</div><p class="bc-msg" role="status"></p>`:""}<button type="button" class="bc-x" data-bcx>關閉</button>`;
+ document.body.appendChild(d);d.addEventListener("close",()=>d.remove());d.addEventListener("click",async e=>{if(e.target===d||e.target.closest("[data-bcx]")){d.close();return}const t=e.target.closest("[data-bset]");if(!t||t.disabled)return;const [i,v]=t.dataset.bset.split("|"),msg=d.querySelector(".bc-msg");
+  d.querySelectorAll("[data-bset]").forEach(x=>x.disabled=true);msg.className="bc-msg";msg.textContent="儲存中…";
+  try{const m=await call({op:"bset",id:i,v:v===""?null:+v});if(v==="1"&&!(m[i]===1||typeof m[i]==="string"))throw new Error("server");if(v==="1")FRESH=i;save(m);msg.className="bc-msg ok";msg.textContent=v==="1"?"已解鎖，全團同步。":v==="0"?"已撤銷，全團同步。":"已回復自動。";setTimeout(()=>{try{d.close()}catch(x){}},900)}
+  catch(er){msg.className="bc-msg bad";msg.textContent="儲存失敗："+(ERR[er.message]||er.message);d.querySelectorAll("[data-bset]").forEach(x=>x.disabled=false)}});
  d.showModal()}
-document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bdg]");if(t)open(t.dataset.bdg)});
+document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest("[data-bctog]");if(g){OPEN=!OPEN;try{localStorage.setItem(OK,OPEN?"1":"0")}catch(x){}render();return}const t=e.target.closest&&e.target.closest("[data-bdg]");if(t)open(t.dataset.bdg)});
+/* 旅程中（今日頁）：有新徽章解鎖就彈一個小提示，不顯示整個收集冊 */
+function toast(b){const t=document.createElement("div");t.className="bc-toast";t.innerHTML=`${art(b,40)}<div><small>解鎖新徽章</small><b>${b[2]}</b></div>`;document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("in"));setTimeout(()=>{t.classList.remove("in");setTimeout(()=>t.remove(),400)},4200)}
+async function ping(ctx){X=Object.assign(X,ctx||{});try{save(await call({op:"badges"}))}catch(e){}let seen=null;try{seen=JSON.parse(localStorage.getItem("iceland-bc-seen")||"null")}catch(e){}
+ const now=DEF.filter(b=>has(b[0])).map(b=>b[0]);if(seen){const nb=DEF.find(b=>now.includes(b[0])&&!seen.includes(b[0]));if(nb)toast(nb)}try{localStorage.setItem("iceland-bc-seen",JSON.stringify(now))}catch(e){}}
 const css=`.bc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.bc-h{display:flex;justify-content:space-between;align-items:center}.bc-h .glk{margin:0}.bc-n{font:700 13px Georgia,serif;color:var(--fg);font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .bc-bar{height:3px;border-radius:3px;background:var(--line);margin:10px 0 2px;overflow:hidden}.bc-bar i{display:block;height:100%;background:linear-gradient(90deg,#d9b56a,#8f6a2e)}
 .bc-cat{font-size:11px;letter-spacing:.18em;color:var(--muted);margin:18px 0 10px;display:flex;align-items:center;gap:10px}.bc-cat:after{content:"";flex:1;height:1px;background:var(--line)}
@@ -92,8 +104,14 @@ const css=`.bc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)
 .bc-dlg{border:0;border-radius:24px;padding:26px 22px 16px;max-width:320px;width:calc(100% - 32px);text-align:center;background:radial-gradient(120% 70% at 50% 0,color-mix(in srgb,#d9b56a 14%,var(--card)),var(--card) 60%);color:var(--fg);box-shadow:0 24px 70px rgba(0,0,0,.4)}.bc-dlg::backdrop{background:rgba(13,27,39,.55);backdrop-filter:blur(3px)}
 .bc-art svg{filter:drop-shadow(0 10px 14px rgba(13,27,39,.35))}.bc-cat2{margin-top:12px;font-size:10.5px;letter-spacing:.24em;color:#a5803c}
 .bc-dlg h3{margin:4px 0 2px;font:700 22px Georgia,"Noto Serif TC",serif}.bc-en{margin:0 0 10px;color:var(--muted);font:italic 13px Georgia,serif;letter-spacing:.04em}.bc-st{font-size:12px;color:var(--route)}
-.bc-ad{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:12px}.bc-ad button,.bc-x{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer}.bc-x{margin-top:12px;border:0;background:none;color:var(--muted)}.bc-msg{font-size:12px;color:var(--muted);min-height:1em;margin:6px 0 0}`;
+.bc-ad{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:12px}.bc-ad button,.bc-x{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer}.bc-x{margin-top:12px;border:0;background:none;color:var(--muted)}.bc-msg{font-size:12px;color:var(--muted);min-height:1em;margin:6px 0 0}
+.bc-h{width:100%;border:0;background:none;padding:0;cursor:pointer;color:inherit;text-align:left}.bc-cv{display:inline-block;margin-left:8px;font-style:normal;transition:transform .2s;transform:rotate(90deg);color:var(--muted)}.bc-h[aria-expanded=false] .bc-cv{transform:none}
+.bc-note{font-size:12px;color:#a8432e;margin:8px 0 0}.bc-msg.ok{color:#2f7d4f;font-weight:600}.bc-msg.bad{color:#a8432e;font-weight:600}.bc-ad button:disabled{opacity:.5}
+.bc-b.new svg{animation:bcpop .7s cubic-bezier(.2,.9,.3,1.3)}@keyframes bcpop{0%{transform:scale(.6);opacity:.3}60%{transform:scale(1.08)}100%{transform:none}}
+.bc-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;z-index:9000;display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;background:#14283a;color:#f4ecd8;box-shadow:0 10px 30px rgba(0,0,0,.3);transition:all .35s ease}.bc-toast.in{opacity:1;transform:translate(-50%,0)}.bc-toast svg{width:40px;height:40px}.bc-toast small{display:block;font-size:10.5px;letter-spacing:.14em;color:#d9b56a}.bc-toast b{font:700 15px Georgia,"Noto Serif TC",serif}
+@media (max-width:420px){.bc-g{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 4px}.bc-b svg{width:64px;height:64px}.bc-b span{font-size:11px}}
+@media (prefers-reduced-motion:reduce){.bc-b.new svg,.bc-toast{animation:none;transition:none}}`;
 try{const st=document.createElement("style");st.textContent=css;document.head.appendChild(st)}catch(e){}
 /* ctx: {url, admin, now} */
-window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()}};
+window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping};
 })();
