@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-d4"></script>
+<script src="trip.js?v=2026-11-14-d4b"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
@@ -533,7 +533,7 @@ const EP=(plan,n=0)=>plan.filter(r=>DT||r[2]!=="y").map(([t,a,f])=>[shl(shiftClo
 const depI=pl=>{const f=rx=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1]));const i=f(/出發|取車/);return i>=0?i:f(/退房/)};
 const toM=t=>{const [h,m]=t.split(":").map(Number);return h*60+m},toT=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
 /* 自理早餐不顯示（指明去哪間吃先顯示） */
-const BFX=r=>Array.isArray(r)&&/^早餐：/.test(String(r[1]))&&!/Grái Kötturinn/.test(String(r[1]));
+const BFX=r=>Array.isArray(r)&&/^早餐：/.test(String(r[1]))&&!/Grái Kötturinn|LYST/.test(String(r[1]));
 const noBF0=o=>o&&Array.isArray(o.plan)&&o.plan.some(BFX)?{...o,plan:o.plan.filter(r=>!BFX(r))}:o;
 /* D&T 早起行程（似日出）：未加入就不顯示 D&T 專屬行 */
 const EARLY=o=>{try{if(!o||!Array.isArray(o.plan)||!(o.opt||[]).some(x=>x.early))return o;const id=o.opt.find(x=>x.early).id;if((RECP[o.d]||[]).includes(id))return o;return {...o,plan:o.plan.filter(r=>r[2]!=="y").map(r=>/⟦[^⟧]*Stykkish/.test(String(r[1]))?[r[0],String(r[1]).replace(/⟦[^⟧]*⟧/g,""),...r.slice(2)]:r)}}catch(e){return o}};
@@ -1267,7 +1267,7 @@ function oPlan(raw,day){
   const P=day.plan,out=[];let i=0;
   while(i<P.length){if(P[i][2]!=="o"){out.push(P[i]);i++;continue}
     let j=i;while(j<P.length&&P[j][2]==="o")j++;const grp=P.slice(i,j),a=rng(grp[0]),b=rng(grp[grp.length-1]);let t=a?a[0]:null;
-    if(!picks.length){const lb=(grp.find(r=>r[3])||[])[3]||"自由活動：自行安排";out.push([a&&b?`${tt(a[0])}–${tt(b[1])}`:grp[0][0],lb,""]);i=j;continue}
+    if(!picks.length){const lb=(grp.find(r=>r[3])||[])[3];if(lb)out.push([a&&b?`${tt(a[0])}–${tt(b[1])}`:grp[0][0],lb,""]);i=j;continue}   /* 沒有選可選活動：不寫「自由活動：自行安排」 */
     grp.filter(r=>picks.includes(oKey(r[1]))).forEach(r=>{const g=rng(r);if(t==null||!g){out.push([r[0],r[1],"pk"]);return}const d=g[1]-g[0];out.push([`${tt(t)}–${tt(t+d)}`,r[1],"pk"]);t+=d});
     i=j}
   return {...day,plan:out};
