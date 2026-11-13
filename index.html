@@ -148,14 +148,8 @@ const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbF
 const OVR_STAY=rows=>rows.map(r=>{const L=t=>String(t||"").split("\n").map(x=>x.trim()).filter(Boolean).map(x=>{const k=x.indexOf("|");return k<0?[x,""]:[x.slice(0,k).trim(),x.slice(k+1).trim()]});const la=parseFloat(r["緯度"]),lo=parseFloat(r["經度"]);return [r["晚"],r["地區"],r["狀態"]||"未訂",r["理由"]||"",L(r["最便宜（每行：名 | 說明）"]),L(r["最方便（每行：名 | 說明）"]),r["地圖連結"]||undefined,(isNaN(la)||isNaN(lo))?undefined:[la,lo]]}).filter(x=>x[0]);
 const OVR_TIPS=rows=>{const g=[];rows.forEach(r=>{const h=r["分組"]||"其他";let x=g.find(y=>y[0]===h);if(!x){x=[h,[]];g.push(x)}x[1].push([r["項目"]||"",r["內容"]||""])});return g};
 let SHCF={};
-/* 開啟記錄：隨機裝置代號（只存在這部機）、版本、裝置類型；預覽模式和本機檔案不記 */
+/* 開啟記錄：只記登入的人（Gmail），在 gpull 時順帶記裝置類型 */
 const devType=()=>{const u=navigator.userAgent||"";return /iPhone/.test(u)?"iPhone":/iPad/.test(u)?"iPad":/Android/.test(u)?(/Mobile/.test(u)?"Android 手機":"Android 平板"):/Macintosh/.test(u)?(navigator.maxTouchPoints>1?"iPad":"Mac"):/Windows/.test(u)?"Windows":"其他"};
-function visitQ(){try{if(location.protocol==="file:"&&!window.__VLOG)return "";if(localStorage.getItem("iceland-gsk"))return "";const h=location.hash.replace("#",""),q=new URLSearchParams(location.search);if(/^dt5x-/.test(h))return "";
-  try{const rl=+sessionStorage.getItem("iceland-sync-rl")||0;if(Date.now()-rl<20000)return ""}catch(e){}
-  const m=localStorage.getItem("iceland-mode"),r=localStorage.getItem("iceland-key")?localStorage.getItem("iceland-role"):"",v=r==="owner"?"own":r==="admin"?"dt":(h==="dt5x"||q.has("dt5x")||m==="d")?"dt":(h==="n8f3"||q.has("n8f3")||m==="r")?"real":"pub";if(v==="own")return "";
-  let id=localStorage.getItem("iceland-dev");if(!/^[a-z0-9]{4,12}$/.test(id||"")){id=Math.random().toString(36).slice(2,8).replace(/[^a-z0-9]/g,"x").padEnd(6,"x");localStorage.setItem("iceland-dev",id)}
-  const u=navigator.userAgent||"",t=/iPhone/.test(u)?"iPhone":/iPad/.test(u)?"iPad":/Android/.test(u)?(/Mobile/.test(u)?"Android 手機":"Android 平板"):/Macintosh/.test(u)?(navigator.maxTouchPoints>1?"iPad":"Mac"):/Windows/.test(u)?"Windows":"其他";
-  return "&lv="+v+"&ld="+id+"&lm="+encodeURIComponent(t)}catch(e){return ""}}
 /* 登入只用 Gmail：私人資料由 Apps Script 核對 Gmail 名單後傳回，網頁本身不再存任何加密資料。 */
 function privWipe(){try{["iceland-key","iceland-role","iceland-sync-user","iceland-sync-pass"].forEach(k=>localStorage.removeItem(k));for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(/^iceland-priv-\d+$/.test(k))localStorage.removeItem(k)}}catch(e){}}
 /* ===== Gmail 登入 =====
@@ -181,7 +175,7 @@ function __load(cb){
   const cached=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}};
   if(!CONTENT_URL)return done(null);
   const t=setTimeout(()=>{if(!fin.v){fin.v=true;done(cached())}},4000);
-  fetch(CONTENT_URL+"?c=1"+visitQ()).then(r=>r.json()).then(j=>{if(fin.v)return;fin.v=true;clearTimeout(t);try{window.__SV=j&&j.sv||0}catch(e){}const c=j&&j.content;if(c){try{localStorage.setItem(KEY,JSON.stringify(c))}catch(e){}}done(c||cached())}).catch(()=>{if(!fin.v){fin.v=true;clearTimeout(t);done(cached())}});
+  fetch(CONTENT_URL+"?c=1").then(r=>r.json()).then(j=>{if(fin.v)return;fin.v=true;clearTimeout(t);try{window.__SV=j&&j.sv||0}catch(e){}const c=j&&j.content;if(c){try{localStorage.setItem(KEY,JSON.stringify(c))}catch(e){}}done(c||cached())}).catch(()=>{if(!fin.v){fin.v=true;clearTimeout(t);done(cached())}});
 }
 /* 每日行程：試算表可改「時間」和「內容」（按序號對應現有行），結構、地點和路線不變 */
 const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
@@ -283,20 +277,18 @@ const OFS=0;
 /* 版本只看登入身分（Gmail）：owner／admin＝管理者版；real＝真實版；docs、pending＝公開版。不再用網址分版本。 */
 const ROLE=(()=>{try{return localStorage.getItem("iceland-key")?(localStorage.getItem("iceland-role")||""):""}catch(e){return ""}})();
 let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE==="real";
-try{localStorage.removeItem("iceland-mode")}catch(e){}
+try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","iceland-sync-pass","iceland-sync-t"].forEach(k=>localStorage.removeItem(k))}catch(e){}
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
 const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
 if(PV){REAL=PV==="real";DT=false;OWNER=false;store.set=()=>{}}
 const HASH0=location.hash;
 window.addEventListener("hashchange",()=>{const h=location.hash.replace("#","");if(location.hash===HASH0)return;
-  if(h==="dt5x"){try{localStorage.setItem("iceland-mode","d")}catch(e){}location.reload();return}
-  if(h==="n8f3"){try{localStorage.setItem("iceland-mode","r")}catch(e){}location.reload()}
-  else if(h==="dt5x-pub"||h==="dt5x-real")location.reload()});
+  if(h==="dt5x-pub"||h==="dt5x-real")location.reload()});
 const DTO="只限 Dorcas & Tebe";
 /* ---- optional shared sync through a Google Sheet + Apps Script web app (set up under ⋯ 工具) ----
    synced: booking ticks, free-cancel dates, pre-departure checklist, emergency numbers, budget (incl. who paid) */
-const SYNC={user:store.get("iceland-sync-user")||"",pass:store.get("iceland-sync-pass")||"",url:"",ready:0,boot:1};/* 共用同步已取消（2026-11-06）：資料只存在每部機。要重開就改回做 (!PV&&SYNC.user&&SYNC.pass)?CONTENT_URL:"" */SYNC.url="";setTimeout(()=>{SYNC.boot=0},0);
-const SYNCRX=/^iceland-(custom-d-?\d+|bkc|task|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-base-d\d+|shift-d-?\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|upts|devnames|tide-\d+|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+|opt-[\w-]+|rec-d\d+))$/;
+const SYNC={user:"",pass:"",url:"",ready:0,boot:1};/* 共用同步已取消（2026-11-06）：資料只存在每部機。要重開就改回做 (!PV&&SYNC.user&&SYNC.pass)?CONTENT_URL:"" */SYNC.url="";setTimeout(()=>{SYNC.boot=0},0);
+const SYNCRX=/^iceland-(custom-d-?\d+|bkc|task|bcancel|pre|emer|pack|edit|budget-v\d+|edit-d\d+|edit-base-d\d+|shift-d-?\d+|edit-log-[\w-]+|stayinfo-\d+|cf|recp|upts|tide-\d+|txt-(notes-d\d+|tip-[\w%.-]+|sp-\w+|opt-[\w-]+|rec-d\d+))$/;
 let SYNCT={};try{SYNCT=JSON.parse(localStorage.getItem("iceland-sync-t")||"{}")}catch(e){}
 const syncQ=new Set();let syncTm=null,SYNCST={s:"",m:""};
 const hhmm=()=>new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -427,20 +419,18 @@ function dtSunrise(day){const x=SUNRISE[day.d];if(!x||(x.scen&&x.scen!==scen))re
   const txt=`日出：${x.spot}。${String(x.go).replace(/^\d{1,2}:\d{2} ?/,"")}${back?"；"+String(x.back).replace(/^\d{1,2}:\d{2} ?/,""):""}`;
   return {m,h:`<span class="t y">${tm}</span><span class="a y"><span class="ytag">日出</span>${txt}</span>`}}
 /* 開啟記錄：載入、顯示、改名 */
-const devNames=()=>{try{return JSON.parse(store.get("iceland-devnames")||"{}")||{}}catch(e){return {}}};
 async function visLoad(){const out=document.getElementById("vis-out");if(!out)return;out.innerHTML=`<p class="rhint">載入中…</p>`;
-  try{const gsk=localStorage.getItem("iceland-gsk"),r=await fetch(gsk?CONTENT_URL:SYNC.url,{method:"POST",body:JSON.stringify(gsk?{op:"visits",sk:gsk}:{op:"visits",u:SYNC.user,k:SYNC.pass})}),j=await r.json();
-    if(j.err==="owner"||j.err==="pass"){out.innerHTML=`<p class="rhint">${(j.sv||0)<5?`Apps Script 仍然是舊程式（伺服器版本 ${j.sv||"舊"}，要 5）：將新的 apps-script-sync.gs 成段貼入，儲存，再「管理部署作業 → 鉛筆編輯 → 版本：新版本 → 部署」。`:"Apps Script 已經是新程式，但不認得這個帳戶：請登出再用終極管理者帳戶登入。"}</p>`;return}
-    if(j.err){out.innerHTML=`<p class="rhint">${j.err==="pass"?"通關密碼不正確":"讀取失敗："+escA(j.err)}</p>`;return}
+  try{const gsk=localStorage.getItem("iceland-gsk");if(!gsk){out.innerHTML=`<p class="rhint">要用 Gmail 登入先看到。</p>`;return}const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify({op:"visits",sk:gsk})}),j=await r.json();
+    if(j.err==="owner"){out.innerHTML=`<p class="rhint">只有你自己的帳戶看到開啟記錄。</p>`;return}
+    if(j.err){out.innerHTML=`<p class="rhint">讀取失敗：${escA(j.err)}</p>`;return}
     const V=j.visits||[];if(!V.length){out.innerHTML=`<p class="rhint">未有記錄（要部署新版 Apps Script 之後先開始記）。</p>`;return}
-    const N=devNames(),me=localStorage.getItem("iceland-dev"),f=t=>new Date(t).toLocaleString("zh-HK",{hour12:false,month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
-    const M=V.filter(x=>x.who&&x.who!=="未登入"),A=V.filter(x=>x.who==="未登入");
+    const f=t=>new Date(t).toLocaleString("zh-HK",{hour12:false,month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
+    const M=V.filter(x=>x.who&&x.who!=="未登入");
     const row=(nmH,x)=>`<tr><td>${nmH}</td><td>${f(x.last)}<details><summary>最近 ${x.recent.length} 次</summary><small>${x.recent.map(t=>f(t)).join("<br>")}</small></details></td><td>${x.n}</td><td>${f(x.first)}</td></tr>`;
     const tab=(gn,L,h)=>!L.length?"":`<h4 class="visg">${gn}<small>${L.length} ${gn==="成員"?"人":"部裝置"}・${L.reduce((a,x)=>a+x.n,0)} 次</small></h4><div class="gtw" tabindex="0" role="region" aria-label="${gn}開啟記錄（可左右捲動）"><table class="vistab"><thead><tr><th>${gn==="成員"?"Gmail":"裝置"}</th><th>最近打開</th><th>次數</th><th>第一次</th></tr></thead><tbody>${L.map(h).join("")}</tbody></table></div>`;
-    out.innerHTML=tab("成員",M,x=>row(`<b style="overflow-wrap:anywhere">${escA(x.who)}</b><small>${escA(x.role||"")}${x.type?"・"+escA(x.type):""}</small>`,x))+tab("未登入",A,x=>row(`<input type="text" class="visname" data-dev="${escA(x.id)}" value="${escA(N[x.id]||"")}" placeholder="${escA(x.type||"裝置")} ${escA(x.id.slice(0,4))}" aria-label="裝置名稱 ${escA(x.id)}"><small>${escA(x.type||"")}${x.id===me?"・<b>這部機</b>":""}</small>`,x))}
+    out.innerHTML=tab("成員",M,x=>row(`<b style="overflow-wrap:anywhere">${escA(x.who)}</b><small>${escA(x.role||"")}${x.type?"・"+escA(x.type):""}</small>`,x))}
   catch(e){out.innerHTML=`<p class="rhint">讀取失敗（沒有網絡？）</p>`}}
 document.addEventListener("click",e=>{if(!e.target.closest)return;if(e.target.closest("#vis-load"))visLoad();});
-document.addEventListener("change",e=>{const t=e.target;if(!t.classList||!t.classList.contains("visname"))return;const N=devNames(),v=t.value.trim().slice(0,30);if(v)N[t.dataset.dev]=v;else delete N[t.dataset.dev];store.set("iceland-devnames",JSON.stringify(N))});
 document.addEventListener("click",e=>{const r=e.target.closest&&e.target.closest("[data-edrestore]");if(r){edRestore(+r.dataset.edrestore)}});
 document.addEventListener("click",e=>{const r=e.target.closest&&e.target.closest("[data-eddel]");if(!r)return;let B=[];try{B=JSON.parse(store.get("iceland-edit-backups")||"[]")}catch(x){}
   if(r.dataset.eddel==="all")B=[];else B.splice(+r.dataset.eddel,1);store.set("iceland-edit-backups",JSON.stringify(B));location.reload()});
@@ -456,7 +446,7 @@ function memDraw(ms){const o=$("mem-out");if(!o)return;if(!ms.length){o.innerHTM
 async function memCall(body){const o=$("mem-out");try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify(Object.assign({sk:localStorage.getItem("iceland-gsk")},body))});const j=await r.json();if(j.ok)memDraw(j.members||[]);else o.innerHTML=`<p class="rhint">${(j.sv||0)<7?"Apps Script 未更新到新版本":"讀取失敗："+DOCX.esc(j.err||"")}</p>`}catch(e){o.innerHTML=`<p class="rhint">連線失敗，請檢查網絡</p>`}}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#mem-load,[data-mset]");if(!t)return;if(t.id==="mem-load"){$("mem-out").innerHTML=`<p class="rhint">讀取中…</p>`;memCall({op:"members"});return}memCall({op:"mset",email:t.dataset.em,act:t.dataset.mset})});
 function visHTML(){
-  return `<h4>開啟記錄</h4><p class="rhint">登入的人按 Gmail 記，未登入按裝置記；你自己不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
+  return `<h4>開啟記錄</h4><p class="rhint">按 Gmail 記；你自己不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
 
 /* 管理者工具：用 OpenStreetMap 實際道路（OSRM）重新計每段車程，結果可以複製給 Claude 更新 */
 function rcLegs(){const out=new Map(),add=(a,b,m,via)=>{if(!pts[a]||!pts[b]||a===b)return;via=(via||[]).filter(v=>VIAC[v]);const k=a+">"+b+(via.length?"|"+via.join(","):"");if(!out.has(k))out.set(k,{k,a,b,m,via})};
@@ -1491,7 +1481,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
   else if(act==="reset"){if(!confirm("還原做原本的行程？你的改動會刪走。"))return;delete EDITS[raw.d];EDITING=null;edSave()}
   else if(act==="copy"){const ev=EDITS[raw.d];const txt=`請將 ${dLab(raw.d)}（${raw.date}）改成以下行程：\n`+ev.map(r=>`${r[0]}　${r[1]}${r[3]?`（地圖：${pts[r[3]][0]}）`:""}`).join("\n");
     try{await navigator.clipboard.writeText(txt);b.textContent="已複製，貼回給 Claude"}catch(err){window.prompt("複製以下文字：",txt)}return}
-  else if(act==="share"){const url=location.origin+location.pathname+"?plan="+b64e(EDITS)+"#dt5x";try{await navigator.clipboard.writeText(url);b.textContent="已複製連結"}catch(err){window.prompt("複製以下連結：",url)}return}
+  else if(act==="share"){const url=location.origin+location.pathname+"?plan="+b64e(EDITS);try{await navigator.clipboard.writeText(url);b.textContent="已複製連結"}catch(err){window.prompt("複製以下連結：",url)}return}
   else{const ev=EDITS[EDITING],i=+b.dataset.i;
     if(act==="up"&&i>0){const sn=gapSnap(ev);[ev[i-1],ev[i]]=[ev[i],ev[i-1]];retime(ev,i-1,sn)}
     if(act==="down"&&i<ev.length-1){const sn=gapSnap(ev);[ev[i+1],ev[i]]=[ev[i],ev[i+1]];retime(ev,i,sn)}
