@@ -2687,7 +2687,7 @@ renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(
 /* 準備頁頂部：出發倒數 */
 function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5),t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
   /* 倒數卡（F 款）：路線進度條，飛機由今日向冰島飛 */
-  const S=Date.UTC(2026,10,12),p=Math.max(0,Math.min(100,(now-S)/(Date.UTC(2027,8,12)-S)*100)),big=dd>0?`${dd} 日後出發`:now<Date.UTC(2027,8,24)?"旅程中":"完成";
+  const S=Date.UTC(2026,8,12),p=Math.max(0,Math.min(100,(now-S)/(Date.UTC(2027,8,12)-S)*100)),big=dd>0?`${dd} 日後出發`:now<Date.UTC(2027,8,24)?"旅程中":"完成";
   return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${dd>0?p:100}%"></i><u style="left:${dd>0?p:100}%">✈️</u></div><div class="fcr"><span>今日</span><span>出發 🇮🇸</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
