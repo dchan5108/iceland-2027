@@ -3230,3 +3230,13 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #prep .fcd,#prepHero .fcd,#prepHero{margin-bottom:0!important}
 #prepHero+*{margin-top:var(--gap-card)!important}
 #prepHero{margin-bottom:14px!important}#pp-book,#bookp{margin-top:0!important;padding-top:0!important}
+/* ===== 卡片外觀規則 =====
+   主卡（頁面上的卡片）：卡片底色、1px 實線邊、無陰影、圓角 20px、內距 18px
+   次級（卡片內的項目／列）：1px 實線邊、無陰影、圓角 12px
+   浮動控制（地圖上的切換、黏頂日子條）：保留輕陰影，因為浮在內容上面 */
+#prep .fcd,#prepHero .fcd{box-shadow:none!important}
+#budget .bstat,#budget .bsec{background:var(--card)!important;border:1px solid var(--line)!important;box-shadow:none!important;border-radius:20px!important;padding:var(--pad-card)!important}
+#budget .bbar,#budget li{border:1px solid var(--line)!important;box-shadow:none!important;border-radius:12px!important}
+#budget .bdash>div:not([class]){border:1px solid var(--line)!important;box-shadow:none!important;border-radius:20px!important}
+#mroute{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 4px 14px rgba(20,40,58,.10)!important;backdrop-filter:none!important;padding:14px 16px!important}
+#budget *:not(.you){box-shadow:none!important}
