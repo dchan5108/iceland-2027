@@ -141,7 +141,7 @@
 
 <script src="trip.js?v=2026-11-13-opt2"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
-<script src="badges.js?v=2026-11-13-bc8"></script>
+<script src="badges.js?v=2026-11-13-bc10"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -2765,12 +2765,12 @@ const TODAY={d:null,docMode:"date",
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
     const kk=ks.filter(k=>Q[k]||pts[k]).slice(0,4),bd=kk.map(k=>[k,String(nm(k)).replace(/（.*?）/g,"").trim()]);
     if(!bd.length)return "";
-    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n])=>`<a class="bdg" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n])=>`<a class="bdg" data-k="${k}" href="${TODAY.navUrl(k)}" target="_blank" rel="noopener">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></a>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=TODAY.start();const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div><div class="chips tchips noen" role="group" aria-label="選擇日子">${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}><span class="cday"><b>${dLab(d)}</b><small>${String(r.date||"").replace(/（[^）]*）/g,"").replace(/\s/g,"").split(/[–-]/)[0]}</small></span></button>`}).join("")}</div>
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div><div class="chips tchips noen" role="group" aria-label="選擇日子">${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
       <div class="tbtns"><button type="button" data-tgo="now" ${td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute noen" href="${ru}" target="_blank" rel="noopener">🗺️ 當日路線</a>`:""}<button type="button" class="tfull2" data-tfull="${raw.d}">完整時間表 ›</button></div>
       <div class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=dl.reduce((a,l)=>a+(l.m||0),0),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`車程約 ${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</div></section>${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}`;
@@ -2778,7 +2778,7 @@ const TODAY={d:null,docMode:"date",
     box.querySelectorAll("[data-tday]").forEach(b=>b.onclick=()=>{TODAY.d=+b.dataset.tday;TODAY.render()});{const c=box.querySelector('.tchips [aria-pressed="true"]');if(c)c.scrollIntoView({block:"nearest",inline:"center"})}
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull);window.scrollTo(0,0)});
-    try{if(window.BADGES){const tk=[...new Set((day.legs||[]).flatMap(l=>[l.a,l.b]))],q=box.querySelector(".tquick")||box.querySelector(".tdep")||box.querySelector(".thero");q.insertAdjacentHTML("afterend",`<section class="tcard tbdg noen" id="todayBdg"></section>`);BADGES.row($("todayBdg"),tk)}}catch(e){}
+    try{if(window.BADGES){const tk=[...new Set((day.legs||[]).flatMap(l=>[l.a,l.b]))],qk=box.querySelector(".tquick");if(qk)BADGES.merge(qk,tk)}}catch(e){}
     TODAY.wx(raw,day)}
 };
 const E0=s=>DOCX.esc(s);
