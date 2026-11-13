@@ -2820,7 +2820,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #panel .day.dtonly .dsum2.dsB{box-shadow:inset 4px 0 0 var(--chg)}
 .chips button.cpre{border-color:color-mix(in srgb,var(--chg) 55%,transparent)!important;color:var(--chg)!important}
 #chips button.cpre[aria-pressed="true"]{background:var(--chg)!important;border-color:var(--chg)!important;color:#fff!important}
-.ovrow.ovB[data-go="-5"],.ovrow.ovB[data-go="-4"],.ovrow.ovB[data-go="0"]{border-left-color:var(--chg)!important}
+.ovrow.ovB[data-go="-5"],.ovrow.ovB[data-go="-4"],.ovrow.ovB[data-go="0"]{border-left-color:transparent!important}
 .ovrow.ovB[data-go="-5"] .ovd b,.ovrow.ovB[data-go="-4"] .ovd b,.ovrow.ovB[data-go="0"] .ovd b{color:var(--chg)}
 
 .tsteps{margin:6px 0 0;padding-left:20px;display:grid;gap:4px;font-size:var(--fs-body);font-weight:500;color:var(--fg)}
@@ -3254,3 +3254,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ovhero .fcd{border-top:1px solid var(--line)!important}
 #panel .today{border-radius:20px!important}
 #budget .bbar,#budget li{border:0!important;background:var(--bg)!important}
+/* 步行／公車導航：放右邊 */
+.sched.rich .a .depgo:not(.depline){display:flex;justify-content:flex-end;margin-top:4px}
+/* D0、徒步、H0：只用紫色標題，不要紫色線 */
+.day.dtday[style]{border-top:0!important}
+.day.dtday h3>span:first-child{color:var(--chg)}
