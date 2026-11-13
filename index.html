@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-dly1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-nw1">
 
 </head>
 <body>
@@ -139,10 +139,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-dly1"></script>
+<script src="trip.js?v=2026-11-14-nw1"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
-<script src="data.js?v=2026-11-14-drv1"></script>
+<script src="data.js?v=2026-11-14-nw1"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -642,7 +642,7 @@ const FOODN={fish:"海鮮",soup:"湯",pizza:"薄餅",burger:"漢堡",lobster:"�
 const ST=[{d:1,k:"bl",ic:"lagoon",food:"fish",name:"藍湖",en:"Blue Lagoon",dx:-52,dy:-24},
  {d:2,k:"kirk",ic:"peak",food:"soup",name:"草帽山",en:"Kirkjufell",dx:-6,dy:-58},
  {d:3,k:"kolu",ic:"falls",food:"burger",name:"巨人峽谷",en:"Kolugljúfur",dx:-14,dy:-58},
- {d:4,k:"husa",ic:"whale",food:"fish",name:"賞鯨",en:"Húsavík",dx:-30,dy:-52},
+ {d:4,k:"goda",ic:"falls",food:"fish",name:"眾神瀑布",en:"Goðafoss",dx:-30,dy:-52},
  {d:5,k:"seyd",ic:"church",food:"lobster",name:"藍色教堂",en:"Seyðisfjörður",dx:34,dy:-52},
  {d:6,k:"jok",ic:"iceberg",food:"soup",name:"冰河湖",en:"Jökulsárlón",dx:22,dy:-56},
  {d:8,k:"hofsk",ic:"turf",food:"sandwich",name:"草皮教堂",en:"Hofskirkja",dx:-30,dy:50},
@@ -1750,7 +1750,7 @@ document.addEventListener("click",e=>{const tr=e.target.closest&&e.target.closes
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const tr=e.target.closest&&e.target.closest("#budget tr.cat");if(tr){e.preventDefault();bToggle(tr)}});
 const BUD=[
  ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
- ["活動（自選，只計參加的人）",[B_("whale","胡薩維克賞鯨・快艇 RIB（D4）",22990,1,"a",{note:"Gentle Giants 2027 年成人價，約 2 小時"}),B_("geosea","GeoSea 海水溫泉（D4，不觀鯨的人，或者全部人；待決定）",8000,1,"a",{def:false,est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D6）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/17 上午稍晚至中午有團"}),B_("glac","Troll 冰川健行＋攀冰（D7）",33000,1,"a",{est:1,src:"",note:"Troll 網頁 US$253.50，約 130 ISK／USD 換算，以訂購價為準"}),B_("icefl","Fjallsárlón 冰浮（D8）",0,1,"a",{src:"",note:"價錢網上未列，要向 Fjallsárlón 查詢（+354 570 2700）"}),B_("horse","Skálakot 騎馬（D9）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D10）",22900,1,"a",{note:"現場集合，不含接送"})]],
+ ["活動（自選，只計參加的人）",[B_("geosea","GeoSea 海水溫泉（D4）",8000,1,"a",{est:1,src:"",note:"價錢待查"}),B_("kayak","冰河湖獨木舟（D6）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/17 上午稍晚至中午有團"}),B_("glac","Troll 冰川健行＋攀冰（D7）",33000,1,"a",{est:1,src:"",note:"Troll 網頁 US$253.50，約 130 ISK／USD 換算，以訂購價為準"}),B_("icefl","Fjallsárlón 冰浮（D8）",0,1,"a",{src:"",note:"價錢網上未列，要向 Fjallsárlón 查詢（+354 570 2700）"}),B_("horse","Skálakot 騎馬（D9）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D10）",22900,1,"a",{note:"現場集合，不含接送"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D6）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外吃）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外吃）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D5）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 市區附近取車，地點待定，12 日）",18000,12,"c",{est:1,src:"",note:"每日價錢，9 月下旬 SUV／大旅行車估價，待報價；7 人加行李要較大的車"}),B_("carins","租車保險（SCDW＋碎石 GP＋沙塵 SAAP）",4500,12,"c",{est:1,src:"",note:"每日；碎石和沙塵是冰島最常見損壞，不要省；有些公司已包在日租，比較時看總價"}),B_("drv2","第二司機",1000,12,"c",{est:1,src:"",note:"每日；有些公司免費，取車時加名；每部車最少 2 個人可以駕駛"}),B_("km","道路里程費（每公里）",7,2000,"c",{src:"km",note:"2026 年起每公里約 6.95 ISK，數量 = 公里；有些租車公司已計入日租，這麼就剔走"}),B_("fuel","油費（約 2,000 公里）",29000,1,"c",{est:1,src:"km",note:"約 2,000 km × 每百公里 7 公升 × 約 205 ISK/L（2026 年油稅減了）；Costco 入油較便宜（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("parka","Parka 月費",490,1,"c",{src:"",note:"每部車開一個月費，免每次約 89 ISK 手續費；用完取消續訂"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
  ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；選有停車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已選）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 埃伊爾斯塔濟 Egilsstaðir",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air5","D5 9/16 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 冰河湖附近（待定）",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7 9/18 Hótel Jökulsárlón",70000,1,"g",{est:1,src:"",note:"估價，以酒店報價為準"}),B_("air8","D8 9/19 維克 Vík（Vík Apartments／Hotel Vík í Mýrdal）",70000,1,"g",{est:1,src:"",note:"整間屋（7 人）估價，已計服務費"}),B_("air9","D9 9/20 Mr Iceland 農場（Efri-Úlfsstaðir）",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；和 D11 連住 2 晚"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík（第 2 晚）",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...(DT?(PRIV.BUDDT||[]):[])]],
@@ -2002,7 +2002,7 @@ const GFOOD=[
  [2,"晚餐",FD("Hlaðan Veitingahús","Miðhraun 2, 342（Miðhraun - Lava Resort 酒店內）","晚餐時間要向酒店確認","冰島本地菜（餐牌以酒店為準）","約 6,000–8,000 ISK／人（估計）","訂房時一齊訂 7 人晚餐：+354 893 3333 或 info@lavaresort.is"),[["住處自己煮","4 房 apartment 如有廚房，可以在雷克雅維克或 Costco 預先買好材料"]]],
  [3,"午餐",FD("Dalakot","Dalbraut 2, Búðardalur","每日 12:00–21:00","薄餅、漢堡、魚","約 3,000–4,000 ISK／人","不用訂，可以打電話話 7 人"),[["Búðardalur 小超市","買三文治、沙律自備"]]],
  [3,"晚餐",FD("Strikið","Skipagata 14（5 樓），Akureyri","約 11:30–22:00","海鮮湯、羊肉、北極紅點鮭；望峽灣","約 6,000–8,000 ISK／人","建議網上訂 18:00；吃完要在日落前回到住處"),[["Rub23","Kaupvangsstræti 6, Akureyri；壽司和燒烤"],["住處自己煮","阿克雷里 Akureyri Bónus／Krónan 買材料；Hjalteyri 本身選擇很少"]]],
- [4,"午餐",FD("Naustið","Ásgarðsvegur 1, Húsavík","約 12:00–21:00（9 月以官網為準）","魚湯、烤魚串、自家焗麵包","約 4,000–5,500 ISK／人","賞鯨後 14:15 去人較少；可以打電話留位"),[["Gamli Baukur","Hafnarstétt 9；港口木屋，本地魚和羊；9 月中開不開要確認"],["Salka","Garðarsbraut 6；海鮮、薄餅"]]],
+ [4,"午餐",FD("Gamli Baukur","Hafnarstétt 9, Húsavík（港口木屋）","星期三 11:30–15:00（Google Maps）","本地魚和羊","價錢以餐牌為準","11:30 開門就入，12:10 去 GeoSea"),[["Naustið","Ásgarðsvegur 1；魚湯、烤魚串；星期三 12:00–15:00（Google Maps）"],["Salka","Garðarsbraut 6；海鮮、薄餅"]]],
  [4,"晚餐",FD("Vogafjós 牛棚餐廳","Vogafjós Farm Resort，米湖 Mývatn 東岸（1 號公路旁）","全年開；晚餐時間要預先問","煙燻鱒魚、羊膝、自家芝士、地熱焗黑麥麵包","約 6,000–8,000 ISK／人","建議預約：+354 464 3800"),[["Daddi's Pizza","Vogar 營地；薄餅，較便宜"],["住處自己煮","米湖區只有小超市，阿克雷里先預先買好"]]],
  [5,"午餐",FD("Hotel Aldan 餐廳","Norðurgata 2, Seyðisfjörður（藍色教堂附近）","9 月午餐時間要先確認","東部峽灣本地食材（餐牌以餐廳為準）","價錢未查到，到時以餐牌為準","7 人建議預先問：+354 472 1277／info@hotelaldan.is"),[["Seyðisfjörður 鎮上咖啡店","彩虹街一帶；9 月營業時間要確認"],["自備午餐","Egilsstaðir Bónus 預先買好"]]],
  [5,"晚餐",FD("Langabúð","Djúpivogur 鎮中心","9 月時間要確認","咖啡、湯、簡單餐點","約 3,000–5,000 ISK／人","7 人建議先打電話問位"),[["住處自己煮","有廚房就最穩妥，埃伊爾斯塔濟 Bónus 預先買好"]]],

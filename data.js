@@ -50,7 +50,7 @@ SP:REAL=>({
  husa:{t:"胡薩維克賞鯨（快艇 RIB）",park:"胡薩維克港口公眾停車場，近賞鯨公司售票處（Gentle Giants 在港口邊 Harbour Side）",d:"冰島的賞鯨重鎮，9 月中仍然常見座頭鯨。坐快艇 RIB（硬底橡皮艇）出海，比大船快、貼近海面、看鯨魚距離近，但是較顛和較冷。例如 Gentle Giants「GG2 Big Whale Safari & Puffins」：約 2 小時，有專業導賞；9 月已經沒有海鸚，不會去 Puffin Island。",stay:"約 2 小時（連報到、換保暖衣約 2.5 小時）",hours:"4 月 1 日至 10 月 31 日；開船時間按官網時間表，選 12:00 班",closed:"天氣或海面差會改時間或取消",ticket:"Gentle Giants 2027 年：每人 22,990 ISK（已含稅）",book:"必須預約（gentlegiants.is）；24 小時前取消免費；每團最少 6 人先開",when:"12:00 班；11:40 前到碼頭報到換衫",dress:"船公司提供保暖連身衣和救生衣（一定要著），需要時有雨外套；裡面著保暖、防水衣物和鞋，帶手套、冷帽和太陽眼鏡",bag:"只帶小背囊；相機手機用防水袋，大行李留在車",w:["不保證見到鯨魚，亦沒有寫明見不到會退款",...(REAL?["快艇沒有廁所，上船前先去"]:[])],alt:"GeoSea 海水溫泉，或 Leirhnjúkur 熔岩原"},
  viti:{t:"Víti 火山口湖（Krafla）",park:"Krafla／Víti 停車場（863 號公路尾，全程柏油路）；可能收停車費（約 800 ISK／車，以現場為準）",d:"18 世紀（1724 年）火山爆發形成的爆炸火山口，直徑約 300 米，入面是一個綠藍色火山口湖。",stay:"30–45 分鐘",hours:"全日；冬季可能封路",closed:"無",ticket:"免費；停車可能收費",book:"不用",when:"晴天下午，湖水顏色最漂亮",photo:"火口邊步道俯瞰湖面",dress:"防風外套；火口邊風很大",w:["只可以在火口邊步道行，不要落火山口","步道約 350 米去到觀景點，之後原路返"]},
  grjo:{t:"Grjótagjá 洞穴溫泉",park:"洞口旁小停車場，免費",d:"熔岩裂縫入面的地熱溫泉洞，水好清，《權力遊戲》曾經在這裡拍攝。",stay:"20–30 分鐘",hours:"全日（地主有時會封閉）",closed:"無",ticket:"免費",book:"不用",when:"中午至下午，陽光照入洞口最漂亮",photo:"由洞口影入面的藍色溫泉",dress:"防滑鞋；洞口好低，石頭濕滑",w:["不可以下水浸：水溫好高，而且地主禁止","入洞要彎身，小心撞頭和跣腳"]},
- geosea:{t:"GeoSea 海水溫泉",park:"GeoSea 門口停車場，免費",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看海灣。",stay:"最少 2 小時（換衫、沖身、浸、休息）",hours:"全年開放；時間以官網為準",closed:"以官網為準",ticket:"中價，預約時確認（預算暫估 8,000 ISK）",book:"建議預約",when:"中午，和賞鯨的人同時段",photo:"溫泉邊緣對住海灣",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["由碼頭開車約 3 分鐘"]},
+ geosea:{t:"GeoSea 海水溫泉",park:"GeoSea 門口停車場，免費",d:"建在胡薩維克鎮邊山崖上的海水溫泉，可以一邊泡一邊看海灣。",stay:"最少 2 小時（換衫、沖身、浸、休息）",hours:"每日 12:00–22:00（Google Maps，現時時間；9 月出發前再看）",closed:"以官網為準",ticket:"中價，預約時確認（預算暫估 8,000 ISK）",book:"建議預約",when:"12:15，開門後",photo:"溫泉邊緣對住海灣",dress:"入池前要赤身淋浴",bag:"有儲物櫃",w:["由碼頭開車約 3 分鐘"]},
  leir:{t:"Leirhnjúkur 熔岩原",park:"Krafla 發電站附近的 Leirhnjúkur 停車場（863 號公路）",d:"Krafla 火山區的熔岩原，1975–1984 年噴發留下的黑色熔岩仍然冒煙，地面有彩色地熱泥土。",stay:"1–1.5 小時",hours:"全日",closed:"大雪時路面可能封閉",ticket:"免費；停車可能收費",book:"不用",when:"中午至下午",photo:"環形步道最高點，望冒煙的熔岩",dress:"登山鞋",w:["一定要留在步道上，地面可能很燙或很薄","由 Hverir 開車約 10 分鐘"],alt:"Dimmuborgir 熔岩迷宮"},
  goda:{t:"眾神瀑布",park:"東岸大停車場（Fosshóll 對面）或西岸停車場，兩邊都可以，免費",d:"高約 12 米、寬約 30 米的弧形瀑布，相傳公元 1000 年冰島改信基督教時，有人把舊神像丟進瀑布。",stay:"30–40 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"不用",when:"下午",photo:"東岸（遊客中心對面）可以影到整個弧形",w:["兩岸都可以看；岸邊石頭濕滑"]},
  hver:{t:"Hverir 地熱區",park:"Hverir 停車場（1 號公路旁），收費約 1,200–1,400 ISK（app 繳費）",d:"冒煙的噴氣孔和沸騰的泥漿池，硫磺味很重。",stay:"30 分鐘",hours:"全日",closed:"無",ticket:"停車可能收費",book:"不用",when:"下午",photo:"由步道望噴氣孔，背景是 Námafjall 山",dress:"穿舊鞋，泥漿會黏在鞋上",w:["一定要留在步道和繩索內，地表可能很薄，下面是滾燙泥漿"],alt:"Dimmuborgir 熔岩迷宮（柏油路）"},
@@ -64,7 +64,7 @@ SP:REAL=>({
  seydt:{t:"Seyðisfjörður 塞濟斯菲厄澤",park:"鎮中心路邊或港口停車場，免費",d:"東部峽灣盡頭的小鎮，四周雪山和瀑布；彩色木屋、藝術小店和咖啡店集中在藍色教堂一帶，港口是 Norröna 渡輪碼頭。",stay:"約 1 小時",hours:"全日；商店和咖啡店按各自時間",closed:"—",ticket:"免費",book:"不用",when:"上午",photo:"港口望峽灣和雪山",w:["93 號公路翻 Fjarðarheiði 山口，常有霧，慢駛"]},
 osland:{t:"Ósland 小山（赫本）",park:"Ósland 路盡頭小停車場，免費",d:"赫本港口出口旁的小半島，有短步道和海員紀念碑；天晴可以望到瓦特納冰川的冰舌，是鎮上看日落的地方。",stay:"約 30 分鐘",hours:"全日",closed:"—",ticket:"免費",book:"不用",when:"日落前 20 分鐘到",photo:"小山頂望港口和冰川",w:["只走步道，風大帶外套"]},
 vikf:{t:"Víkurfjara 維克黑沙灘",park:"Vík 鎮海邊停車場，免費",d:"Vík 鎮前面的黑沙灘，望到 Reynisdrangar 海蝕柱，人比 Reynisfjara 少。",stay:"30–45 分鐘",hours:"全日",closed:"—",ticket:"免費",book:"不用",when:"傍晚",photo:"沙灘西端望 Reynisdrangar 海蝕柱",w:["同 Reynisfjara 一樣會有突發大浪，遠離水邊、不要背向大海"]},
-husah:{t:"胡薩維克港口（賞鯨報到）",park:"港口公眾停車場，賞鯨公司售票處在港口邊",d:"按確認信時間去售票處報到，換保暖連身衣；港口旁有賞鯨博物館和咖啡店。",stay:"報到約 15–30 分鐘",hours:"按確認信",closed:"—",ticket:"已包括在賞鯨團",book:"已預約",when:"開船前",photo:"港口和木教堂",w:["暈浪的話上船前食暈浪丸"]},
+husah:{t:"胡薩維克港口",park:"港口公眾停車場",d:"北部漁港小鎮，港口有彩色木屋、Húsavíkurkirkja 木教堂和鯨魚博物館，望 Skjálfandi 海灣。",stay:"約 40 分鐘",hours:"全日",closed:"—",ticket:"免費",book:"不用",when:"GeoSea 開門前",photo:"港口望木教堂",w:["海邊風大，帶外套"]},
 trollb:{t:"Troll Expeditions 斯卡夫塔山基地",park:"基地旁停車場（斯卡夫塔山遊客中心附近；Google Maps 搜「Troll Expeditions Skaftafell」）",d:"冰川健行＋攀冰在這裡集合，派冰爪、安全帶和頭盔，導遊講安全須知後出發。",stay:"報到約 20 分鐘",hours:"按確認信時間",closed:"天氣差會取消",ticket:"已包括在團費",book:"已預約",when:"開團前 20 分鐘到",photo:"—",w:["著防水外套褲、行山鞋，帶手套"]},
 skool:{t:"Skool Beans 校巴咖啡店",park:"店旁停車場，免費",d:"Vík 鎮上開在舊校巴裡面的精品咖啡店，有熱朱古力、湯和蛋糕。",stay:"約 30–40 分鐘",hours:"星期三至五 09:00–15:00；星期六、日 09:00–17:00；星期一、二休息（Google Maps，現時時間）",closed:"星期一、二",ticket:"—",book:"不用",when:"D8（9/19 星期日）到 Vík 之後",photo:"校巴外面",w:["9 月時間可能不同，出發前再看 Google Maps"]},
 seyd:{t:"藍色教堂（Seyðisfjörður）",park:"教堂旁路邊或鎮中心停車場，免費",d:"峽灣小鎮裡的淺藍色木教堂，前面是彩虹步道。",stay:"45–60 分鐘",hours:"教堂內部星期一至五 13:00–16:00 開放，週末不開（Google Maps）；外觀和彩虹街隨時可看",closed:"星期六、日內部不開放",ticket:"免費",book:"不用",when:"任何時間；不用等教堂開門",photo:"站在彩虹步道起點，正面對住教堂",w:["要翻過 Fjarðarheiði 山口，常有霧，慢駛"],alt:"Hengifoss 瀑布（要行山約 1.5–2 小時）"},
@@ -105,7 +105,7 @@ perlan:{t:"Perlan 博物館",park:"Perlan 門口停車場；沒有車就坐巴�
  costco:{t:"Costco（Garðabær）",park:"Costco 門口大停車場，免費；油站在停車場旁",d:"冰島油價最便宜的地方之一，也適合一次過買早餐材料、零食和飲品。",stay:"45–60 分鐘",hours:"網上查不到可靠資料，出發前上 costco.is 確認",closed:"要確認",ticket:"要 Costco 會員卡",book:"不用",when:"上午",w:["一般海外會員卡通用，出發前確認","以耐放的食物為主"]}
 }),
 /* 地點：景點關鍵字 */
-SPKW:{seydt:/^Seyðisfjörður 塞濟斯菲厄澤：/,osland:/^日落：Ósland/,vikf:/^Víkurfjara/,husah:/碼頭報到/,trollb:/Troll Expeditions Skaftafell 報到/,skool:/^Skool Beans/,nakano:/^Nakano/,k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,viti:/^Víti/,grjo:/^Grjótagjá/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,dett:/黛提瀑布/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/蝙蝠山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,raufar:/熔岩隧道|Raufarhólshellir/,hvera:/Hveragerði/,costco:/Costco/},
+SPKW:{seydt:/^Seyðisfjörður 塞濟斯菲厄澤：/,osland:/^日落：Ósland/,vikf:/^Víkurfjara/,husah:/^Húsavík 胡薩維克港口散步/,trollb:/Troll Expeditions Skaftafell 報到/,skool:/^Skool Beans/,nakano:/^Nakano/,k16:/入住 K16/,perlan:/^Perlan/,lavash:/^Lava Show/,laugd:/Laugardalslaug/,grotta:/^Grótta/,midh:/入住 Miðhraun/,husmal:/書店酒吧/,gear:/買徒步補給/,sund:/Sundhöllin/,grab:/Grábrók/,glaum:/Glaumbær/,klaus:/Kirkjubæjarklaustur：/,fjall:/^Fjallsárlón/,hof:/Hofskirkja/,bl:/藍湖（預約/,graik:/早餐：Grái/,icemem:/Iceland Memories/,hall:/哈爾格林姆/,nauth:/Nauthólsvík/,volc:/Þríhnúkagígur/,ytri:/Ytri Tunga/,budir:/布迪爾/,djup:/Djúpalónssandur/,ingj:/Ingjaldshól/,kirk:/草帽山/,borg:/Settlement Center/,stykk:/Stykkishólmskirkja/,kolu:/Kolugljúfur/,husa:/^賞鯨/,geosea:/GeoSea/,viti:/^Víti/,grjo:/^Grjótagjá/,leir:/Leirhnjúkur/,goda:/^眾神瀑布/,hver:/Hverir 地熱區/,dett:/黛提瀑布/,seyd:/藍色教堂/,gufu:/^Gufufoss/,fask:/Fáskrúðsfjörður 法國/,egg:/蛋雕塑/,hvaln:/^Hvalnes/,hofn:/到赫本/,vest:/蝙蝠山/,jok:/冰河湖獨木舟/,diam:/鑽石沙灘/,skaf:/冰川健行/,svart:/Svartifoss/,eld:/埃爾德熔岩原/,fjad:/羽毛峽谷/,reyn:/雷尼斯黑沙灘/,dyr:/^迪霍拉里/,solh:/Sólheimajökull/,skog:/斯科加爾瀑布/,skal:/騎馬/,selj:/水簾洞瀑布/,gull:/黃金瀑布/,geys:/間歇泉/,silf:/Silfra 浮潛/,thing:/Þingvellir/,skyl:/^Sky Lagoon/,raufar:/熔岩隧道|Raufarhólshellir/,hvera:/Hveragerði/,costco:/Costco/},
 /* 地點：停車場導航 */
 PQ:{grab:"Grábrók parking",glaum:"Glaumbær museum parking",klaus:"Kirkjubæjarklaustur",gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",dett:"Dettifoss west parking",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",raufar:"Raufarhólshellir",hvera:"Hveragerði",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"},
 /* 地點：日出 */
@@ -147,7 +147,7 @@ PRECHK:[
  ["離線地圖","Google Maps 下載冰島離線區域（要分幾塊下載）；山區和東部峽灣有路段沒有訊號"],
  ["112 Iceland app＋safetravel.is","裝 app（遇事可以一鍵傳送位置）；在 safetravel.is 登記行程"],
  ["eSIM／數據","出發前裝好、測試"],
- ["8 月尾再確認","冰河湖獨木舟（9/17 有沒有團）、冰川健行（9/18）、賞鯨的天氣取消安排"],
+ ["8 月尾再確認","冰河湖獨木舟（9/17 有沒有團）、冰川健行（9/18）的天氣取消安排"],
  ["溫泉用品","泳衣、快乾毛巾（藍湖、Sky Lagoon 有得租，其他未必）"],
  ["轉插和充電","歐洲兩腳圓插（Type C／F，230V）；車用 USB 充電線"],
  ["預訂確認","截圖或離線儲存所有確認信"]],
@@ -155,7 +155,6 @@ PRECHK:[
 BOOK:[
  ["景點和體驗（必須預約）",[
   ["藍湖 Blue Lagoon","D1 9/12 13:00","bluelagoon.com","4–6 星期","時段價錢浮動，越早越便宜；市區取車後先去"],
-  ["胡薩維克 Húsavík 賞鯨（快艇 RIB）","D4 9/15 12:00","gentlegiants.is（GG2 Big Whale Safari）","2–4 星期","只是去觀鯨的人；選可以改期的"],
   ["冰河湖 Jökulsárlón 獨木舟","D6 9/17（時間有彈性）","Nonni Travel 頁面列出的冰河湖獨木舟團（預算用那個價）","1–2 個月","訂 9/17 上午稍晚至中午；確認有團（列明 5–9 月）"],
   ["Troll 冰川健行＋攀冰（斯卡夫塔山）","D7 9/18 約 10:00","troll.is/tour/skaftafell-ice-climbing-glacier-hike","1–2 個月","訂 9/18；天氣取消 Troll 會改期（改 9/19）或全數退款；後備：Sólheimajökull 攀冰（troll.is）"],
   ["Skálakot 騎馬","D9 9/20 12:30 左右（約 2 小時）","skalakot.com","2–4 星期","訂 9/20 12:30 左右"],
@@ -163,7 +162,7 @@ BOOK:[
   ["Sky Lagoon","D11 9/22 17:30","skylagoon.com","2–4 星期","選 17:30 時段"],
   ["Raufarhólshellir 熔岩隧道","D11 9/22 12:00（不去就不用訂）","官網或旅遊網站","1–2 星期","每個小時頭一班；約 1 小時"],["Fjallsárlón 冰浮","D8 9/19 09:15","fjallsarlon.is／+354 570 2700","2–4 星期","價錢要問"]]],
  ["建議預約",[
-  ["GeoSea 海水溫泉","D4 9/15（不觀鯨的人，或者全部人；待決定）","geosea.is","1 星期",""],
+  ["GeoSea 海水溫泉","D4 9/15 12:15（全部人）","geosea.is","1 星期",""],
   ]],
  ["餐廳訂位",[
   ["Messinn","D1、D11 晚餐","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
@@ -180,7 +179,7 @@ BOOK:[
   ["住宿","全程","Airbnb／酒店","越早越好","冰河湖一帶要連住兩晚"],
   ["旅遊保險","出發前","—","訂機票後","包取消、醫療、租車自負額"],
   ["safetravel.is 行程登記","出發前","safetravel.is","出發前一星期","免費"],
-  ["再確認：冰河湖獨木舟、冰川健行、賞鯨","2027 年 8 月尾","電郵或官網","—","確認有團、集合時間、天氣取消安排","2027-08-25"],
+  ["再確認：冰河湖獨木舟、冰川健行","2027 年 8 月尾","電郵或官網","—","確認有團、集合時間、天氣取消安排","2027-08-25"],
   ["Parka 月費＋登記車牌","取車後（9/12）","Parka app","—","兩部車都要登記；用完取消續訂","2027-09-12"],
   ["離線地圖＋112 Iceland app","出發前","Google Maps 離線區域、App Store／Google Play","出發前一星期","山區和東部峽灣有路段沒有訊號"],
   ["eSIM／數據","出發前","Síminn、Nova 或 eSIM 網站","出發前一星期",""]]]
@@ -196,6 +195,6 @@ PACK:[
  ["溫泉",[["泳衣",""],["快乾毛巾","藍湖、Sky Lagoon 有得租，其他未必"],["拖鞋",""],["防水袋","裝濕泳衣"],["護髮素","地熱水會令頭髮乾"]]],
  ["活動",[["太陽眼鏡和防曬","冰川反光好勁"],["Silfra 浮潛：厚底層衫褲和羊毛襪","著在乾衣入面"],["頭燈","夜晚行停車場"],["小背囊","冰川健行、行山用"]]],
  ["電子",[["歐洲兩腳插（Type C／F）","230V"],["尿袋",""],["車用 USB 充電線","兩部車各一條"],["相機和後備電池","冷天耗電快"]]],
- ["藥物和日用",[["個人藥物","放手提行李"],["暈浪藥","賞鯨快艇"],["潤唇膏、潤膚霜","天氣好乾"],["膠布、止痛藥",""]]],
+ ["藥物和日用",[["個人藥物","放手提行李"],["暈浪藥","長途車程"],["潤唇膏、潤膚霜","天氣好乾"],["膠布、止痛藥",""]]],
  ["車上",[["保冷袋","每部車一個"],["水瓶","水喉水可以直接喝"],["零食",""],["垃圾袋、濕紙巾",""]]]]
 };
