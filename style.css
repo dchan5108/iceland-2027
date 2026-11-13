@@ -3249,3 +3249,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tbtns>a.troute.tlink svg{display:none}
 .tbtns .tfull2{margin-left:auto}
 .thero .tbtns{margin-bottom:0!important}
+/* 主卡一律無邊框（與行程頁時間表一致），靠卡片底色和頁面底色分層 */
+.tcard,.hcard,.glance,.fcd,.dsum2.dsB,#panel .dsum2.dsB,#todayIn .tdsB,#budget .bstat,#budget .bsec,#budget .bdash>div:not([class]),#mroute,#homeMapSlot{border:0!important}
+.ovhero .fcd{border-top:1px solid var(--line)!important}
+#panel .today{border-radius:20px!important}
+#budget .bbar,#budget li{border:0!important;background:var(--bg)!important}
