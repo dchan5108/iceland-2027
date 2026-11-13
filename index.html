@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-gl1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-tg1">
 
 </head>
 <body>
@@ -2737,13 +2737,13 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
       if(dep==null)dep=ts.length?ts[ts.length>1&&!el.classList.contains("drv")&&!box.closest(".depline")?1:0]:last;if(dep==null)return;
       let nxt=null;for(let j=ix+1;j<kids.length;j++){if(kids[j].classList.contains("t")){const x=this.tm(kids[j].textContent);if(x.length){nxt=x[0];break}}}
       if(nxt==null)return;const gap=(nxt-dep+1440)%1440,b=+sp.dataset.b,m=+sp.dataset.m;
-      if(b>gap&&gap>=m-5){const over=b-gap;late.push(over);sp.insertAdjacentHTML("afterend",`<span class="alrt rushA noen" title="按行程預算車程計，會比下一項時間遲">行程預算會遲 ${this.fm(over)}</span>`)}});
+      if(b-gap>=15&&gap>=m-5){const over=b-gap;late.push(over);sp.insertAdjacentHTML("afterend",`<span class="alrt rushA noen" title="按行程預算車程計，同下一項之間緩衝唔夠">時間偏緊 ${this.fm(over)}</span>`)}});
     const mx=late.length?Math.max(...late):0,rushed=mx>=30||late.length>=3;
-    const warn=[late.length?`按行程預算計 ${late.length} 段會遲，最多 ${this.fm(mx)}${rushed?"・偏趕":""}`:"",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean).join("；");
+    const warn=[late.length?`按行程預算：${late.length} 段時間偏緊，最多差 ${this.fm(mx)}`:"",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean).join("；");
     const art=sc.closest("article.day"),dd=art?+art.dataset.d:NaN,x=(window.TRIP.DLY||{})[dd],E=DOCX.esc;
     const dly=x?`<details class="dlyx"><summary>⏱ 遲 20–40 分鐘點算</summary><p><b>必去：</b>${x.m.map(E).join("、")}</p><p><b>可彈性：</b>${x.o.map(E).join("、")}</p><ol>${x.s.map(v=>`<li>${E(v)}</li>`).join("")}</ol><p><b>到達：</b>${E(x.i)}</p><p class="dlyn">只係建議，行程同活動時間唔會自動改。</p></details>`:"";
     const seg=`<span class="drvseg" title="導航時間：Google Maps 原始預計行車時間；行程預算：按當日行程鬆緊、景點數量同活動安排加入緩衝後嘅規劃車程"><span class="dsl">車程</span><span class="seg"><button type="button" data-drvbuf="0" title="Google Maps 原始預計行車時間">導航時間</button><button type="button" data-drvbuf="1" title="按當日行程鬆緊、景點數量同活動安排加入緩衝後嘅規劃車程">行程預算</button></span></span>`;
-    const tail=`${seg}${warn?`<small class="dwarn">⚠ ${E(warn)}</small>`:""}${dly}`;
+    const tail=`${seg}${warn?`<small class="dwarn${late.length&&!hot.length?" rushA":""}">${E(warn)}</small>`:""}${dly}`;
     const host=art?art.querySelector(":scope>.golin.g1"):null;
     if(host&&!host.querySelector(".drvseg")){host.classList.add("drvc");const lt=host.querySelector("b.late");if(lt)lt.title="最遲出發只係提醒，唔會自動改行程";host.insertAdjacentHTML("beforeend",tail)}
     else sc.insertAdjacentHTML("beforebegin",`<div class="golin g1 drvc noen">${tail}</div>`)});

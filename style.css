@@ -3332,3 +3332,6 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
   .golin.g1.drvc{gap:6px 8px}
   .drvseg .seg button{padding:3px 8px;font-size:11.5px}
 }
+
+.golin.drvc .dwarn{color:#a35d12!important}
+.sched.rich .alrt.rushA{background:color-mix(in srgb,#e08a2e 14%,transparent)!important;color:#a35d12!important}
