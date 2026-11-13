@@ -142,7 +142,7 @@
 <script src="trip.js?v=2026-11-14-dep2"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
-<script src="data.js?v=2026-11-14-nw1"></script>
+<script src="data.js?v=2026-11-14-dep3"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -540,7 +540,7 @@ const UR=a=>(a=String(a).replace(/⟦#\d+⟧/g,""),(DT||REAL)?a.replace(/[⟦⟧
 const shl=(x,n)=>n?String(x).replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{const t=((+h*60+ +mi+n)%1440+1440)%1440;return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}):x;
 const DSH=d=>{if(!DT)return 0;const n=parseInt(store.get("iceland-shift-d"+d)||"0",10);return isNaN(n)?0:n};
 const EP=(plan,n=0)=>plan.filter(r=>DT||r[2]!=="y").map(([t,a,f])=>[shl(shiftClock(t),n),hr(shiftBook(UR(DT?a:a.replace(/：Dorcas & Tebe[^；]*；/,"：").replace(/；Dorcas & Tebe[^；]*/,"")))),f]);
-const depI=pl=>{const f=rx=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1]));const i=f(/出發|取車/);return i>=0?i:f(/退房/)};
+const depI=pl=>{const f=(rx,y)=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1])&&(y||r[2]!=="y"));/* 「y」＝只有部分人去的早起支線，不當全團出發 */let i=f(/出發|取車/);if(i<0)i=f(/退房/);return i>=0?i:f(/出發|取車/,1)};
 const toM=t=>{const [h,m]=t.split(":").map(Number);return h*60+m},toT=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
 /* 自理早餐不顯示（指明去哪間吃先顯示） */
 const BFX=r=>Array.isArray(r)&&/^早餐：/.test(String(r[1]))&&!/Grái Kötturinn|Ketilkaffi/.test(String(r[1]));
