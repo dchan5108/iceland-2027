@@ -3364,3 +3364,15 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich .drvdet li b{white-space:nowrap;flex:none}.sched.rich .drvdet li span{min-width:0}
 .carchip{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11.5px;font-weight:700;background:color-mix(in srgb,var(--route) 14%,transparent);color:var(--route);vertical-align:middle}
 .carchip{white-space:nowrap}
+
+/* 出發格：車程切換收埋 */
+.golin.drvc .drvx{margin-left:auto}
+.golin.drvc .drvx>summary{list-style:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);padding:2px 9px;border-radius:999px;background:var(--card)}
+.golin.drvc .drvx>summary::-webkit-details-marker{display:none}
+.golin.drvc .drvx>summary::after{content:" ▾";font-size:10px}
+.golin.drvc .drvx[open]{flex-basis:100%;margin-left:0}
+.golin.drvc .drvx[open]>summary::after{content:" ▴"}
+.golin.drvc .drvxb{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:6px}
+.golin.drvc .drvxb .drvseg{margin-left:0}
+.golin.drvc .drvxb .dwarn{flex-basis:100%}
+.golin.drvc .drvx>summary{display:inline-block}
