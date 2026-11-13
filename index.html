@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-d4s2"></script>
+<script src="trip.js?v=2026-11-14-d4s3"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
 <script src="data.js?v=2026-11-14-d4s2"></script>
@@ -2820,8 +2820,10 @@ const DRV={on:REAL&&drv==="buf",
     this.show(root)}};
 /* 車程資訊預設收起：出發行只顯示「出發時間 → 目的地」，撳「車程詳情」先見導航時間同預留行車時間（行程預算）；資料同計算唔變 */
 const DRVF={
-  dest(a,kids,ix){for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const n=x.querySelector(".tl-n");if(n){const t=n.textContent.replace(/^[\s\d]+/,"").split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
-  fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];let prevDrv=false;kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const hadDrv=prevDrv;prevDrv=false;
+  car:a=>((a.dataset.raw||a.textContent).match(/第[一二]部車/)||[""])[0],
+  dest(a,kids,ix){const c=this.car(a);for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const cx=this.car(x);if(c&&cx&&cx!==c)continue;   /* 分車：跳過另一部車嘅行 */
+      const n=x.querySelector(".tl-n");if(n){let s0=n.textContent.replace(/^[\s\d]+/,"");if(/^[早午晚]餐[：:]/.test(s0))s0=s0.replace(/^[早午晚]餐[：:]\s*/,"")+" 食飯";const t=s0.split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
+  fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];const pd={};kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const cr=this.car(a)||"*",hadDrv=!!(pd[cr]||(cr!=="*"&&pd["*"]));pd[cr]=false;if(cr==="*")Object.keys(pd).forEach(k=>pd[k]=false);let prevDrv=false;
     let host=null,sp=null,notes="",al=null,txt="";const dest=this.dest(a,kids,ix);
     /* 分車：行內文字有「第一部車／第二部車」就喺標題加小標籤 */
     {const cm=(a.dataset.raw||a.textContent).match(/第[一二]部車/),h=a.querySelector(".tl-h");if(cm&&h&&!h.querySelector(".carchip"))h.insertAdjacentHTML("beforeend",`<span class="carchip noen">${cm[0]}</span>`)}
@@ -2835,7 +2837,7 @@ const DRVF={
     const isDep=!!host;a.querySelectorAll(".tl-m").forEach(m=>{if(!/車程約/.test(m.textContent))return;const s2=m.querySelector(".dtm");if(!sp&&s2)sp=s2;if(!txt)txt=(m.textContent.match(/車程約[^·]*/)||[""])[0];
       if(s2){const pv=s2.previousSibling;if(pv&&pv.nodeType===3)pv.textContent=pv.textContent.replace(/\s*·\s*$/,"");s2.remove()}else m.textContent=m.textContent.replace(/\s*·?\s*車程約[^·]*/,"");
       m.querySelectorAll(".alrt.rushA").forEach(x=>{al=al||x;x.remove()});if(!m.textContent.trim())m.remove();if(!host)host=a.querySelector(".tl-h")});
-    if(isDep)prevDrv=true;if(!isDep&&hadDrv)return;   /* 上一行已經有出發／開車行：到達行唔再重複 */
+    if(isDep){prevDrv=true;pd[cr]=true}if(!isDep&&hadDrv)return;   /* 上一行已經有出發／開車行：到達行唔再重複 */
     if(!host||(!sp&&!/約/.test(txt)))return;
     const E=DOCX.esc,fm=DRV.fm.bind(DRV),L=[];
     if(sp&&(DT||REAL)){L.push(`<li><span>Google Maps 導航時間</span><b>約 ${fm(+sp.dataset.m)}</b></li>`,`<li title="${E(sp.title||"")}"><span>預留行車時間（行程預算）</span><b>約 ${fm(+sp.dataset.b)}</b></li>`)}
