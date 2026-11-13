@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-gl5">
+<link rel="stylesheet" href="style.css?v=2026-11-13-map2">
 
 </head>
 <body>
@@ -2325,7 +2325,7 @@ function view(v){
   $("home").hidden=v!=="home";$("today").hidden=v!=="today";$("view-trip").hidden=v!=="trip";$("prep").hidden=!(v==="prep"||v==="budget");$("tips").hidden=v!=="links";$("stays").hidden=false;if(v==="prep"&&(PSUB==="stay"||PSUB==="book"))try{renderStays()}catch(e){}
   $("prep").classList.toggle("budonly",v==="budget");
   [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});
-  {const mc=$("mapcol");if(mc){if(v==="home"){const ht=$("homeMap");if(ht&&mc.parentElement!==ht){ht.appendChild(mc)}}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
+  {const mc=$("mapcol");if(mc){if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}}
   if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else if(!L.includes(TODAY.d))TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:DT,now:nowIS()})}catch(e){}}
@@ -2359,6 +2359,10 @@ function TIPMOVE(){try{renderTips()}catch(e){return}const pn=k=>$("tc-"+k),wrap=
   if(pg==="prep"){wrap("prepKnow","📖","出發須知","know")}
   if(pg==="budget"){wrap("budSave","💡","省錢貼士","save")}}
 const HPHASE=()=>{const t=nowIS(),st=DT?Date.UTC(2027,8,5):Date.UTC(2027,8,12),en=Date.UTC(2027,8,24);return t>=en?1:t>=st?3:t>=st-7*864e5?2:1};
+/* 總覽地圖：行程未定，暫時只放冰島輪廓（用 data.js 海岸線），不畫路線和地點；將來換插畫地圖 */
+function ovSil(){try{const C=DATA.coast,k=Math.cos(65*Math.PI/180),P=C.map(([x,y])=>[x*k,-y]),xs=P.map(p=>p[0]),ys=P.map(p=>p[1]),x0=Math.min(...xs),y0=Math.min(...ys),w=Math.max(...xs)-x0,h=Math.max(...ys)-y0,S=100/w;
+  const Q=P.map(p=>[(p[0]-x0)*S+6,(p[1]-y0)*S+6]),f=v=>v.toFixed(1),mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2],m0=mid(Q[Q.length-1],Q[0]),d=`M${f(m0[0])} ${f(m0[1])}`+Q.map((p,i)=>{const m=mid(p,Q[(i+1)%Q.length]);return `Q${f(p[0])} ${f(p[1])} ${f(m[0])} ${f(m[1])}`}).join("")+"Z",H=(h*S+12).toFixed(1);
+  return `<div class="ovsil"><svg viewBox="0 0 112 ${H}" role="img" aria-label="冰島輪廓"><defs><linearGradient id="ovsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sil1)"/><stop offset="1" stop-color="var(--sil2)"/></linearGradient></defs><path d="${d}" fill="url(#ovsg)" stroke="var(--sil3)" stroke-width=".5" stroke-linejoin="round"/></svg><div class="ovsil-t"><b>Iceland</b><span>路線地圖會在行程確定後加上</span></div></div>`}catch(e){return ""}}
 function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mode="";{const mc=$("mapcol");if(mc&&box.contains(mc))($("homeMap")||$("view-trip")).appendChild(mc)}
   let TD=null;try{TD=todayDay()}catch(e){}const T0=Date.UTC(2027,8,12),dd=Math.ceil((T0-nowIS())/864e5),N=days.filter(x=>x.d>=1).length;
   const prog=TD&&TD.d>=1?`<div class="hbig">第 ${TD.d} 日<small> / ${N} 日</small></div><div class="hbar"><i style="width:${Math.round(TD.d/N*100)}%"></i></div>`:dd>0?`<div class="hbig">${dd}<small> 日後出發</small></div><div class="hbar"><i style="width:0%"></i></div>`:`<div class="hbig">旅程完成</div>`;
@@ -2396,7 +2400,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mo
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
   box.innerHTML=`${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${PH===2?`<div id="homeKnow"></div>`:""}${ovPlan()}${LINKS}`;
-  {const sl=$("homeMapSlot"),mc=$("mapcol");if(sl&&mc){sl.appendChild(mc);requestAnimationFrame(()=>{try{drawMap();fit({x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60})}catch(e){}})}}
+  {const sl=$("homeMapSlot");if(sl)sl.innerHTML=ovSil()}
   box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
 /* 首頁「今日要做」：出發前＝最急的 3 件任務＋下一個重要日子；旅程期間＝今日有預約的活動 */

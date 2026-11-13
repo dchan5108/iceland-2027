@@ -3176,3 +3176,19 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 @media (max-width:420px){.glst b{font-size:26px}.glst b.sm{font-size:20px;line-height:31px}.glst small{font-size:10.5px}}
 @media (max-width:520px){.glst small{line-height:1.35}.glst small span{display:block}}
 .glst small i{font-style:normal}@media (max-width:520px){.glst small i{display:none}}
+/* ===== 總覽地圖：暫時用冰島輪廓 ===== */
+:root{--sil1:#dfeaf0;--sil2:#c4d8e3;--sil3:#9fbccc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sil1:#2a465a;--sil2:#1f3a4d;--sil3:#3f6178}}
+:root[data-theme="dark"]{--sil1:#2a465a;--sil2:#1f3a4d;--sil3:#3f6178}
+#homeMap{display:none!important}
+#home .ovmap{padding:0!important;min-height:0!important;height:auto!important;overflow:hidden}
+.ovsil{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;padding:28px 20px 22px;box-sizing:border-box;background:radial-gradient(90% 70% at 50% 40%,color-mix(in srgb,var(--route) 7%,transparent),transparent 70%)}
+.ovsil svg{width:100%;max-width:300px;height:auto;filter:drop-shadow(0 6px 14px rgba(20,40,58,.12))}
+.ovsil-t{display:grid;justify-items:center;gap:3px;text-align:center}
+.ovsil-t b{font:700 13px Georgia,"Noto Serif TC",serif;letter-spacing:.32em;text-transform:uppercase;color:var(--fg)}
+.ovsil-t span{font-size:12px;color:var(--muted)}
+@media (min-width:1000px){
+  #home #homeTop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-areas:"hero map" "plan plan"!important;align-items:stretch!important}
+  #home .ovmap{position:static!important;height:auto!important}
+  #home .ovsil svg{max-width:400px}}
+@media (max-width:999px){.ovsil{padding:20px 20px 18px;gap:10px}.ovsil svg{max-width:250px}}
