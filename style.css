@@ -3240,3 +3240,4 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #budget .bdash>div:not([class]){border:1px solid var(--line)!important;box-shadow:none!important;border-radius:20px!important}
 #mroute{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 4px 14px rgba(20,40,58,.10)!important;backdrop-filter:none!important;padding:14px 16px!important}
 #budget *:not(.you){box-shadow:none!important}
+.tbtns>button,.tbtns>a.troute{height:40px;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;line-height:1}.tbtns>a.troute svg{color:var(--route)}
