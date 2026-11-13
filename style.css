@@ -3296,3 +3296,6 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich .alrt.rushA{background:color-mix(in srgb,#d9534f 14%,transparent)!important;color:#b23a36!important}
 .sched.rich .alrt.hotA{background:color-mix(in srgb,#e08a2e 16%,transparent)!important;color:#a35d12!important}
 .sched.rich .dtm.bufd{color:#b5651d!important}
+/* 日子標題（D2 · 9月13日）做主標題；卡內地點名細一級 */
+.day h3>span:first-child{font-size:1.3rem}
+.dsum2 .dhR{font-size:16.5px!important;font-weight:700!important}
