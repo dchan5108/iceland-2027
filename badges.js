@@ -33,6 +33,7 @@ const has=id=>{const v=S[id];if(v===0)return false;if(v===1||typeof v==="string"
 const when=id=>{const v=S[id];const d=typeof v==="string"?v:v==null&&AUTO[id]?AUTO[id]:"";const m=d.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[1]} 年 ${+m[2]} 月 ${+m[3]} 日`:""};
 const OK="iceland-bc-open";let OPEN=true;try{OPEN=localStorage.getItem(OK)!=="0"}catch(e){}
 let FRESH=null;
+const count=()=>{const m=DEF.filter(b=>b[1]!=="secret");return `${m.filter(b=>has(b[0])).length}/${m.length}`};
 /* ===== 琺瑯徽章圖案：金屬邊框＋金線掐絲（cloisonné）＋琺瑯光澤 ===== */
 let U=0;
 /* 每款：[底色上, 底色下, 場景(u, O＝金線組開頭)] */
@@ -72,7 +73,7 @@ function art(b,sz){const a=ART[b[0]];if(!a)return "";const u="bp"+(++U),O=`<g st
 <path d="M91 60A42 42 0 0 1 62 91" stroke="#3d2a10" stroke-width="1.4" fill="none" opacity=".35" stroke-linecap="round"/></svg>`}
 const Q=`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="qr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9aa6ae"/><stop offset=".5" stop-color="#4c5862"/><stop offset="1" stop-color="#8b979f"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#qr)"/><circle cx="50" cy="50" r="41" fill="#1b2832"/><circle cx="50" cy="50" r="41" fill="none" stroke="#6d7a84" stroke-width="1"/><text x="50" y="63" text-anchor="middle" font-size="36" font-family="Georgia,serif" fill="#6d7a84">?</text></svg>`;
 function render(){if(!hostEl||!hostEl.isConnected)return;const main=DEF.filter(b=>b[1]!=="secret"),got=main.filter(b=>has(b[0])).length,sec=DEF.filter(b=>b[1]==="secret"&&has(b[0])).length;
- hostEl.innerHTML=`<button type="button" class="bc-h" data-bctog aria-expanded="${OPEN}"><span class="glk">冒險徽章</span><span class="bc-n">${got}/${main.length}${sec?` ・隱藏 +${sec}`:""}<i class="bc-cv" aria-hidden="true">›</i></span></button><div class="bc-bar"><i style="width:${(got/main.length*100).toFixed(0)}%"></i></div>`+
+ document.querySelectorAll("[data-bccount]").forEach(x=>x.textContent=count());hostEl.innerHTML=`<button type="button" class="bc-h" data-bctog aria-expanded="${OPEN}"><span class="glk">冒險徽章</span><span class="bc-n">${got}/${main.length}${sec?` ・隱藏 +${sec}`:""}<i class="bc-cv" aria-hidden="true">›</i></span></button><div class="bc-bar"><i style="width:${(got/main.length*100).toFixed(0)}%"></i></div>`+
  (OPEN?`<div class="bc-body">`+Object.keys(CAT).map(c=>`<div class="bc-cat">${CAT[c]}</div><div class="bc-g">${DEF.filter(b=>b[1]===c).map(b=>{const on=has(b[0]),hid=c==="secret"&&!on;return `<button type="button" class="bc-b${on?"":" lk"}${FRESH===b[0]?" new":""}" data-bdg="${b[0]}">${hid?Q:art(b,76)}<span>${hid?"？？？":b[2]}</span></button>`}).join("")}</div>`).join("")+`</div>`:"")+(X.note?`<p class="bc-note">${X.note}</p>`:"");FRESH=null}
 const ERR={login:"未登入，請先用 Gmail 登入。",sess:"登入已過期，請重新登入一次。",admin:"只有管理員可以更改徽章。",old:"Apps Script 未更新到最新版本（v10）。",server:"伺服器出錯，未能儲存（Apps Script 可能要重新部署或授權）。",net:"網絡連線失敗，未能儲存。",id:"徽章代號不正確。"};
 async function call(body){const sk=localStorage.getItem("iceland-gsk");if(!sk||!X.url)throw new Error("login");let r,j;
@@ -88,7 +89,7 @@ function open(id){const b=DEF.find(x=>x[0]===id);if(!b)return;const on=has(id),h
   try{const m=await call({op:"bset",id:i,v:v===""?null:+v});if(v==="1"&&!(m[i]===1||typeof m[i]==="string"))throw new Error("server");if(v==="1")FRESH=i;save(m);msg.className="bc-msg ok";msg.textContent=v==="1"?"已解鎖，全團同步。":v==="0"?"已撤銷，全團同步。":"已回復自動。";setTimeout(()=>{try{d.close()}catch(x){}},900)}
   catch(er){msg.className="bc-msg bad";msg.textContent="儲存失敗："+(ERR[er.message]||er.message);d.querySelectorAll("[data-bset]").forEach(x=>x.disabled=false)}});
  d.showModal()}
-document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest("[data-bctog]");if(g){OPEN=!OPEN;try{localStorage.setItem(OK,OPEN?"1":"0")}catch(x){}render();return}const t=e.target.closest&&e.target.closest("[data-bdg]");if(t)open(t.dataset.bdg)});
+document.addEventListener("click",e=>{const go=e.target.closest&&e.target.closest("[data-bcgo]");if(go){if(!OPEN){OPEN=true;try{localStorage.setItem(OK,"1")}catch(x){}render()}const h=document.getElementById("badgeBox");if(h)h.scrollIntoView({behavior:"smooth",block:"start"});return}const g=e.target.closest&&e.target.closest("[data-bctog]");if(g){OPEN=!OPEN;try{localStorage.setItem(OK,OPEN?"1":"0")}catch(x){}render();return}const t=e.target.closest&&e.target.closest("[data-bdg]");if(t)open(t.dataset.bdg)});
 /* 旅程中（今日頁）：有新徽章解鎖就彈一個小提示，不顯示整個收集冊 */
 function toast(b){const t=document.createElement("div");t.className="bc-toast";t.innerHTML=`${art(b,40)}<div><small>解鎖新徽章</small><b>${b[2]}</b></div>`;document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("in"));setTimeout(()=>{t.classList.remove("in");setTimeout(()=>t.remove(),400)},4200)}
 async function ping(ctx){X=Object.assign(X,ctx||{});try{save(await call({op:"badges"}))}catch(e){}let seen=null;try{seen=JSON.parse(localStorage.getItem("iceland-bc-seen")||"null")}catch(e){}
@@ -110,8 +111,10 @@ const css=`.bc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)
 .bc-b.new svg{animation:bcpop .7s cubic-bezier(.2,.9,.3,1.3)}@keyframes bcpop{0%{transform:scale(.6);opacity:.3}60%{transform:scale(1.08)}100%{transform:none}}
 .bc-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;z-index:9000;display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;background:#14283a;color:#f4ecd8;box-shadow:0 10px 30px rgba(0,0,0,.3);transition:all .35s ease}.bc-toast.in{opacity:1;transform:translate(-50%,0)}.bc-toast svg{width:40px;height:40px}.bc-toast small{display:block;font-size:10.5px;letter-spacing:.14em;color:#d9b56a}.bc-toast b{font:700 15px Georgia,"Noto Serif TC",serif}
 @media (max-width:420px){.bc-g{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 4px}.bc-b svg{width:64px;height:64px}.bc-b span{font-size:11px}}
-@media (prefers-reduced-motion:reduce){.bc-b.new svg,.bc-toast{animation:none;transition:none}}`;
+@media (prefers-reduced-motion:reduce){.bc-b.new svg,.bc-toast{animation:none;transition:none}}
+.ovbc{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--fg);font:600 13.5px system-ui,sans-serif;cursor:pointer}.ovbc b{margin-left:auto;font:700 15px Georgia,serif;color:#a5803c}.ovbc i{font-style:normal;color:var(--muted)}
+#badgeBox{scroll-margin-top:16px}`;
 try{const st=document.createElement("style");st.textContent=css;document.head.appendChild(st)}catch(e){}
 /* ctx: {url, admin, now} */
-window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping};
+window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping,count};
 })();
