@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-sim3">
+<link rel="stylesheet" href="style.css?v=2026-11-14-fold2">
 
 </head>
 <body>
@@ -2818,7 +2818,32 @@ const DRV={on:REAL&&drv==="buf",
     if(host&&!host.querySelector(".drvseg")){host.classList.add("drvc");const lt=host.querySelector("b.late");if(lt)lt.title="最遲出發只係提醒，唔會自動改行程";host.insertAdjacentHTML("beforeend",tail)}
     else sc.insertAdjacentHTML("beforebegin",`<div class="golin g1 drvc noen">${tail}</div>`)});
     this.show(root)}};
-try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}}}catch(e){}
+/* 車程資訊預設收起：出發行只顯示「出發時間 → 目的地」，撳「車程詳情」先見導航時間同預留行車時間（行程預算）；資料同計算唔變 */
+const DRVF={
+  dest(a,kids,ix){for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const n=x.querySelector(".tl-n");if(n){const t=n.textContent.replace(/^[\s\d]+/,"").split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
+  fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];let prevDrv=false;kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const hadDrv=prevDrv;prevDrv=false;
+    let host=null,sp=null,notes="",al=null,txt="";const dest=this.dest(a,kids,ix);
+    const dm=a.querySelector(".depline .depm");
+    if(dm){host=dm.closest(".depline");sp=dm.querySelector(".dtm");al=dm.querySelector(".alrt");txt=dm.textContent;
+      notes=[...dm.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join("").replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
+      const ic=dm.querySelector("svg");dm.innerHTML="";if(ic)dm.appendChild(ic);dm.insertAdjacentHTML("beforeend",`<span class="dgo">${dest?"前往 "+DOCX.esc(dest):"出發"}</span>`)}
+    else if(a.classList.contains("drv")){const g=a.querySelector("a.drvgo");if(g){host=g;sp=g.querySelector(".dtm");txt=g.textContent;const t=g.querySelector(".drvt");
+        [...g.childNodes].forEach(n=>{if(n.nodeType===3){notes+=n.textContent;n.remove()}});notes=notes.replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
+        if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=t.textContent.replace(/\s*·\s*$/,"")+(dest?` → ${dest}`:"")}}
+    const isDep=!!host;a.querySelectorAll(".tl-m").forEach(m=>{if(!/車程約/.test(m.textContent))return;const s2=m.querySelector(".dtm");if(!sp&&s2)sp=s2;if(!txt)txt=(m.textContent.match(/車程約[^·]*/)||[""])[0];
+      if(s2){const pv=s2.previousSibling;if(pv&&pv.nodeType===3)pv.textContent=pv.textContent.replace(/\s*·\s*$/,"");s2.remove()}else m.textContent=m.textContent.replace(/\s*·?\s*車程約[^·]*/,"");
+      m.querySelectorAll(".alrt.rushA").forEach(x=>{al=al||x;x.remove()});if(!m.textContent.trim())m.remove();if(!host)host=a.querySelector(".tl-h")});
+    if(isDep)prevDrv=true;if(!isDep&&hadDrv)return;   /* 上一行已經有出發／開車行：到達行唔再重複 */
+    if(!host||(!sp&&!/約/.test(txt)))return;
+    const E=DOCX.esc,fm=DRV.fm.bind(DRV),L=[];
+    if(sp&&(DT||REAL)){L.push(`<li><span>Google Maps 導航時間</span><b>約 ${fm(+sp.dataset.m)}</b></li>`,`<li title="${E(sp.title||"")}"><span>預留行車時間（行程預算）</span><b>約 ${fm(+sp.dataset.b)}</b></li>`)}
+    else{const m=String(txt).match(/約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim())}</b></li>`)}
+    if(al&&(DT||REAL))L.push(`<li class="dw">${al.outerHTML.replace(" hidden=\"\"","")}</li>`);
+    if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
+    if(!L.length)return;
+    host.insertAdjacentHTML("afterend",`<button type="button" class="drvtog noen" aria-expanded="false">車程詳情</button><ul class="drvdet noen" hidden>${L.join("")}</ul>`)})})}};
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".drvtog");if(!b)return;e.preventDefault();e.stopPropagation();const d=b.nextElementSibling,o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));if(d)d.hidden=!o},true);
+try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}try{DRVF.fold(r)}catch(e){console.error(e)}}}catch(e){}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();const y0=window.scrollY;setDrv(b.dataset.drvbuf==="1"?"buf":"raw");try{window.scrollTo(0,y0)}catch(err){}},true);
 
 

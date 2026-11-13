@@ -3350,3 +3350,15 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .simbox .siml li.ok em{color:#2e7d4f}.simbox .siml li.adj em{color:#a35d12}.simbox .siml li.bad em{color:#b23a36;font-weight:700}
 .simbox select{font-size:13px!important;padding:3px 6px!important;min-height:0!important;width:auto!important}
 .simbox .simseg{display:inline-flex;background:var(--card);border-radius:999px;padding:2px}.simbox .simseg button{border:0;background:none;font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:3px 9px;border-radius:999px;cursor:pointer}.simbox .simseg button[aria-pressed="true"]{background:var(--route);color:#fff}
+
+/* 車程詳情（預設收起） */
+.sched.rich .drvtog{display:inline-flex;align-items:center;gap:3px;margin:4px 0 0;padding:2px 9px;border:0;border-radius:999px;background:var(--fill);color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.sched.rich .drvtog::after{content:"▾";font-size:10px;transition:transform .15s}
+.sched.rich .drvtog[aria-expanded="true"]::after{transform:rotate(180deg)}
+.sched.rich .drvdet{list-style:none;margin:6px 0 2px;padding:8px 10px;border-radius:10px;background:var(--fill);font-size:12.5px;display:grid;gap:4px}
+.sched.rich .drvdet li{display:flex;justify-content:space-between;gap:10px;line-height:1.45}
+.sched.rich .drvdet li span{color:var(--muted)}
+.sched.rich .drvdet li.dn{color:var(--muted);display:block}
+.sched.rich .drvdet li.dw{display:block}
+.sched.rich .depline .dgo{font-weight:600}
+.sched.rich .drvdet li b{white-space:nowrap;flex:none}.sched.rich .drvdet li span{min-width:0}
