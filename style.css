@@ -3206,3 +3206,14 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tchips{display:flex!important;overflow-x:auto!important;max-width:calc(100% + 8px);min-width:0}
 .thero{min-width:0;max-width:100%}.thero>*{min-width:0;max-width:100%}.thero .tchips{width:100%;box-sizing:border-box;margin-left:0!important;margin-right:0!important}
 #today,#todayIn{min-width:0;max-width:100%}#todayIn{display:grid;grid-template-columns:minmax(0,1fr)}
+/* ===== 全站一致：卡片標題同一級、卡片外觀統一 ===== */
+:root{--fs-sec:17px}
+.thd2>b,.glh h3,.bc-h .glk,#bookp h3.bkh,.hrh b{font:700 var(--fs-sec)/1.3 Georgia,"Noto Serif TC","Songti TC",serif!important;color:var(--fg);letter-spacing:.01em;margin:0}
+.thd2{margin-bottom:12px}
+.glh{margin-bottom:16px}.glh small,.tsub{font:600 11px/1 system-ui,sans-serif!important;letter-spacing:.15em;color:var(--muted)!important;text-transform:none;margin-bottom:6px}
+.glk:before{display:none}
+.tcard,.hcard,.glance,.fcd{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:20px!important}
+.tcard,.hcard,.glance{padding:18px!important}
+.ovhero .fcd{border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;padding:12px 0 0!important}
+.thd2 small,.bc-n,.bc-cnt{font:600 12px system-ui,sans-serif;color:var(--muted)}
+.hlinks .thd2{margin-bottom:10px}

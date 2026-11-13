@@ -60,17 +60,17 @@ const ART={
 };
 function art(b,sz,lk){/* lk: true＝未收集（柔和霧面）；false＝已收集（飽和、亮面） */const a=ART[b[0]];if(!a)return "";const u="bp"+(++U),O=`<g stroke="url(#${u}g)" stroke-width=".9" stroke-linejoin="round">`;
  return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><defs>
-<linearGradient id="${u}r" x1=".15" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#fbeec4"/><stop offset=".22" stop-color="#d9b56a"/><stop offset=".5" stop-color="#8f6a2e"/><stop offset=".72" stop-color="#e6c983"/><stop offset="1" stop-color="#7a5624"/></linearGradient>
-<linearGradient id="${u}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3a8"/><stop offset=".5" stop-color="#c49a4c"/><stop offset="1" stop-color="#e9cf8c"/></linearGradient>
+${lk?`<linearGradient id="${u}r" x1=".15" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#f6f8fa"/><stop offset=".22" stop-color="#c3cad0"/><stop offset=".5" stop-color="#6c757d"/><stop offset=".72" stop-color="#d9dee2"/><stop offset="1" stop-color="#5d656c"/></linearGradient>`:`<linearGradient id="${u}r" x1=".15" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#fbeec4"/><stop offset=".22" stop-color="#d9b56a"/><stop offset=".5" stop-color="#8f6a2e"/><stop offset=".72" stop-color="#e6c983"/><stop offset="1" stop-color="#7a5624"/></linearGradient>`}
+${lk?`<linearGradient id="${u}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef1f3"/><stop offset=".5" stop-color="#9aa3aa"/><stop offset="1" stop-color="#d3d8dc"/></linearGradient>`:`<linearGradient id="${u}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3a8"/><stop offset=".5" stop-color="#c49a4c"/><stop offset="1" stop-color="#e9cf8c"/></linearGradient>`}
 <linearGradient id="${u}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a[0]}"/><stop offset="1" stop-color="${a[1]}"/></linearGradient>
 <radialGradient id="${u}v" cx=".5" cy=".42" r=".6"><stop offset=".72" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></radialGradient>
 <filter id="${u}t" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="${U%9}"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-<clipPath id="${u}c"><circle cx="50" cy="50" r="40.5"/></clipPath>${lk?`<filter id="${u}m"><feColorMatrix type="saturate" values=".72"/><feComponentTransfer><feFuncR type="linear" slope=".88" intercept=".08"/><feFuncG type="linear" slope=".88" intercept=".08"/><feFuncB type="linear" slope=".88" intercept=".09"/></feComponentTransfer></filter>`:`<filter id="${u}m"><feColorMatrix type="saturate" values="1.15"/></filter>`}</defs>
+<clipPath id="${u}c"><circle cx="50" cy="50" r="40.5"/></clipPath>${lk?`<filter id="${u}m"><feColorMatrix type="saturate" values=".9"/></filter>`:`<filter id="${u}m"><feColorMatrix type="saturate" values="1.15"/></filter>`}</defs>
 <circle cx="50.6" cy="51.4" r="48" fill="#000" opacity=".22"/>
 <circle cx="50" cy="50" r="48" fill="url(#${u}r)"/>
 <circle cx="50" cy="50" r="44.6" fill="none" stroke="#5a3f18" stroke-width=".6" opacity=".55"/>
 <circle cx="50" cy="50" r="43.4" fill="url(#${u}r)" transform="rotate(180 50 50)"/>
-<g clip-path="url(#${u}c)"><g filter="url(#${u}m)"><rect width="100" height="100" fill="url(#${u}b)"/>${a[2](u,O)}</g><rect width="100" height="100" fill="url(#${u}v)"/><rect width="100" height="100" fill="#fff" filter="url(#${u}t)"/>${lk?`<rect width="100" height="100" fill="#f4efe4" opacity=".12"/>`:`<path d="M14 38A38 38 0 0 1 60 11L62 18A32 32 0 0 0 22 42Z" fill="#fff" opacity=".26"/><path d="M66 14A38 38 0 0 1 84 30" stroke="#fff" stroke-width="2.2" fill="none" opacity=".45" stroke-linecap="round"/><ellipse cx="30" cy="26" rx="9" ry="4" transform="rotate(-35 30 26)" fill="#fff" opacity=".22"/>`}</g>
+<g clip-path="url(#${u}c)"><g filter="url(#${u}m)"><rect width="100" height="100" fill="url(#${u}b)"/>${a[2](u,O)}</g><rect width="100" height="100" fill="url(#${u}v)"/><rect width="100" height="100" fill="#fff" filter="url(#${u}t)"/>${lk?`<rect width="100" height="100" fill="#f4efe4" opacity=".05"/>`:`<path d="M14 38A38 38 0 0 1 60 11L62 18A32 32 0 0 0 22 42Z" fill="#fff" opacity=".26"/><path d="M66 14A38 38 0 0 1 84 30" stroke="#fff" stroke-width="2.2" fill="none" opacity=".45" stroke-linecap="round"/><ellipse cx="30" cy="26" rx="9" ry="4" transform="rotate(-35 30 26)" fill="#fff" opacity=".22"/>`}</g>
 <circle cx="50" cy="50" r="40.6" fill="none" stroke="url(#${u}g)" stroke-width="1.4"/>
 <path d="M9.5 40A42 42 0 0 1 40 8.5" stroke="#fff" stroke-width="1.6" fill="none" opacity=".55" stroke-linecap="round"/>
 <path d="M91 60A42 42 0 0 1 62 91" stroke="#3d2a10" stroke-width="1.4" fill="none" opacity=".35" stroke-linecap="round"/></svg>`}
@@ -78,11 +78,11 @@ const Q=`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id=
 function render(){if(!hostEl||!hostEl.isConnected)return;const main=DEF.filter(b=>b[1]!=="secret"),got=main.filter(b=>has(b[0])).length,sec=DEF.filter(b=>b[1]==="secret"&&has(b[0])).length;
  document.querySelectorAll("[data-bccount]").forEach(x=>x.textContent=count());hostEl.innerHTML=`<button type="button" class="bc-h" data-bctog aria-expanded="${OPEN}"><span class="glk">冒險徽章</span><span class="bc-n">${got}/${main.length}${sec?` ・隱藏 +${sec}`:""}<i class="bc-cv" aria-hidden="true">›</i></span></button><div class="bc-bar"><i style="width:${(got/main.length*100).toFixed(0)}%"></i></div>`+
  (OPEN?`<div class="bc-body">`+Object.keys(CAT).map(c=>`<div class="bc-cat">${CAT[c]}</div><div class="bc-g">${DEF.filter(b=>b[1]===c).map(b=>{const on=has(b[0]),hid=c==="secret"&&!on;return `<button type="button" class="bc-b${on?" got":" lk"}${avail(b[0])?" av":""}${FRESH===b[0]?" new":""}" data-bdg="${b[0]}" aria-label="${hid?"隱藏徽章":b[2]}" title="${hid?"隱藏徽章":b[2]}">${hid?Q:art(b,76,!on)}</button>`}).join("")}</div>`).join("")+`</div>`:"")+(X.note?`<p class="bc-note">${X.note}</p>`:"");FRESH=null}
-const ERR={login:"未登入，請先用 Gmail 登入。",sess:"登入已過期，請重新登入一次。",admin:"只有管理員可以更改徽章。",old:"Apps Script 未更新到最新版本（v10）。",server:"伺服器出錯，未能儲存（Apps Script 可能要重新部署或授權）。",net:"網絡連線失敗，未能儲存。",id:"徽章代號不正確。"};
+const ERR={login:"未登入，請先用 Gmail 登入。",sess:"登入已過期，請重新登入一次。",admin:"只有你本人的帳戶可以更改徽章。",old:"Apps Script 未更新到最新版本（v11）。",server:"伺服器出錯，未能儲存（Apps Script 可能要重新部署或授權）。",net:"網絡連線失敗，未能儲存。",id:"徽章代號不正確。"};
 async function call(body){const sk=localStorage.getItem("iceland-gsk");if(!sk||!X.url)throw new Error("login");let r,j;
  try{r=await fetch(X.url,{method:"POST",body:JSON.stringify(Object.assign({sk},body))})}catch(e){throw new Error("net")}
  try{j=await r.json()}catch(e){throw new Error("server")}
- if(!j.ok)throw new Error(j.err==="op"?"old":j.err==="sess"?"sess":j.err&&ERR[j.err]?j.err:(j.sv||0)<10&&body.op==="bset"?"old":j.err||"server");return j.badges||{}}
+ if(!j.ok)throw new Error(j.err==="op"?"old":j.err==="sess"?"sess":j.err&&ERR[j.err]?j.err:(j.sv||0)<11&&body.op==="bset"?"old":j.err||"server");return j.badges||{}}
 let RW=null,RTK=[];
 /* 今日重點＋徽章合併：今日行程有關的徽章直接放入「今日重點」（取代同一地點的插畫）；
    排程不等於收集：要管理員解鎖並儲存成功才變已收集 */

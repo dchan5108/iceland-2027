@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-13-nav3">
+<link rel="stylesheet" href="style.css?v=2026-11-13-uni1">
 
 </head>
 <body>
@@ -141,7 +141,7 @@
 
 <script src="trip.js?v=2026-11-13-opt2"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
-<script src="badges.js?v=2026-11-13-bc10"></script>
+<script src="badges.js?v=2026-11-13-bc11"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1579,7 +1579,7 @@ function ovHero(){try{
   ${bpassHTML()}${bk?`<div class="ovh-rem">${bk}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
-function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:DT,now:nowIS(),tk:(()=>{try{const t=todayDay();if(!t||t.d<1)return [];const d=R(t);return [...new Set((d.legs||[]).flatMap(l=>[l.a,l.b]))]}catch(e){return []}})()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
+function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:OWNER,now:nowIS(),tk:(()=>{try{const t=todayDay();if(!t||t.d<1)return [];const d=R(t);return [...new Set((d.legs||[]).flatMap(l=>[l.a,l.b]))]}catch(e){return []}})()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
   const RG=[[1,"Reykjavík"],[2,"Snæfellsnes"],[3,"Akureyri"],[4,"Mývatn"],[5,"East Fjords"],[6,"Jökulsárlón"],[8,"Vík"],[9,"Golden Circle"]];
   const HL=["goda","vest","jok","reyn","husa","geys"].filter(k=>pts[k]);
   const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
@@ -2332,7 +2332,7 @@ function view(v){
   {const mc=$("mapcol");if(mc){if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}}
-  if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else if(!L.includes(TODAY.d))TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:DT,now:nowIS()})}catch(e){}}
+  if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else if(!L.includes(TODAY.d))TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:OWNER,now:nowIS()})}catch(e){}}
   if(v==="today"){try{TODAY.render()}catch(e){}}
   if(v==="prep"||v==="budget"){if(DT)renderPack();renderPrep();try{TIPMOVE()}catch(e){}}
   if(v==="links")try{renderTips()}catch(e){}
@@ -2390,7 +2390,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mo
      ② 出發前 7 日至前一日：第 1 日行程放最頂，之後是倒數和準備
      ③ 旅程期間：只顯示當日行程＋重要連結 */
   const PH=HPHASE(),LIVE=PH===3;
-  const LINKS=`<section class="hcard hlinks"><div class="hicons noen">
+  const LINKS=`<section class="hcard hlinks"><div class="thd2"><b>🔗 常用連結</b></div><div class="hicons noen">
     <a href="tel:112"><i>📞</i><span>112</span></a>
     <a href="https://en.vedur.is/" target="_blank" rel="noopener"><i>🌤️</i><span>天氣</span></a>
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a>
