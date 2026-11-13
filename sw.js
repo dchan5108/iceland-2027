@@ -1,5 +1,5 @@
 /* keeps a copy of the trip page so it opens without internet; always tries the newest version first */
-const C="iceland-2027-v45";
+const C="iceland-2027-v46";
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./","./index.html","./style.css","./trip.js","./data.js","./landing.js","./badges.js"])).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{

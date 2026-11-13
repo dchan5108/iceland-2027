@@ -3263,3 +3263,10 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich .a{position:relative}
 .sched.rich .a .depgo:not(.depline){position:absolute;right:22px;top:1px;margin:0;display:block}
 .sched.rich .a:has(>.depgo:not(.depline)) .tl-h{padding-right:78px}
+
+/* 文件 📎 放行右邊 */
+.sched .a.hasdoc{position:relative}
+.sched .a>.docb.docr{position:absolute;right:22px;top:0;margin:0}
+.sched .a.hasdoc .tl-h,.sched .a.hasdoc>b:first-child{padding-right:40px}
+.sched.rich .a.hasdoc:has(>.depgo:not(.depline))>.docb.docr{right:100px}
+.sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{padding-right:118px}
