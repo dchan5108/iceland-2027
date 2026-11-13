@@ -111,7 +111,7 @@ const days=[
 const AI={0:"哈爾格林姆大教堂|^彩虹街|^Laugavegur 逛街|^Harpa|^Sun Voyager|^Laugardalslaug",5:"^Gufufoss",7:"^Svartifoss",10:"Friðheimar 番茄農場"};
 /* 延誤 20–40 分鐘：每日後備建議（只係建議，唔會自動改行程）。m＝必去／已訂，o＝可彈性／可選，s＝做法（先重排、減等候，最後先刪），i＝對到達時間影響 */
 const DLY={
-2:{m:["Ytri Tunga 海豹（潮退後約一個鐘最好）","Kirkjufell 草帽山","Hlaðan 晚餐 19:45（已訂）"],o:["因亞爾茲霍爾教堂","可選：Arnarstapi 步道、Djúpalónssandur"],
+2:{m:["Ytri Tunga 海豹（潮退後約一個鐘最好）","Kirkjufell 草帽山","Hlaðan 晚餐 19:45"],o:["因亞爾茲霍爾教堂","可選：Arnarstapi 步道、Djúpalónssandur"],
  s:["減等候：Hjá Góðu Fólki 一坐低就點餐，可以慳約 10–15 分鐘","重排：遲咗都先去 Ytri Tunga，午餐順延；09:00 出發本身 11:30 到，潮退後一個鐘內（約 12:20 前）去到都得","仍然遲 30 分鐘或以上：取消因亞爾茲霍爾教堂，由布迪爾直接開去草帽山（約 35 分鐘；原本經教堂連停留約 2 小時 15 分鐘）","草帽山、Ytri Tunga 不要刪"],
  i:"照原路線：約 19:25–19:45 到 Miðhraun，19:45 晚餐要通知酒店可能遲少少。取消因亞爾茲霍爾教堂：約 18:15 前到。"},
 3:{m:["Kolugljúfur 巨人峽谷","安全到 Akureyri"],o:["可選：Borgarnes Bónus 補給（Akureyri 都有 Bónus）","Akureyri 晚上散步（D4 早上都有散步，景點大致一樣）"],
