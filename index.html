@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-dep1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-gl1">
 
 </head>
 <body>
@@ -1567,7 +1567,7 @@ function card(raw){
     ${viewBar(raw)}
     ${todayHTML(day)}
     ${DT&&!SHARED&&ADDOPEN.has(raw.d)&&EDITING!==raw.d?(()=>{const cu=cuGet(raw.d);return `<div class="addp">${edBar(raw)}${cu.length?`<p class="rhint">另有 ${cu.length} 個自訂項目 <button type="button" class="mini" data-cuopen="${raw.d}">管理</button></p>`:""}</div>`})():""}
-    ${REAL&&day.firmT?`<div class="golin g1"><span>通知大家 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發</span></div>`:""}${pubDep}
+    ${REAL&&day.firmT?`<div class="golin g1"><span>通知<i class="gl-l">大家</i> <b>${day.toldT}</b><i class="gl-l"> 出發</i> · 最遲 <b class="late">${day.firmT}</b><i class="gl-l"> 出發</i></span></div>`:""}${pubDep}
     ${DT&&EDITING===raw.d&&!SHARED?editorHTML(raw,day):`${edWarn(raw,day)}${richRows(day)}`}
     ${SEC("info",REAL?"注意事項、天氣後備、廁所":"注意事項",infoH)}
   </article>
@@ -2742,7 +2742,7 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
     const warn=[late.length?`預鬆計 ${late.length} 段會遲，最多 ${this.fm(mx)}${rushed?"・偏趕":""}`:"",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean).join("；");
     const art=sc.closest("article.day"),dd=art?+art.dataset.d:NaN,x=(window.TRIP.DLY||{})[dd],E=DOCX.esc;
     const dly=x?`<details class="dlyx"><summary>⏱ 遲 20–40 分鐘點算</summary><p><b>必去：</b>${x.m.map(E).join("、")}</p><p><b>可彈性：</b>${x.o.map(E).join("、")}</p><ol>${x.s.map(v=>`<li>${E(v)}</li>`).join("")}</ol><p><b>到達：</b>${E(x.i)}</p><p class="dlyn">只係建議，行程同活動時間唔會自動改。</p></details>`:"";
-    const seg=`<span class="drvseg"><span class="dsl">車程</span><span class="seg"><button type="button" data-drvbuf="0">實際</button><button type="button" data-drvbuf="1">預鬆</button></span></span>`;
+    const seg=`<span class="drvseg" title="車程：實際／預鬆"><span class="dsl">車程</span><span class="seg"><button type="button" data-drvbuf="0">實際</button><button type="button" data-drvbuf="1">預鬆</button></span></span>`;
     const tail=`${seg}${warn?`<small class="dwarn">⚠ ${E(warn)}</small>`:""}${dly}`;
     const host=art?art.querySelector(":scope>.golin.g1"):null;
     if(host&&!host.querySelector(".drvseg")){host.classList.add("drvc");const lt=host.querySelector("b.late");if(lt)lt.title="最遲出發只係提醒，唔會自動改行程";host.insertAdjacentHTML("beforeend",tail)}
