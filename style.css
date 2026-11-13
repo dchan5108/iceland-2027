@@ -1866,7 +1866,7 @@ html.spon{overflow:hidden}
 .day{background:none!important;padding:0!important;border:0!important;box-shadow:none!important}
 .day>.daynav{padding:0 2px}
 .day>h3{padding:4px 4px 0}
-.day>.dsum2{background:var(--card)!important;border:0!important;border-radius:16px!important;padding:14px 16px!important;margin:0 0 12px!important}
+.day>.dsum2{background:var(--card)!important;border:0!important;border-radius:20px!important;padding:18px!important;margin:0 0 14px!important}
 .day>.viewseg{margin:0 0 10px 2px}
 .day>.cprow{margin:0 0 8px}
 .day>.golin,.day>.cfbar{margin:0 0 10px;padding:10px 14px;border-radius:14px}
@@ -2639,7 +2639,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 統一：每頁都有標題（和底部 tab 名一樣）；每日行程入面所有方塊都是 16px 圓角白卡 */
 .pgtrip{grid-column:1/-1}
 #today>.pghead{margin-bottom:-4px}
-#panel article.day>.daynav.dtop,#panel article.day>details.sec,#panel article.day>.golin,#panel article.day>.eatbox,#panel article.day>.dnote,#panel article.day>.sched,#panel article.day>.dsum2,#panel article.day>.scenbox,#panel article.day>.ddocs{border-radius:16px!important}
+#panel article.day>.daynav.dtop,#panel article.day>details.sec,#panel article.day>.golin,#panel article.day>.eatbox,#panel article.day>.dnote,#panel article.day>.sched,#panel article.day>.dsum2,#panel article.day>.scenbox,#panel article.day>.ddocs{border-radius:20px!important}
 #panel article.day>.eatbox{background:var(--card)!important}
 #panel article.day>.ddocs{background:var(--card);padding:14px 16px}
 
@@ -2792,7 +2792,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .dinfo dd{margin:0;font-size:var(--fs-item);font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
 
 /* ===== 每日頭格（設計 B） ===== */
-#panel .dsum2.dsB{background:var(--card)!important;border-radius:16px!important;padding:16px 18px!important;border:0!important;margin:0 0 12px!important;display:block!important}
+#panel .dsum2.dsB{background:var(--card)!important;border-radius:20px!important;padding:18px!important;border:1px solid var(--line)!important;margin:0 0 14px!important;display:block!important}
 #panel .dsum2.dsB>ul{display:none!important}
 .dhB{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .dhL{min-width:0}
@@ -3217,3 +3217,16 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ovhero .fcd{border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;padding:12px 0 0!important}
 .thd2 small,.bc-n,.bc-cnt{font:600 12px system-ui,sans-serif;color:var(--muted)}
 .hlinks .thd2{margin-bottom:10px}
+/* ===== 版面節奏：卡片間距、內距、對齊統一 ===== */
+:root{--gap-card:14px;--pad-card:18px}
+#todayIn{gap:var(--gap-card)}
+.dsum2.dsB,.dlinks,.bstat,#bookp>section,#prep section.tcard,#prep .hcard{border-radius:20px!important;padding:var(--pad-card)!important}
+#prep>*+*,#budget>*+*{margin-top:var(--gap-card)}
+#prep .fcd{margin-bottom:0}
+#budget{padding-inline:0!important;margin-inline:0!important}
+.thd2+*{margin-top:0}
+.tbtns{gap:8px;align-items:center}
+#panel .dsum2.dsB,#budget .bstat{border-radius:20px!important;padding:var(--pad-card)!important}
+#prep .fcd,#prepHero .fcd,#prepHero{margin-bottom:0!important}
+#prepHero+*{margin-top:var(--gap-card)!important}
+#prepHero{margin-bottom:14px!important}#pp-book,#bookp{margin-top:0!important;padding-top:0!important}
