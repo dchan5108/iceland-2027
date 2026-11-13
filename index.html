@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-sim2">
+<link rel="stylesheet" href="style.css?v=2026-11-14-sim3">
 
 </head>
 <body>
@@ -1305,7 +1305,8 @@ document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.datase
 document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("change",e=>{const sl=e.target.closest&&e.target.closest("select[data-sim]");if(!sl)return;SIMN[+sl.dataset.sim]=+sl.value;const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-simreset]");if(!b)return;SIMN[+b.dataset.simreset]=0;const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
+document.addEventListener("click",e=>{const v=e.target.closest&&e.target.closest("[data-simb]");if(!v)return;const [d,bs]=v.dataset.simb.split("|");SIMB[+d]=bs;const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-simreset]");if(!b)return;SIMN[+b.dataset.simreset]=0;SIMB[+b.dataset.simreset]="buf";const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;{const k=b.dataset.recclear,keep=(RECP[k]||[]).filter(x=>/^sun/.test(x));if(keep.length)RECP[k]=keep;else delete RECP[k]}store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
 /* collapsible sections in each day card; open state remembered on this device */
 let SECSHUT=new Set();   /* 旅程期間自己收起「注意事項」就保持收起（只限今次打開網頁） */
@@ -1444,42 +1445,53 @@ function opHTML(){if(!OPTR||OPTR.d!==EDITING)return "";const o=OPTR,ev=EDITS[o.d
 /* ===== 行程時間模擬（只限管理者）：揀提早／延後出發，睇預約趕唔趕得切。
    暫時、唔儲存、唔改原本行程或預約；重設即還原。預約／固定時間（AT.lock）永遠不郁；
    趕唔切先按次序建議：休息／自由時間 → 略過可選景點 → 縮短景點（最多縮到約六成）→ 縮短用餐（最少 30 分鐘）。 */
-const SIMN={};
+const SIMN={},SIMB={};   /* SIMB：車程基準，預設「行程預算」(buf)；可轉「導航時間」(nav) */
 const SIM={
   fx:a=>AT.lock.test(a)&&!/出發/.test(a),
   rest:a=>/休息|自由活動|自訂行程|空檔|自選/.test(a),
   r5:x=>Math.round(x/5)*5,
   hm:x=>{x=((x%1440)+1440)%1440;return String(Math.floor(x/60)).padStart(2,"0")+":"+String(x%60).padStart(2,"0")},
-  run(raw,n){let day;try{day=R(raw)}catch(e){day=raw}const pl=EP(day.plan||[],0),di=depI(pl);if(di<0)return null;
+  run(raw,n,bs){let day;try{day=R(raw)}catch(e){day=raw}const pl=EP(day.plan||[],0),di=depI(pl);if(di<0)return null;
+    /* 車程：有路段資料就用（導航時間＝原始分鐘；行程預算＝加 DRV 路段緩衝），冇就當原本兩行之間嘅時間都係路程 */
+    const ks=(()=>{try{return rowStops(day,day.plan||[])}catch(e){return []}})().slice(),LG=(day.legs||[]).filter(l=>!l.c2&&l.m);
+    ks.forEach((k,i)=>{if(!k||i===di||!AT.isMove(String(pl[i]&&pl[i][1]||"")))return;const j=pl.findIndex((r,x)=>x>i&&!ks[x]&&r[2]!=="y"&&AT.span(r[0])&&!AT.isMove(r[1]));if(j>0){ks[j]=k;ks[i]=null}});
+    const rk=new Set(ks.filter(Boolean));
+    const legTo=(a,k)=>{const i0=LG.findIndex(l=>l.a===a);if(i0<0)return null;let m=0;for(let i=i0;i<LG.length&&i<i0+4;i++){if(i>i0&&LG[i].a!==LG[i-1].b)return null;m+=LG[i].m;if(LG[i].b===k)return m;if(rk.has(LG[i].b))return null}return null};
+    const trav={};{let pk=ks[di]||(typeof stopsOf==="function"?stopsOf(day)[0]:null);ks.forEach((k,i)=>{if(i<=di||!k)return;const m=pk?legTo(pk,k):null;if(m)trav[i]=bs==="nav"?m:DRV.buf(m,DRV.kind(k,String(pl[i]&&pl[i][1]||""),m));pk=k})}
     const rows=pl.map((r,i)=>{const a=String(r[1]).replace(/<[^>]*>/g,"").replace(/⟦[^⟧]*⟧/g,""),sp=AT.span(r[0]);return {i,a,nm:a.split(/[（(]/)[0].trim(),f:r[2]||"",sp}}).filter(x=>x.sp&&x.f!=="y");
     const k0=rows.findIndex(x=>x.i>=di);if(k0<0)return null;
-    rows.forEach((x,k)=>{x.d=x.sp.e-x.sp.s;x.g=k?x.sp.s-rows[k-1].sp.e:0;x.ns=x.sp.s;x.ne=x.sp.e;x.cut=0;x.skip=0;
-      x.mv=AT.isMove(x.a);x.fix=k>k0&&this.fx(x.a);x.meal=x.f==="m";x.opt=x.f==="o"||/可選/.test(x.a)});
+    rows.forEach((x,k)=>{x.d=x.sp.e-x.sp.s;const g0=k?x.sp.s-rows[k-1].sp.e:0;
+      /* 由上一行完到呢行開始：有車程資料就計車程（其餘係空檔，可以用嚟追時間）；開車行本身嘅車程計喺下一行 */
+      x.g=trav[x.i]!=null?trav[x.i]:Math.max(0,g0);x.ns=x.sp.s;x.ne=x.sp.e;x.cut=0;x.skip=0;
+      x.mv=AT.isMove(x.a);x.fix=k>k0&&this.fx(x.a);x.dl=x.sp.s;x.meal=x.f==="m";x.opt=x.f==="o"||/可選/.test(x.a)});
+    /* 報到時間（例如「11:30 前報到」）早過活動時間，就用報到時間做死線 */
+    rows.forEach((x,k)=>{if(!x.fix)return;const tx=x.a+" "+(rows[k-1]?rows[k-1].a:""),m=tx.match(/(\d{1,2}):(\d{2})\s*前(?:到[^\s，；）]*)?報到/);if(m){const t=+m[1]*60+ +m[2];if(t<x.sp.s&&t>x.sp.s-120)x.dl=t}});
     for(let k=0;k<=k0;k++){rows[k].ns=rows[k].sp.s+n;rows[k].ne=rows[k].sp.e+n}
     let a=k0,res={late:0,adj:0,rows,fixed:[]};
-    while(a<rows.length-1){let f=rows.findIndex((x,k)=>k>a&&x.fix);const end=f<0?rows.length:f;
-      const lay=()=>{let cur=rows[a].ne;for(let k=a+1;k<end;k++){const x=rows[k];x.ns=cur+x.g;x.ne=x.ns+(x.skip?0:x.d-x.cut);cur=x.ne}return cur};
+    while(a<rows.length-1){let f=rows.findIndex((x,k)=>k>a&&x.fix);const end=f<0?rows.length:f,lo=a===k0?Math.min(n,0):0;
+      /* 彈性行：唔早過原本時間（提早出發就最多早 n 分鐘），遲咗就順延 */
+      const lay=()=>{let cur=rows[a].ne;for(let k=a+1;k<end;k++){const x=rows[k];x.ns=Math.max(x.sp.s+lo,cur+x.g);x.ne=x.ns+(x.skip?0:x.d-x.cut);cur=x.ne}return cur};
       let cur=lay();
-      if(f>=0){const F=rows[f];let need=cur+F.g-F.sp.s;
+      if(f>=0){const F=rows[f];let need=cur+F.g-F.dl;
         if(need>0){const mid=rows.slice(a+1,end).filter(x=>!x.mv&&x.d>0).sort((p,q)=>q.d-p.d);
           const steps=[[x=>this.rest(x.a)&&!x.meal,x=>x.d,0],[x=>x.opt&&!x.meal,x=>x.d,1],[x=>!x.meal&&!x.opt&&!this.rest(x.a),x=>x.d-Math.max(10,this.r5(x.d*.6)),0],[x=>x.meal,x=>x.d-Math.max(30,this.r5(x.d*.7)),0]];
-          for(const [ok,cap,sk] of steps){for(const x of mid){if(need<=0)break;if(!ok(x)||x.skip)continue;const c=Math.max(0,cap(x)-x.cut);if(c<=0)continue;
-              if(sk){x.skip=1;need-=x.d-x.cut;x.cut=x.d}else{const u=Math.min(c,Math.ceil(need/5)*5);x.cut+=u;need-=u}res.adj=1}}
+          for(const [ok,cap,sk] of steps){for(const x of mid){cur=lay();need=cur+F.g-F.dl;if(need<=0)break;if(!ok(x)||x.skip)continue;const c=Math.max(0,cap(x)-x.cut);if(c<=0)continue;
+              const o=[x.skip,x.cut];if(sk){x.skip=1;x.cut=x.d}else{x.cut+=Math.min(c,Math.ceil(need/5)*5)}
+              const n2=lay()+F.g-F.dl;if(n2>=need){x.skip=o[0];x.cut=o[1]}else{if(!sk&&n2<0){x.cut=Math.max(o[1],x.cut+Math.floor(n2/5)*5)}res.adj=1}}}
           cur=lay()}
-        const arr=cur+F.g,av=F.sp.s-arr;F.arr=arr;F.av=av;if(av<0)res.late=Math.max(res.late,-av);F.ns=F.sp.s;F.ne=F.sp.e;res.fixed.push(F);a=f}
+        const arr=cur+F.g,av=F.dl-arr;F.arr=arr;F.av=av;if(av<0)res.late=Math.max(res.late,-av);F.ns=F.sp.s;F.ne=F.sp.e;res.fixed.push(F);a=f}
       else a=rows.length-1}
     res.st=res.late?"bad":res.adj?"adj":"ok";return res},
-  html(raw){const n=SIMN[raw.d]||0,E=DOCX.esc;let opts="";for(let v=-60;v<=60;v+=5)opts+=`<option value="${v}"${v===n?" selected":""}>${v>0?"延後 ":v<0?"提早 ":""}${v?Math.abs(v)+" 分鐘":"原本時間"}</option>`;
-    const head=`<div class="simh"><b>行程時間模擬</b><label>出發 <select data-sim="${raw.d}">${opts}</select></label>${n?`<button type="button" class="mini" data-simreset="${raw.d}">重設</button>`:""}</div>`;
-    if(!n)return `<div class="simbox noen">${head}<p class="rhint">揀提早或者延後出發，睇預約趕唔趕得切。只係模擬，唔會改行程同預約，亦唔係畀團友遲到。</p></div>`;
-    const r=this.run(raw,n);if(!r)return `<div class="simbox noen">${head}<p class="rhint">呢日冇出發時間，模擬唔到。</p></div>`;
+  html(raw){const n=SIMN[raw.d]||0,bs=SIMB[raw.d]||"buf",E=DOCX.esc;let opts="";for(let v=-60;v<=60;v+=5)opts+=`<option value="${v}"${v===n?" selected":""}>${v>0?"延後 ":v<0?"提早 ":""}${v?Math.abs(v)+" 分鐘":"原本時間"}</option>`;
+    const head=`<div class="simh"><b>行程時間模擬</b><label>出發 <select data-sim="${raw.d}">${opts}</select></label><span class="seg simseg"><button type="button" data-simb="${raw.d}|buf" aria-pressed="${bs==="buf"}" title="按當日行程鬆緊、景點數量同活動安排加入緩衝後嘅規劃車程">行程預算</button><button type="button" data-simb="${raw.d}|nav" aria-pressed="${bs==="nav"}" title="Google Maps 原始預計行車時間">導航時間</button></span>${n||bs!=="buf"?`<button type="button" class="mini" data-simreset="${raw.d}">重設</button>`:""}</div>`;
+    const r=this.run(raw,n,bs);if(!r)return `<div class="simbox noen">${head}<p class="rhint">呢日冇出發時間，模擬唔到。</p></div>`;
     const L={ok:"🟢 行程仍然可行",adj:"🟡 部分景點時間要調整",bad:"🔴 有預約可能趕唔切"}[r.st];
     const li=r.rows.map(x=>{const ch=x.ns!==x.sp.s||x.ne!==x.sp.e,t0=AT.span&&this.hm(x.sp.s),t1=this.hm(x.ns);let tag="",c="";
-      if(x.fix){const fl=/未預約/.test(x.a)?"目標時間（未預約）":"預約固定";tag=x.av>0?`${fl}・預計 ${this.hm(x.arr)} 到，尚餘 ${x.av} 分鐘`:x.av===0?`${fl}・預計 ${this.hm(x.arr)} 準時到，冇額外緩衝`:`${fl}・預計 ${this.hm(x.arr)} 到，可能遲 ${-x.av} 分鐘`;c=x.av>=0?"ok":"bad"}
+      if(x.fix){const fl=(/未預約/.test(x.a)?"目標時間（未預約）":"預約固定")+(x.dl<x.sp.s?`（${this.hm(x.dl)} 前報到）`:"");tag=x.av>0?`${fl}・預計 ${this.hm(x.arr)} 到，尚餘 ${x.av} 分鐘`:x.av===0?`${fl}・預計 ${this.hm(x.arr)} 準時到，冇額外緩衝`:`${fl}・預計 ${this.hm(x.arr)} 到，可能遲 ${-x.av} 分鐘`;c=x.av>=0?"ok":"bad"}
       else if(x.skip){tag="建議略過";c="adj"}else if(x.cut){tag=`${x.meal?"用餐":this.rest(x.a)?"休息":"停留"}縮短 ${x.cut} 分鐘`;c="adj"}
       else if(!ch)return "";
       return `<li class="${c}"><span class="stm">${t0}${t1!==t0?` → ${t1}`:""}</span><span class="snm">${E(x.nm)}</span>${tag?`<em>${E(tag)}</em>`:""}</li>`}).join("");
-    return `<div class="simbox noen sim-${r.st}">${head}<p class="simst">${L}</p><ol class="siml">${li}</ol><p class="rhint">只係模擬：原本行程同預約時間冇改；撳「重設」還原。</p></div>`}};
+    return `<div class="simbox noen sim-${r.st}">${head}<p class="simst">${L}</p><ol class="siml">${li}</ol><p class="rhint">按${bs==="nav"?"導航時間":"行程預算"}計。只係模擬：原本行程同預約時間冇改，亦唔係畀團友遲到；撳「重設」還原。</p></div>`}};
 function shiftBar(d){const raw=days.find(x=>x.d===d);return raw?SIM.html(raw):""}
 function edBar(raw){if(SHARED)return "";const ed=!!EDITS[raw.d];
   return `${shiftBar(raw.d)}<div class="edbar"><button type="button" class="mini cpday" data-cpday="${raw.d}">複製行程</button><button type="button" class="mini" data-ed="start" data-d="${raw.d}">修改內容</button>${ed?`<button type="button" class="mini" data-ed="reset" data-d="${raw.d}">還原原版</button><button type="button" class="mini" data-ed="copy" data-d="${raw.d}">傳給 Claude</button><button type="button" class="mini" data-ed="share">分享方案連結</button>`:""}</div>`}

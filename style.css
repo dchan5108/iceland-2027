@@ -3349,3 +3349,4 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .simbox .siml em{font-style:normal;font-size:12px;padding:1px 7px;border-radius:999px;background:var(--card)}
 .simbox .siml li.ok em{color:#2e7d4f}.simbox .siml li.adj em{color:#a35d12}.simbox .siml li.bad em{color:#b23a36;font-weight:700}
 .simbox select{font-size:13px!important;padding:3px 6px!important;min-height:0!important;width:auto!important}
+.simbox .simseg{display:inline-flex;background:var(--card);border-radius:999px;padding:2px}.simbox .simseg button{border:0;background:none;font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:3px 9px;border-radius:999px;cursor:pointer}.simbox .simseg button[aria-pressed="true"]{background:var(--route);color:#fff}
