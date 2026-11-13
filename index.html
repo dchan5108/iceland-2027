@@ -82,7 +82,7 @@
       <summary>地圖使用說明</summary>
       <div class="scen mopt" id="drvgrp" role="group" aria-label="車程顯示" hidden>
         <span>車程</span>
-        <div class="seg"><button type="button" id="dv-buf" aria-pressed="true">預留時間</button><button type="button" id="dv-raw" aria-pressed="false">實際車程</button></div>
+        <div class="seg"><button type="button" id="dv-raw" aria-pressed="true" title="Google Maps 原始預計行車時間">導航時間</button><button type="button" id="dv-buf" aria-pressed="false" title="導航時間加合理緩衝後嘅規劃車程">行程預算</button></div>
       </div>
 
             <p class="kmlp" id="kmlp" hidden><button type="button" class="btn ghostb" id="kmlbtn">下載 Google Maps 地圖檔（KML）</button><button type="button" class="btn ghostb" id="csvbtn">下載 CSV（匯入 My Maps 較穩定）</button><span>匯入 Google My Maps 後，可以在 Google Maps app 看所有景點和導航</span></p>
@@ -597,8 +597,14 @@ const R1=day0=>{const d=R0(day0),x=day0.v?((scen==="ok"&&viewOpt(day0))||day0.v[
   const fi=depI(firmPl),ti=depI(toldPl);if(fi<0||ti<0)return d;const firm=firmPl[fi][0],told=toT(Math.min(toM(toldPl[ti][0]),toM(firm)-30));
   if(REAL)return {...d,firmT:firm,toldT:told};const di=depI(d.plan);if(di<0)return d;const t2=day0.told&&!x?day0.told:told;const plan=d.plan.map((r,i)=>i===di?[t2,...r.slice(1)]:r);return {...d,plan}};
 
-const buf=m=>Math.max(m+10,Math.ceil(m*1.2/5)*5);
-let drv=REAL&&store.get("iceland-drv")==="raw"?"raw":"buf";const dT=m=>drv==="raw"?m:buf(m);
+/* 用語：導航時間＝Google Maps 原始預計車程；行程預算＝導航時間加合理緩衝；停留時間＝喺景點／活動逗留嘅時間（唔包車程）。
+   行程預算全站只用呢一條公式（按路段類型）：短途／市區（20 分鐘或以下）＋25%（最少 5）＋泊車 5；公路＋10%＋泊車 5；山路／山口再 +10；碎石路段再 +10；進位到 5 分鐘 */
+const BUFK={GRAV:["kolu","vest","fjall","ytri","grjo"],MTK:["seyd","gufu","hvera","raufar","viti","leir"],MT:/山口|Fjarðarheiði|Hellisheiði|Þrengsli|Öxi|Holtavörðuheiði|Möðrudal/,
+  kind(k,txt,m){k=k||"";txt=String(txt||"");return {c:m<=20,g:this.GRAV.includes(k)||/碎石/.test(txt),mt:this.MTK.includes(k)||this.MT.test(txt)}},
+  buf(m,t){let b=t.c?m+Math.max(5,Math.round(m*.25))+5:m+Math.round(m*.1)+5;if(t.mt)b+=10;if(t.g)b+=10;return Math.ceil(b/5)*5}};
+const buf=(m,k,txt)=>BUFK.buf(m,BUFK.kind(k,txt,m));
+/* 管理者版／真實版：「導航時間／行程預算」全站一個設定（舊「實際車程／預留時間」已合併）；公開版照舊用行程預算 */
+let drv=REAL?(store.get("iceland-drvbuf")==="1"?"buf":"raw"):"buf";const dT=(m,k)=>drv==="raw"?m:buf(m,k);
 const fmt=m=>m<60?`${m}分鐘`:(m%60?`${Math.floor(m/60)}小時${m%60}分鐘`:`${m/60}小時`);
 const short=fmt;
 const NS="http://www.w3.org/2000/svg", svg=$("map");
@@ -747,7 +753,7 @@ function drawMap(){
     const clEl=el(shp.tag,{...shp.a,stroke:g.walk?"var(--chg)":g.c2||g.pk?OKC():`url(#${id})`,"stroke-width":g.c2?3:g.pk?6:3.6,"stroke-linecap":"round","stroke-dasharray":g.walk?"none":g.c2?"2 5":g.ride||day.bus||day.d===12?"6 5":"none","vector-effect":"non-scaling-stroke","data-day":day.d});
     if(g.pk||g.c2)TOPL.push(olEl,clEl);
     const mid=rp?rp[Math.floor(rp.length/2)]:[(x1+x2)/2,(y1+y2)/2];
-    if(g.walk)pills.push([mid[0],mid[1],"徒步 "+g.walk+" km",day.d]);else if(!g.ride&&(g.m>=30||(g.pk&&g.m>=20))&&!g.hide&&!g.city)pills.push([mid[0],mid[1],short(dT(g.m)),day.d]);
+    if(g.walk)pills.push([mid[0],mid[1],"徒步 "+g.walk+" km",day.d]);else if(!g.ride&&(g.m>=30||(g.pk&&g.m>=20))&&!g.hide&&!g.city)pills.push([mid[0],mid[1],short(dT(g.m,g.b)),day.d]);
   }));
   const PK=d=>DT&&typeof RECP!=="undefined"?(RECP[d]||[]):[];
   const pickDot=(k,d)=>{if(!pts[k])return;const [name,lon,lat]=pts[k],[x,y]=P(lon,lat);
@@ -803,7 +809,7 @@ function renderPickRoute(D){
   const box=$("pickroute");if(!box)return;
   const rows=[];
   D.forEach(day=>day.legs.forEach(g=>{if(!g.pk||g.hide)return;
-    rows.push(`<li><b>${dLab(day.d)}</b> ${pts[g.a][0]} → ${pts[g.b][0]}<span class="prt">${short(dT(g.m))}</span></li>`)}));
+    rows.push(`<li><b>${dLab(day.d)}</b> ${pts[g.a][0]} → ${pts[g.b][0]}<span class="prt">${short(dT(g.m,g.b))}</span></li>`)}));
   if(!rows.length){box.hidden=true;box.innerHTML="";return}
   box.hidden=false;
   box.innerHTML=`<h3>已選行程路線</h3><ol>${rows.join("")}</ol>`;
@@ -1051,7 +1057,7 @@ function rowStops(day,plan){
 /* ===== 時間表自動計（RETIME）=====
    按每段車程（day.legs 的分鐘）由出發時間順住推：如果原本兩站之間的空檔不夠車程，就將之後所有時間順延。
    只會延後、不會早過原本時間；之前遲了，後面有多餘空檔就追回。預約／入住等固定時間（AT.lock）不郁，趕不切就出提示。
-   設定：AT.on 開關；AT.use "raw"=實際車程、"buf"=連預留、"set"=跟「車程」設定；AT.lock 邊些行不郁。 */
+   設定：AT.on 開關；AT.use "raw"=導航時間、"buf"=行程預算、"set"=跟「導航時間／行程預算」設定；AT.lock 邊些行不郁。 */
 const AT={on:true,use:"raw",lock:/預約|已訂|已確認|集合|報到|航班|起飛|下機|還車|賞鯨|觀鯨|健行|浮冰|冰浮|Kayak|獨木舟/i,
   min:l=>AT.use==="raw"?l.m:AT.use==="buf"?buf(l.m):dT(l.m),
   span:t=>{const m=String(t).match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/);if(!m)return null;const s=+m[1]*60+ +m[2];let e=m[3]!=null?+m[3]*60+ +m[4]:s;if(e<s)e+=1440;return {s,e}},
@@ -1394,7 +1400,7 @@ function edWarn(raw,day){if(!DT||!EDV()[raw.d])return "";const W=[],P=day.plan;l
    re-time with drive + original stay length, place lunch 12:00–13:30, check 09:00 / sunset / gravel; preview before applying ---- */
 const OPLOCK=/退房|入住|check.?in|check.?out|取車|還車|預約|已訂|已確認|集合|航班|起飛|下機/i,OPLUNCH=/^(午餐|lunch)/i,GRAVELK=new Set(["kolu"]);
 let OPTR=null;
-function opLeg(raw,a,b){if(!a||!b||a===b)return 0;const l=R(raw).legs.find(l=>(l.a===a&&l.b===b)||(l.a===b&&l.b===a));return dT(l?l.m:estM(a,b))}
+function opLeg(raw,a,b){if(!a||!b||a===b)return 0;const l=R(raw).legs.find(l=>(l.a===a&&l.b===b)||(l.a===b&&l.b===a));return dT(l?l.m:estM(a,b),b)}
 function opDur(r,def){const m=String(r[0]).match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);return m?Math.max(0,tmE(m[2])-tmE(m[1])):def}
 const opKey=r=>r[3]&&pts[r[3]]?r[3]:null;
 function opDrive(raw,rows){let t=0,last=null;rows.forEach(r=>{const k=opKey(r);if(k){if(last&&k!==last)t+=opLeg(raw,last,k);last=k}});return t}
@@ -1582,9 +1588,9 @@ function dragEnd(e){if(!DRG||(e&&e.pointerId!==DRG.id))return;const {from,to}=DR
   if(EDITING==null||to===from)return;const ev=EDITS[EDITING],sn=gapSnap(ev),[it]=ev.splice(from,1);ev.splice(to,0,it);retime(ev,Math.min(from,to),sn);OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}}
 document.addEventListener("pointerup",dragEnd);document.addEventListener("pointercancel",e=>{if(!DRG)return;DRG.to=DRG.from;dragEnd(e)});
 function card(raw){
-  const day=edPlan(raw,autoTime(recPlan(raw,R(raw)))),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+dT(l.m),0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day);
+  const day=edPlan(raw,autoTime(recPlan(raw,R(raw)))),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+dT(l.m,l.b),0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day);
   const SQ=stopsOf(day).filter(k=>!k.startsWith("via:")),NB=k=>{const i=SQ.indexOf(k);return i>=0&&i<20?String.fromCharCode(0x2460+i)+" ":""};
-  const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}${l.c2?" c2":""}" href="${l.walk?dir([qn(l.a),qn(l.b)],"walking"):l.ride?dir([qn(l.a),qn(l.b)],"transit"):legUrl(l)}" target="_blank" rel="noopener"><span>${l.c2?"第二部車：":""}${l.c2?"":NB(l.a)}${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${l.c2?"":NB(l.b)}${nm(l.b)}</span><b>${l.walk?`徒步約 ${l.walk} km`:l.ride?`${l.ride}約 ${fmt(l.m)}`:`${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`${REAL?"預留 ":"約 "}${fmt(buf(l.m))}${REAL?`<span class="was">實際約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`:l.was?`<span class="was">${l.was}</span>`:""}`}`}</b></a>`).join("");
+  const legs=day.legs.map(l=>`<a class="leg${l.c?" c":""}${l.c2?" c2":""}" href="${l.walk?dir([qn(l.a),qn(l.b)],"walking"):l.ride?dir([qn(l.a),qn(l.b)],"transit"):legUrl(l)}" target="_blank" rel="noopener"><span>${l.c2?"第二部車：":""}${l.c2?"":NB(l.a)}${nm(l.a)} → ${l.via?l.via.join(" → ")+" → ":""}${l.c2?"":NB(l.b)}${nm(l.b)}</span><b>${l.walk?`徒步約 ${l.walk} km`:l.ride?`${l.ride}約 ${fmt(l.m)}`:`${drv==="raw"?`約 ${fmt(l.m)}${l.was?`<span class="was">${l.was}</span>`:""}`:`${REAL?"行程預算約 ":"約 "}${fmt(buf(l.m,l.b))}${REAL?`<span class="was">導航時間約 ${fmt(l.m)}${l.was?"・"+l.was:""}</span>`:l.was?`<span class="was">${l.was}</span>`:""}`}`}</b></a>`).join("");
   const notes=(day.notes||[]).map((n,i)=>`<li>${hr(n[0])}${ieB("notes",day.d,i,n[0])}</li>`).join("");
   const wxH=REAL&&raw.wx?`<div class="dnote wx"><div class="dnh">天氣差的後備</div><p>${raw.wx}</p></div>`:"";
   const pubDep=false&&!REAL?(()=>{const i=depI(day.plan);return i>=0&&/^\d{1,2}:\d{2}$/.test(day.plan[i][0])?`<div class="golin"><span>出發：<b>${day.plan[i][0]}</b></span></div>`:""})():"";
@@ -1601,8 +1607,8 @@ function card(raw){
   const sunBtn=(()=>{const so=DT&&(raw.opt||[]).find(o=>o.sun);if(so){const on=optPicked(raw).includes(so.id);return `<button type="button" class="sunbtn noen" data-suntog="${raw.d}|${so.id}" aria-pressed="${on}" title="${escA(so.t)}">${SI(SUNI)}<span>${so.lab||"日出"}</span></button>`}if(!DT||!raw.view||!raw.view.opts.some(o=>o.id==="sunrise"))return "";const on=viewId(raw)==="sunrise",back=raw.view.def&&raw.view.def!=="sunrise"?raw.view.def:raw.view.opts.find(o=>o.id!=="sunrise").id;
         return `<button type="button" class="sunbtn noen" data-view="${raw.d}|${on?back:"sunrise"}" aria-pressed="${on}" title="${on?"按一下取消日出行程":"按一下加入日出行程"}">${SI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}<span>日出</span></button>`})();
   return `<article class="day${day.only?" dtonly":""}${day.d<1?" dtday":""}" data-d="${day.d}" style="--dc:${dayCol(day.d)}">
-    <h3><span>${dLab(day.d)} · ${dFmt(day.date)}${day.d>=1?`<span class="dwx" data-wxd="${day.d}" hidden></span>`:""}${day.tag?`<span class="vtag">${day.tag}</span>`:""}</span>${wkm?`<small>徒步約 ${wkm} km（不用開車）</small>`:day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"實際車程約":(REAL?"車程預留約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}${!REAL&&!DT?"":`<span class="h3act">${sunBtn}${String(pickH).replace(/\s+/g,"")?`<button type="button" class="optbtn" data-optdlg="${raw.d}">${SI('<path d="M4 6h10M4 12h10M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="12" r="2"/>')}<span>可選行程${(()=>{const n=(RECP[raw.d]||[]).filter(x=>!/^sun/.test(x)).length;return n?` · ${n}`:""})()}</span></button>`:""}<details class="dmore"><summary aria-label="更多" title="更多">⋯</summary><div class="dmm"><button type="button" class="cuopen" ${DT&&!SHARED?`data-addtog="${raw.d}" aria-expanded="${ADDOPEN.has(raw.d)}"`:`data-cuopen="${raw.d}"`}>${DT&&!SHARED&&ADDOPEN.has(raw.d)?"收起調整":"調整行程"}</button>${DT||!REAL?"":`<button type="button" class="cpday" data-cpday="${raw.d}">複製行程</button>`}</div></details></span>`}</h3>${(()=>{const fk=SQ[0],tk=SQ[SQ.length-1];if(!fk||!pts[fk])return "";const nn=k=>(k==="hjok"&&pts.jks&&(k="jks"),pts[k]?String(nm(k)).replace(/（.*/,""):""),reg=fk===tk||!tk||nn(fk)===nn(tk)?nn(fk):`${nn(fk)} → ${nn(tk)}`,I=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
-      const dl=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride),rawT=dl.reduce((a,l)=>a+l.m,0),bufT=dl.reduce((a,l)=>a+buf(l.m),0),lgMax=Math.max(0,...dl.map(l=>l.m));
+    <h3><span>${dLab(day.d)} · ${dFmt(day.date)}${day.d>=1?`<span class="dwx" data-wxd="${day.d}" hidden></span>`:""}${day.tag?`<span class="vtag">${day.tag}</span>`:""}</span>${wkm?`<small>徒步約 ${wkm} km（不用開車）</small>`:day.bus?"<small>未取車，坐巴士</small>":tot?`<small>${drv==="raw"?"導航時間約":(REAL?"行程預算車程約":"車程約")} ${fmt(tot)}</small>`:"<small>不用開車</small>"}${!REAL&&!DT?"":`<span class="h3act">${sunBtn}${String(pickH).replace(/\s+/g,"")?`<button type="button" class="optbtn" data-optdlg="${raw.d}">${SI('<path d="M4 6h10M4 12h10M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="12" r="2"/>')}<span>可選行程${(()=>{const n=(RECP[raw.d]||[]).filter(x=>!/^sun/.test(x)).length;return n?` · ${n}`:""})()}</span></button>`:""}<details class="dmore"><summary aria-label="更多" title="更多">⋯</summary><div class="dmm"><button type="button" class="cuopen" ${DT&&!SHARED?`data-addtog="${raw.d}" aria-expanded="${ADDOPEN.has(raw.d)}"`:`data-cuopen="${raw.d}"`}>${DT&&!SHARED&&ADDOPEN.has(raw.d)?"收起調整":"調整行程"}</button>${DT||!REAL?"":`<button type="button" class="cpday" data-cpday="${raw.d}">複製行程</button>`}</div></details></span>`}</h3>${(()=>{const fk=SQ[0],tk=SQ[SQ.length-1];if(!fk||!pts[fk])return "";const nn=k=>(k==="hjok"&&pts.jks&&(k="jks"),pts[k]?String(nm(k)).replace(/（.*/,""):""),reg=fk===tk||!tk||nn(fk)===nn(tk)?nn(fk):`${nn(fk)} → ${nn(tk)}`,I=p=>`<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+      const dl=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride),rawT=dl.reduce((a,l)=>a+l.m,0),bufT=dl.reduce((a,l)=>a+buf(l.m,l.b),0),lgMax=Math.max(0,...dl.map(l=>l.m));
       const pl=EP(day.plan,DSH(day.d)),sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null},di=depI(pl),t0=di>=0?sm(pl[di][0]):null;
       let t1=null;pl.forEach(r=>{const p=String(r[1]).replace(/<[^>]*>/g,"");if(r[2]!=="y"&&/^(到|入住)|、入住|入住、/.test(p)&&sm(r[0])!=null)t1=sm(r[0])});if(t1==null&&day.arrive)t1=sm(day.arrive);
       const hm=x=>`${String(Math.floor(x/60)).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`,whole=t0!=null&&t1!=null&&t1>t0?`${hm(t0)}–${hm(t1)}（約 ${fmt(t1-t0)}）`:"";
@@ -1614,7 +1620,7 @@ function card(raw){
       const stN=day.stay?String(day.stay).replace(/（.*$/,""):"",same=stN&&tk&&(()=>{const z=x=>x.replace(/住處|\s/g,""),p=z(stN),q=z(nn(tk));return p.startsWith(q)||q.startsWith(p)||stN.split(" ")[0]===nn(tk).split(" ")[0]})(),hs=I('<path d="M3 12l9-8 9 8"/><path d="M6 10v10h12V10"/>');
       const sh=x=>{x=Math.round(x);const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分`:""}`:`${m} 分`};
       return `<div class="dsum2"><ul><li title="路線">${I('<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>')}<span>${same&&fk!==tk?`${nn(fk)} → <span class="rt">${nn(tk)} <i class="stin" title="住宿">${hs}</i></span>`:`${reg}${same?` <i class="stin" title="住宿">${hs}</i>`:""}`}</span></li></ul>
-        <ul class="dstat2"><li title="${REAL&&rawT&&!wkm&&!day.bus?"純駕駛（括號內為已預留）":"純駕駛"}">${I('<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/>')}<span>${wkm?`徒步 ${wkm} km`:day.bus?"坐巴士":rawT?`${sh(rawT)}`:"不用開車"}</span></li></ul>
+        <ul class="dstat2"><li title="${REAL&&rawT&&!wkm&&!day.bus?(drv==="buf"?"行程預算車程（導航時間 "+sh(rawT)+"）":"導航時間（純駕駛）"):"純駕駛"}">${I('<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/>')}<span>${wkm?`徒步 ${wkm} km`:day.bus?"坐巴士":rawT?`${sh(REAL&&drv==="buf"?bufT:rawT)}`:"不用開車"}</span></li></ul>
         ${dusk<20?`<div class="dlong">${I('<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>')}<span class="noen">最後一段車程貼近日落，留意不要太遲出發。</span></div>`:""}
         <div class="dact">${du&&(REAL||DT)?`<a class="navbtn" href="${du}" target="_blank" rel="noopener" aria-label="Google Maps 整日導航">${I('<path d="M12 2l7 19-7-4-7 4z"/>')}<span>導航</span></a>`:""}<button type="button" class="mapbtn" data-showmap="1" aria-label="看地圖">${I('<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>')}<span>地圖</span></button></div></div>`})()}${raw.v?(raw.d===7?scenH():scen==="redo"?`<p class="rhint scnote noen">D7 冰川健行取消，今日補做健行（喺 D7 改返「順利」）</p>`:""):""}
     ${viewBar(raw)}
@@ -1770,8 +1776,8 @@ $("zin").addEventListener("click",()=>zoomAt(.7,...ctr()));$("zout").addEventLis
 $("fprev").addEventListener("click",()=>{const i=days.findIndex(x=>x.d===sel);if(i>0)select(days[i-1].d,true)});$("fnext").addEventListener("click",()=>{const i=days.findIndex(x=>x.d===sel);if(i>=0&&i<days.length-1)select(days[i+1].d,true)});$("fall").addEventListener("click",()=>select(ALL,true));
 
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-scen]");if(b)setScen(b.dataset.scen)});
-function mapHint(){const e=$("maphint1");if(e)e.textContent=(REAL||DT)?(drv==="raw"?"現在顯示實際車程（未加預留）；點擊景點查看詳情。":"車程已預留緩衝時間，點擊景點查看詳情。"):"點擊景點查看詳情；車程為約數。"}
-function setDrv(v){drv=v;mapHint();store.set("iceland-drv",v);$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));drawMap();renderPanel();dim()}
+function mapHint(){const e=$("maphint1");if(e)e.textContent=(REAL||DT)?(drv==="raw"?"現在顯示導航時間（Google Maps 原始車程）；點擊景點查看詳情。":"現在顯示行程預算（導航時間加緩衝）；點擊景點查看詳情。"):"點擊景點查看詳情；車程為約數。"}
+function setDrv(v){drv=v;try{DRV.on=v==="buf"}catch(e){}mapHint();store.set("iceland-drvbuf",v==="buf"?"1":"0");$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));drawMap();renderPanel();dim()}
 $("dv-buf").addEventListener("click",()=>setDrv("buf"));$("dv-raw").addEventListener("click",()=>setDrv("raw"));
 if(REAL){$("drvgrp").hidden=false;document.querySelectorAll(".rawonly").forEach(e=>e.hidden=false)}$("dv-buf").setAttribute("aria-pressed",String(drv==="buf"));$("dv-raw").setAttribute("aria-pressed",String(drv==="raw"));
 {const TD=todayDay();if(TD)sel=TD.d}if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;setScen(scen);select(sel);
@@ -2654,7 +2660,7 @@ if(/print/.test(location.hash)){
   drv=/raw/.test(location.hash)?"raw":"buf";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
   $("panel").innerHTML=tipsHTML()+days.map(card).join("");
   document.querySelectorAll("#panel details,details.more").forEach(x=>x.open=true);
-  document.querySelector(".sub").textContent="2027 年 9 月 11–23 日 · 7 人 · "+(drv==="raw"?"實際車程版：車程未加預留時間（時間表本身已留有空檔）":"預留時間版")+" · 健行順利版";
+  document.querySelector(".sub").textContent="2027 年 9 月 11–23 日 · 7 人 · "+(drv==="raw"?"導航時間版：車程未加緩衝（時間表本身已留有空檔）":"行程預算版")+" · 健行順利版";
 }
 try{enWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(enWalk))).observe(document.body,{childList:true,subtree:true})}catch(e){}
 /* 無障礙：只圖示的按鈕，滑鼠停留時顯示文字說明 */
@@ -2766,25 +2772,22 @@ function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/86
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
-/* ===== 車程：實際 ↔ 預鬆（按路段類型加緩衝；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
-const DRV={on:store.get("iceland-drvbuf")==="1",
-  GRAV:["kolu","vest","fjall","ytri","grjo"],MTK:["seyd","gufu","hvera","raufar","viti","leir"],
-  MT:/山口|Fjarðarheiði|Hellisheiði|Þrengsli|Öxi|Holtavörðuheiði|Möðrudal/,
+/* ===== 車程：導航時間 ↔ 行程預算（同一條路段緩衝公式；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
+const DRV={on:REAL&&drv==="buf",
   HOT:/Lagoon|溫泉|Nature Baths|GeoSea|泳池|Sundhöllin|Laugardalslaug|Nauthólsvík|地熱海灘|Vök|Hrunalaug|Seljavallalaug/i,
   NOHOT:/只可以看|不可以浸|浸腳|出發去|開車|開去|回住處|^午餐|^晚餐|^早餐/,
   pm(s){const m=String(s).match(/約\s?(?:(\d+)\s?(?:個)?小時)?\s?(?:(\d+)\s?分(?:鐘)?)?/);if(!m||(!m[1]&&!m[2]))return null;return (+m[1]||0)*60+(+m[2]||0)},
   fm(x){const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`},
   /* 緩衝：短途／市區（20 分鐘或以下）＋25%（最少 5 分鐘）＋泊車 5 分鐘；公路＋10%＋泊車 5 分鐘；山路／山口再加 10 分鐘；碎石路段再加 10 分鐘；最後進位到 5 分鐘 */
-  kind(k,txt,m){const g=this.GRAV.includes(k)||/碎石/.test(txt),mt=this.MTK.includes(k)||this.MT.test(txt);return {c:m<=20,g,mt}},
-  buf(m,t){let b=t.c?m+Math.max(5,Math.round(m*.25))+5:m+Math.round(m*.1)+5;if(t.mt)b+=10;if(t.g)b+=10;return Math.ceil(b/5)*5},
+  kind:(k,txt,m)=>BUFK.kind(k,txt,m),buf:(m,t)=>BUFK.buf(m,t),
   why(t){return [t.c?"市區／短途：塞車、搵車位":"公路：慢車、修路、停車影相",t.mt?"山路／山口：彎多、霧":"",t.g?"碎石路段：要慢駛":""].filter(Boolean).join("；")},
   tm(s){const m=String(s).match(/(\d{1,2}):(\d{2})/g);return m?m.map(x=>{const [h,mi]=x.split(":").map(Number);return h*60+mi}):[]},
-  wrap(el,k,txt){if(!el||el.dataset.dtw)return null;el.dataset.dtw=1;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,hit=null;
-    while(n=w.nextNode()){if(n.parentElement.closest(".drvpill,.dtm,.alrt"))continue;const re=/(車程)?約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/;const m=n.textContent.match(re);if(!m||!/\d/.test(m[0]))continue;
+  wrap(el,k,txt,car){if(!el||el.dataset.dtw)return null;el.dataset.dtw=1;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,hit=null;
+    while(n=w.nextNode()){if(n.parentElement.closest(".drvpill,.dtm,.alrt"))continue;const re=car?/(車程)約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/:/(車程)?約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/;const m=n.textContent.match(re);if(!m||!/\d/.test(m[0]))continue;   /* car：只包「車程約」，唔好包到「停留約」（停留時間唔加車程緩衝） */
       const mm=this.pm(m[0]);if(!mm)continue;const t=this.kind(k,txt,mm),b=this.buf(mm,t);const sp=document.createElement("span");sp.className="dtm";sp.dataset.m=mm;sp.dataset.b=b;sp.dataset.pre=m[1]||"";sp.title="行程預算緩衝："+this.why(t);
       const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);r.surroundContents(sp);hit=sp;break}
     return hit},
-  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=`${sp.dataset.pre}${this.on?"行程預算約 ":"約 "}${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
+  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=this.on?`${sp.dataset.pre?"行程預算車程約 ":"行程預算約 "}${this.fm(v)}`:`${sp.dataset.pre}約 ${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
     (root||document).querySelectorAll("[data-drvbuf]").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.drvbuf==="1")===this.on)));
     (root||document).querySelectorAll(".rushA").forEach(x=>x.hidden=!this.on)},
   apply(root){if(!(DT||REAL)||!root)return;root.querySelectorAll(".sched.rich").forEach(sc=>{if(sc.dataset.drv)return;sc.dataset.drv=1;
@@ -2796,7 +2799,10 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
       const nm=(el.querySelector(".tl-n")||el).textContent;if(this.HOT.test(nm)&&!this.NOHOT.test(nm)&&ts.length>=2){const du=(ts[1]-ts[0]+1440)%1440;if(du<120){hot.push(nm.trim());const h=el.querySelector(".tl-h")||el;h.insertAdjacentHTML("beforeend",`<span class="alrt hotA noen" title="溫泉最少預 2 小時（換衫、沖身、浸、休息）">溫泉只得 ${this.fm(du)}</span>`)}}
       /* 開車：出發行、自動開車行、早上出發細字 */
       const box=el.classList.contains("drv")?el.querySelector(".drvgo")||el:el.querySelector(".depline .depm");
-      const sp=box?this.wrap(box,k,txt):null;el.querySelectorAll(".tl-m").forEach(m=>{if(/車程/.test(m.textContent))this.wrap(m,k,txt)});
+      /* 同一段路：出發行同到達行要用同一個路段資料（出發行文字＋到達行文字、到達站），兩邊數字先一致 */
+      const nA=(()=>{for(let j=ix+1;j<kids.length;j++)if(kids[j].classList.contains("a"))return kids[j];return null})(),pA=(()=>{for(let j=ix-1;j>=0;j--)if(kids[j].classList.contains("a"))return kids[j];return null})();
+      const kTo=nA?(nA.dataset.sk||el.dataset.to||k):(el.dataset.to||k),txOut=txt+" "+(nA?nA.textContent:""),txIn=(pA?pA.textContent:"")+" "+txt;
+      const sp=box?this.wrap(box,el.dataset.to||kTo,txOut):null;el.querySelectorAll(".tl-m").forEach(m=>{if(/車程約/.test(m.textContent))this.wrap(m,el.dataset.sk||k,txIn,1)});
       if(!sp)return;let dep=null;const dt=el.querySelector(".drvt");if(dt){const x=this.tm(dt.textContent);if(x.length)dep=x[0]}
       if(dep==null)dep=ts.length?ts[ts.length>1&&!el.classList.contains("drv")&&!box.closest(".depline")?1:0]:last;if(dep==null)return;
       let nxt=null;for(let j=ix+1;j<kids.length;j++){if(kids[j].classList.contains("t")){const x=this.tm(kids[j].textContent);if(x.length){nxt=x[0];break}}}
@@ -2813,7 +2819,7 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
     else sc.insertAdjacentHTML("beforebegin",`<div class="golin g1 drvc noen">${tail}</div>`)});
     this.show(root)}};
 try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}}}catch(e){}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();DRV.on=b.dataset.drvbuf==="1";store.set("iceland-drvbuf",DRV.on?"1":"0");DRV.show(document)},true);
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();const y0=window.scrollY;setDrv(b.dataset.drvbuf==="1"?"buf":"raw");try{window.scrollTo(0,y0)}catch(err){}},true);
 
 
 const TODAY={d:null,docMode:"date",
