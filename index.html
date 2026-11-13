@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-fold2">
+<link rel="stylesheet" href="style.css?v=2026-11-14-car2">
 
 </head>
 <body>
@@ -139,10 +139,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-sim1"></script>
+<script src="trip.js?v=2026-11-14-d4s2"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
-<script src="data.js?v=2026-11-14-d6w"></script>
+<script src="data.js?v=2026-11-14-d4s2"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -2823,13 +2823,15 @@ const DRVF={
   dest(a,kids,ix){for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const n=x.querySelector(".tl-n");if(n){const t=n.textContent.replace(/^[\s\d]+/,"").split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
   fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];let prevDrv=false;kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const hadDrv=prevDrv;prevDrv=false;
     let host=null,sp=null,notes="",al=null,txt="";const dest=this.dest(a,kids,ix);
+    /* 分車：行內文字有「第一部車／第二部車」就喺標題加小標籤 */
+    {const cm=(a.dataset.raw||a.textContent).match(/第[一二]部車/),h=a.querySelector(".tl-h");if(cm&&h&&!h.querySelector(".carchip"))h.insertAdjacentHTML("beforeend",`<span class="carchip noen">${cm[0]}</span>`)}
     const dm=a.querySelector(".depline .depm");
     if(dm){host=dm.closest(".depline");sp=dm.querySelector(".dtm");al=dm.querySelector(".alrt");txt=dm.textContent;
       notes=[...dm.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join("").replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
-      const ic=dm.querySelector("svg");dm.innerHTML="";if(ic)dm.appendChild(ic);dm.insertAdjacentHTML("beforeend",`<span class="dgo">${dest?"前往 "+DOCX.esc(dest):"出發"}</span>`)}
+      const ic=dm.querySelector("svg");dm.innerHTML="";if(ic)dm.appendChild(ic);const c2=((txt.match(/第[一二]部車/)||[""])[0]+" ").trimStart();dm.insertAdjacentHTML("beforeend",`<span class="dgo">${c2}${dest?"前往 "+DOCX.esc(dest):"出發"}</span>`)}
     else if(a.classList.contains("drv")){const g=a.querySelector("a.drvgo");if(g){host=g;sp=g.querySelector(".dtm");txt=g.textContent;const t=g.querySelector(".drvt");
         [...g.childNodes].forEach(n=>{if(n.nodeType===3){notes+=n.textContent;n.remove()}});notes=notes.replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
-        if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=t.textContent.replace(/\s*·\s*$/,"")+(dest?` → ${dest}`:"")}}
+        if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=(((txt+notes).match(/第[一二]部車/)||[""])[0]+" ").trimStart()+t.textContent.replace(/\s*·\s*$/,"")+(dest?` → ${dest}`:"")}}
     const isDep=!!host;a.querySelectorAll(".tl-m").forEach(m=>{if(!/車程約/.test(m.textContent))return;const s2=m.querySelector(".dtm");if(!sp&&s2)sp=s2;if(!txt)txt=(m.textContent.match(/車程約[^·]*/)||[""])[0];
       if(s2){const pv=s2.previousSibling;if(pv&&pv.nodeType===3)pv.textContent=pv.textContent.replace(/\s*·\s*$/,"");s2.remove()}else m.textContent=m.textContent.replace(/\s*·?\s*車程約[^·]*/,"");
       m.querySelectorAll(".alrt.rushA").forEach(x=>{al=al||x;x.remove()});if(!m.textContent.trim())m.remove();if(!host)host=a.querySelector(".tl-h")});

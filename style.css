@@ -3362,3 +3362,5 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich .drvdet li.dw{display:block}
 .sched.rich .depline .dgo{font-weight:600}
 .sched.rich .drvdet li b{white-space:nowrap;flex:none}.sched.rich .drvdet li span{min-width:0}
+.carchip{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11.5px;font-weight:700;background:color-mix(in srgb,var(--route) 14%,transparent);color:var(--route);vertical-align:middle}
+.carchip{white-space:nowrap}
