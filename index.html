@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-d4b"></script>
+<script src="trip.js?v=2026-11-14-d4d"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
@@ -535,7 +535,7 @@ const EP=(plan,n=0)=>plan.filter(r=>DT||r[2]!=="y").map(([t,a,f])=>[shl(shiftClo
 const depI=pl=>{const f=rx=>(pl||[]).findIndex(r=>/^\d{1,2}:\d{2}$/.test(r[0])&&rx.test(r[1]));const i=f(/出發|取車/);return i>=0?i:f(/退房/)};
 const toM=t=>{const [h,m]=t.split(":").map(Number);return h*60+m},toT=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
 /* 自理早餐不顯示（指明去哪間吃先顯示） */
-const BFX=r=>Array.isArray(r)&&/^早餐：/.test(String(r[1]))&&!/Grái Kötturinn|LYST/.test(String(r[1]));
+const BFX=r=>Array.isArray(r)&&/^早餐：/.test(String(r[1]))&&!/Grái Kötturinn|Ketilkaffi/.test(String(r[1]));
 const noBF0=o=>o&&Array.isArray(o.plan)&&o.plan.some(BFX)?{...o,plan:o.plan.filter(r=>!BFX(r))}:o;
 /* D&T 早起行程（似日出）：未加入就不顯示 D&T 專屬行 */
 const EARLY=o=>{try{if(!o||!Array.isArray(o.plan)||!(o.opt||[]).some(x=>x.early))return o;const id=o.opt.find(x=>x.early).id;if((RECP[o.d]||[]).includes(id))return o;return {...o,plan:o.plan.filter(r=>r[2]!=="y").map(r=>/⟦[^⟧]*Stykkish/.test(String(r[1]))?[r[0],String(r[1]).replace(/⟦[^⟧]*⟧/g,""),...r.slice(2)]:r)}}catch(e){return o}};
