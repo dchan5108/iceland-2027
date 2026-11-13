@@ -139,8 +139,9 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-13-ai2"></script>
-<script src="landing.js?v=2026-11-13-lp6"></script>
+<script src="trip.js?v=2026-11-13-opt2"></script>
+<script src="landing.js?v=2026-11-13-bc1"></script>
+<script src="badges.js?v=2026-11-13-bc1"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1574,13 +1575,13 @@ function ovHero(){try{
   ${bpassHTML()}${bk||DT?`<div class="ovh-rem">${bk}${DT?`<button type="button" class="ovh-go" data-hv="day">預覽旅程中 ›</button>`:""}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
-function ovPlan(){const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
+function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:DT,now:nowIS()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
   const RG=[[1,"Reykjavík"],[2,"Snæfellsnes"],[3,"Akureyri"],[4,"Mývatn"],[5,"East Fjords"],[6,"Jökulsárlón"],[8,"Vík"],[9,"Golden Circle"]];
   const HL=["goda","vest","jok","reyn","husa","geys"].filter(k=>pts[k]);
   const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
   return `<section class="hcard glance ovplan noen"><div class="glh"><h3>Journey at a glance</h3><small>旅程一覽</small></div>
   <div class="glst"><div>${ic('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>')}<b>${N}</b><small>日</small></div><div>${ic('<path d="M4 18c3-8 13-4 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/>')}<b>2,000</b><small>公里</small></div><div>${ic('<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.8-3.5 3-5 5.5-5s4.7 1.5 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.4-.4 4.4 1 5 4.3"/>')}<b>7</b><small>人</small></div><div>${ic('<circle cx="12" cy="12" r="8"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/>')}<b>1</b><small>環島公路</small></div></div>
-  ${window.LANDING&&HL.length?`<div class="glhl"><div class="glk">旅程亮點</div><div class="glb">${HL.map(k=>`<button type="button" data-hgo="${dOf(k)}">${LANDING.badge(k,84)}<span>${String(nm(k)).replace(/（.*?）/g,"").trim()}</span></button>`).join("")}</div></div>`:""}</section>`}
+  ${window.LANDING&&HL.length?`<div class="glhl"><div class="glk">旅程亮點</div><div class="glb">${HL.map(k=>`<button type="button" data-hgo="${dOf(k)}">${LANDING.badge(k,84)}<span>${String(nm(k)).replace(/（.*?）/g,"").trim()}</span></button>`).join("")}</div></div>`:""}${window.BADGES?`<div class="bc" id="badgeBox"></div>`:""}</section>`}
 function overview(){
   return `${scenH()}<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
     const route=day.summary||stopsOf(day).map(k=>k.startsWith("via:")?vq(k.slice(4)):nm(k)).filter(Boolean).filter((v,i,a)=>v!==a[i-1]).join(" → ");
@@ -2386,7 +2387,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mo
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a>
     <a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div>
     </section>`;
-  if(LIVE){$("home").dataset.mode="day";box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
+  if(LIVE){$("home").dataset.mode="day";box.innerHTML=`<div id="homeToday"></div>${LINKS}${window.BADGES?`<section class="hcard glance noen"><div class="bc" id="badgeBox" style="margin-top:0"></div></section>`:""}`;try{TODAY.render($("homeToday"))}catch(e){}try{window.BADGES&&BADGES.mount($("badgeBox"),{url:CONTENT_URL,admin:DT,now:nowIS()})}catch(e){}
     TIPMOVE();return}
   /* 準備期：總覽是「準備 ⇄ 每日行程」的翻頁：準備頁按 › 去第一日，第一日按 ‹ 回準備 */
     TODAY.prevHook=null;
