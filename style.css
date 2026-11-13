@@ -3192,3 +3192,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
   #home .ovmap{position:static!important;height:auto!important}
   #home .ovsil svg{max-width:400px}}
 @media (max-width:999px){.ovsil{padding:20px 20px 18px;gap:10px}.ovsil svg{max-width:250px}}
+/* 日子選擇：今日和行程用同一款 ‹ › */
+.tpn button{width:36px;height:36px;font-size:18px;display:inline-grid;place-items:center;padding:0}
+.tdate{font-size:24px}
+.dpn{gap:6px;margin-left:auto}
+@media (max-width:420px){.tdate{font-size:21px}}

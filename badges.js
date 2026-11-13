@@ -83,7 +83,11 @@ async function call(body){const sk=localStorage.getItem("iceland-gsk");if(!sk||!
  try{r=await fetch(X.url,{method:"POST",body:JSON.stringify(Object.assign({sk},body))})}catch(e){throw new Error("net")}
  try{j=await r.json()}catch(e){throw new Error("server")}
  if(!j.ok)throw new Error(j.err==="op"?"old":j.err==="sess"?"sess":j.err&&ERR[j.err]?j.err:(j.sv||0)<10&&body.op==="bset"?"old":j.err||"server");return j.badges||{}}
-function save(m){S=m||{};try{localStorage.setItem(CK,JSON.stringify(S))}catch(e){}render()}
+let RW=null,RTK=[];
+/* 今日相關徽章：只列今日行程地點有關的徽章；排程不等於收集，要管理員解鎖並儲存成功才變已收集 */
+function row(el,tk){if(el){RW=el;RTK=tk||[]}if(!RW||!RW.isConnected)return;const L=DEF.filter(b=>b[1]!=="secret"&&(TK[b[0]]||[]).some(k=>RTK.includes(k)));
+ if(!L.length){RW.hidden=true;return}RW.hidden=false;RW.innerHTML=`<div class="thd2"><b>🏅 今日徽章</b><small>${L.filter(b=>has(b[0])).length}/${L.length} 已收集</small></div><div class="bc-tr">${L.map(b=>{const on=has(b[0]);return `<button type="button" class="bc-b ${on?"got":"lk av"}" data-bdg="${b[0]}">${art(b,60,!on)}<span>${b[2]}</span><em>${on?"已收集":"未收集"}</em></button>`}).join("")}</div>`}
+function save(m){S=m||{};try{localStorage.setItem(CK,JSON.stringify(S))}catch(e){}render();row()}
 async function pull(){try{save(await call({op:"badges"}));X.note=""}catch(e){X.note=X.admin&&e.message!=="login"?"徽章未能同步："+(ERR[e.message]||e.message):"";render()}}
 function open(id){const b=DEF.find(x=>x[0]===id);if(!b)return;const on=has(id),hid=b[1]==="secret"&&!on,d=document.createElement("dialog");d.className="bc-dlg";const dt=on?when(id):"";
  d.innerHTML=`<div class="bc-art${on?"":" lk"}">${hid?Q:art(b,148,!on)}</div><div class="bc-cat2">${CAT[b[1]]}</div><h3>${hid?"隱藏徽章":b[2]}</h3><p class="bc-en">${hid?"":b[3]}</p><p>${hid?"在旅途中有意外發現就會解鎖。":b[5]}</p><p class="bc-st">${on?`✓ 已收集${dt?`・${dt}`:""}`:hid?"":avail(id)?`今日行程有機會收集・${b[6]}`:`未收集・${b[6]}`}</p>${X.admin?`<div class="bc-ad">${on?"":`<button type="button" data-bset="${id}|1">解鎖</button>`}${on?`<button type="button" data-bset="${id}|0">撤銷</button>`:""}${AUTO[id]&&S[id]!=null?`<button type="button" data-bset="${id}|">回復自動</button>`:""}</div><p class="bc-msg" role="status"></p>`:""}<button type="button" class="bc-x" data-bcx>關閉</button>`;
@@ -117,8 +121,10 @@ const css=`.bc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)
 @media (prefers-reduced-motion:reduce){.bc-b.new svg,.bc-toast{animation:none;transition:none}}
 .ovbc-unused{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--fg);font:600 13.5px system-ui,sans-serif;cursor:pointer}.ovbc b{margin-left:auto;font:700 15px Georgia,serif;color:#a5803c}.ovbc i{font-style:normal;color:var(--muted)}
 #badgeBox{scroll-margin-top:16px}
-.bc-h{display:flex!important;justify-content:space-between;align-items:center;gap:8px}.bc-h .glk{white-space:nowrap}.bc-n{white-space:nowrap}`;
+.bc-h{display:flex!important;justify-content:space-between;align-items:center;gap:8px}.bc-h .glk{white-space:nowrap}.bc-n{white-space:nowrap}
+.tbdg .thd2{display:flex;justify-content:space-between;align-items:baseline}.tbdg .thd2 small{font-size:12px;color:var(--muted)}
+.bc-tr{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px 8px;margin-top:10px}.bc-tr .bc-b svg{width:60px;height:60px}.bc-tr .bc-b span{font-size:11.5px}.bc-tr .bc-b em{font-style:normal;font-size:10.5px;color:var(--muted);font-weight:500}.bc-tr .bc-b.got em{color:#a5803c;font-weight:700}`;
 try{const st=document.createElement("style");st.textContent=css;document.head.appendChild(st)}catch(e){}
 /* ctx: {url, admin, now} */
-window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping,count};
+window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping,count,row};
 })();
