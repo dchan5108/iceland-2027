@@ -114,5 +114,28 @@ const days=[
 ];
 /* 來源標籤：只列 AI 原本提出的項目（你核實過的名單）。key＝日子號碼，值＝行名稱的 regex */
 const AI={0:"哈爾格林姆大教堂|^彩虹街|^Laugavegur 逛街|^Harpa|^Sun Voyager|^Laugardalslaug",5:"^Gufufoss",7:"^Svartifoss",10:"Friðheimar 番茄農場"};
+/* 延誤 20–40 分鐘：每日後備建議（只係建議，唔會自動改行程）。m＝必去／已訂，o＝可彈性／可選，s＝做法（先重排、減等候，最後先刪），i＝對到達時間影響 */
+const DLY={
+2:{m:["Ytri Tunga 海豹（潮退後約一個鐘最好）","Kirkjufell 草帽山","Hlaðan 晚餐 19:45（已訂）"],o:["因亞爾茲霍爾教堂","可選：Arnarstapi 步道、Djúpalónssandur"],
+ s:["減等候：Hjá Góðu Fólki 一坐低就點餐，可以慳約 10–15 分鐘","重排：遲咗都先去 Ytri Tunga，午餐順延；潮退後一個鐘內（約 12:20 前）去到最好","仍然遲 30 分鐘或以上：取消因亞爾茲霍爾教堂，由布迪爾直接開去草帽山（約 35 分鐘；原本經教堂連停留約 2 小時 15 分鐘）","草帽山、Ytri Tunga 不要刪"],
+ i:"照原路線：約 19:40–20:00 到 Miðhraun，要通知酒店晚餐遲少少。取消因亞爾茲霍爾教堂：約 18:30 前到，晚餐時間不受影響。"},
+3:{m:["Kolugljúfur 巨人峽谷","安全到 Akureyri"],o:["Bónus 補給（可以分一部分喺 Akureyri 買）","Akureyri 晚上散步（D4 早上都有散步，景點大致一樣）"],
+ s:["減等候：Borgarnes Bónus 只買今晚同明早要用嘅，其餘喺 Akureyri Bónus 補，可以慳約 15–20 分鐘","午餐揀即叫即食，不要等位","Kolugljúfur 照去","仍然遲：取消晚上市區散步，改喺 D4 早上散步時一齊行"],
+ i:"約 19:45–20:05 到 K16（自助入住，沒有時間限制）；晚餐 20:45 照食。取消晚上散步，晚餐可以提早。"},
+4:{m:["賞鯨：11:40 碼頭報到、12:00 開船（已訂）","日落（約 19:30）前後安全過 Möðrudalsöræfi 高原"],o:["Akureyri 早上散步","Grjótagjá（只可以看）","可選：Mývatn Nature Baths"],
+ s:["早上：10:00 出發、車程約 1 小時 10 分鐘，大約 11:10 到，本身有約 30 分鐘緩衝；遲 20 分鐘仍然趕得切","早上遲 30–40 分鐘：先取消早上散步，Ketilkaffi 咖啡外賣上車，準時 10:00 出發","下晝：港口午餐揀快嘅；仍然遲就取消 Grjótagjá，由胡薩維克直接開去 Hverir（約 1 小時 7 分鐘），慳約 15–20 分鐘","Hverir 不要刪；Mývatn Nature Baths 今日唔好加"],
+ i:"照原路線：約 19:40–20:00 到 Egilsstaðir，高原最後一段會開始暗，要慢駛。取消 Grjótagjá 可以拉返 15–20 分鐘。"},
+8:{m:["Fjallsárlón 冰浮 09:15（已訂）","Fjaðrárgljúfur 羽毛峽谷"],o:["Víkurfjara 海邊散步","可選：Svartifoss、Hofskirkja、Skool Beans"],
+ s:["冰浮前：08:45 出發、車程約 20 分鐘，只有約 10 分鐘緩衝；早餐有延誤就 08:30 前出發，遲咗即刻打電話通知冰浮公司","冰浮之後遲：直接順延，Vík 下晝本身有空檔","今日唔好再加 Svartifoss（+1.5 小時）；Skool Beans 星期日 17:00 閂，遲 40 分鐘都仍然去得"],
+ i:"約 15:30–15:50 到 Vík，Víkurfjara 散步同 19:00 晚餐都不受影響。"},
+9:{m:["Reynisfjara 黑沙灘","Skógafoss","Skálakot 騎馬 12:30（已訂）","Seljalandsfoss＋Gljúfrabúi"],o:["Skógá 河步道（原本已寫明隨時可以折返）","可選：Dyrhólaey、Sólheimajökull、Seljavallalaug"],
+ s:["騎馬前：午餐 12:10 食完、去 Skálakot 約 20 分鐘，冇緩衝；Skógar 午餐揀快嘅","你自己決定：Skógá 河步道早一點折返，可以拉返 20–40 分鐘（瀑布同上頂樓梯照去）","遲咗即刻打電話通知 Skálakot","騎馬之後遲：直接順延；今日唔好加可選景點"],
+ i:"騎馬之後遲 20–40 分鐘：約 16:25–16:45 到 Mr Iceland 農場，19:00 自己煮晚餐不受影響。"},
+10:{m:["Silfra 浮潛 13:30（已訂，沒有後備日）","Gullfoss 黃金瀑布","Geysir 間歇泉","Friðheimar 午餐（已訂）"],o:["Friðheimar 等候時間","可選：Kerið、Þingvellir"],
+ s:["調轉先去 Geysir 再去 Gullfoss 唔會快（總車程差不多），所以照原次序","減等候：Geysir 的 Strokkur 大約每 5–10 分鐘噴一次，睇完一兩次就走","Friðheimar：坐低就同職員講 12:25 要走，叫番茄湯自助最快","12:25 一定要由 Friðheimar 出發；遲咗即刻打電話通知 Silfra 公司","最後先考慮（你自己決定）：Geysir 停 15 分鐘；不要刪 Silfra","Kerið、Þingvellir 今日唔好加"],
+ i:"只要 12:25 準時出發去 Silfra，到 Reykjavík 時間（約 17:20）不變；遲咗就係食少啲時間。"},
+11:{m:["Raufarhólshellir 熔岩隧道 12:00（已訂，11:30 前報到）","Sky Lagoon 17:30（已訂）"],o:["15:00–17:00 回住處休息（2 小時緩衝）","Hveragerði 午餐"],
+ s:["11:00 出發、車程約 30 分鐘，11:30 先到，冇緩衝；建議 10:45 出發","遲咗：打電話問 Raufarhólshellir 可否轉 13:00 班（導賞團每個鐘頭一班）","轉咗班：午餐、返市區全部順延約 1 小時，用下晝休息時間抵消"],
+ i:"Sky Lagoon 17:30 不變；下晝休息由 2 小時減到約 1 小時。"}};
 const AIOPT=["hvamm1","early3","bonus5","netto6","sun6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
-return {pts,N,ROUTES,days,AI,AIOPT}})((a,b,m,o={})=>({a,b,m,...o}));
+return {pts,N,ROUTES,days,AI,AIOPT,DLY}})((a,b,m,o={})=>({a,b,m,...o}));

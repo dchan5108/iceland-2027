@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-hd1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-dly1">
 
 </head>
 <body>
@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-14-rc2"></script>
+<script src="trip.js?v=2026-11-14-dly1"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
 <script src="data.js?v=2026-11-14-drv1"></script>
@@ -2741,6 +2741,8 @@ const DRV={on:store.get("iceland-drvbuf")==="1",
     const mx=late.length?Math.max(...late):0;
     const msg=[late.length?`按預鬆車程，今日有 ${late.length} 段會遲（最多 ${this.fm(mx)}）${mx>=30||late.length>=3?"：行程偏趕":""}`:"按預鬆車程計都趕得切",hot.length?`溫泉少於 2 小時：${hot.join("、")}`:""].filter(Boolean);
     sc.insertAdjacentHTML("beforebegin",`<div class="drvbar noen${late.length||hot.length?" warn":""}"><span class="dbl">車程</span><span class="seg"><button type="button" data-drvbuf="0">實際</button><button type="button" data-drvbuf="1">預鬆</button></span><span class="dbm">${msg.map(x=>`<span>${/遲|趕|少於/.test(x)?"⚠ ":""}${x}</span>`).join("")}</span></div>`)});
+    root.querySelectorAll("article.day[data-d]").forEach(art=>{const d=+art.dataset.d,x=(window.TRIP.DLY||{})[d],sc=art.querySelector(".sched.rich");if(!x||!sc||art.querySelector(".dlybox"))return;const E=DOCX.esc;
+      sc.insertAdjacentHTML("afterend",`<details class="tipcard dlybox noen"><summary><b>⏱ 延誤 20–40 分鐘點算</b></summary><p class="rhint">只係建議，行程唔會自動改，活動亦唔會自動縮短。</p><dl class="tsdl"><dt>必去／已訂</dt><dd>${x.m.map(E).join("、")}</dd><dt>可彈性</dt><dd>${x.o.map(E).join("、")}</dd></dl><ol class="dlys">${x.s.map(v=>`<li>${E(v)}</li>`).join("")}</ol><p class="dlyi"><b>到達時間：</b>${E(x.i)}</p></details>`)});
     this.show(root)}};
 try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}}}catch(e){}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();DRV.on=b.dataset.drvbuf==="1";store.set("iceland-drvbuf",DRV.on?"1":"0");DRV.show(document)},true);
