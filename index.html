@@ -141,7 +141,7 @@
 
 <script src="trip.js?v=2026-11-13-opt2"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
-<script src="badges.js?v=2026-11-13-bc6"></script>
+<script src="badges.js?v=2026-11-13-bc7"></script>
 <script src="data.js?v=2026-11-13-troll"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1575,7 +1575,7 @@ function ovHero(){try{
   ${bpassHTML()}${bk?`<div class="ovh-rem">${bk}</div>`:""}</section>`}catch(e){return ""}}
 document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("[data-ovprep]"))view("prep")});
 /* 總覽：整體安排（按地區分段；按一段去該日行程） */
-function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:DT,now:nowIS()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
+function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementById("badgeBox");if(el)BADGES.mount(el,{url:CONTENT_URL,admin:DT,now:nowIS(),tk:(()=>{try{const t=todayDay();if(!t||t.d<1)return [];const d=R(t);return [...new Set((d.legs||[]).flatMap(l=>[l.a,l.b]))]}catch(e){return []}})()})},0);const N=days.filter(x=>x.d>=1).length,dOf=k=>{const r=days.find(x=>x.d>=1&&(x.legs||[]).some(l=>l.a===k||l.b===k));return r?r.d:1};
   const RG=[[1,"Reykjavík"],[2,"Snæfellsnes"],[3,"Akureyri"],[4,"Mývatn"],[5,"East Fjords"],[6,"Jökulsárlón"],[8,"Vík"],[9,"Golden Circle"]];
   const HL=["goda","vest","jok","reyn","husa","geys"].filter(k=>pts[k]);
   const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
