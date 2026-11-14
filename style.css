@@ -3402,3 +3402,4 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .spd .drvdet.in li{display:flex;justify-content:space-between;gap:8px}
 .spd .drvdet.in li.dn,.spd .drvdet.in li.dw{display:block}
 .spd .sptop[hidden]{display:none}
+.spd .sptop .sph2{margin-top:6px}

@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-spd1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-spd2">
 
 </head>
 <body>
@@ -2778,8 +2778,8 @@ function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/86
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 const SPTOP={
- head(top){if(!top)return;const old=top.querySelector(":scope>.sph");if(old)old.remove();const d=!!top.querySelector(":scope>.drvdet"),n=[...top.children].some(x=>!x.classList.contains("drvdet"));
-  if(!d&&!n){top.hidden=true;return}top.hidden=false;top.insertAdjacentHTML("afterbegin",`<div class="sph">${d&&n?"車程詳情＋注意事項":d?"車程詳情":"注意事項"}</div>`)},
+ head(top){if(!top)return;top.querySelectorAll(":scope>.sph").forEach(x=>x.remove());const d=top.querySelector(":scope>.drvdet"),n=[...top.children].find(x=>!x.classList.contains("drvdet"));
+  if(!d&&!n){top.hidden=true;return}top.hidden=false;if(d){top.prepend(d);d.insertAdjacentHTML("beforebegin",`<div class="sph">車程詳情</div>`)}if(n)n.insertAdjacentHTML("beforebegin",`<div class="sph sph2">注意事項</div>`)},
  /* 把車程資料放入目的地「詳情」最頂；成功就 true */
  put(row,html){if(!row)return false;let spd=row.querySelector("details.dsx .spd");
   if(!spd){/* 目的地本身冇詳情：開一個新「詳情」，格式一樣 */const host=row.querySelector(".tl-card")||row;if(!row.querySelector(".tl-n")&&!row.querySelector(".tl-h"))return false;
