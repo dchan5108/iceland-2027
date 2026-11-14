@@ -2849,14 +2849,15 @@ const DRVF={
     if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
     if(!L.length)return;
     host.insertAdjacentHTML("afterend",`<button type="button" class="drvtog noen" aria-expanded="false">車程詳情</button><ul class="drvdet noen" hidden>${L.join("")}</ul>`)})})}};
-/* 一按截圖行程：html2canvas 影當日卡，可分享就分享（手機可存相簿），否則下載 */
-const loadH2C=()=>window.html2canvas?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)});
+/* 一按截圖行程：html-to-image 影當日卡，可分享就分享（手機可存相簿），否則下載 */
+const loadH2C=()=>window.htmlToImage?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js";sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)});
 document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-shot]");if(!b)return;e.preventDefault();const art=b.closest("article.day");if(!art)return;const dm=art.querySelector("details.dmore");if(dm)dm.open=false;const old=b.textContent;b.textContent="截圖中…";
- try{await loadH2C();const bg=getComputedStyle(document.body).backgroundColor||"#fff";const cv=await html2canvas(art,{scale:Math.min(2,window.devicePixelRatio||2),backgroundColor:bg,useCORS:true,ignoreElements:el=>el.matches&&(el.matches("details.dmore,.h3act,[data-shot]")),onclone:d=>{d.querySelectorAll("details.dmore").forEach(x=>x.open=false)}});
-  const blob=await new Promise(r=>cv.toBlob(r,"image/png"));const name=`iceland-D${art.dataset.d}.png`;const f=new File([blob],name,{type:"image/png"});
+ try{await loadH2C();const bg=getComputedStyle(document.body).backgroundColor||"#fff";const opt={pixelRatio:Math.min(2,window.devicePixelRatio||2),backgroundColor:bg,cacheBust:true,filter:el=>!(el.matches&&(el.matches("details.dmore,.h3act,[data-shot]")||getComputedStyle(el).position==="fixed"))};
+  await htmlToImage.toBlob(art,opt).catch(()=>null);/* iOS Safari 第一次常常漏圖，影兩次 */
+  const blob=await htmlToImage.toBlob(art,opt);if(!blob)throw 0;const name=`iceland-D${art.dataset.d}.png`;const f=new File([blob],name,{type:"image/png"});
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:name})}catch(_){}}
   else{const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000)}
- }catch(_){alert("截圖失敗，請用手機截圖")}finally{b.textContent=old}});
+ }catch(err){console.error("shot",err);alert("截圖失敗，請用手機截圖")}finally{b.textContent=old}});
 document.addEventListener("click",e=>{const o=e.target.closest&&e.target.closest("[data-dlyopen]"),c=e.target.closest&&e.target.closest("[data-dlyclose]");if(!o&&!c)return;const art=(o||c).closest("article.day");const p=art&&art.querySelector(".dlyp");if(!p)return;e.preventDefault();
   if(o){const dm=art.querySelector("details.dmore");if(dm)dm.open=false;p.hidden=!p.hidden;if(!p.hidden)try{p.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(err){}}else p.hidden=true},true);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".drvtog");if(!b)return;e.preventDefault();e.stopPropagation();const d=b.nextElementSibling,o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));if(d)d.hidden=!o},true);
