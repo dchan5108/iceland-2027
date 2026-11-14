@@ -3393,3 +3393,12 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .shotbar{position:fixed;left:0;right:0;top:0;display:flex;gap:8px;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:rgba(0,0,0,.9);color:#fff;font-size:14px}
 .shotbar span{flex:1}
 .shotbar button{all:unset;padding:8px 12px;border-radius:999px;background:#fff;color:#111;font-size:14px;cursor:pointer}
+/* 詳情統一格式 */
+.spd .sptop,.spd .spintro{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}
+.spd .sph{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+.spd .sptop>p,.spd .spintro>p{margin:0}
+.spd .sptop ul.spw{margin:0;padding-left:18px}
+.spd .drvdet.in{display:flex!important;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.spd .drvdet.in li{display:flex;justify-content:space-between;gap:8px}
+.spd .drvdet.in li.dn,.spd .drvdet.in li.dw{display:block}
+.spd .sptop[hidden]{display:none}

@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-shot1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-spd1">
 
 </head>
 <body>
@@ -142,7 +142,7 @@
 <script src="trip.js?v=2026-11-14-d4v11"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-13-bc14"></script>
-<script src="data.js?v=2026-11-14-d4s3"></script>
+<script src="data.js?v=2026-11-14-d4s4"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -2726,8 +2726,8 @@ const DOCX={
     /* 沒有可展開的內容（只得「約 40 分鐘」這類時長，時間欄已經有）就不顯示 › */
     x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has);
       a.querySelectorAll(".tl-m").forEach(e=>{if(dur(e.textContent.trim()))e.classList.add("durx")});
-      a.querySelectorAll("details.dsx .spd").forEach(sp=>{if(sp.dataset.ord)return;sp.dataset.ord=1;const dl=sp.querySelector(":scope>dl");if(!dl)return;
-        const P=["預約","門票／收費","停車","廁所","休館日","營業時間","服裝／規定"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
+      a.querySelectorAll("details.dsx .spd").forEach(sp=>{if(sp.dataset.ord)return;sp.dataset.ord=1;let dl=sp.querySelector(":scope>dl");if(!dl){dl=document.createElement("dl");sp.append(dl)}
+        const P=["預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
         dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
         pairs.sort((x,y)=>{const i=k=>{const n=P.indexOf(x===k?x[0].textContent.trim():y[0].textContent.trim());return n<0?99:n};const a1=P.indexOf(x[0].textContent.trim()),b1=P.indexOf(y[0].textContent.trim());return (a1<0?99:a1)-(b1<0?99:b1)});
         pairs.forEach(([dt,dd])=>{if(HIDE.test(dt.textContent.trim())){dt.remove();dd&&dd.remove();return}dl.append(dt);dd&&dl.append(dd)});
@@ -2736,7 +2736,13 @@ const DOCX={
         const desc=[...sp.querySelectorAll(":scope>p:not(.spx0)")].map(p=>p.textContent).join(" ");
         dl.querySelectorAll(":scope>dd").forEach(dd=>{if(dd.querySelector("a"))return;if(desc&&ov(dd.textContent,desc)>=0.9){const dt=dd.previousElementSibling;if(dt&&dt.tagName==="DT")dt.remove();dd.remove()}});
         const nt=sp.querySelector(":scope>.spx0");if(nt){const all=[...dl.querySelectorAll(":scope>dd")].map(x=>x.textContent).concat(desc);if(all.some(x=>ov(nt.textContent,x)>=0.85))nt.remove()}
-        sp.querySelectorAll(":scope>p:not(.spx0)").forEach(p=>sp.append(p))})});
+        /* 統一格式：① 車程詳情＋注意事項 ② 地方簡介 ③ 預約、門票／收費、停車、廁所、營業時間…… */
+        const top=document.createElement("div");top.className="sptop";sp.querySelectorAll(":scope>.spx0").forEach(n=>top.append(n));
+        dl.querySelectorAll(":scope>dt").forEach(dt=>{if(dt.textContent.trim()!=="注意事項")return;const dd=dt.nextElementSibling;dt.remove();if(dd){const ul=dd.querySelector("ul");if(ul){ul.classList.add("spw");top.append(ul)}else if(dd.textContent.trim()){const q=document.createElement("p");q.innerHTML=dd.innerHTML;top.append(q)}dd.remove()}});
+        const ps=[...sp.querySelectorAll(":scope>p:not(.spx0):not(.gml)")],intro=document.createElement("div");intro.className="spintro";
+        if(ps.length){intro.innerHTML='<div class="sph">地方簡介</div>';ps.forEach(q=>intro.append(q))}
+        sp.prepend(top);top.after(intro);intro.after(dl);if(!ps.length)intro.remove();SPTOP.head(top);
+        const g=sp.querySelector(":scope>.gml");if(g)sp.append(g)})});
       /* 時間欄簡潔：每站只寫開始時間；開車行的時間寫進該行（「14:00 出發 · 約 1 小時」） */
       if(!x.dataset.tsimp){x.dataset.tsimp=1;x.querySelectorAll(":scope>.t").forEach(t=>{const n=t.firstChild;if(!n||n.nodeType!==3)return;const full=n.textContent.trim();
         if(t.classList.contains("cn")){const d=t.nextElementSibling;if(full&&d&&d.classList.contains("drv")){const sv=d.querySelector(".cnic");const hm=full.match(/\d{1,2}:\d{2}/);if(hm){const b=document.createElement("b");b.className="drvt";b.textContent=hm[0]+" 出發 · ";if(sv)sv.after(b);else d.prepend(b)}}n.textContent="";t.title=full;return}
@@ -2771,6 +2777,12 @@ function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/86
   return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${dd>0?p:100}%"></i><u style="left:${dd>0?p:100}%">✈️</u></div><div class="fcr"><span>今日</span><span>出發 🇮🇸</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
+const SPTOP={
+ head(top){if(!top)return;const old=top.querySelector(":scope>.sph");if(old)old.remove();const d=!!top.querySelector(":scope>.drvdet"),n=[...top.children].some(x=>!x.classList.contains("drvdet"));
+  if(!d&&!n){top.hidden=true;return}top.hidden=false;top.insertAdjacentHTML("afterbegin",`<div class="sph">${d&&n?"車程詳情＋注意事項":d?"車程詳情":"注意事項"}</div>`)},
+ /* 把車程資料放入目的地「詳情」最頂；成功就 true */
+ put(row,html){const spd=row&&row.querySelector("details.dsx .spd");if(!spd)return false;let top=spd.querySelector(":scope>.sptop");if(!top){top=document.createElement("div");top.className="sptop";spd.prepend(top)}
+  top.querySelectorAll(":scope>.drvdet").forEach(x=>x.remove());top.insertAdjacentHTML("afterbegin",html);SPTOP.head(top);row.classList.remove("noexp");return true}};
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 /* ===== 車程：導航時間 ↔ 行程預算（同一條路段緩衝公式；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
 const DRV={on:REAL&&drv==="buf",
@@ -2824,6 +2836,7 @@ const DRV={on:REAL&&drv==="buf",
 /* 車程資訊預設收起：出發行只顯示「出發時間 → 目的地」，撳「車程詳情」先見導航時間同預留行車時間（行程預算）；資料同計算唔變 */
 const DRVF={
   car:a=>((a.dataset.raw||a.textContent).match(/第[一二]部車/)||[""])[0],
+  destEl(a,kids,ix){const c=this.car(a);for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const cx=this.car(x);if(c&&cx&&cx!==c)continue;if(x.querySelector(".tl-n"))return x}return null},
   dest(a,kids,ix){const c=this.car(a);for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const cx=this.car(x);if(c&&cx&&cx!==c)continue;   /* 分車：跳過另一部車嘅行 */
       const n=x.querySelector(".tl-n");if(n){let s0=n.textContent.replace(/^[\s\d]+/,"");if(/^[早午晚]餐[：:]/.test(s0))s0=s0.replace(/^[早午晚]餐[：:]\s*/,"")+" 食飯";const t=s0.split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
   fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];const pd={};kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const cr=this.car(a)||"*",hadDrv=!!(pd[cr]||(cr!=="*"&&pd["*"]));pd[cr]=false;if(cr==="*")Object.keys(pd).forEach(k=>pd[k]=false);let prevDrv=false;
@@ -2848,9 +2861,32 @@ const DRVF={
     if(al&&(DT||REAL))L.push(`<li class="dw">${al.outerHTML.replace(" hidden=\"\"","")}</li>`);
     if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
     if(!L.length)return;
+    /* 車程詳情同「詳情」合併：有目的地詳情就放入去；冇先保留「車程詳情」掣 */
+    const tgt=isDep?this.destEl(a,kids,ix):a;if(SPTOP.put(tgt,`<ul class="drvdet in noen">${L.join("")}</ul>`))return;
     host.insertAdjacentHTML("afterend",`<button type="button" class="drvtog noen" aria-expanded="false">車程詳情</button><ul class="drvdet noen" hidden>${L.join("")}</ul>`)})})}};
 /* 一按截圖行程：html-to-image（本地檔）影當日卡，出預覽：手機長按圖片儲存，或者撳「分享／儲存」 */
 const loadH2C=()=>window.htmlToImage?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="html-to-image.js?v=1.11.11";sc.onload=res;sc.onerror=()=>rej(new Error("載入截圖工具失敗"));document.head.appendChild(sc)});
+/* 簡化版行程圖：直接用 canvas 寫字，所有手機都得 */
+const shotDraw=art=>new Promise((res,rej)=>{try{const cs=getComputedStyle(document.documentElement),V=(k,d)=>(cs.getPropertyValue(k)||"").trim()||d;
+ const bg=V("--bg","#f6f4ee"),fg=V("--fg","#1c2430"),mu=V("--muted","#5b6470"),ac=getComputedStyle(art).getPropertyValue("--dc").trim()||"#3f6f85",card=V("--card","#ffffff");
+ const W=390,P=18,R=2,FF='-apple-system,"PingFang HK","Noto Sans TC","Microsoft JhengHei",sans-serif';
+ const h3=art.querySelector("h3"),title=h3?h3.innerText.split("\n")[0].trim():"",sub=[...art.querySelectorAll(".viewbox")].map(v=>{const l=v.querySelector(".sl"),b=v.querySelector("button[aria-pressed=true]");return b?(l?l.textContent.trim()+"：":"")+b.textContent.trim():""}).filter(Boolean).join("　");
+ const rows=[];let lastT="";const sc=art.querySelector(".sched.rich");if(!sc)throw new Error("搵唔到行程");
+ [...sc.children].forEach(x=>{if(x.classList.contains("t")){lastT=(x.title||x.textContent||"").trim().match(/\d{1,2}:\d{2}/)?.[0]||"";return}if(!x.classList.contains("a"))return;
+  const drv=x.classList.contains("drv");let t=lastT,tx="";
+  if(drv){const dt=x.querySelector(".drvt");if(dt){const m=dt.textContent.match(/\d{1,2}:\d{2}/);if(m)t=m[0]}const g=x.querySelector(".drvgo")||x;tx="🚗 "+g.innerText.split("\n")[0].replace(/^\s*\d{1,2}:\d{2}\s*出發\s*[·→]?\s*/,"").replace(/導航|車程詳情/g,"").trim();if(!/^🚗\s*(→|前往|約)/.test(tx))tx="🚗 "+tx.replace(/^🚗\s*/,"")}
+  else{const n=x.querySelector(".tl-n");tx=(n?n.textContent:x.innerText.split("\n")[0]).replace(/導航|住宿預訂 ›/g,"").replace(/^\s*\d+\s*/,"").trim();const dg=x.querySelector(".dgo");if(dg)tx+="（"+dg.textContent.trim()+"）"}
+  if(tx)rows.push({t,tx,drv});lastT=""});
+ const c=document.createElement("canvas"),g=c.getContext("2d"),wrap=(s,w,font)=>{g.font=font;const out=[];let line="";for(const ch of s){if(g.measureText(line+ch).width>w&&line){out.push(line);line=ch}else line+=ch}if(line)out.push(line);return out};
+ const fT=`700 20px ${FF}`,fS=`500 14px ${FF}`,fR=`600 15px ${FF}`,fD=`500 13px ${FF}`,TW=52,TX=P+TW,AW=W-TX-P;let H=P+30+(sub?22:0)+12;
+ const L=rows.map(r=>{const ls=wrap(r.tx,AW,r.drv?fD:fR);const h=ls.length*(r.drv?18:21)+(r.drv?8:12);H+=h;return {...r,ls,h}});H+=P+18;
+ c.width=W*R;c.height=H*R;g.scale(R,R);g.fillStyle=bg;g.fillRect(0,0,W,H);g.fillStyle=ac;g.fillRect(0,0,W,5);
+ let y=P+22;g.fillStyle=fg;g.font=fT;g.textBaseline="alphabetic";g.fillText(title,P,y);if(sub){y+=22;g.fillStyle=mu;g.font=fS;g.fillText(sub,P,y)}y+=14;
+ g.strokeStyle="rgba(127,127,127,.25)";g.lineWidth=1;
+ L.forEach(r=>{const lh=r.drv?18:21;let yy=y+(r.drv?14:16);if(r.t){g.fillStyle=r.drv?mu:fg;g.font=r.drv?fD:`700 15px ${FF}`;g.fillText(r.t,P,yy)}
+  g.fillStyle=r.drv?mu:fg;g.font=r.drv?fD:fR;r.ls.forEach(l=>{g.fillText(l,TX,yy);yy+=lh});y+=r.h;if(!r.drv){g.beginPath();g.moveTo(TX,y-4);g.lineTo(W-P,y-4);g.stroke()}});
+ g.fillStyle=mu;g.font=`500 11px ${FF}`;g.fillText("Iceland 2027",P,H-P+4);
+ c.toBlob(b=>b?res(b):rej(new Error("畫圖失敗")),"image/png")}catch(e){rej(e)}});
 const shotView=(url,blob,name)=>{const ov=document.createElement("div");ov.className="shotov";ov.innerHTML=`<div class="shotbar"><span>長按圖片儲存</span><button type="button" data-sh="1">分享／儲存</button><button type="button" data-sh="0">關閉</button></div><img alt="${name}" src="${url}">`;document.body.appendChild(ov);
  ov.addEventListener("click",async e=>{const b=e.target.closest("[data-sh]");if(!b)return;if(b.dataset.sh==="0"){ov.remove();URL.revokeObjectURL(url);return}
   const f=new File([blob],name,{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]})}catch(_){}}else{const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove()}})};
@@ -2859,6 +2895,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
   let blob=null,err=null;try{await htmlToImage.toBlob(art,base)}catch(_){}/* iOS Safari 頭一次常漏圖，先影一次熱身 */
   try{blob=await htmlToImage.toBlob(art,base)}catch(x){err=x}
   if(!blob){try{blob=await htmlToImage.toBlob(art,{...base,skipFonts:true,pixelRatio:1})}catch(x){err=x}}
+  if(!blob){try{blob=await shotDraw(art)}catch(x){err=x}}/* 手機瀏覽器影唔到（例如 iPhone 回傳空白）：改用簡化版行程圖 */
   if(!blob)throw err||new Error("冇圖");
   shotView(URL.createObjectURL(blob),blob,`iceland-D${art.dataset.d}.png`);
  }catch(err){console.error("shot",err);alert("截圖失敗："+((err&&(err.message||err.type||err.name))||err||"未知")+"\n請用手機截圖，並把這句話傳給我")}finally{b.textContent=old}});
