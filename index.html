@@ -2781,7 +2781,9 @@ const SPTOP={
  head(top){if(!top)return;const old=top.querySelector(":scope>.sph");if(old)old.remove();const d=!!top.querySelector(":scope>.drvdet"),n=[...top.children].some(x=>!x.classList.contains("drvdet"));
   if(!d&&!n){top.hidden=true;return}top.hidden=false;top.insertAdjacentHTML("afterbegin",`<div class="sph">${d&&n?"車程詳情＋注意事項":d?"車程詳情":"注意事項"}</div>`)},
  /* 把車程資料放入目的地「詳情」最頂；成功就 true */
- put(row,html){const spd=row&&row.querySelector("details.dsx .spd");if(!spd)return false;let top=spd.querySelector(":scope>.sptop");if(!top){top=document.createElement("div");top.className="sptop";spd.prepend(top)}
+ put(row,html){if(!row)return false;let spd=row.querySelector("details.dsx .spd");
+  if(!spd){/* 目的地本身冇詳情：開一個新「詳情」，格式一樣 */const host=row.querySelector(".tl-card")||row;if(!row.querySelector(".tl-n")&&!row.querySelector(".tl-h"))return false;
+   host.insertAdjacentHTML("beforeend",`<details class="dsx"><summary class="dsm" title="詳情"><span class="vh">詳情</span></summary><div class="spd" data-ord="1"></div></details>`);spd=host.querySelector(":scope>details.dsx .spd");row.classList.add("hasd")}let top=spd.querySelector(":scope>.sptop");if(!top){top=document.createElement("div");top.className="sptop";spd.prepend(top)}
   top.querySelectorAll(":scope>.drvdet").forEach(x=>x.remove());top.insertAdjacentHTML("afterbegin",html);SPTOP.head(top);row.classList.remove("noexp");return true}};
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 /* ===== 車程：導航時間 ↔ 行程預算（同一條路段緩衝公式；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
