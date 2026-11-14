@@ -3407,3 +3407,28 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 details.dmore .dmm .dmseg{margin-top:4px;border-top:1px solid var(--line,rgba(127,127,127,.2));padding-top:10px}
 details.dmore .dmm .dmseg>span:first-child{font-size:12px}
 details.dmore .dmm button[data-dlyopen]{display:flex!important;align-items:center;gap:6px}
+/* === UI review 修正 === */
+/* 3 總表：每日路線最多 2 行 */
+.ovB .ovr{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-weight:700}
+/* 4 出發行：普通字重、灰色，同景點行分清主次；9 尾部加車程時間 */
+.sched.rich .a.drv .drvt{font-weight:500;color:var(--muted)}
+.sched.rich .drvdur{font-size:inherit;font-weight:500;color:var(--muted);white-space:nowrap}
+/* 5 地圖：揀咗某日時收起其他日子嘅文字；縮到好遠時當日只留編號同住宿名 */
+#map text.lbl.dim{display:none}
+#map.farzoom:has(text.lbl.dim) text.lbl:not(.stay):not(.dim){display:none}
+/* 7 浮動導航掣縮細 */
+#view-trip .dsum2 .navbtn.fabmin{padding:0!important;width:46px;justify-content:center}
+#view-trip .dsum2 .navbtn.fabmin span{display:none}
+/* 6 預算頁小標題同其他分頁同一款 */
+.bsh h3,details.bsec>summary{font-family:Georgia,"Noto Serif TC","Songti TC",serif!important}
+details.bsec>summary span,details.bsec>summary small{font-family:var(--sans)!important}
+/* 1 預算頁：同其他分頁一樣，用頁面底色＋獨立卡片 */
+@media (max-width:760px){
+ #budget{background:none!important;border:0!important;padding:0!important}
+ #budget>.bnote{padding:0 4px}
+ #budget .bbar{background:var(--card)!important;border-radius:16px}
+ #budget .btot>div{border:0!important}
+ #b-settle{background:var(--card);border-radius:20px;padding:18px;margin-top:14px}
+ #b-settle .tiph{border:0!important;padding:0 0 8px!important}
+ #b-settle details.bsec.stld{padding:0!important;background:none!important}
+}

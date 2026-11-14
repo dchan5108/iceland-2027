@@ -43,7 +43,7 @@ try{S=JSON.parse(localStorage.getItem(CK)||"{}")||{}}catch(e){S={}}
 /* S[id]：日期字串或 1＝已解鎖（管理員）、0＝撤銷、沒有＝自動 */
 const has=id=>{const v=S[id];if(v===0)return false;if(v===1||typeof v==="string")return true;const a=AUTO[id];return !!a&&X.now>=Date.parse(a+"T00:00:00Z")};
 const when=id=>{const v=S[id];const d=typeof v==="string"?v:v==null&&AUTO[id]?AUTO[id]:"";const m=d.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[1]} 年 ${+m[2]} 月 ${+m[3]} 日`:""};
-const OK="iceland-bc-open";let OPEN=true;try{OPEN=localStorage.getItem(OK)!=="0"}catch(e){}
+const OK="iceland-bc-open";let OPEN=false;try{OPEN=localStorage.getItem(OK)==="1"}catch(e){}
 let FRESH=null;
 /* 今日行程有關的地點（行程 pts 代號）→ 徽章「今日可收集」，只是提示，不會當已收集 */
 const TK={kirk:["kirk"],kolu:["kolu"],hverir:["hver"],seyd:["seyd"],fjad:["fjad"],reyn:["reyn"],selj:["selj"],gull:["gull"],geys:["geys"],lava:["raufar"],horse:["skal"],silfra:["silf"],goda:["goda"],dett:["dett"],vest:["vest","stokk"],jok:["jok","fjall"],dia:["jok"],skog:["skog"],walk:["skaf","solh"],climb:["skaf","solh"],trek:["lmlg","hrafn","alft","emst","thor"],hot:["bl","myvb","geosea","skyl","grjo","hvamm","laugd"]};

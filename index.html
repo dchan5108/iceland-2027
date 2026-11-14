@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-14-dmm1">
+<link rel="stylesheet" href="style.css?v=2026-11-14-rv1">
 
 </head>
 <body>
@@ -141,7 +141,7 @@
 
 <script src="trip.js?v=2026-11-14-d4v15"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
-<script src="badges.js?v=2026-11-13-bc14"></script>
+<script src="badges.js?v=2026-11-14-bc15"></script>
 <script src="data.js?v=2026-11-14-d4s4"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
@@ -1652,8 +1652,8 @@ function ovPlan(){if(window.BADGES)setTimeout(()=>{const el=document.getElementB
   const RG=[[1,"Reykjavík"],[2,"Snæfellsnes"],[3,"Akureyri"],[4,"Mývatn"],[5,"East Fjords"],[6,"Jökulsárlón"],[8,"Vík"],[9,"Golden Circle"]];
   const HL=["goda","vest","jok","reyn","husa","geys"].filter(k=>pts[k]);
   const ic=p=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-  return `<section class="hcard glance ovplan noen"><div class="glh"><small>旅程一覽</small><h3>Journey at a Glance</h3></div>
-  <div class="glst"><div>${ic('<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>')}<b>${N}</b><small>Days<span><i> / </i>天</span></small></div><div>${ic('<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>')}<b class="sm">2,000</b><small>Kilometers<span><i> / </i>公里</span></small></div><div>${ic('<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>')}<b>7</b><small>Travelers<span><i> / </i>人</span></small></div><div>${ic('<path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m10 0a2 2 0 104 0"/>')}<b>2</b><small>Vehicles<span><i> / </i>輛車</span></small></div></div>
+  return `<section class="hcard glance ovplan noen"><div class="glh"><h3>旅程一覽</h3></div>
+  <div class="glst"><div>${ic('<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>')}<b>${N}</b><small>天</small></div><div>${ic('<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>')}<b class="sm">2,000</b><small>公里</small></div><div>${ic('<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>')}<b>7</b><small>人</small></div><div>${ic('<path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m10 0a2 2 0 104 0"/>')}<b>2</b><small>輛車</small></div></div>
   ${window.BADGES?`<div class="bc" id="badgeBox"></div>`:""}</section>`}
 function overview(){
   return `<div class="ov">${days.map(raw=>{const day=R(raw),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+l.m,0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0);
@@ -2801,7 +2801,7 @@ const DRV={on:REAL&&drv==="buf",
       const mm=this.pm(m[0]);if(!mm)continue;const t=this.kind(k,txt,mm),b=this.buf(mm,t);const sp=document.createElement("span");sp.className="dtm";sp.dataset.m=mm;sp.dataset.b=b;sp.dataset.pre=m[1]||"";sp.title="行程預算緩衝："+this.why(t);
       const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);r.surroundContents(sp);hit=sp;break}
     return hit},
-  show(root){(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=this.on?`${sp.dataset.pre?"行程預算車程約 ":"行程預算約 "}${this.fm(v)}`:`${sp.dataset.pre}約 ${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
+  show(root){(root||document).querySelectorAll(".drvdur").forEach(x=>{x.textContent=" · "+this.fm(this.on?+x.dataset.b:+x.dataset.m)});(root||document).querySelectorAll(".dtm").forEach(sp=>{const v=this.on?+sp.dataset.b:+sp.dataset.m;sp.textContent=this.on?`${sp.dataset.pre?"行程預算車程約 ":"行程預算約 "}${this.fm(v)}`:`${sp.dataset.pre}約 ${this.fm(v)}`;sp.classList.toggle("bufd",this.on)});
     (root||document).querySelectorAll("[data-drvbuf]").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.drvbuf==="1")===this.on)));
     (root||document).querySelectorAll(".rushA").forEach(x=>x.hidden=!this.on)},
   apply(root){if(!(DT||REAL)||!root)return;root.querySelectorAll(".sched.rich").forEach(sc=>{if(sc.dataset.drv)return;sc.dataset.drv=1;
@@ -2840,6 +2840,7 @@ const DRVF={
   car:a=>((a.dataset.raw||a.textContent).match(/第[一二]部車/)||[""])[0],
   destEl(a,kids,ix){const c=this.car(a);for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const cx=this.car(x);if(c&&cx&&cx!==c)continue;if(x.querySelector(".tl-n"))return x}return null},
   dest(a,kids,ix){const c=this.car(a);for(let j=ix+1;j<kids.length;j++){const x=kids[j];if(!x.classList.contains("a"))continue;const cx=this.car(x);if(c&&cx&&cx!==c)continue;   /* 分車：跳過另一部車嘅行 */
+      if(x.dataset.sk&&x.dataset.sk===a.dataset.to&&pts[x.dataset.sk]){const t0=String(pts[x.dataset.sk][0]).split(/[（(・]/)[0].trim();if(t0)return t0}
       const n=x.querySelector(".tl-n");if(n){let s0=n.textContent.replace(/^[\s\d]+/,"");if(/^[早午晚]餐[：:]/.test(s0))s0=s0.replace(/^[早午晚]餐[：:]\s*/,"")+" 食飯";const t=s0.split(/[（(：:]/)[0].trim();if(t)return t}}const k=a.dataset.to;return k&&pts[k]?String(pts[k][0]).split(/[（(・]/)[0].trim():""},
   fold(root){root.querySelectorAll(".sched.rich").forEach(sc=>{const kids=[...sc.children];const pd={};kids.forEach((a,ix)=>{if(!a.classList.contains("a")||a.dataset.fold)return;a.dataset.fold=1;const cr=this.car(a)||"*",hadDrv=!!(pd[cr]||(cr!=="*"&&pd["*"]));pd[cr]=false;if(cr==="*")Object.keys(pd).forEach(k=>pd[k]=false);let prevDrv=false;
     let host=null,sp=null,notes="",al=null,txt="";const dest=this.dest(a,kids,ix);
@@ -2852,6 +2853,7 @@ const DRVF={
     else if(a.classList.contains("drv")){const g=a.querySelector("a.drvgo");if(g){host=g;sp=g.querySelector(".dtm");txt=g.textContent;const t=g.querySelector(".drvt");
         [...g.childNodes].forEach(n=>{if(n.nodeType===3){notes+=n.textContent;n.remove()}});notes=notes.replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
         if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=(((txt+notes).match(/第[一二]部車/)||[""])[0]+" ").trimStart()+t.textContent.replace(/\s*·\s*$/,"")+(dest?` → ${dest}`:"")}}
+    if(host&&sp&&sp.dataset.m&&!host.querySelector(".drvdur")){const tg=host.querySelector(".drvt")||host.querySelector(".dgo");if(tg)tg.insertAdjacentHTML("beforeend",`<small class="drvdur" data-m="${sp.dataset.m}" data-b="${sp.dataset.b||sp.dataset.m}"> · ${DRV.fm(DRV.on?+(sp.dataset.b||sp.dataset.m):+sp.dataset.m)}</small>`)}
     const isDep=!!host;a.querySelectorAll(".tl-m").forEach(m=>{if(!/車程約/.test(m.textContent))return;const s2=m.querySelector(".dtm");if(!sp&&s2)sp=s2;if(!txt)txt=(m.textContent.match(/車程約[^·]*/)||[""])[0];
       if(s2){const pv=s2.previousSibling;if(pv&&pv.nodeType===3)pv.textContent=pv.textContent.replace(/\s*·\s*$/,"");s2.remove()}else m.textContent=m.textContent.replace(/\s*·?\s*車程約[^·]*/,"");
       m.querySelectorAll(".alrt.rushA").forEach(x=>{al=al||x;x.remove()});if(!m.textContent.trim())m.remove();if(!host)host=a.querySelector(".tl-h")});
@@ -2866,6 +2868,10 @@ const DRVF={
     /* 車程詳情同「詳情」合併：有目的地詳情就放入去；冇先保留「車程詳情」掣 */
     const tgt=isDep?this.destEl(a,kids,ix):a;if(SPTOP.put(tgt,`<ul class="drvdet in noen">${L.join("")}</ul>`))return;
     host.insertAdjacentHTML("afterend",`<button type="button" class="drvtog noen" aria-expanded="false">車程詳情</button><ul class="drvdet noen" hidden>${L.join("")}</ul>`)})})}};
+/* 浮動「導航」掣：畫面已經見到某一行嘅導航掣時，縮細做圖示，唔好遮住 */
+(()=>{let tk=0;const upd=()=>{tk=0;const fab=document.querySelector("#view-trip .dsum2 .navbtn");if(!fab)return;const H=innerHeight-80;let vis=false;
+  for(const x of document.querySelectorAll("#panel .sched.rich .drvpill,#panel .sched.rich .depgo")){const r=x.getBoundingClientRect();if(r.height&&r.top>60&&r.bottom<H){vis=true;break}}fab.classList.toggle("fabmin",vis)};
+ const q=()=>{if(!tk)tk=requestAnimationFrame(upd)};addEventListener("scroll",q,{passive:true});addEventListener("resize",q);document.addEventListener("click",()=>setTimeout(q,350))})();
 /* 一按截圖行程：html-to-image（本地檔）影當日卡，出預覽：手機長按圖片儲存，或者撳「分享／儲存」 */
 const loadH2C=()=>window.htmlToImage?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="html-to-image.js?v=1.11.11";sc.onload=res;sc.onerror=()=>rej(new Error("載入截圖工具失敗"));document.head.appendChild(sc)});
 /* 簡化版行程圖：直接用 canvas 寫字，所有手機都得 */
