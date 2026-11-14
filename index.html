@@ -2858,7 +2858,7 @@ const DRVF={
     if(isDep){prevDrv=true;pd[cr]=true}if(!isDep&&hadDrv)return;   /* 上一行已經有出發／開車行：到達行唔再重複 */
     if(!host||(!sp&&!/約/.test(txt)))return;
     const E=DOCX.esc,fm=DRV.fm.bind(DRV),L=[];
-    if(sp&&(DT||REAL)){L.push(`<li><span>Google Maps 導航時間</span><b>約 ${fm(+sp.dataset.m)}</b></li>`,`<li title="${E(sp.title||"")}"><span>預留行車時間（行程預算）</span><b>約 ${fm(+sp.dataset.b)}</b></li>`)}
+    if(sp&&(DT||REAL)){L.push(`<li><span>導航時間</span><b>約 ${fm(+sp.dataset.m)}</b></li>`,`<li title="${E(sp.title||"")}"><span>行程預算</span><b>約 ${fm(+sp.dataset.b)}</b></li>`)}
     else{const m=String(txt).match(/約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim())}</b></li>`)}
     if(al&&(DT||REAL))L.push(`<li class="dw">${al.outerHTML.replace(" hidden=\"\"","")}</li>`);
     if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
