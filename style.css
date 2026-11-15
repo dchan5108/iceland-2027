@@ -100,9 +100,9 @@ html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-b
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
 :root[data-theme="dark"]{--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
 :root{--serif:var(--sans)}
-:root{--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4;--pc5:#8a6fd1;--pc6:#6b8f86}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c}}
-:root[data-theme="dark"]{--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c}
+:root{--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4;--pc5:#8a6fd1;--pc6:#6b8f86;--pc7:#b04fc4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c;--pc7:#c56fd6}}
+:root[data-theme="dark"]{--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c;--pc7:#c56fd6}
 :root{--aur1:#3fc79a;--aur2:#6f86e0;--star:#9fb6c0;--mt1:#c9d8d6;--mt2:#9fb3b4;--snow:#ffffff;--turf:#6f9a5b;--house:#e9e2d2;--door:#8a5a3c;--knit:#1d6e8a;--ok2:#2f8a57;--warn:#b5523b;--warnbg:#f8e6df;--okbg:#e3f1e8;--nav:rgba(255,255,255,.92)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}}
 :root[data-theme="dark"]{--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}
@@ -3432,3 +3432,9 @@ details.bsec>summary span,details.bsec>summary small{font-family:var(--sans)!imp
  #b-settle .tiph{border:0!important;padding:0 0 8px!important}
  #b-settle details.bsec.stld{padding:0!important;background:none!important}
 }
+/* Dorcas & Tebe 獨有：紫色表示，唔寫名 */
+#budget tr.dtr td.item,#budget tr.dtr td.item>small,#b-me li.dtr{color:var(--chg)}
+#budget tr.dtr td:first-child{box-shadow:inset 3px 0 0 var(--chg)}
+#b-me li.dtr{font-weight:600}
+h3.dtc,.tk.tkdt .bkn{color:var(--chg)}
+.tk.tkdt{box-shadow:inset 3px 0 0 var(--chg)}
