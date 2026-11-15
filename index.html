@@ -908,7 +908,10 @@ const dir=(stops,mode)=>{const o=stops[0],d=stops[stops.length-1],w=stops.slice(
   return `https://www.google.com/maps/dir/?api=1&origin=${enc(o)}&destination=${enc(d)}${w.length?`&waypoints=${w.map(enc).join("%7C")}`:""}&travelmode=${mode||"driving"}`};
 const stopsOf=day=>{const lg=day.legs.filter(l=>!l.c2);if(!lg.length)return[];const s=[lg[0].a];lg.forEach(l=>{(l.via||[]).forEach(v=>s.push("via:"+v));s.push(l.b)});return s};
 const legUrl=l=>dir([qn(l.a),...(l.via||[]).map(vq).filter(Boolean),qn(l.b)],l.city?"transit":"");
-const dayUrl=day=>{const s=stopsOf(day);return s.length?dir(s.map(k=>k.startsWith("via:")?vq(k.slice(4)):qn(k)).filter(Boolean)):null};
+const dayUrl=day=>{let s=stopsOf(day);
+  /* 加入咗早起行程（例如 D3 Stykkishólmur）：全日導航先去早起景點再返出發點 */
+  try{const eo=(day.opt||[]).find(x=>x.early&&x.k&&pts[x.k]);if(eo&&s.length&&(RECP[day.d]||[]).includes(eo.id)){const o=s[0],r=s.filter((k,i)=>i===0||k!==eo.k);s=[o,eo.k,o,...r.slice(1)]}}catch(e){}
+  return s.length?dir(s.map(k=>k.startsWith("via:")?vq(k.slice(4)):qn(k)).filter(Boolean)):null};
 const Rd=Math.PI/180;
 function sunAt(Nd,lat,lon,rise){const lh=lon/15,t=Nd+((rise?6:18)-lh)/24,M=0.9856*t-3.289;
   const Lg=(M+1.916*Math.sin(M*Rd)+0.020*Math.sin(2*M*Rd)+282.634+360)%360;
