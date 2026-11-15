@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-16-tm3">
+<link rel="stylesheet" href="style.css?v=2026-11-16-tm4">
 
 </head>
 <body>
@@ -470,12 +470,12 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
     d.querySelector("#rcp").textContent=`${i+1} / ${legs.length}`;d.querySelector("#rct").value="RC "+JSON.stringify(res);await new Promise(r=>setTimeout(r,450))}
   d.querySelector("#rcp").textContent=stop?"已停止":`完成：${legs.length} 段。紅色＝和現時相差 10 分鐘或以上。`});
 function toolsHTML(){return `<details class="tools" id="tools"><summary aria-label="工具" title="工具"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="vh">工具</span></summary><div class="tmenu">
-  <details class="tsec"><summary>行程工具</summary><p class="rhint">${DT?"重新計車程、預覽其他人看到的版本":"預覽其他人看到的版本（只供看）"}</p>
+  <div class="tsec"><h4 class="tsh">行程工具</h4>
    ${DT?`<div class="row"><button type="button" class="mini" id="rtcheck">重新計車程（實際路線）</button></div>`:""}${DT?privHTML():""}${DT?edBackupHTML():""}
-   <div class="row"><a class="mini" href="#dt5x-pub">預覽公開版</a><a class="mini" href="#dt5x-real">預覽真實版</a></div></details>
-  ${OWNER?`<details class="tsec"><summary>成員</summary><p class="rhint">批准申請，以及看邊個打開過（按 Gmail 記，你自己不記）</p>${memHTML()}${visHTML()}</details>`:""}
-  <details class="tsec"><summary>帳戶及備份</summary><p class="rhint">資料只存在這部機；要搬去另一部機，用「匯出／匯入」</p>
-   <div class="row">${ROLE?`<button type="button" class="mini" id="sy-off">登出</button>`:""}<button type="button" class="mini" id="bk-exp">匯出</button><label class="mini" style="cursor:pointer">匯入<input type="file" id="bk-imp" accept=".json,application/json" hidden></label></div></details>
+   <div class="row"><a class="mini" href="#dt5x-pub">預覽公開版</a><a class="mini" href="#dt5x-real">預覽真實版</a></div></div>
+  ${OWNER?`<div class="tsec"><h4 class="tsh">成員</h4>${memHTML()}${visHTML()}</div>`:""}
+  <div class="tsec"><h4 class="tsh">帳戶及備份</h4>
+   <div class="row">${ROLE?`<button type="button" class="mini" id="sy-off">登出</button>`:""}<button type="button" class="mini" id="bk-exp">匯出</button><label class="mini" style="cursor:pointer">匯入<input type="file" id="bk-imp" accept=".json,application/json" hidden></label></div></div>
   </div></details>`}
 document.addEventListener("click",e=>{const t=document.getElementById("tools");if(t&&t.open&&!t.contains(e.target))t.open=false});
 document.addEventListener("keydown",e=>{const t=document.getElementById("tools");if(e.key==="Escape"&&t&&t.open)t.open=false});

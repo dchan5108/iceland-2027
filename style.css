@@ -3438,16 +3438,10 @@ details.bsec>summary span,details.bsec>summary small{font-family:var(--sans)!imp
 #b-me li.dtr{font-weight:600}
 h3.dtc,.tk.tkdt .bkn{color:var(--chg)}
 .tk.tkdt{box-shadow:inset 3px 0 0 var(--chg)}
-/* 工具選單：分三段，每段同一大小，字同邊框留空 */
-.tmenu details.tsec{border:1px solid var(--line)!important;border-radius:12px!important;padding:0 14px!important;margin:0 0 8px!important;background:var(--bg2,rgba(127,127,127,.06))}
-.tmenu details.tsec:last-child{margin-bottom:0!important}
-.tmenu details.tsec>summary{list-style:none;cursor:pointer;font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:0!important;margin:0!important;line-height:1.2}
-.tmenu details.tsec>summary::-webkit-details-marker{display:none}
-.tmenu details.tsec>summary::after{content:"›";color:var(--muted);font-size:18px;transition:transform .15s}
-.tmenu details.tsec[open]>summary::after{transform:rotate(90deg)}
-.tmenu details.tsec[open]{padding-bottom:14px!important}
-.tmenu details.tsec>.rhint{margin:0 0 10px!important;font-size:12px;line-height:1.5}
-.tmenu details.tsec>.row,.tmenu details.tsec>#mem-out,.tmenu details.tsec>#vis-out{margin:0 0 8px}
-.tmenu details.tsec>.row:last-child{margin-bottom:0}
+/* 工具選單：三段固定展開，同一大小，字同邊框留空 */
+.tmenu .tsec{border:1px solid var(--line);border-radius:12px;padding:12px 14px 14px;margin:0 0 8px;background:var(--bg2,rgba(127,127,127,.06));display:flex;flex-direction:column;gap:8px}
+.tmenu .tsec:last-child{margin-bottom:0}
+.tmenu .tsec>h4.tsh{margin:0;font-size:14px;font-weight:700;color:inherit}
+.tmenu .tsec>.row{margin:0}
 .tmenu .vistab{width:100%}
 .tmenu #mem-out:empty,.tmenu #vis-out:empty{display:none}
