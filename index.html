@@ -139,7 +139,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-15-k1"></script>
+<script src="trip.js?v=2026-11-16-d11"></script>
 <script src="landing.js?v=2026-11-13-lp7"></script>
 <script src="badges.js?v=2026-11-14-bc15"></script>
 <script src="data.js?v=2026-11-14-d4s4"></script>
@@ -1249,7 +1249,7 @@ function tideD6(raw,day){
   return warn(`退潮 ${v} 太遲，和獨木舟和日落撞，選「一般時間」（沒有倒影）`)}
 function tideH(raw){if(raw.d!==6||!DT)return "";const v=String(store.get("iceland-tide-6")||"");/* 管理者：填了就取代預計時間 */
   return `<p class="rhint">Stokksnes 退潮時間（9/17；不填就用預計 ${TIDE_EST}）：<input type="time" data-tide="6" value="${escA(v)}" aria-label="Stokksnes 退潮時間"> <small>出發前大約一個月在 tide-forecast.com（Hornafjörður）查；網站時間是 GMT，即是冰島時間。只存在這部機。</small></p>`}
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.tide)return;store.set("iceland-tide-"+c.dataset.tide,c.value||"");const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.tide)return;store.set("iceland-tide-"+c.dataset.tide,c.value||"");const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 function choicePlan(raw,day){
   const id=cPicked(raw),o=DT&&raw.choice&&(!raw.choice.onlyView||viewId(raw)===raw.choice.onlyView)&&raw.choice.opts.find(x=>x.id===id);if(!o)return day;
   let plan=day.plan.filter(r=>!(o.drop||[]).some(re=>re.test(r[1])));
@@ -1310,13 +1310,13 @@ function recPlan(raw,day){
   const i=day.plan.findIndex(r=>/^自由活動/.test(r[1]));if(i<0)return day;
   const plan=[...day.plan];plan.splice(i,1,...rows);return {...day,plan,recAuto:1};
 }
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const k=c.dataset.recpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
-document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.recpick)return;const k=c.dataset.recpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(c.checked)a.add(id);else a.delete(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("change",e=>{const c=e.target;if(!c.dataset||!c.dataset.cpick)return;const k=c.dataset.cpick,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);RECP[d]=[...(RECP[d]||[]).filter(x=>!x.startsWith("c:")),"c:"+id];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-cclear]");if(!b)return;const d=b.dataset.cclear;RECP[d]=(RECP[d]||[]).filter(x=>!x.startsWith("c:"));store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("change",e=>{const sl=e.target.closest&&e.target.closest("select[data-sim]");if(!sl)return;SIMN[+sl.dataset.sim]=+sl.value;const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
 document.addEventListener("click",e=>{const v=e.target.closest&&e.target.closest("[data-simb]");if(!v)return;const [d,bs]=v.dataset.simb.split("|");SIMB[+d]=bs;const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-simreset]");if(!b)return;SIMN[+b.dataset.simreset]=0;SIMB[+b.dataset.simreset]="buf";const y0=window.scrollY;renderPanel();try{window.scrollTo(0,y0)}catch(err){}});
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;{const k=b.dataset.recclear,keep=(RECP[k]||[]).filter(x=>/^sun/.test(x));if(keep.length)RECP[k]=keep;else delete RECP[k]}store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-recclear]");if(!b)return;{const k=b.dataset.recclear,keep=(RECP[k]||[]).filter(x=>/^sun/.test(x));if(keep.length)RECP[k]=keep;else delete RECP[k]}store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 /* collapsible sections in each day card; open state remembered on this device */
 let SECSHUT=new Set();   /* 旅程期間自己收起「注意事項」就保持收起（只限今次打開網頁） */
 let SECOPEN=new Set();try{SECOPEN=new Set(JSON.parse(store.get("iceland-sec")||"[]"))}catch(e){}
@@ -1553,7 +1553,7 @@ document.addEventListener("change",e=>{const t=e.target;if(t.id==="edauto"){EDAU
     const dEnd=oe&&ne?tmE(ne[1])-tmE(oe[1]):d;ev[i][0]=nv;if(EDAUTO&&dEnd){for(let j=i+1;j<ev.length;j++)ev[j][0]=shiftT(ev[j][0],dEnd)}}
   if(t.classList.contains("ea")){ev[i][1]=t.value;if(!ev[i][3]){const k=autoKey(t.value);if(k)ev[i][3]=k}}
   if(t.classList.contains("ek")){ev[i][3]=t.value;EDPICK=null}
-  OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+  OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.closest("[data-ed]");if(!b)return;const act=b.dataset.ed;
   const raw=days.find(x=>x.d===(b.dataset.d!=null?+b.dataset.d:EDITING));
   if(act==="start")edStart(raw);
@@ -1578,7 +1578,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
     if(act==="delloc"){const k=b.dataset.k;if(!confirm("刪除這個自訂地點？用了它的行會變回「不在地圖」。"))return;delete UPTS[k];delete pts[k];AKN=null;store.set("iceland-upts",JSON.stringify(UPTS));Object.values(EDITS).forEach(rows=>(rows||[]).forEach(r=>{if(r[3]===k)r[3]=""}))}
     if(act==="del")ev.splice(i,1);
     if(act==="add"){const lt=ev.length?tmE(String(ev[ev.length-1][0]).split(/[–-]/).pop()):null;ev.push([lt!=null?ttE(lt+15):"",'新行程',"",""])}}
-  edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+  edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 /* 按住 ≡ 拖動調次序（滑鼠和手機都得）；放手後由改動位置開始重新計時 */
 let DRG=null;
 document.addEventListener("pointerdown",e=>{const h=e.target.closest&&e.target.closest(".edrag");if(!h||EDITING==null)return;const row=h.closest(".er");if(!row)return;e.preventDefault();
@@ -1588,7 +1588,7 @@ document.addEventListener("pointermove",e=>{if(!DRG||e.pointerId!==DRG.id)return
   const rows=[...document.querySelectorAll(".editor .er")].filter(r=>r!==DRG.row);let to=0;rows.forEach(r=>{const b=r.getBoundingClientRect();if(e.clientY>b.top+b.height/2)to++});DRG.to=to;
   rows.forEach((r,i)=>{r.classList.toggle("dropb",i===to);r.classList.toggle("dropa",to===rows.length&&i===rows.length-1)})},{passive:false});
 function dragEnd(e){if(!DRG||(e&&e.pointerId!==DRG.id))return;const {from,to}=DRG;DRG.row.style.transform="";DRG.row.classList.remove("drg");document.querySelectorAll(".editor .er").forEach(r=>r.classList.remove("dropb","dropa"));DRG=null;
-  if(EDITING==null||to===from)return;const ev=EDITS[EDITING],sn=gapSnap(ev),[it]=ev.splice(from,1);ev.splice(to,0,it);retime(ev,Math.min(from,to),sn);OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}}
+  if(EDITING==null||to===from)return;const ev=EDITS[EDITING],sn=gapSnap(ev),[it]=ev.splice(from,1);ev.splice(to,0,it);retime(ev,Math.min(from,to),sn);OPTR=null;edSave();const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}}
 document.addEventListener("pointerup",dragEnd);document.addEventListener("pointercancel",e=>{if(!DRG)return;DRG.to=DRG.from;dragEnd(e)});
 function card(raw){
   const day=edPlan(raw,autoTime(recPlan(raw,R(raw)))),tot=day.legs.filter(l=>!l.c2&&!l.walk&&!l.ride).reduce((s,l)=>s+dT(l.m,l.b),0),wkm=day.legs.reduce((s,l)=>s+(l.walk||0),0),k=sunKey[day.d],Nd=254+day.d,du=dayUrl(day);
@@ -1691,7 +1691,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
 /* 自訂行程：和原本行程分開儲存（iceland-custom-dN）；登入了會同步，沒有登入就只存在這部機 */
 var ADDOPEN=new Set();
 /* 加入日出（可選日出行程）：按一下加入／取消 */
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-suntog]");if(!b)return;const k=b.dataset.suntog,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(a.has(id))a.delete(id);else a.add(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{window.scrollTo(0,y)}catch(err){}});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-suntog]");if(!b)return;const k=b.dataset.suntog,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(a.has(id))a.delete(id);else a.add(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 /* 可選行程：浮動視窗 */
 function optDlg(d){const old=document.querySelector("dialog.optdlg");if(old){old.close();old.remove()}const dd=days.find(x=>x.d===d);const dlg=document.createElement("dialog");dlg.className="optdlg";
   const body=()=>(window.__PK||{})[d]||"";
