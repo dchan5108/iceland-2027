@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-15-dt1">
+<link rel="stylesheet" href="style.css?v=2026-11-16-tm1">
 
 </head>
 <body>
@@ -434,8 +434,8 @@ async function visLoad(){const out=document.getElementById("vis-out");if(!out)re
     const V=j.visits||[];if(!V.length){out.innerHTML=`<p class="rhint">未有記錄（要部署新版 Apps Script 之後先開始記）。</p>`;return}
     const f=t=>new Date(t).toLocaleString("zh-HK",{hour12:false,month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
     const M=V.filter(x=>x.who&&x.who!=="未登入");
-    const row=(nmH,x)=>`<tr><td>${nmH}</td><td>${f(x.last)}<details><summary>最近 ${x.recent.length} 次</summary><small>${x.recent.map(t=>f(t)).join("<br>")}</small></details></td><td>${x.n}</td><td>${f(x.first)}</td></tr>`;
-    const tab=(gn,L,h)=>!L.length?"":`<h4 class="visg">${gn}<small>${L.length} ${gn==="成員"?"人":"部裝置"}・${L.reduce((a,x)=>a+x.n,0)} 次</small></h4><div class="gtw" tabindex="0" role="region" aria-label="${gn}開啟記錄（可左右捲動）"><table class="vistab"><thead><tr><th>${gn==="成員"?"Gmail":"裝置"}</th><th>最近打開</th><th>次數</th><th>第一次</th></tr></thead><tbody>${L.map(h).join("")}</tbody></table></div>`;
+    const row=(nmH,x)=>`<tr><td>${nmH}</td><td>${f(x.last)}<details><summary>最近 ${x.recent.length} 次</summary><small>${x.recent.map(t=>f(t)).join("<br>")}<br>第一次：${f(x.first)}</small></details></td><td>${x.n}</td></tr>`;
+    const tab=(gn,L,h)=>!L.length?"":`<h4 class="visg">${gn}<small>${L.length} ${gn==="成員"?"人":"部裝置"}・${L.reduce((a,x)=>a+x.n,0)} 次</small></h4><div class="gtw" tabindex="0" role="region" aria-label="${gn}開啟記錄（可左右捲動）"><table class="vistab"><thead><tr><th>${gn==="成員"?"Gmail":"裝置"}</th><th>最近打開</th><th>次數</th></tr></thead><tbody>${L.map(h).join("")}</tbody></table></div>`;
     out.innerHTML=tab("成員",M,x=>row(`<b style="overflow-wrap:anywhere">${escA(x.who)}</b><small>${escA(x.role||"")}${x.type?"・"+escA(x.type):""}</small>`,x))}
   catch(e){out.innerHTML=`<p class="rhint">讀取失敗（沒有網絡？）</p>`}}
 document.addEventListener("click",e=>{if(!e.target.closest)return;if(e.target.closest("#vis-load"))visLoad();});
@@ -447,14 +447,14 @@ function grpHead(a,i){const f=x=>!!(x.food||x.lunch||x.meal);const o=a[i],mixed=
   if(f(o)&&o.grp&&(i===0||!f(a[i-1])||a[i-1].grp!==o.grp))h+=`<div class="grp">${o.grp}</div>`;
   return h}
 function privHTML(){return ""}
-function memHTML(){return `<h4>成員申請</h4><div class="row"><button type="button" class="mini" id="mem-load">看申請／成員</button></div><div id="mem-out"></div>`}
+function memHTML(){return `<div class="row"><button type="button" class="mini" id="mem-load">看申請／成員</button></div><div id="mem-out"></div>`}
 function memDraw(ms){const o=$("mem-out");if(!o)return;if(!ms.length){o.innerHTML=`<p class="rhint">未有人申請。</p>`;return}const E=DOCX.esc,L={docs:"文件",real:"真實版",reject:"拒絕"};
   const st=m=>m.st==="批准"?(m.lv==="真實版"?"真實版":"文件"):m.st||"待批";
   o.innerHTML=[...ms].sort((a,b)=>(a.st==="待批"?0:1)-(b.st==="待批"?0:1)||b.t-a.t).map(m=>`<div class="memr" style="padding:8px 0;border-bottom:.5px solid var(--line)"><b style="overflow-wrap:anywhere">${E(m.email)}</b> <small class="rhint">（${E(st(m))}）</small><div class="row" style="margin-top:4px">${["docs","real","reject"].map(a=>`<button type="button" class="mini" data-mset="${a}" data-em="${E(m.email)}">${a==="reject"&&m.st==="批准"?"撤銷":L[a]}</button>`).join("")}</div></div>`).join("")}
 async function memCall(body){const o=$("mem-out");try{const r=await fetch(CONTENT_URL,{method:"POST",body:JSON.stringify(Object.assign({sk:localStorage.getItem("iceland-gsk")},body))});const j=await r.json();if(j.ok)memDraw(j.members||[]);else o.innerHTML=`<p class="rhint">${(j.sv||0)<7?"Apps Script 未更新到新版本":"讀取失敗："+DOCX.esc(j.err||"")}</p>`}catch(e){o.innerHTML=`<p class="rhint">連線失敗，請檢查網絡</p>`}}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#mem-load,[data-mset]");if(!t)return;if(t.id==="mem-load"){$("mem-out").innerHTML=`<p class="rhint">讀取中…</p>`;memCall({op:"members"});return}memCall({op:"mset",email:t.dataset.em,act:t.dataset.mset})});
 function visHTML(){
-  return `<h4>開啟記錄</h4><p class="rhint">按 Gmail 記；你自己不記。</p><div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
+  return `<div class="row"><button type="button" class="mini" id="vis-load">看開啟記錄</button></div><div id="vis-out"></div>`}
 
 /* 管理者工具：用 OpenStreetMap 實際道路（OSRM）重新計每段車程，結果可以複製給 Claude 更新 */
 function rcLegs(){const out=new Map(),add=(a,b,m,via)=>{if(!pts[a]||!pts[b]||a===b)return;via=(via||[]).filter(v=>VIAC[v]);const k=a+">"+b+(via.length?"|"+via.join(","):"");if(!out.has(k))out.set(k,{k,a,b,m,via})};
@@ -469,11 +469,14 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
     res[l.k]=[l.m,mins,km];const tr=document.createElement("tr");const df=mins==null?"":Math.abs(mins-l.m)>=10?" style=\"color:var(--warn);font-weight:700\"":"";tr.innerHTML=`<td>${nm(l.a)} → ${nm(l.b)}</td><td class="num">${l.m}</td><td class="num"${df}>${mins==null?"失敗":mins}</td><td class="num">${km==null?"":km}</td>`;d.querySelector("#rcb").appendChild(tr);
     d.querySelector("#rcp").textContent=`${i+1} / ${legs.length}`;d.querySelector("#rct").value="RC "+JSON.stringify(res);await new Promise(r=>setTimeout(r,450))}
   d.querySelector("#rcp").textContent=stop?"已停止":`完成：${legs.length} 段。紅色＝和現時相差 10 分鐘或以上。`});
-function toolsHTML(){return `<details class="tools" id="tools"><summary aria-label="工具" title="工具"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="vh">工具</span></summary><div class="tmenu">${DT?`<button type="button" class="mini" id="rtcheck">重新計車程（實際路線）</button>`:""}${DT?privHTML():""}${OWNER?memHTML()+visHTML():""}${DT?edBackupHTML():""}
-  <h4>預覽其他人看到的版本（只供看）</h4><div class="row"><a class="mini" href="#dt5x-pub">公開版</a><a class="mini" href="#dt5x-real">真實版</a></div>
-  <h4>帳戶</h4><span class="syncst">資料只存在這部機；要搬去另一部機，用下面「匯出／匯入」</span>
-  ${ROLE?`<div class="row"><button type="button" class="mini" id="sy-off">登出</button></div>`:""}
-  <h4>備份這部機的資料</h4><div class="row"><button type="button" class="mini" id="bk-exp">匯出</button><label class="mini" style="cursor:pointer">匯入<input type="file" id="bk-imp" accept=".json,application/json" hidden></label></div></div></details>`}
+function toolsHTML(){return `<details class="tools" id="tools"><summary aria-label="工具" title="工具"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="vh">工具</span></summary><div class="tmenu">
+  <details class="tsec"><summary>行程工具</summary><p class="rhint">${DT?"重新計車程、預覽其他人看到的版本":"預覽其他人看到的版本（只供看）"}</p>
+   ${DT?`<div class="row"><button type="button" class="mini" id="rtcheck">重新計車程（實際路線）</button></div>`:""}${DT?privHTML():""}${DT?edBackupHTML():""}
+   <div class="row"><a class="mini" href="#dt5x-pub">預覽公開版</a><a class="mini" href="#dt5x-real">預覽真實版</a></div></details>
+  ${OWNER?`<details class="tsec"><summary>成員</summary><p class="rhint">批准申請，以及看邊個打開過（按 Gmail 記，你自己不記）</p>${memHTML()}${visHTML()}</details>`:""}
+  <details class="tsec"><summary>帳戶及備份</summary><p class="rhint">資料只存在這部機；要搬去另一部機，用「匯出／匯入」</p>
+   <div class="row">${ROLE?`<button type="button" class="mini" id="sy-off">登出</button>`:""}<button type="button" class="mini" id="bk-exp">匯出</button><label class="mini" style="cursor:pointer">匯入<input type="file" id="bk-imp" accept=".json,application/json" hidden></label></div></details>
+  </div></details>`}
 document.addEventListener("click",e=>{const t=document.getElementById("tools");if(t&&t.open&&!t.contains(e.target))t.open=false});
 document.addEventListener("keydown",e=>{const t=document.getElementById("tools");if(e.key==="Escape"&&t&&t.open)t.open=false});
 /* 下載 KML：用現在的行程、住宿和地圖位置即時生成（之後改了住宿，下載的就是新版本） */

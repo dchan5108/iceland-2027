@@ -3438,3 +3438,13 @@ details.bsec>summary span,details.bsec>summary small{font-family:var(--sans)!imp
 #b-me li.dtr{font-weight:600}
 h3.dtc,.tk.tkdt .bkn{color:var(--chg)}
 .tk.tkdt{box-shadow:inset 3px 0 0 var(--chg)}
+/* 工具選單：分三段，每段可收埋，格式一致（標題、一行說明、掣） */
+.tmenu details.tsec{border-top:1px solid var(--line);padding:8px 0 4px}
+.tmenu details.tsec:first-child{border-top:0;padding-top:0}
+.tmenu details.tsec>summary{list-style:none;cursor:pointer;font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.tmenu details.tsec>summary::-webkit-details-marker{display:none}
+.tmenu details.tsec>summary::after{content:"›";color:var(--muted);transition:transform .15s}
+.tmenu details.tsec[open]>summary::after{transform:rotate(90deg)}
+.tmenu details.tsec>.rhint{margin:2px 0 8px;font-size:12px}
+.tmenu details.tsec>*+*{margin-top:6px}
+.tmenu .vistab{width:100%}
