@@ -3466,3 +3466,10 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #chips button:has(.cday){height:auto;min-height:36px;padding:4px 12px!important}
 .viewbox{justify-content:space-between}
 .viewbox .sl{font-size:14px;font-weight:700}
+/* 去／不去：今日與行程同一款卡（摘要卡下面、獨立一張） */
+#today .viewbox,#homeToday .viewbox,#panel article.day>.scenbox.viewbox{background:var(--card)!important;border:0!important;border-radius:20px!important;padding:12px 18px!important;margin:0!important;justify-content:space-between}
+/* 今日頭部：跟行程頁一樣——日子列在上、日期標題在下，不用卡底 */
+#today .thero,#homeToday .thero{display:flex!important;flex-direction:column;background:none!important;border:0!important;box-shadow:none!important;padding:0 2px!important}
+#today .thero .tchips,#homeToday .thero .tchips{order:-2;margin:0 0 6px!important}
+#today .thero .tsub,#homeToday .thero .tsub{order:-1;margin-top:4px}
+#today .thero .tdrow,#homeToday .thero .tdrow{margin:0 0 4px}
