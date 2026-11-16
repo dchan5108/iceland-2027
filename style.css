@@ -3460,3 +3460,9 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 .thero .tbtns{margin-top:0}
 .thero .viewbox{background:none!important;padding:12px 0 0!important;margin:12px 0 0!important;border-top:1px solid var(--line)!important;border-radius:0!important;justify-content:space-between}
 .thero .viewbox .sl{font-size:14px}
+/* 行程表：日子列、去／不去列跟今日行程一致 */
+#view-trip>.chips,#chips{background:var(--bg)!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:0!important;border-radius:0!important;gap:6px!important;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%)}
+#chips button{min-width:52px;height:36px;padding:0 12px!important;font-weight:700}
+#chips button:has(.cday){height:auto;min-height:36px;padding:4px 12px!important}
+.viewbox{justify-content:space-between}
+.viewbox .sl{font-size:14px;font-weight:700}
