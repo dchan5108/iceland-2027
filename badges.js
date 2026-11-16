@@ -159,5 +159,7 @@ const css=`.bc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)
 .tquick .thd2{display:flex;justify-content:space-between;align-items:baseline}.tquick .bc-cnt{font-size:12px;color:#a5803c;font-weight:600}.tquick .bc-in{border:0;background:none;padding:0;cursor:pointer;font:inherit;color:inherit}.tquick .bc-in svg{width:72px;height:72px}.tquick .bc-in em{font-style:normal;font-size:10.5px;color:var(--muted)}.tquick .bc-in.got em{color:#a5803c;font-weight:700}.tquick .bc-in.av svg{filter:drop-shadow(0 0 7px rgba(110,190,230,.75))}`;
 try{const st=document.createElement("style");st.textContent=css;document.head.appendChild(st)}catch(e){}
 /* ctx: {url, admin, now} */
-window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping,count,merge};
+/* 暫停徽章：BADGES_OFF=true 時唔開放任何徽章功能（總覽收藏冊、今日重點徽章、解鎖提示、管理彈窗）。
+   資料同邏輯全部保留；要重新啟用，將 index.html 入面 BADGES_OFF 改做 false 即可。 */
+if(!window.BADGES_OFF)window.BADGES={mount(el,ctx){hostEl=el;X=Object.assign(X,ctx||{});render();pull()},ping,count,merge};
 })();
