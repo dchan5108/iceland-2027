@@ -3473,3 +3473,13 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #today .thero .tchips,#homeToday .thero .tchips{order:-2;margin:0 0 6px!important}
 #today .thero .tsub,#homeToday .thero .tsub{order:-1;margin-top:4px}
 #today .thero .tdrow,#homeToday .thero .tdrow{margin:0 0 4px}
+/* 日期標題與「當日路線／完整時間表」同一行 */
+#today .thero,#homeToday .thero{flex-direction:row!important;flex-wrap:wrap;align-items:center;column-gap:10px}
+#today .thero>*,#homeToday .thero>*{flex:0 0 100%}
+#today .thero>.tdrow,#homeToday .thero>.tdrow{flex:1 1 0;min-width:0;margin:0!important}
+#today .thero>.tbtns,#homeToday .thero>.tbtns{flex:0 0 auto;margin:0!important;gap:12px}
+#today .thero .tbtns>a.troute.tlink,#today .thero .tbtns .tfull2,#homeToday .thero .tbtns>a.troute.tlink,#homeToday .thero .tbtns .tfull2{font-size:13.5px;height:auto;min-height:32px;margin-left:0!important}
+#today .thero .tbtns>[hidden],#homeToday .thero .tbtns>[hidden]{display:none!important}
+#today .thero .tdate,#homeToday .thero .tdate{font-size:20px!important;letter-spacing:-.01em}
+#today .thero .tbtns,#homeToday .thero .tbtns{gap:10px}
+#today .thero .tbtns>a.troute.tlink,#today .thero .tbtns .tfull2,#homeToday .thero .tbtns>a.troute.tlink,#homeToday .thero .tbtns .tfull2{font-size:13px}
