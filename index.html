@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-16-sp2">
+<link rel="stylesheet" href="style.css?v=2026-11-16-sp3">
 
 </head>
 <body>
@@ -1696,19 +1696,11 @@ var ADDOPEN=new Set();
 /* 加入日出（可選日出行程）：按一下加入／取消 */
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-suntog]");if(!b)return;const k=b.dataset.suntog,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(a.has(id))a.delete(id);else a.add(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;drawMap();renderPanel();dim();try{if(TODAY.box)TODAY.render()}catch(err){}try{window.scrollTo(0,y)}catch(err){}});
 /* 可選行程：浮動視窗 */
-/* 今日重點：撳景點開簡介（底部保留 Google Maps） */
+/* 今日重點：撳景點開一段小簡介 */
 function spDlg(k){const old=document.querySelector("dialog.spdlg");if(old){old.close();old.remove()}const dlg=document.createElement("dialog");dlg.className="optdlg spdlg";
-  const name=String(nm(k)).replace(/（.*?）/g,"").trim(),nav=TODAY.navUrl(k);
-  dlg.innerHTML=`<div class="odh"><h3>${DOCX.esc(name)}</h3><button type="button" class="odx">完成</button></div><div class="odb">${SP[k]?spDetail(k):`<p class="rhint">未有簡介。</p>`}<div class="row" style="margin-top:12px"><a class="mini" href="${nav}" target="_blank" rel="noopener">Google Maps ↗</a></div></div>`;
-  document.body.appendChild(dlg);
-  /* 同行程「詳情」一樣嘅次序：注意事項 → 地方簡介 → 預約、門票／收費、停車、廁所、營業時間…… */
-  try{const sp=dlg.querySelector(".spd"),dl=sp&&sp.querySelector(":scope>dl");if(sp&&dl){const P=["預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pr=[];
-    dl.querySelectorAll(":scope>dt").forEach(dt=>pr.push([dt,dt.nextElementSibling]));let w=null;
-    pr.forEach(([dt,dd])=>{const t=dt.textContent.trim();if(t==="注意事項"){w=dd;dt.remove();if(dd)dd.remove()}else if(HIDE.test(t)){dt.remove();if(dd)dd.remove()}});
-    pr.filter(([dt])=>dt.isConnected).sort((a,b)=>{const ia=P.indexOf(a[0].textContent.trim()),ib=P.indexOf(b[0].textContent.trim());return (ia<0?99:ia)-(ib<0?99:ib)}).forEach(([dt,dd])=>{dl.append(dt);if(dd)dl.append(dd)});
-    const t0=sp.querySelector(":scope>.spt");if(t0)t0.remove();const ps=[...sp.querySelectorAll(":scope>p")];
-    let h="";if(w&&w.textContent.trim())h+=`<div class="sptop"><div class="sph">注意事項</div>${w.innerHTML}</div>`;if(ps.length)h+=`<div class="spintro"><div class="sph">地方簡介</div></div>`;
-    sp.insertAdjacentHTML("afterbegin",h);const it=sp.querySelector(".spintro");if(it)ps.forEach(q=>it.append(q));if(it)it.after(dl)}}catch(e){}dlg.querySelector(".odx").onclick=()=>dlg.close();dlg.addEventListener("close",()=>dlg.remove());dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+  const E=DOCX.esc,name=String(nm(k)).replace(/（.*?）/g,"").trim(),d=SP[k]&&SP[k].d?SP[k].d:"未有簡介。";
+  dlg.innerHTML=`<div class="odh"><h3>${E(name)}</h3><button type="button" class="odx">完成</button></div><div class="odb"><p class="spdesc">${d}</p></div>`;
+  document.body.appendChild(dlg);dlg.querySelector(".odx").onclick=()=>dlg.close();dlg.addEventListener("close",()=>dlg.remove());dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
   if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","")}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-spk]");if(!b)return;e.preventDefault();spDlg(b.dataset.spk)});
 function optDlg(d){const old=document.querySelector("dialog.optdlg");if(old){old.close();old.remove()}const dd=days.find(x=>x.d===d);const dlg=document.createElement("dialog");dlg.className="optdlg";
