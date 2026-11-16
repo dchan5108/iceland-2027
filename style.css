@@ -3452,3 +3452,5 @@ h3.dtc,.tk.tkdt .bkn{color:var(--chg)}
 /* 今日重點簡介：置中彈出視窗 */
 dialog.optdlg.spdlg{width:min(420px,calc(100vw - 40px));max-width:calc(100vw - 40px);margin:auto!important;border-radius:18px!important;max-height:70vh;padding-bottom:0!important}
 dialog.optdlg.spdlg .odb{padding-bottom:18px}
+
+.spdlg .spart{display:flex;justify-content:center;margin:2px 0 12px}.spdlg .spart svg{width:112px;height:112px}

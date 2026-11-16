@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-16-sp4">
+<link rel="stylesheet" href="style.css?v=2026-11-16-sp5">
 
 </head>
 <body>
@@ -140,7 +140,7 @@
 
 
 <script src="trip.js?v=2026-11-16-d5m"></script>
-<script src="landing.js?v=2026-11-16-uq1"></script>
+<script src="landing.js?v=2026-11-16-uq2"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
 <script src="data.js?v=2026-11-16-desc3"></script>
 <script>
@@ -1697,12 +1697,13 @@ var ADDOPEN=new Set();
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-suntog]");if(!b)return;const k=b.dataset.suntog,q=k.indexOf("|"),d=k.slice(0,q),id=k.slice(q+1);const a=new Set(RECP[d]||[]);if(a.has(id))a.delete(id);else a.add(id);RECP[d]=[...a];store.set("iceland-recp",JSON.stringify(RECP));const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
 /* 可選行程：浮動視窗 */
 /* 今日重點：撳景點開一段小簡介 */
-function spDlg(k){const old=document.querySelector("dialog.spdlg");if(old){old.close();old.remove()}const dlg=document.createElement("dialog");dlg.className="optdlg spdlg";
-  const E=DOCX.esc,name=String(nm(k)).replace(/（.*?）/g,"").trim(),d=SP[k]&&SP[k].d?SP[k].d:"未有簡介。";
-  dlg.innerHTML=`<div class="odh"><h3>${E(name)}</h3><button type="button" class="odx">完成</button></div><div class="odb"><p class="spdesc">${d}</p></div>`;
+const SPV={skafv:{t:"斯卡夫塔山遊客中心",d:"瓦特納冰川國家公園南面的遊客中心，有餐飲、廁所和停車場；Svartifoss 和冰川舌步道都由這裡出發。"},fjallf:{t:"Fjallsárlón 冰浮",d:"穿上防水浮力衣，在 Fjallsárlón 浮冰之間的湖水仰臥漂浮；導遊講解並在旁看顧。"}};
+function spDlg(k,v){const old=document.querySelector("dialog.spdlg");if(old){old.close();old.remove()}const dlg=document.createElement("dialog");dlg.className="optdlg spdlg";
+  const E=DOCX.esc,sv=SPV[v],name=sv?sv.t:String(nm(k)).replace(/（.*?）/g,"").trim(),d=sv?sv.d:SP[k]&&SP[k].d?SP[k].d:"未有簡介。",art=window.LANDING?`<div class="spart">${LANDING.badge(v||k,112)}</div>`:"";
+  dlg.innerHTML=`<div class="odh"><h3>${E(name)}</h3><button type="button" class="odx">完成</button></div><div class="odb">${art}<p class="spdesc">${d}</p></div>`;
   document.body.appendChild(dlg);dlg.querySelector(".odx").onclick=()=>dlg.close();dlg.addEventListener("close",()=>dlg.remove());dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
   if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","")}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-spk]");if(!b)return;e.preventDefault();spDlg(b.dataset.spk)});
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-spk]");if(!b)return;e.preventDefault();spDlg(b.dataset.spk,b.dataset.art)});
 function optDlg(d){const old=document.querySelector("dialog.optdlg");if(old){old.close();old.remove()}const dd=days.find(x=>x.d===d);const dlg=document.createElement("dialog");dlg.className="optdlg";
   const body=()=>(window.__PK||{})[d]||"";
   dlg.innerHTML=`<div class="odh"><h3>${dLab(d)} 可選行程</h3><button type="button" class="odx">完成</button></div><div class="odb">${body()}</div>`;
@@ -2998,11 +2999,13 @@ const TODAY={d:null,docMode:"date",
   dep(raw,day){try{const pl=day.plan||[],di=depI(pl),t=di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const tx=REAL&&day.firmT?`通知大家 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發`:t?`<b>${t}</b> 出發`:"";
     return tx?`<section class="tcard tdep noen"><span class="tdi">🚗</span><span>${tx}</span></section>`:""}catch(e){return ""}},
+  /* 同一地點：當日做活動用活動插畫，只是路過／停留用景點插畫 */
+  art(k,day){const tx=(day.plan||[]).map(r=>r[1]).join(" ");if(k==="skaf"&&!/攀冰|健行/.test(tx))return "skafv";if(k==="fjall"&&/冰浮/.test(tx))return "fjallf";return k},
   quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
-    const kk=ks.filter(k=>Q[k]||pts[k]),bd=kk.map(k=>[k,String(nm(k)).replace(/（.*?）/g,"").trim()]);
+    const kk=ks.filter(k=>Q[k]||pts[k]),bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
     if(!bd.length)return "";
-    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}">${window.LANDING?LANDING.badge(k,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
+    return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n,v])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}" data-art="${v}">${window.LANDING?LANDING.badge(v,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
     /* 非管理者：只顯示當日行程；未到旅程日子就只出提示 */
     if(!DT){let t0=null;try{t0=todayDay()}catch(e){}if(!t0||!L.includes(t0.d)){const f=days.find(x=>x.d===L[0]);box.innerHTML=`<section class="tcard thero"><div class="tsub noen">今日行程</div><h2 class="tdate">旅程期間每日在這裡顯示當日行程</h2><p class="muted">第一日：${f?dFmt(f.date)||f.date:""}。其他日子請看「行程」。</p></section>`;return}TODAY.d=t0.d}const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
