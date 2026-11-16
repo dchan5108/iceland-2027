@@ -3454,3 +3454,9 @@ dialog.optdlg.spdlg{width:min(420px,calc(100vw - 40px));max-width:calc(100vw - 4
 dialog.optdlg.spdlg .odb{padding-bottom:18px}
 
 .spdlg .spart{display:flex;justify-content:center;margin:2px 0 12px}.spdlg .spart svg{width:112px;height:112px}
+/* 今日行程卡：日子列不要玻璃底／陰影，切換列對齊卡內文字 */
+.thero .tchips{box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:none!important;border:0!important;margin:6px 0 2px!important;padding:2px 0 4px!important;gap:6px!important;scroll-padding-inline:0;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%)}
+.thero .tchips button{min-width:52px;height:36px;padding:0 12px!important;font-weight:700}
+.thero .tbtns{margin-top:0}
+.thero .viewbox{background:none!important;padding:12px 0 0!important;margin:12px 0 0!important;border-top:1px solid var(--line)!important;border-radius:0!important;justify-content:space-between}
+.thero .viewbox .sl{font-size:14px}
