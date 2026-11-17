@@ -3483,3 +3483,5 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #today .thero .tdate,#homeToday .thero .tdate{font-size:20px!important;letter-spacing:-.01em}
 #today .thero .tbtns,#homeToday .thero .tbtns{gap:10px}
 #today .thero .tbtns>a.troute.tlink,#today .thero .tbtns .tfull2,#homeToday .thero .tbtns>a.troute.tlink,#homeToday .thero .tbtns .tfull2{font-size:13px}
+/* 行程表：路線完整顯示，唔再用兩行省略（D0 嘅「書店酒吧」原本被截走） */
+.ovB .ovr{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important}
