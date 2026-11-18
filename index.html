@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-18-pv1">
+<link rel="stylesheet" href="style.css?v=2026-11-18-tc1">
 
 </head>
 <body>
@@ -53,7 +53,7 @@
     <button type="button" role="tab" id="tab-today" hidden aria-selected="false" aria-controls="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/><circle cx="12" cy="15" r="1.6"/></svg><span>今日</span></button>
     <button type="button" role="tab" id="tab-home" aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><em class="full">行程</em><span>行程</span><i class="mlab">行程</i></button>
-    <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.7 2.5 1.7-1 1.4-2.5 1.6-2.5.7-2.5 1.7 1 1.7 2.5 1.7 2.5-.6 2.5-1.6"/></svg><span>預算</span></button>
+    <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.7 2.5 1.7-1 1.4-2.5 1.6-2.5.7-2.5 1.7 1 1.7 2.5 1.7 2.5-.6 2.5-1.6"/></svg><span>費用</span></button>
     <button type="button" role="tab" id="tab-tips" hidden aria-selected="false" aria-controls="tips"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>連結</span></button>
     <button type="button" role="tab" id="tab-stay" hidden aria-selected="false" aria-controls="stays"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-8 9 8"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg><span>住宿</span></button>
     <button type="button" id="tab-map" class="mtab" hidden aria-label="地圖"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>地圖</span></button>
@@ -98,38 +98,27 @@
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
   <section id="prep" class="pg" role="tabpanel" aria-labelledby="tab-prep" hidden>
     <div class="pghead"><h2>準備</h2></div>
-    <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">預算</button></div>
+    <div class="tcatnav psub" role="tablist" aria-label="出發準備分類"><button type="button" role="tab" id="ps-book" class="tct" data-psub="book" aria-controls="pp-book">預訂清單</button><button type="button" role="tab" id="ps-pre" class="tct" data-psub="pre" aria-controls="pp-pre">出發前要做</button><button type="button" role="tab" id="ps-budget" class="tct" data-psub="budget" aria-controls="budget">旅行費用</button></div>
     <div id="prep-dash" hidden></div>
     <div id="pp-book" class="ppanel" role="tabpanel" aria-labelledby="ps-book"><div id="prepBack" hidden></div><div id="prepHero"></div><div id="prep-docs"></div><div id="prep-fly"></div><div id="bookp"></div><div id="pp-stay"><section id="stays" class="pg" aria-label="每日住宿"></section></div><div id="prepKnow" class="tipmv"></div></div>
     <div id="pp-pre" class="ppanel" role="tabpanel" aria-labelledby="ps-pre" hidden><div id="pre-fly"></div><div id="prep-pre"></div></div>
-  <div class="pghead budhead"><h2>預算</h2></div>
+  <div class="pghead budhead"><h2>旅行費用</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
-    
-    <p class="bnote rwnote">價錢主要來自 2026 年的官網或訂票網站，2027 年可能會調整；標「估」的是粗略估計，標「待填」的請自行輸入。所有數字都可以直接修改；修改只會儲存在你這部裝置。</p>
-    <div class="bbar">
-      <div class="seg" role="group" aria-label="顯示方式"><button type="button" data-bmode="simple" aria-pressed="true">簡易</button><button type="button" data-bmode="full" aria-pressed="false">詳細</button></div>
-      <label for="b-who">我是 <select id="b-who"></select></label>
-      <label for="b-cur">顯示 <select id="b-cur"><option value="HKD">HKD</option><option value="AUD">AUD</option></select></label>
-    </div>
-    <p class="bnote ronote" hidden>只供看：數字由 Dorcas 更新。你可以選「我是」看自己要給多少，以及在「個人開支」自己那格填自己的開支（只存在你部機）。</p>
-    <div class="bctl donly">
-      <label for="b-people">人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
+    <p class="bnote">用來估算旅費，不是記帳。價錢主要來自 2026 年官網或訂票網站，2027 年可能調整。共用的車和住宿按參加人數平分；自選活動只計你有參加的。你的勾選和個人開支只儲存在這部裝置。</p>
+    <div class="bbar"><label for="b-cur">顯示 <select id="b-cur"><option value="HKD">HKD</option><option value="AUD">AUD</option></select></label></div>
+    <div class="btot" id="b-tot"></div>
+    <p class="bmiss" id="b-miss" hidden></p>
+    <div class="bme" id="b-me"></div>
+    <div class="bctl" id="b-adm" hidden>
+      <label for="b-people">參加人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
       <label for="b-cars">車數 <input type="number" id="b-cars" min="1" max="5" step="1" value="2"></label>
       <label for="b-food">飲食 <select id="b-food"><option value="cook">晚餐大部分自己煮</option><option value="out">出外吃為主</option></select></label>
       <label for="b-stay">住宿 <select id="b-stay"><option value="air">Airbnb</option><option value="hotel">酒店</option></select></label>
       <label for="b-hkd">1 ISK = <input type="number" id="b-hkd" min="0" step="0.0001" value="0.0643"> HKD</label>
       <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label>
     </div>
-    <div class="btot" id="b-tot"></div>
-    <div class="bdash" id="b-dash"></div>
-    <div class="bduo">
-      <details class="bsec" id="bs-me" open><summary>個人明細<span id="bs-me-s"></span></summary><div class="bme" id="b-me"></div></details>
-      <details class="bsec" id="bs-pie"><summary>預算分佈<span id="bs-pie-s"></span></summary><div class="bpie" id="b-pie"></div></details>
-    </div>
-    <p class="bnote donly" style="margin-top:12px"><span class="mobonly">手機只顯示「我是」那個人；轉人就改上面。</span>溫泉和活動預設全部人參加，可以逐格取消。</p>
-    <div class="bwrap donly"><table class="btable" id="b-table"></table></div>
-    <div class="bsettle" id="b-settle"></div>
-    <p class="bsrc donly" id="b-src"></p>
+    <details class="bsec" id="bs-tbl"><summary>逐項明細<span>勾選參加的活動、填個人開支</span></summary><div class="bwrap"><table class="btable" id="b-table"></table></div></details>
+    <p class="bsrc" id="b-src"></p>
     <div id="budSave" class="tipmv"></div>
   </section>
     <div id="pack" hidden></div>
@@ -1814,7 +1803,7 @@ const SRC={
  food:["isnet：2026 冰島每日開支","https://isnet.is/guides/iceland-budget-realistic-2026-daily-cost"]
 };
 /* scope: a = optional (only people ticked pay), p = every person, c = per car (shared), g = whole group (shared) */
-const B_=(id,name,price,qty,scope,o={})=>({dt:!!o.dt,id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false});
+const B_=(id,name,price,qty,scope,o={})=>({dt:!!o.dt,id,name,price,qty,scope,est:!!o.est,note:o.note||"",on:o.on!==false,src:o.src===undefined?id:o.src,def:o.def!==false,conf:!!o.conf});
 /* budget categories can be collapsed; remembered on this device */
 let BCOL=new Set();try{BCOL=new Set(JSON.parse(store.get("iceland-bcol")||"[]"))}catch(e){}
 const bToggle=tr=>{const ci=+tr.dataset.ci,open=BCOL.has(ci);if(open)BCOL.delete(ci);else BCOL.add(ci);store.set("iceland-bcol",JSON.stringify([...BCOL]));
@@ -1828,137 +1817,86 @@ const BUD=[
  ["活動（自選，只計參加的人）",[B_("geosea","GeoSea 海水溫泉（D4）",7490,1,"a",{src:"",note:"成人價；學生價 5,190"}),B_("kayak","冰河湖獨木舟（D6）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/17 上午稍晚至中午有團"}),B_("glac","Troll 冰川健行＋攀冰（D7）",33000,1,"a",{est:1,src:"",note:"Troll 網頁 US$253.50，約 130 ISK／USD 換算，以訂購價為準"}),B_("icefl","Fjallsárlón 冰浮（D8）",0,1,"a",{src:"",note:"價錢網上未列，要向 Fjallsárlón 查詢（+354 570 2700）"}),B_("horse","Skálakot 騎馬（D9）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D10）",22900,1,"a",{note:"現場集合，不含接送"})]],
  ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D6）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外吃）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外吃）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D5）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 市區附近取車，地點待定，12 日）",18000,12,"c",{est:1,src:"",note:"每日價錢，9 月下旬 SUV／大旅行車估價，待報價；7 人加行李要較大的車"}),B_("carins","租車保險（SCDW＋碎石 GP＋沙塵 SAAP）",4500,12,"c",{est:1,src:"",note:"每日；碎石和沙塵是冰島最常見損壞，不要省；有些公司已包在日租，比較時看總價"}),B_("drv2","第二司機",1000,12,"c",{est:1,src:"",note:"每日；有些公司免費，取車時加名；每部車最少 2 個人可以駕駛"}),B_("km","道路里程費（每公里）",7,2000,"c",{src:"km",note:"2026 年起每公里約 6.95 ISK，數量 = 公里；有些租車公司已計入日租，這麼就剔走"}),B_("fuel","油費（約 2,000 公里）",29000,1,"c",{est:1,src:"km",note:"約 2,000 km × 每百公里 7 公升 × 約 205 ISK/L（2026 年油稅減了）；Costco 入油較便宜（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("parka","Parka 月費",490,1,"c",{src:"",note:"每部車開一個月費，免每次約 89 ISK 手續費；用完取消續訂"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
- ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；選有停車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已選）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 埃伊爾斯塔濟 Egilsstaðir",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air5","D5 9/16 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 冰河湖附近（待定）",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7 9/18 Hótel Jökulsárlón",70000,1,"g",{est:1,src:"",note:"估價，以酒店報價為準"}),B_("air8","D8 9/19 維克 Vík（Vík Apartments／Hotel Vík í Mýrdal）",70000,1,"g",{est:1,src:"",note:"整間屋（7 人）估價，已計服務費"}),B_("air9","D9 9/20 Mr Iceland 農場（Efri-Úlfsstaðir）",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；和 D11 連住 2 晚"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík（第 2 晚）",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...DTBUD.filter(x=>x.id!=="dthike")]],
+ ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",conf:1,note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；選有停車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已選）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 埃伊爾斯塔濟 Egilsstaðir",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air5","D5 9/16 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 冰河湖附近（待定）",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7 9/18 Hótel Jökulsárlón",70000,1,"g",{est:1,src:"",note:"估價，以酒店報價為準"}),B_("air8","D8 9/19 維克 Vík（Vík Apartments／Hotel Vík í Mýrdal）",70000,1,"g",{est:1,src:"",note:"整間屋（7 人）估價，已計服務費"}),B_("air9","D9 9/20 Mr Iceland 農場（Efri-Úlfsstaðir）",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；和 D11 連住 2 晚"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík（第 2 晚）",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...DTBUD.filter(x=>x.id!=="dthike")]],
  ["出發前（每人）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"})]],
  ...(DTBUD.some(x=>x.id==="dthike")?[["額外（只計參加的人）",DTBUD.filter(x=>x.id==="dthike")]]:[]),
  ["個人開支（每人自己填）",[B_("flight","機票",0,1,"i",{src:"",note:"每人航線不同，在自己那格填（ISK）；用積分就填稅項"}),B_("pocket","個人零用（購物、手信、零食、咖啡）",15000,1,"i",{est:1,src:"",note:"每人自己估，在自己那格改"}),B_("own","其他自己的開支",0,1,"i",{src:"",note:"例如自己加的活動、行李超重"})]]
 ];
-/* 機票預填（每人一格，ISK）：Dorcas HK↔KEF 已訂，積分另計，只計稅項 HKD 953 ÷ 0.0643；只限管理者 */
-const FLIND=(PRIV.FLIND||null);
+/* 機票預填：只限 owner 本人自己那格（私人資料由伺服器下載，網頁原始碼不含數字） */
+const FLIND=(OWNER&&Array.isArray(PRIV.FLIND))?PRIV.FLIND:null;
 const FOOD={out:{lunch:11,cookL:0,dinner:10,cookD:0},cook:{lunch:9,cookL:2,dinner:2,cookD:8}};
 const fI=n=>Math.round(n).toLocaleString("en-US");
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const rowsAll=BUD.flatMap(([,r])=>r),actRows=rowsAll.filter(r=>r.scope==="a");
+const rowsAll=BUD.flatMap(([,r])=>r),actRows=rowsAll.filter(r=>r.scope==="a"),indRows=rowsAll.filter(r=>r.scope==="i");
 const KEY="iceland-budget-v15";
 let st={};try{st=JSON.parse(store.get(KEY)||"{}")}catch(e){st={}}
 ["people","cars","hkd","aud","food","stay"].forEach(k=>{if(st[k]!=null)$("b-"+k).value=st[k]});
-rowsAll.forEach(r=>{const x=(st.rows||{})[r.id];if(x){r.price=x.price;r.qty=x.qty;r.on=x.on}});
-let names=Array.isArray(st.names)?st.names.slice():[];
-let PAY=st.pay&&typeof st.pay==="object"?{...st.pay}:{};
-const join={};actRows.forEach(r=>{join[r.id]=Array.isArray((st.join||{})[r.id])?st.join[r.id].slice():[]});
-const scopeTxt={p:"每人 × 人數",c:"每車 × 車數",g:"全組平均分攤",i:"各自填"};
-const indRows=rowsAll.filter(r=>r.scope==="i"),IND={};indRows.forEach(r=>{IND[r.id]=Array.isArray((st.ind||{})[r.id])?st.ind[r.id].slice():[]});try{if(Array.isArray(FLIND)&&IND.flight&&!IND.flight.some(v=>+v))FLIND.forEach((v,i)=>{IND.flight[i]=v})}catch(e){}
-let ME=(()=>{const v=parseInt(store.get("iceland-me"),10);return Number.isInteger(v)?v:Number.isInteger(st.me)?st.me:0})();
-let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD",BMODE=store.get("iceland-bmode")==="full"?"full":"simple";
 let ACT=st.act&&typeof st.act==="object"?{...st.act}:{};
-/* 已知付款預設（只套用一次；之後在「哪個給」改都得） */
-if(!PAY._def1){PAY._def1=1;if(PAY.dthike==null)PAY.dthike=1;ACT.dthike=1}
+if(!(st.pay&&st.pay._def1)&&!st.d1)ACT.dthike=1;
+/* 價錢：管理者自己改的照用；其他人只保留已訂的實際價錢，其餘跟網站最新數字 */
+rowsAll.forEach(r=>{const x=(st.rows||{})[r.id];if(x&&(DT||ACT[r.id])){r.price=x.price;r.qty=x.qty;if(DT)r.on=x.on}});
+/* 自己：參加的自選項目（MJ）、個人開支（MI）；舊版「每人一格」按以前揀的「我是」轉過來 */
+const ME0=(()=>{const v=parseInt(store.get("iceland-me"),10);return Number.isInteger(v)?v:Number.isInteger(st.me)?st.me:0})();
+const MJ={},MI={};
+actRows.forEach(r=>{const o=(st.mj||{})[r.id],old=((st.join||{})[r.id]||[])[ME0];MJ[r.id]=typeof o==="boolean"?o:typeof old==="boolean"?old:(r.dt?DT:r.def)});
+indRows.forEach(r=>{const o=(st.mi||{})[r.id],old=((st.ind||{})[r.id]||[])[ME0],v=o!==undefined?o:old;MI[r.id]=v==null||v===""||!(+v>0)?(o===undefined&&old===undefined&&r.price>0?r.price:null):+v});
+try{if(FLIND&&!(MI.flight>0)&&+FLIND[0]>0)MI.flight=+FLIND[0]}catch(e){}
+const scopeTxt={p:"每人",c:"每車，按人數平分",g:"全組，按人數平分",i:"自己填"};
+let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD";
 const RO=!REAL&&!DT;
-/* 公開版：只顯示每日行程和住宿（注意事項、預算隱藏） */
+/* 公開版：只顯示每日行程和住宿（注意事項、旅行費用隱藏） */
 if(RO)document.documentElement.classList.add("pub");if(DT)document.documentElement.classList.add("dt");
 const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`${CUR} ${fI(x*rate())}`;
-function setMe(i){ME=i;store.set("iceland-me",String(i));let st2=document.getElementById("bme-css");if(!st2){st2=document.createElement("style");st2.id="bme-css";document.head.appendChild(st2)}
-  st2.textContent=`#b-table .pc:not(.p${i}){display:none}`}
-let built=0;
-function build(ppl){
-  const DEF=["Dorcas","Tebe"];while(names.length<ppl)names.push(DEF[names.length]||`成員 ${names.length+1}`);names=names.slice(0,ppl);
-  actRows.forEach(r=>{const x=join[r.id];while(x.length<ppl)x.push(r.dt?x.length<2:r.def);join[r.id]=x.slice(0,ppl)});
-  indRows.forEach(r=>{const x=IND[r.id];while(x.length<ppl)x.push(r.price);IND[r.id]=x.slice(0,ppl)});if(ME>=ppl)ME=0;
-  const P_=[...Array(ppl).keys()],cols=7+ppl;Object.keys(PAY).forEach(k=>{if(+PAY[k]>=ppl)delete PAY[k]});
-  const head=`<thead><tr><th>計</th><th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">小計（全組）</th><th class="payh">誰付了</th>${P_.map(i=>`<th class="pc p${i}"><input type="text" id="mn-${i}" value="${esc(names[i])}" maxlength="12" aria-label="第 ${i+1} 位成員名字"></th>`).join("")}<th>快捷</th></tr></thead>`;
-  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>`<tr id="br-${r.id}"${r.dt?' class="dtr"':""} data-ci="${ci}"${BCOL.has(ci)?" hidden":""}><td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td><td class="item">${r.name}${ACT[r.id]?'<span class="tag tagok">已訂</span>':r.est?'<span class="tag">估</span>':""}<small>${r.scope==="a"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td>${r.scope==="i"?`<td class="num muted" colspan="2">右邊每人一格<input type="hidden" id="bp-${r.id}" value="${r.price}"><input type="hidden" id="bq-${r.id}" value="1"></td>`:`<td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td>`}<td class="num" id="bs-${r.id}"></td><td class="pay">${r.scope==="i"?`<span class="muted">自己給</span><input type="hidden" id="by-${r.id}" value="">`:`<select id="by-${r.id}" aria-label="${r.name}：誰付了錢"><option value="">未給</option>${P_.map(i=>`<option value="${i}"${PAY[r.id]!=null&&+PAY[r.id]===i?" selected":""}>${esc(names[i])}</option>`).join("")}</select>`}</td>${P_.map(i=>r.scope==="i"?`<td class="pc p${i}"><input type="number" class="ind" id="mi-${r.id}-${i}" min="0" step="500" value="${IND[r.id][i]}" aria-label="${esc(names[i])}：${r.name}（ISK）"></td>`:r.scope==="a"?`<td class="pc ck p${i}"><input type="checkbox" id="mj-${r.id}-${i}" aria-label="第 ${i+1} 位成員參加 ${r.name}"${join[r.id][i]?" checked":""}></td>`:`<td class="pc share p${i}" id="ms-${r.id}-${i}"></td>`).join("")}<td>${r.scope==="a"?`<button type="button" class="mini" data-all="${r.id}">全選／清除</button>`:""}</td></tr>`).join("")).join("");
-  const foot=`<tfoot><tr class="tt"><td></td><td class="item">每人總額 ISK</td><td></td><td></td><td class="num" id="ft-all"></td><td></td>${P_.map(i=>`<td class="pc num p${i}" id="mt-${i}"></td>`).join("")}<td></td></tr><tr class="hk"><td></td><td class="item" id="fh-lab">約 HKD</td><td></td><td></td><td class="num" id="fh-all"></td><td></td>${P_.map(i=>`<td class="pc num p${i}" id="mh-${i}"></td>`).join("")}<td></td></tr></tfoot>`;
-  $("b-table").innerHTML=head+`<tbody>${body}</tbody>`+foot;built=ppl;
-}
-/* budget donut: share of the group total by category (visible legend doubles as the table view) */
 const RCI=Object.fromEntries(BUD.flatMap(([,rs],ci)=>rs.map(r=>[r.id,ci])));
-function drawPie(ppl,hkd){
-  const tot=BUD.map(()=>0);rowsAll.forEach(r=>{if(!r.on)return;const unit=r.price*r.qty;const sub=r.scope==="i"?IND[r.id].reduce((a,b)=>a+b,0):r.scope==="a"?unit*join[r.id].filter(Boolean).length:r.scope==="p"?unit*ppl:unit*(r.scope==="c"?(+$("b-cars").value||1):1);tot[RCI[r.id]]+=sub});
-  const sum=tot.reduce((a,b)=>a+b,0);if(!sum){$("b-pie").innerHTML="";return}
-  const names=BUD.map(([c])=>c.replace(/（.*）/,"")),R=70,r=44,cx=90,cy=90;let a0=-Math.PI/2,paths="";
-  const pt=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];
-  tot.forEach((v,i)=>{if(!v)return;const a1=a0+v/sum*Math.PI*2,big=a1-a0>Math.PI?1:0,[x0,y0]=pt(a0,R),[x1,y1]=pt(a1,R),[x2,y2]=pt(a1,r),[x3,y3]=pt(a0,r);
-    const d=v===sum?`M${cx-R},${cy}a${R},${R} 0 1,0 ${2*R},0a${R},${R} 0 1,0 ${-2*R},0M${cx-r},${cy}a${r},${r} 0 1,1 ${2*r},0a${r},${r} 0 1,1 ${-2*r},0Z`:`M${x0},${y0}A${R},${R} 0 ${big} 1 ${x1},${y1}L${x2},${y2}A${r},${r} 0 ${big} 0 ${x3},${y3}Z`;
-    paths+=`<path d="${d}" fill="var(--pc${i})" stroke="var(--card)" stroke-width="2" data-i="${i}"><title>${names[i]}：${fI(v)} ISK（${Math.round(v/sum*100)}%）</title></path>`;a0=a1});
-  const ps=$("bs-pie-s");if(ps)ps.textContent=`全組 ${fI(sum)} ISK`;
-  $("b-pie").innerHTML=`<div class="bpw"><svg viewBox="0 0 180 180" role="img" aria-label="預算分佈圓餅圖">${paths}${(()=>{const mx=tot.indexOf(Math.max(...tot));return `<text x="90" y="86" text-anchor="middle" class="pct1">最多：${names[mx]}</text><text x="90" y="110" text-anchor="middle" class="pct2">${Math.round(tot[mx]/sum*100)}%</text>`})()}</svg>
-   <ul class="plg">${tot.map((v,i)=>`<li data-i="${i}"><i style="background:var(--pc${i})"></i><span class="pn">${names[i]}</span><span class="pv">${Math.round(v/sum*100)}%</span><span class="pa">${fI(v)} ISK<small>每人約 ${fI(v/ppl)} ISK・${cvx(v/ppl)}</small></span></li>`).join("")}</ul></div>`;
-  const hl=i=>{$("b-pie").querySelectorAll("[data-i]").forEach(e=>e.classList.toggle("fade",i!=null&&e.dataset.i!==i))};
-  $("b-pie").querySelectorAll("[data-i]").forEach(e=>{e.addEventListener("pointerenter",()=>hl(e.dataset.i));e.addEventListener("pointerleave",()=>hl(null))});
+/* 簡單分類：住宿、交通、活動、飲食、其他 */
+const CATN=["住宿","交通","活動","飲食","其他"];
+const catOf=r=>{if(r.id==="flight")return 1;if(r.id==="stok")return 2;const g=BUD[RCI[r.id]][0];return /^住宿/.test(g)?0:/^交通/.test(g)?1:/^(溫泉|活動|額外)/.test(g)?2:/^飲食/.test(g)?3:4};
+let built=0;
+function build(){
+  const cols=DT?5:4;
+  const head=`<thead><tr>${DT?"<th>計</th>":""}<th class="item">項目</th><th class="num">單價 ISK</th><th class="num">數量</th><th class="num">我的份額</th></tr></thead>`;
+  const body=BUD.map(([cat,rs],ci)=>`<tr class="cat" data-ci="${ci}" tabindex="0" role="button" aria-expanded="${!BCOL.has(ci)}"><td colspan="${cols}"><span class="cari">${BCOL.has(ci)?"▸":"▾"}</span>${cat}</td></tr>`+rs.map(r=>{
+    const tag=ACT[r.id]||r.conf?'<span class="tag tagok">已確認</span>':r.est?'<span class="tag">估</span>':"";
+    const pq=r.scope==="i"?`<td class="num muted" colspan="2">自己填</td>`:DT?`<td class="num"><input type="number" id="bp-${r.id}" min="0" step="100" value="${r.price}" aria-label="${r.name} 單價"></td><td class="num"><input type="number" class="qty" id="bq-${r.id}" min="0" step="1" value="${r.qty}" aria-label="${r.name} 數量"></td>`:`<td class="num">${r.price>0?fI(r.price):'<span class="muted">未有價錢</span>'}</td><td class="num">${r.qty}</td>`;
+    const me=r.scope==="i"?`<td class="num"><input type="number" class="ind" id="mi-${r.id}" min="0" step="500" value="${MI[r.id]!=null?MI[r.id]:""}" placeholder="ISK" aria-label="我的${r.name}（ISK）"></td>`:r.scope==="a"?`<td class="num"><label class="bjn"><input type="checkbox" id="mj-${r.id}"${MJ[r.id]?" checked":""}> 參加</label><small id="ms-${r.id}"></small></td>`:`<td class="num share" id="ms-${r.id}"></td>`;
+    return `<tr id="br-${r.id}"${r.dt?' class="dtr"':""} data-ci="${ci}"${BCOL.has(ci)?" hidden":""}>${DT?`<td><input type="checkbox" id="bc-${r.id}" aria-label="計算 ${r.name}"${r.on?" checked":""}></td>`:""}<td class="item">${r.name}${tag}<small>${r.scope==="a"?"只計參加的人・":r.scope==="i"?"":scopeTxt[r.scope]+"・"}${r.note}</small></td>${pq}${me}</tr>`}).join("")).join("");
+  $("b-table").innerHTML=head+`<tbody>${body}</tbody>`;built=1;
 }
-/* 個人明細: one person's own total, by category, with every item they pay for */
-function meCard(ppl,mine,per,hkd,aud){const box=$("b-me");if(!box)return;const i=Math.min(ME,ppl-1),cats=BUD.map(([c])=>c.replace(/（.*）/,""));
-  const byC=BUD.map(()=>[]);mine[i].forEach(x=>byC[x[0]].push(x));
-  const ss=$("bs-me-s");if(ss)ss.textContent="";
-  box.innerHTML=`<p class="mehint">${esc(names[i])}：已計參加的活動、應分攤的車和住宿、自己填的個人開支</p>
-   ${byC.map((xs,c)=>xs.length?`<details class="mecat"><summary><i style="background:var(--pc${c})"></i>${cats[c]}<span>${fI(xs.reduce((a,x)=>a+x[2],0))}</span></summary><ul>${xs.map(x=>`<li${rowsAll.some(r=>r.dt&&r.name===x[1])?' class="dtr"':""}>${x[1]}<span>${fI(x[2])}</span></li>`).join("")}</ul></details>`:"").join("")}`}
-["bs-me","bs-pie"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="0")d.open=false;if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
-document.addEventListener("change",e=>{const id=e.target.id;if(id==="b-mesel"||id==="b-who"){setMe(+e.target.value);calc()}else if(id==="b-cur"){CUR=e.target.value;store.set("iceland-cur",CUR);calc()}});
-function bMode(m){BMODE=m;store.set("iceland-bmode",m);$("budget").classList.toggle("bsimple",m==="simple");document.querySelectorAll("[data-bmode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.bmode===m)))}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bmode]");if(b)bMode(b.dataset.bmode)});
-/* who-paid settlement: balance = paid − own share of the rows that have a payer; greedy transfers */
-function settle(ppl,paid,owe,paidTot,hkd){const box=$("b-settle");if(!box)return;
-  if(!paidTot){box.innerHTML=`<h3 class="tiph">夾數</h3><p class="bnote">在「誰付了」選先墊支的人，這裡會計哪個要過數。</p>`;return}
-  const bal=paid.map((p,i)=>Math.round(p-owe[i])),cr=bal.map((v,i)=>[i,v]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]),db=bal.map((v,i)=>[i,-v]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]),T=[];
-  let a=0,b=0;while(a<db.length&&b<cr.length){const x=Math.min(db[a][1],cr[b][1]);if(x>=1)T.push([db[a][0],cr[b][0],x]);db[a][1]-=x;cr[b][1]-=x;if(db[a][1]<1)a++;if(cr[b][1]<1)b++}
-  box.innerHTML=`<h3 class="tiph">夾數（只計已選「誰付了」的項目：${fI(paidTot)} ISK）</h3><details class="bsec stld"><summary>詳細分帳表</summary><div class="gtw" tabindex="0" role="region" aria-label="表格（可左右捲動）"><table class="gt stl"><thead><tr><th>成員</th><th class="num">已墊支</th><th class="num">應付份額</th><th class="num">差額</th></tr></thead><tbody>${bal.map((v,i)=>`<tr><td class="gn">${esc(names[i])}</td><td class="num">${fI(paid[i])}</td><td class="num">${fI(owe[i])}</td><td class="num ${v>0?"pos":v<0?"neg":""}">${v>0?"+":""}${fI(v)}</td></tr>`).join("")}</tbody></table></div></details>
-   ${T.length?`<ul class="stlx">${T.map(([f,t,x])=>`<li><b>${esc(names[f])}</b> → <b>${esc(names[t])}</b>：${fI(x)} ISK<small>約 ${cvx(x)}</small></li>`).join("")}</ul>`:`<p class="bnote">已經夾清，不用過數。</p>`}`}
-
-/* 預算 Dashboard：費用狀態（已訂／官網價／估算／待填）＋每人摘要卡＋未有人墊支的項目 */
-function bDash(ppl,per,paid,owe,paidTot,total,STS,unTot,unN){const box=$("b-dash");if(!box)return;
-  const L=[["ok","已訂（確認）"],["quote","官網報價"],["est","粗略估算"],["tbd","待填"]],sum=total||1;
-  const bar=L.map(([k])=>STS[k][0]>0?`<i class="s-${k}" style="flex:${STS[k][0]/sum}" title="${fI(STS[k][0])} ISK"></i>`:"").join("");
-  const me=Math.min(ME,ppl-1),bal=per.map((_,i)=>Math.round(paid[i]-owe[i]));
-  box.innerHTML=`<section class="bstat" aria-label="費用狀態"><div class="bsh"><h3>費用狀態</h3><small>全組 ${fI(total)} ISK・約 ${cvx(total)}</small></div><div class="sbar" role="img" aria-label="${L.map(([k,n])=>`${n} ${Math.round(STS[k][0]/sum*100)}%`).join("，")}">${bar}</div>
-    <ul class="slg">${L.map(([k,n])=>`<li><i class="s-${k}"></i><span>${n}</span><b>${k==="tbd"?`${STS[k][1]} 項`:`${Math.round(STS[k][0]/sum*100)}%`}</b><small>${k==="tbd"?"未有數字，要自己填":`${fI(STS[k][0])} ISK・${STS[k][1]} 項`}</small></li>`).join("")}</ul></section>`}
+/* 只計自己：已確認（已訂）／估算分開；未有價錢的項目列出來，不當 0 */
 function calc(){
-  const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1)),hkd=+$("b-hkd").value||0,aud=+$("b-aud").value||0;
-  if(built!==ppl)build(ppl);
-  actRows.forEach(r=>{for(let i=0;i<ppl;i++)join[r.id][i]=$(`mj-${r.id}-${i}`).checked});
-  const per=new Array(ppl).fill(0),paid=new Array(ppl).fill(0),owe=new Array(ppl).fill(0),mine=[...Array(ppl)].map(()=>[]),STS={ok:[0,0],quote:[0,0],est:[0,0],tbd:[0,0]};let total=0,paidTot=0,unTot=0,unN=0;
-  indRows.forEach(r=>{for(let i=0;i<ppl;i++)IND[r.id][i]=Math.max(0,+$(`mi-${r.id}-${i}`).value||0)});
+  const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1));
+  if(!built)build();
+  if(DT)rowsAll.forEach(r=>{const c=$("bc-"+r.id);if(c)r.on=c.checked;if(r.scope!=="i"&&$("bp-"+r.id)){r.price=Math.max(0,+$("bp-"+r.id).value||0);r.qty=Math.max(0,+$("bq-"+r.id).value||0)}});
+  actRows.forEach(r=>{const c=$("mj-"+r.id);if(c)MJ[r.id]=c.checked});
+  indRows.forEach(r=>{const c=$("mi-"+r.id);if(c){const v=c.value.trim();MI[r.id]=v===""||!(+v>0)?null:+v}});
+  const cat=CATN.map(()=>({v:0,it:[]})),miss=[];let ok=0,est=0;
   rowsAll.forEach(r=>{
-    r.on=$("bc-"+r.id).checked;r.price=Math.max(0,+$("bp-"+r.id).value||0);r.qty=Math.max(0,+$("bq-"+r.id).value||0);
-    const unit=r.price*r.qty;let sub,share=null;
-    if(r.scope==="i"){sub=IND[r.id].reduce((a,b)=>a+b,0);if(r.on)IND[r.id].forEach((v,i)=>{per[i]+=v;if(v)mine[i].push([RCI[r.id],r.name,v])})}
-    else if(r.scope==="a"){sub=unit*join[r.id].filter(Boolean).length;if(r.on)join[r.id].forEach((j,i)=>{if(j){per[i]+=unit;if(unit)mine[i].push([RCI[r.id],r.name,unit])}})}
-    else{sub=r.scope==="p"?unit*ppl:unit*(r.scope==="c"?cars:1);share=r.scope==="p"?unit:sub/ppl;if(r.on)per.forEach((_,i)=>{per[i]+=share;if(share)mine[i].push([RCI[r.id],r.name,share])});
-      for(let i=0;i<ppl;i++)$(`ms-${r.id}-${i}`).textContent=r.on?fI(share):"–"}
-    $("bs-"+r.id).textContent=fI(sub);$("br-"+r.id).classList.toggle("off",!r.on);if(r.on)total+=sub;
-    if(r.on){const k=ACT[r.id]?"ok":sub<=0?"tbd":r.est?"est":"quote";STS[k][0]+=sub;STS[k][1]++;if(sub>0&&$("by-"+r.id).value===""){unTot+=sub;unN++}}
-    if(r.on&&r.scope==="i"&&r.id==="flight"){const miss=IND[r.id].filter(v=>!v).length;if(miss&&sub>0){STS.tbd[1]++}}
-    const pv=$("by-"+r.id).value;if(pv==="")delete PAY[r.id];else PAY[r.id]=+pv;
-    if(r.on&&pv!==""&&sub>0){paid[+pv]+=sub;paidTot+=sub;if(r.scope==="a")join[r.id].forEach((j,i)=>{if(j)owe[i]+=unit});else for(let i=0;i<ppl;i++)owe[i]+=share}});
-  const rt=rate();per.forEach((x,i)=>{$("mt-"+i).textContent=fI(x);$("mh-"+i).textContent=fI(x*rt)});
-  $("ft-all").textContent=fI(total);$("fh-all").textContent=fI(total*rt);$("fh-lab").textContent="約 "+CUR;
-  const g=id=>rowsAll.find(r=>r.id===id),u=r=>r.price*r.qty,airPP=(rowsAll.filter(r=>/^air\d/.test(r.id)).reduce((a,r)=>a+u(r),0)+u(g("clean")))/ppl,hotPP=u(g("hotel"))/ppl;
-  const avg=total/ppl,lo=Math.min(...per),hi=Math.max(...per);
-  const me=Math.min(ME,ppl-1);
-  $("b-tot").innerHTML=`<div class="you"><small>${esc(names[me])} 要給</small><b>${fI(per[me])} ISK</b><small>約 ${cvx(per[me])}</small></div><div><small>全組總額（${ppl} 人・${cars} 車）</small><b>${fI(total)} ISK</b><small>約 ${cvx(total)}</small></div><div><small>平均每人</small><b>${fI(avg)} ISK</b><small>約 ${cvx(avg)}</small></div><div class="donly"><small>每人由低至高</small><b>${fI(lo)} – ${fI(hi)}</b><small>按各人勾選的活動，見表格右邊</small></div>`;
-  const who=$("b-who");if(who){who.innerHTML=names.slice(0,ppl).map((n,j)=>`<option value="${j}"${j===me?" selected":""}>${esc(n)}</option>`).join("")}
-  if(RO)$("budget").querySelectorAll("#b-table input,#b-table select,#b-table button,.bctl input,.bctl select").forEach(el=>{if(el.classList.contains("ind")&&el.id.endsWith("-"+me))return;el.disabled=true});
-  drawPie(ppl,hkd);settle(ppl,paid,owe,paidTot,hkd);meCard(ppl,mine,per,hkd,aud);bDash(ppl,per,paid,owe,paidTot,total,STS,unTot,unN);
-  store.set(KEY,JSON.stringify({people:ppl,cars,hkd,aud,food:$("b-food").value,stay:$("b-stay").value,names,join,pay:PAY,ind:IND,act:ACT,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
+    const unit=r.price*r.qty,joined=r.scope!=="a"||MJ[r.id];let mine=null;
+    if(r.scope==="i"){mine=MI[r.id];if(r.on&&r.id==="flight"&&mine==null)miss.push(r.name)}
+    else if(r.on&&joined){if(unit>0)mine=r.scope==="p"||r.scope==="a"?unit:r.scope==="c"?unit*cars/ppl:unit/ppl;else miss.push(r.name.replace(/（.*?）/g,""))}
+    const cell=$("ms-"+r.id);if(cell)cell.textContent=!r.on?"–":!joined?"":mine==null?"未有價錢":fI(mine);
+    const tr=$("br-"+r.id);if(tr)tr.classList.toggle("off",!r.on||!joined);
+    if(r.on&&mine!=null){const conf=!!(ACT[r.id]||r.conf),c=cat[catOf(r)];if(conf)ok+=mine;else est+=mine;c.v+=mine;c.it.push([r.name,mine,conf])}
+  });
+  const tot=ok+est;
+  $("b-tot").innerHTML=`<div class="you"><small>我的預計費用</small><b>${fI(tot)} ISK</b><small>約 ${cvx(tot)}・${ppl} 人平分共用費用</small></div><div><small>已確認</small><b>${fI(ok)} ISK</b><small>已訂好・約 ${cvx(ok)}</small></div><div><small>估算</small><b>${fI(est)} ISK</b><small>官網價或估計・約 ${cvx(est)}</small></div>`;
+  const mb=$("b-miss");mb.hidden=!miss.length;mb.textContent=miss.length?`未有價錢（${miss.length} 項，未計入總額）：${miss.join("、")}`:"";
+  $("b-me").innerHTML=cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}</span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
+  store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,food:$("b-food").value,stay:$("b-stay").value,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
-$("budget").addEventListener("click",e=>{const btn=e.target.closest("[data-all]");if(!btn)return;const id=btn.dataset.all;
-  const boxes=names.map((_,i)=>$(`mj-${id}-${i}`)),all=boxes.every(x=>x.checked);
-  boxes.forEach((x,i)=>{x.checked=!all;});calc()});
+["bs-tbl"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
 $("budget").addEventListener("change",e=>{
-  const t=e.target;if(/^(b-who|b-cur|b-mesel)$/.test(t.id))return;
-  if(t.id==="b-food"){const f=FOOD[t.value];for(const k in f)$("bq-"+k).value=f[k]}
-  if(t.id==="b-stay"){const h=t.value==="hotel";rowsAll.filter(r=>/^air\d/.test(r.id)).forEach(r=>$("bc-"+r.id).checked=!h);$("bc-clean").checked=!h;$("bc-hotel").checked=h;
+  const t=e.target;if(t.id==="b-cur"){CUR=t.value;store.set("iceland-cur",CUR);calc();return}
+  if(t.id==="b-food"){const f=FOOD[t.value];for(const k in f)if($("bq-"+k))$("bq-"+k).value=f[k]}
+  if(t.id==="b-stay"&&DT){const h=t.value==="hotel";rowsAll.filter(r=>/^air\d/.test(r.id)).forEach(r=>$("bc-"+r.id).checked=!h);$("bc-clean").checked=!h;$("bc-hotel").checked=h;
     if(h&&$("b-food").value!=="out"){$("b-food").value="out";const f=FOOD.out;for(const k in f)$("bq-"+k).value=f[k]}}
   calc();
 });
-$("budget").addEventListener("input",e=>{
-  const m=/^mn-(\d+)$/.exec(e.target.id||"");
-  if(m){names[+m[1]]=e.target.value.trim()||(["Dorcas","Tebe"][+m[1]]||`成員 ${+m[1]+1}`);document.querySelectorAll(`#b-table select[id^="by-"] option[value="${m[1]}"]`).forEach(o=>o.textContent=names[+m[1]]);calc();return}
-  if(e.target.type==="number")calc();
-});
-setMe(ME);$("b-cur").value=CUR;bMode(BMODE);if(RO){document.querySelector(".ronote").hidden=false;document.querySelector(".rwnote").hidden=true}
+$("budget").addEventListener("input",e=>{if(e.target.type==="number")calc()});
+$("b-cur").value=CUR;if(DT)$("b-adm").hidden=false;if(RO&&$("ps-budget"))$("ps-budget").hidden=true;
 const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
-$("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率按你清單上的 HKD 換算，AUD 為約數，可自行修改。";
-calc();
+$("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率為約數。";
+if(!RO)calc();
 
 /* page tabs */
 /* 注意事項: tickable pre-departure checklist, day-of rules, emergency info (editable numbers saved on this device) */
@@ -2126,10 +2064,9 @@ if(OV.stays&&OV.stays.length){STAYS=OV.stays;
 const STAYBUD=["air1","midh","air3","air4","air5","air6","air7","air8","air9","air10","air11"];
 const bkBud=n=>{const m=BKBUD.find(([rx])=>rx.test(String(n).trim()));return m?m[1]:null};
 function actHTML(bid){const r=rowsAll.find(x=>x.id===bid);if(!r||RO)return "";const lab=r.scope==="c"?"每部車實際總價":r.scope==="g"?(r.qty>1?"每晚實際價錢":"實際總價"):"每人實際價錢";
-  return `<div class="bkx bkact"><label><span>${lab}</span><span class="bkin"><input type="number" min="0" step="100" data-act="${bid}" value="${ACT[bid]?r.price:""}" placeholder="估 ${fI(r.price)}" aria-label="${lab}"><small>ISK</small></span></label><label><span>哪個給</span><span class="bkin"><select data-actp="${bid}" aria-label="誰付了"><option value="">未給</option>${names.map((n,i)=>`<option value="${i}"${PAY[bid]!=null&&+PAY[bid]===i?" selected":""}>${esc(n)}</option>`).join("")}</select></span></label>${ACT[bid]?'<span class="tag tagok">已入預算</span>':''}</div>`}
-document.addEventListener("change",e=>{const t=e.target,bid=t.dataset&&(t.dataset.act||t.dataset.actp);if(!bid)return;const r=rowsAll.find(x=>x.id===bid);if(!r)return;
+  return `<div class="bkx bkact"><label><span>${lab}</span><span class="bkin"><input type="number" min="0" step="100" data-act="${bid}" value="${ACT[bid]?r.price:""}" placeholder="估 ${fI(r.price)}" aria-label="${lab}"><small>ISK</small></span></label>${ACT[bid]?'<span class="tag tagok">已計入旅行費用</span>':''}</div>`}
+document.addEventListener("change",e=>{const t=e.target,bid=t.dataset&&t.dataset.act;if(!bid)return;const r=rowsAll.find(x=>x.id===bid);if(!r)return;
   if(t.dataset.act){if(t.value===""){delete ACT[bid]}else{r.price=Math.max(0,+t.value||0);if(r.scope==="c")r.qty=1;ACT[bid]=1;r.on=true}}
-  else{if(t.value==="")delete PAY[bid];else PAY[bid]=+t.value}
   built=0;calc();const w=t.closest(".bkact");if(w&&w.isConnected&&w.parentNode)try{w.outerHTML=actHTML(bid)}catch(err){}});
 /* free-cancellation date per booking (bk id → yyyy-mm-dd) and latest-booking-date view */
 let CANC={};try{CANC=JSON.parse(store.get("iceland-bcancel")||"{}")}catch(e){CANC={}}
@@ -2241,7 +2178,7 @@ function TKOPEN(li){try{const b=li&&li.querySelector(".tkdet");if(b){b.setAttrib
 function tLi(t){const {s,auto}=tStat(t),lab=t.kind==="pre"?TSTP:Object.fromEntries(Object.entries(TST).map(([k,v])=>[k,v[0]])),imp=TIMP.test(t.name),r=t.r;
   const more=r?[r[2]&&r[2]!=="—"&&`<dt>點訂</dt><dd>${r[2]}</dd>`,r[3]&&r[3]!=="—"&&`<dt>提早</dt><dd>${r[3]}</dd>`,r[4]&&`<dt>備註</dt><dd>${r[4]}</dd>`].filter(Boolean).join(""):"";
   const subI=(t.kind==="stay"||t.kind==="dtn")&&t.disp;const meta=[subI&&t.sub,subI&&imp&&`<b class="tkimpi">重要</b>`,t.kind==="bk"&&t.when,t.note,tDue(t,s),auto&&`<b class="tkr">${auto}</b>`].filter(Boolean).join(" · ");
-  /* 已訂：免費取消日期、實際價錢／哪個給（收起在 ⓘ） */
+  /* 已訂：免費取消日期、實際價錢（收起在 ⓘ） */
   const bkd=s==="done"||s==="recheck",payH=bkd?((t.kind==="bk"?cxHTML(t.id)+(bkBud(t.name)?actHTML(bkBud(t.name)):""):"")+(t.kind==="stay"&&STAYBUD[t.si]?actHTML(STAYBUD[t.si]):"")):"";
   /* 住宿：原本「每日住宿」的資料放入 ⓘ（為甚麼選、選擇、訂好的詳情、地圖） */
   let sx="";if(t.kind==="stay")try{const i=t.si,[night,area,status,why,cheap,conv,murl]=STAYS[i],b=s==="done"||s==="recheck",o=stayInfo(i,night);
@@ -2581,7 +2518,7 @@ $("tab-map").addEventListener("click",()=>{view("trip");mvSet("map");navSync()})
 function moreSheet(open){let sh=$("moresheet");if(!sh){sh=document.createElement("div");sh.id="moresheet";sh.className="msheet";sh.hidden=true;document.body.appendChild(sh);
   sh.addEventListener("click",e=>{const b=e.target.closest("[data-mgo]");if(e.target===sh||e.target.closest(".mcancel")){moreSheet(false);return}if(b){moreSheet(false);$(b.dataset.mgo).click()}})}
   if(!open){sh.hidden=true;return}
-  const it=[["tab-prep","出發準備","預訂清單、出發前要做、預算"],["tab-tips","注意事項","今日提醒、自駕、天氣、緊急"]].filter(([id])=>!$(id).hidden);
+  const it=[["tab-prep","出發準備","預訂清單、出發前要做、旅行費用"],["tab-tips","注意事項","今日提醒、自駕、天氣、緊急"]].filter(([id])=>!$(id).hidden);
   sh.innerHTML=`<div class="msp" role="dialog" aria-label="更多"><div class="mgrp">${it.map(([id,t,s])=>`<button type="button" data-mgo="${id}"><span>${$(id).querySelector("svg").outerHTML}</span><b>${t}<small>${s}</small></b><i aria-hidden="true">›</i></button>`).join("")}</div><button type="button" class="mcancel">取消</button></div>`;sh.hidden=false;try{sh.querySelector("button").focus()}catch(e){}}
 $("tab-more").addEventListener("click",()=>moreSheet(true));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("moresheet")&&!$("moresheet").hidden)moreSheet(false)});

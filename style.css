@@ -3487,3 +3487,14 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 .ovB .ovr{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important}
 
 .thero .pvnote{margin:6px 0 10px;font-size:13px;line-height:1.5}
+
+/* 旅行費用（簡化） */
+#budget .bmiss{margin:8px 0 0;padding:8px 12px;border-radius:10px;background:var(--sea);font-size:13px;line-height:1.5}
+#budget .bme{display:block}
+#budget #b-adm{margin-top:12px}
+#budget #bs-tbl{margin-top:12px}
+#budget #bs-tbl>summary span{margin-left:8px;font-weight:400;font-size:12px;color:var(--muted)}
+#budget #bs-tbl .bwrap{overflow-x:auto;padding:0 8px 10px}
+#budget .bjn{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-size:12.5px}
+#budget .btable td.num small{display:block}
+@media (max-width:560px){#budget .btot{grid-template-columns:1fr 1fr}#budget .btable .item{min-width:10em}}
