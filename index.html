@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-18-tc1">
+<link rel="stylesheet" href="style.css?v=2026-11-18-tc2">
 
 </head>
 <body>
@@ -105,8 +105,7 @@
   <div class="pghead budhead"><h2>旅行費用</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
     <p class="bnote">用來估算旅費，不是記帳。價錢主要來自 2026 年官網或訂票網站，2027 年可能調整。共用的車和住宿按參加人數平分；自選活動只計你有參加的。你的勾選和個人開支只儲存在這部裝置。</p>
-    <div class="bbar"><label for="b-cur">顯示 <select id="b-cur"><option value="HKD">HKD</option><option value="AUD">AUD</option></select></label></div>
-    <div class="btot" id="b-tot"></div>
+        <div class="btot" id="b-tot"></div>
     <p class="bmiss" id="b-miss" hidden></p>
     <div class="bme" id="b-me"></div>
     <div class="bctl" id="b-adm" hidden>
@@ -1846,7 +1845,7 @@ let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD";
 const RO=!REAL&&!DT;
 /* 公開版：只顯示每日行程和住宿（注意事項、旅行費用隱藏） */
 if(RO)document.documentElement.classList.add("pub");if(DT)document.documentElement.classList.add("dt");
-const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`${CUR} ${fI(x*rate())}`;
+const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`HKD ${fI(x*(+$("b-hkd").value||0))}・AUD ${fI(x*(+$("b-aud").value||0))}`;
 const RCI=Object.fromEntries(BUD.flatMap(([,rs],ci)=>rs.map(r=>[r.id,ci])));
 /* 簡單分類：住宿、交通、活動、飲食、其他 */
 const CATN=["住宿","交通","活動","飲食","其他"];
@@ -1879,9 +1878,9 @@ function calc(){
     if(r.on&&mine!=null){const conf=!!(ACT[r.id]||r.conf),c=cat[catOf(r)];if(conf)ok+=mine;else est+=mine;c.v+=mine;c.it.push([r.name,mine,conf])}
   });
   const tot=ok+est;
-  $("b-tot").innerHTML=`<div class="you"><small>我的預計費用</small><b>${fI(tot)} ISK</b><small>約 ${cvx(tot)}・${ppl} 人平分共用費用</small></div><div><small>已確認</small><b>${fI(ok)} ISK</b><small>已訂好・約 ${cvx(ok)}</small></div><div><small>估算</small><b>${fI(est)} ISK</b><small>官網價或估計・約 ${cvx(est)}</small></div>`;
+  $("b-tot").innerHTML=`<div class="you"><small>我的預計費用</small><b>${fI(tot)} ISK</b><small>約 ${cvx(tot)}</small><small>${ppl} 人平分共用費用</small></div><div><small>已確認</small><b>${fI(ok)} ISK</b><small>已訂好</small><small>約 ${cvx(ok)}</small></div><div><small>估算</small><b>${fI(est)} ISK</b><small>官網價或估計</small><small>約 ${cvx(est)}</small></div>`;
   const mb=$("b-miss");mb.hidden=!miss.length;mb.textContent=miss.length?`未有價錢（${miss.length} 項，未計入總額）：${miss.join("、")}`:"";
-  $("b-me").innerHTML=cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}</span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
+  $("b-me").innerHTML=cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}<small class="bcv">${c.v?"約 "+cvx(c.v):""}</small></span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
   store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,food:$("b-food").value,stay:$("b-stay").value,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 ["bs-tbl"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
@@ -1893,7 +1892,7 @@ $("budget").addEventListener("change",e=>{
   calc();
 });
 $("budget").addEventListener("input",e=>{if(e.target.type==="number")calc()});
-$("b-cur").value=CUR;if(DT)$("b-adm").hidden=false;if(RO&&$("ps-budget"))$("ps-budget").hidden=true;
+if(DT)$("b-adm").hidden=false;if(RO&&$("ps-budget"))$("ps-budget").hidden=true;
 const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
 $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率為約數。";
 if(!RO)calc();
@@ -2947,13 +2946,13 @@ const TODAY={d:null,docMode:"date",
     /* 非管理者：旅程期間只顯示當日行程；未出發顯示「行程預覽」（可換日）；旅程完結顯示完成狀態 */
     let PVN="";if(!DT){let t0=null;try{t0=todayDay()}catch(e){}const pre=nowIS()<Date.UTC(2027,8,12);
       if(t0&&L.includes(t0.d)){TODAY.d=t0.d}
-      else if(pre&&L.length){if(TODAY.d==null||!L.includes(TODAY.d))TODAY.d=L.includes(1)?1:L[0];PVN=`<p class="muted pvnote">旅程尚未開始（9月12日出發）。以下為行程預覽，旅程開始後會自動顯示當日行程。</p>`}
+      else if(pre&&L.length){TODAY.d=L.includes(1)?1:L[0];PVN=`<p class="muted pvnote">旅程尚未開始（9月12日出發）。以下為第一日行程預覽，旅程開始後會自動顯示當日行程。</p>`}
       else{box.innerHTML=`<section class="tcard thero"><div class="tsub noen">旅程已完成</div><h2 class="tdate">冰島 2027 旅程已完成</h2><p class="muted">整段行程可在「行程」查看。</p></section>`;return}}
     const raw=days.find(x=>x.d===TODAY.d);if(!raw){box.innerHTML="";return}
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT||PVN?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
+    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
       <div class="tbtns"><button type="button" data-tgo="now" ${DT&&td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute tlink noen" href="${ru}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>當日路線</a>`:""}<button type="button" class="tfull2" data-tfull="${raw.d}">完整時間表 ›</button></div>
       </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${(()=>{try{return raw.view?viewBar(raw):""}catch(e){return ""}})()}${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}`;

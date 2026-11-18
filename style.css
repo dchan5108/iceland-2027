@@ -3498,3 +3498,5 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #budget .bjn{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-size:12.5px}
 #budget .btable td.num small{display:block}
 @media (max-width:560px){#budget .btot{grid-template-columns:1fr 1fr}#budget .btable .item{min-width:10em}}
+#budget .btot small{display:block}
+#budget .mecat summary span .bcv{display:block;font-size:11.5px;font-weight:400;color:var(--muted);text-align:right}
