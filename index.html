@@ -51,7 +51,7 @@
   <nav class="bnav" aria-label="主要頁面" role="tablist">
     <button type="button" role="tab" id="tab-prep" aria-selected="false" aria-controls="prep" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M5 12h14"/><path d="M10 15.5l1.5 1.5 3-3"/></svg><span>準備</span></button>
     <button type="button" role="tab" id="tab-today" hidden aria-selected="false" aria-controls="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/><circle cx="12" cy="15" r="1.6"/></svg><span>今日</span></button>
-    <button type="button" role="tab" id="tab-home" aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>總覽</span></button>
+    <button type="button" role="tab" id="tab-home" aria-selected="false" aria-controls="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.9 17.2L4.9 16.3L5.6 16.0L6.2 16.0L6.4 15.5L6.8 15.4L6.5 15.0L6.1 14.8L6.3 14.1L5.2 13.2L3.7 13.1L2.3 12.5L2.8 12.0L3.3 12.0L4.4 12.0L5.4 11.6L6.3 11.2L5.2 10.0L3.7 9.8L1.5 9.6L2.1 8.2L3.3 7.1L4.2 6.5L5.6 5.3L7.1 6.9L7.5 8.5L7.9 10.9L8.3 9.8L8.9 8.7L9.4 9.1L9.7 6.9L11.1 8.5L12.4 6.7L13.1 6.9L13.6 8.0L13.7 8.8L14.0 8.0L13.9 7.1L14.4 6.7L14.8 7.4L15.1 7.1L15.6 6.4L16.6 7.3L17.5 4.9L17.8 5.3L20.5 5.6L19.8 6.9L20.2 8.5L21.5 9.4L22.5 10.6L22.3 11.8L21.5 12.7L21.0 13.4L20.4 14.5L19.3 15.4L18.1 16.0L17.4 16.3L16.6 17.2L15.1 17.5L13.9 18.1L12.0 19.1L11.8 19.1L10.9 18.7L9.6 17.9L8.2 17.2L7.5 17.0L6.3 17.1L5.6 17.1Z"/></svg><span>總覽</span></button>
     <button type="button" role="tab" id="tab-trip" aria-selected="true" aria-controls="view-trip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" /><circle cx="19" cy="19" r="2"/></svg><em class="full">行程</em><span>行程</span><i class="mlab">行程</i></button>
     <button type="button" role="tab" id="tab-budget" aria-selected="false" aria-controls="budget" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.7 2.5 1.7-1 1.4-2.5 1.6-2.5.7-2.5 1.7 1 1.7 2.5 1.7 2.5-.6 2.5-1.6"/></svg><span>費用</span></button>
     <button type="button" role="tab" id="tab-tips" hidden aria-selected="false" aria-controls="tips"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>連結</span></button>
@@ -104,17 +104,16 @@
     <div id="pp-pre" class="ppanel" role="tabpanel" aria-labelledby="ps-pre" hidden><div id="pre-fly"></div><div id="prep-pre"></div></div>
   <div class="pghead budhead"><h2>旅行費用</h2></div>
   <section class="budget ppanel" id="budget" role="tabpanel" aria-labelledby="ps-budget" hidden>
-    <p class="bnote">用來估算旅費，不是記帳。價錢主要來自 2026 年官網或訂票網站，2027 年可能調整。共用的車和住宿按參加人數平分；自選活動只計你有參加的。你的勾選和個人開支只儲存在這部裝置。</p>
+    <p class="bnote">估算大家一起付的旅費（不含機票等各自購買的項目），不是記帳。價錢主要來自 2026 年官網或訂票網站，2027 年可能調整。共用的車和住宿按人數平分；自選活動只計你有參加的。</p>
+        <div class="seg bcur" role="group" aria-label="貨幣"><button type="button" data-bcur="HKD">HKD</button><button type="button" data-bcur="AUD">AUD</button></div>
         <div class="btot" id="b-tot"></div>
     <p class="bmiss" id="b-miss" hidden></p>
     <div class="bme" id="b-me"></div>
     <div class="bctl" id="b-adm" hidden>
       <label for="b-people">參加人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
       <label for="b-cars">車數 <input type="number" id="b-cars" min="1" max="5" step="1" value="2"></label>
-      <label for="b-food">飲食 <select id="b-food"><option value="cook">晚餐大部分自己煮</option><option value="out">出外吃為主</option></select></label>
       <label for="b-stay">住宿 <select id="b-stay"><option value="air">Airbnb</option><option value="hotel">酒店</option></select></label>
-      <label for="b-hkd">1 ISK = <input type="number" id="b-hkd" min="0" step="0.0001" value="0.0643"> HKD</label>
-      <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label>
+      <details class="brate"><summary>匯率</summary><label for="b-hkd">1 ISK = <input type="number" id="b-hkd" min="0" step="0.0001" value="0.0643"> HKD</label> <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label></details>
     </div>
     <details class="bsec" id="bs-tbl"><summary>逐項明細<span>勾選參加的活動、填個人開支</span></summary><div class="bwrap"><table class="btable" id="b-table"></table></div></details>
     <p class="bsrc" id="b-src"></p>
@@ -919,6 +918,12 @@ const sunKey={"-5":"rvk","-4":"rvk","-3":"rvk","-2":"rvk","-1":"rvk",0:"rvk",1:"
 
 /* spotlight: t title, d intro, w cautions */
 const SP=DATA.SP(REAL);
+/* 徒步（Laugavegur）各站簡介：今日重點撳景點用 */
+Object.entries({lmlg:"Laugavegur 徒步起點，海拔約 600 米。四周是彩色流紋岩山和黑曜石熔岩原，營地旁有天然溫泉可以浸泡。",
+  hrafn:"全程最高點，約 1,100 米。路上有黑曜石碎片和冒煙的地熱孔，山坡長年有積雪；天氣變化快，大霧時要跟著路標走。",
+  alft:"湖邊營地，山屋面向 Álftavatn 湖和綠色山丘。由高地下到這裡，景色由火山荒漠變成苔蘚和草地。",
+  emst:"黑沙荒原中間的營地，附近有 Markarfljót 峽谷，可以順路走到峽谷邊看看。",
+  thor:"Laugavegur 終點，海拔約 200 米。被三座冰川包圍的山谷，有樺樹林和冰河，是冰島最綠的高地之一。"}).forEach(([k,d])=>{if(!SP[k])SP[k]={t:pts[k]?String(pts[k][0]).replace(/（.*?）/g,"").trim():k,d};else if(!SP[k].d)SP[k].d=d});
 /* which timetable rows a spot attaches to */
 const SPKW=DATA.SPKW;
 const NAVQ={dett:"65.811369,-16.400368"};/* 黛提瀑布西岸停車場（862 柏油路，避開東岸 864 石路） */
@@ -1814,26 +1819,29 @@ const DTBUD=(DT?(PRIV.BUDDT||[]):[]).map(x=>({...x,dt:true,name:String(x.name).r
 const BUD=[
  ["溫泉（自選，只計參加的人）",[B_("bl","藍湖 Comfort（D1）",11990,1,"a",{note:"起價，按時段浮動"}),B_("sky","Sky Lagoon Saman（D11）",13990,1,"a",{note:"2026 年起價；Pure 通行證已改名"})]],
  ["活動（自選，只計參加的人）",[B_("geosea","GeoSea 海水溫泉（D4）",7490,1,"a",{src:"",note:"成人價；學生價 5,190"}),B_("kayak","冰河湖獨木舟（D6）",18400,1,"a",{note:"列明 5–9 月開團，要向公司確認 9/17 上午稍晚至中午有團"}),B_("glac","Troll 冰川健行＋攀冰（D7）",33000,1,"a",{est:1,src:"",note:"Troll 網頁 US$253.50，約 130 ISK／USD 換算，以訂購價為準"}),B_("icefl","Fjallsárlón 冰浮（D8）",0,1,"a",{src:"",note:"價錢網上未列，要向 Fjallsárlón 查詢（+354 570 2700）"}),B_("horse","Skálakot 騎馬（D9）",18000,1,"a",{est:1,src:"",note:"官網未列價錢，要查詢"}),B_("silf","Silfra 浮潛（D10）",22900,1,"a",{note:"現場集合，不含接送"})]],
- ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D6）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外吃）",3500,9,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("cookL","自備午餐（超市）",1000,2,"p",{est:1,src:"food",note:"每餐"}),B_("dinner","晚餐（出外吃）",6500,2,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("cookD","自煮晚餐食材",1500,8,"p",{est:1,src:"food",note:"每餐"}),B_("lob","赫本小龍蝦晚餐（D5）",11000,1,"p",{est:1,src:""})]],
+ ["飲食和入場（每人都有）",[B_("stok","西角山入場費（D6）",800,1,"p"),B_("bf","早餐（超市）",1500,12,"p",{est:1,src:"",note:"每日"}),B_("lunch","午餐（出外吃）",3500,11,"p",{est:1,src:"food",note:"每餐，咖啡店午餐約 3,000"}),B_("dinner","晚餐（出外吃）",6500,10,"p",{est:1,src:"food",note:"每餐，中價主菜約 4,500–5,000，另加飲品"}),B_("lob","赫本小龍蝦晚餐（D5）",11000,1,"p",{est:1,src:""})]],
  ["交通（每車，全組平均分攤）",[B_("car","租車（9/12 市區附近取車，地點待定，12 日）",18000,12,"c",{est:1,src:"",note:"每日價錢，9 月下旬 SUV／大旅行車估價，待報價；7 人加行李要較大的車"}),B_("carins","租車保險（SCDW＋碎石 GP＋沙塵 SAAP）",4500,12,"c",{est:1,src:"",note:"每日；碎石和沙塵是冰島最常見損壞，不要省；有些公司已包在日租，比較時看總價"}),B_("drv2","第二司機",1000,12,"c",{est:1,src:"",note:"每日；有些公司免費，取車時加名；每部車最少 2 個人可以駕駛"}),B_("km","道路里程費（每公里）",7,2000,"c",{src:"km",note:"2026 年起每公里約 6.95 ISK，數量 = 公里；有些租車公司已計入日租，這麼就剔走"}),B_("fuel","油費（約 2,000 公里）",29000,1,"c",{est:1,src:"km",note:"約 2,000 km × 每百公里 7 公升 × 約 205 ISK/L（2026 年油稅減了）；Costco 入油較便宜（要會員卡）"}),B_("tun","Vaðlaheiðargöng 隧道費",2200,1,"c",{est:1,note:"約 USD 17，網上繳"}),B_("parka","Parka 月費",490,1,"c",{src:"",note:"每部車開一個月費，免每次約 89 ISK 手續費；用完取消續訂"}),B_("park","停車費和雜費",6000,1,"c",{est:1,src:""})]],
  ["住宿（全組平均分攤，按上面「住宿」切換）",[B_("midh","D2 Miðhraun - Lava Resort（4 房 apartment，已確定）",108900,1,"g",{src:"",conf:1,note:"已確定；按每人 HKD 1,000 × 7 人、1 ISK = 0.0643 HKD 計；酒店早餐要另外付費（每人約 EUR 18），預算按自己解決計"}),B_("air1","D1 9/12 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；市中心較貴；選有停車位"}),B_("air3","D3 9/14 K16 Apartments（阿克雷里，已選）",70000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；價錢以訂房為準"}),B_("air4","D4 9/15 埃伊爾斯塔濟 Egilsstaðir",75000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air5","D5 9/16 赫本 Höfn",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air6","D6 9/17 冰河湖附近（待定）",60000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air7","D7 9/18 Hótel Jökulsárlón",70000,1,"g",{est:1,src:"",note:"估價，以酒店報價為準"}),B_("air8","D8 9/19 維克 Vík（Vík Apartments／Hotel Vík í Mýrdal）",70000,1,"g",{est:1,src:"",note:"整間屋（7 人）估價，已計服務費"}),B_("air9","D9 9/20 Mr Iceland 農場（Efri-Úlfsstaðir）",55000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("air10","D10 9/21 雷克雅維克 Reykjavík",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費；和 D11 連住 2 晚"}),B_("air11","D11 9/22 雷克雅維克 Reykjavík（第 2 晚）",90000,1,"g",{est:1,src:"",note:"Airbnb 整間屋（7 人）估價，已計服務費"}),B_("clean","Airbnb 清潔費",10000,9,"g",{est:1,src:"",note:"每次預訂收一次；冰河湖附近連住兩晚算一次"}),B_("hotel","酒店（7 人約 4 間房，Miðhraun 以外 10 晚）",90000,10,"g",{on:false,est:1,src:"food",note:"每晚，每間雙人房約 20,000–25,000；部分包早餐；Hótel Jökulsárlón 等可能更貴"}),...DTBUD.filter(x=>x.id!=="dthike")]],
- ["出發前（每人）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"})]],
- ...(DTBUD.some(x=>x.id==="dthike")?[["額外（只計參加的人）",DTBUD.filter(x=>x.id==="dthike")]]:[]),
- ["個人開支（每人自己填）",[B_("flight","機票",0,1,"i",{src:"",note:"每人航線不同，在自己那格填（ISK）；用積分就填稅項"}),B_("pocket","個人零用（購物、手信、零食、咖啡）",15000,1,"i",{est:1,src:"",note:"每人自己估，在自己那格改"}),B_("own","其他自己的開支",0,1,"i",{src:"",note:"例如自己加的活動、行李超重"})]]
+ ...(DT?[["個人預算：出發前（只有你看到）",[B_("tins","旅遊保險",8000,1,"p",{est:1,src:"",note:"包醫療、行程取消、租車自負額（CDW excess）；約 HKD 500，按自己保單改"}),B_("sim","eSIM／漫遊數據",3000,1,"p",{est:1,src:"",note:"12 日約 5–10 GB；Síminn、Nova 當地卡或 eSIM"})]]]:[]),
+ ...(DTBUD.some(x=>x.id==="dthike")?[["個人預算：額外（只計參加的人）",DTBUD.filter(x=>x.id==="dthike")]]:[]),
+ ...(DT?[["個人預算：自己填（只有你看到）",[B_("flight","機票",0,1,"i",{src:"",note:"各自購買；用積分就填稅項"}),B_("own","其他自己的開支",0,1,"i",{src:"",note:"例如自己加的活動、行李超重"})]]]:[])
 ];
+/* 個人預算：各自付的項目，不計入大家一起付的總數；只有終極管理者看到 */
+const PERS=new Set(BUD.flatMap(([c,rs])=>/^個人預算/.test(c)?rs.map(r=>r.id):[]));
 /* 機票預填：只限 owner 本人自己那格（私人資料由伺服器下載，網頁原始碼不含數字） */
 const FLIND=(OWNER&&Array.isArray(PRIV.FLIND))?PRIV.FLIND:null;
-const FOOD={out:{lunch:11,cookL:0,dinner:10,cookD:0},cook:{lunch:9,cookL:2,dinner:2,cookD:8}};
+const FOOD={out:{lunch:11,dinner:10}};
 const fI=n=>Math.round(n).toLocaleString("en-US");
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const rowsAll=BUD.flatMap(([,r])=>r),actRows=rowsAll.filter(r=>r.scope==="a"),indRows=rowsAll.filter(r=>r.scope==="i");
 const KEY="iceland-budget-v15";
 let st={};try{st=JSON.parse(store.get(KEY)||"{}")}catch(e){st={}}
-["people","cars","hkd","aud","food","stay"].forEach(k=>{if(st[k]!=null)$("b-"+k).value=st[k]});
+["people","cars","hkd","aud","stay"].forEach(k=>{if(st[k]!=null&&$("b-"+k))$("b-"+k).value=st[k]});
 let ACT=st.act&&typeof st.act==="object"?{...st.act}:{};
 if(!(st.pay&&st.pay._def1)&&!st.d1)ACT.dthike=1;
 /* 價錢：管理者自己改的照用；其他人只保留已訂的實際價錢，其餘跟網站最新數字 */
 rowsAll.forEach(r=>{const x=(st.rows||{})[r.id];if(x&&(DT||ACT[r.id])){r.price=x.price;r.qty=x.qty;if(DT)r.on=x.on}});
+if(st.food==="cook")rowsAll.forEach(r=>{if(FOOD.out[r.id]!=null)r.qty=FOOD.out[r.id]});   /* 不再自己煮：舊設定改回出外吃 */
 /* 自己：參加的自選項目（MJ）、個人開支（MI）；舊版「每人一格」按以前揀的「我是」轉過來 */
 const ME0=(()=>{const v=parseInt(store.get("iceland-me"),10);return Number.isInteger(v)?v:Number.isInteger(st.me)?st.me:0})();
 const MJ={},MI={};
@@ -1845,7 +1853,7 @@ let CUR=store.get("iceland-cur")==="AUD"?"AUD":"HKD";
 const RO=!REAL&&!DT;
 /* 公開版：只顯示每日行程和住宿（注意事項、旅行費用隱藏） */
 if(RO)document.documentElement.classList.add("pub");if(DT)document.documentElement.classList.add("dt");
-const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`HKD ${fI(x*(+$("b-hkd").value||0))}・AUD ${fI(x*(+$("b-aud").value||0))}`;
+const rate=()=>CUR==="AUD"?(+$("b-aud").value||0):(+$("b-hkd").value||0),cvx=x=>`${CUR} ${fI(x*rate())}`;
 const RCI=Object.fromEntries(BUD.flatMap(([,rs],ci)=>rs.map(r=>[r.id,ci])));
 /* 簡單分類：住宿、交通、活動、飲食、其他 */
 const CATN=["住宿","交通","活動","飲食","其他"];
@@ -1868,30 +1876,33 @@ function calc(){
   if(DT)rowsAll.forEach(r=>{const c=$("bc-"+r.id);if(c)r.on=c.checked;if(r.scope!=="i"&&$("bp-"+r.id)){r.price=Math.max(0,+$("bp-"+r.id).value||0);r.qty=Math.max(0,+$("bq-"+r.id).value||0)}});
   actRows.forEach(r=>{const c=$("mj-"+r.id);if(c)MJ[r.id]=c.checked});
   indRows.forEach(r=>{const c=$("mi-"+r.id);if(c){const v=c.value.trim();MI[r.id]=v===""||!(+v>0)?null:+v}});
-  const cat=CATN.map(()=>({v:0,it:[]})),miss=[];let ok=0,est=0;
+  const cat=CATN.map(()=>({v:0,it:[]})),miss=[],pers=[];let ok=0,est=0;
   rowsAll.forEach(r=>{
     const unit=r.price*r.qty,joined=r.scope!=="a"||MJ[r.id];let mine=null;
-    if(r.scope==="i"){mine=MI[r.id];if(r.on&&r.id==="flight"&&mine==null)miss.push(r.name)}
+    if(r.scope==="i"){mine=MI[r.id];if(r.on&&r.id==="flight"&&mine==null&&!PERS.has(r.id))miss.push(r.name)}
     else if(r.on&&joined){if(unit>0)mine=r.scope==="p"||r.scope==="a"?unit:r.scope==="c"?unit*cars/ppl:unit/ppl;else miss.push(r.name.replace(/（.*?）/g,""))}
     const cell=$("ms-"+r.id);if(cell)cell.textContent=!r.on?"–":!joined?"":mine==null?"未有價錢":fI(mine);
     const tr=$("br-"+r.id);if(tr)tr.classList.toggle("off",!r.on||!joined);
+    if(r.on&&mine!=null&&PERS.has(r.id)){pers.push([r.name,mine]);return}
     if(r.on&&mine!=null){const conf=!!(ACT[r.id]||r.conf),c=cat[catOf(r)];if(conf)ok+=mine;else est+=mine;c.v+=mine;c.it.push([r.name,mine,conf])}
   });
   const tot=ok+est;
-  $("b-tot").innerHTML=`<div class="you"><small>我的預計費用</small><b>${fI(tot)} ISK</b><small>約 ${cvx(tot)}</small><small>${ppl} 人平分共用費用</small></div><div><small>已確認</small><b>${fI(ok)} ISK</b><small>已訂好</small><small>約 ${cvx(ok)}</small></div><div><small>估算</small><b>${fI(est)} ISK</b><small>官網價或估計</small><small>約 ${cvx(est)}</small></div>`;
+  $("b-tot").innerHTML=`<div class="you"><small>大家一起付（每人）</small><b>${fI(tot)} ISK</b><small>約 ${cvx(tot)}</small><small>${ppl} 人平分共用費用</small></div><div><small>已確認</small><b>${fI(ok)} ISK</b><small>已訂好</small><small>約 ${cvx(ok)}</small></div><div><small>估算</small><b>${fI(est)} ISK</b><small>官網價或估計</small><small>約 ${cvx(est)}</small></div>`;
   const mb=$("b-miss");mb.hidden=!miss.length;mb.textContent=miss.length?`未有價錢（${miss.length} 項，未計入總額）：${miss.join("、")}`:"";
-  $("b-me").innerHTML=cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}<small class="bcv">${c.v?"約 "+cvx(c.v):""}</small></span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
-  store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,food:$("b-food").value,stay:$("b-stay").value,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
+  document.querySelectorAll("[data-bcur]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.bcur===CUR)));
+  const pT=pers.reduce((a,x)=>a+x[1],0),pH=DT?`<details class="mecat bpers"><summary><i style="background:var(--chg)"></i>個人預算（只有你看到）<span>${pT?fI(pT):"–"}<small class="bcv">${pT?"約 "+cvx(pT):""}</small></span></summary>${pers.length?`<ul>${pers.map(([n,v])=>`<li>${esc(n)}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`:"";
+  $("b-me").innerHTML=pH+cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}<small class="bcv">${c.v?"約 "+cvx(c.v):""}</small></span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
+  store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,stay:$("b-stay").value,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 ["bs-tbl"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
 $("budget").addEventListener("change",e=>{
   const t=e.target;if(t.id==="b-cur"){CUR=t.value;store.set("iceland-cur",CUR);calc();return}
-  if(t.id==="b-food"){const f=FOOD[t.value];for(const k in f)if($("bq-"+k))$("bq-"+k).value=f[k]}
   if(t.id==="b-stay"&&DT){const h=t.value==="hotel";rowsAll.filter(r=>/^air\d/.test(r.id)).forEach(r=>$("bc-"+r.id).checked=!h);$("bc-clean").checked=!h;$("bc-hotel").checked=h;
-    if(h&&$("b-food").value!=="out"){$("b-food").value="out";const f=FOOD.out;for(const k in f)$("bq-"+k).value=f[k]}}
+}
   calc();
 });
 $("budget").addEventListener("input",e=>{if(e.target.type==="number")calc()});
+$("budget").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bcur]");if(!b)return;CUR=b.dataset.bcur;store.set("iceland-cur",CUR);calc()});
 if(DT)$("b-adm").hidden=false;if(RO&&$("ps-budget"))$("ps-budget").hidden=true;
 const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
 $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率為約數。";
@@ -2379,9 +2390,20 @@ function view(v){
 const cl=x=>String(x).replace(/<[^>]*>/g,"").replace(/⟦[^⟧]*⟧/g,"").trim();
 function remPick(raw,day){const sh=t=>String(t||"").replace(/（[^）]*）/g,"").split(/[；。]/)[0].trim(),out=[],add=t=>{t=sh(t);if(t&&!out.includes(t)&&out.length<3)out.push(t)};
   const SKIP=/^(大隊|虛線框|不|沒有車|酒店有|City Card|藍湖、)|所以沒有排入|和原本一樣|順路|累就|時間按/;
-  (day.notes||[]).map(n=>cl(hr(n[0]))).filter(n=>n&&!SKIP.test(n)).forEach(add);
-  if(raw.wx){const wc=cl(hr(raw.wx)).split(/[；。]/).map(x=>x.trim()).filter(x=>/風|雪|霧|浪|封|取消|警告|濕滑/.test(x));wc.forEach(add)}
+  const ALT=/取消|改去|改坐|改為|改成|補做|縮短|後備|就不去|如果.*(不|唔)/;   /* 今日注意不寫取消／後備安排 */
+  if(raw.wx){const wc=cl(hr(raw.wx)).split(/[；。]/).map(x=>x.trim()).filter(x=>/風|雪|霧|浪|封|警告|濕滑/.test(x)&&!ALT.test(x));wc.forEach(add)}
+  (day.notes||[]).map(n=>cl(hr(n[0]))).filter(n=>n&&!SKIP.test(n)&&!ALT.test(n)).forEach(add);
   return out}
+/* 今日注意：按當日預報加天氣提示（16 日內才有預報） */
+function wxTips(D){const c=D.weather_code[0],w=D.wind_speed_10m_max[0],g=D.wind_gusts_10m_max?D.wind_gusts_10m_max[0]:w,pr=D.precipitation_probability_max?D.precipitation_probability_max[0]:0,tn=D.temperature_2m_min[0],t=[];
+  if(w>=15||g>=25)t.push(`大風（陣風 ${Math.round(g)} m/s）：下車時用手按住車門慢慢打開，一次開一邊；停車時車頭朝向風；開車減速，小心側風`);
+  else if(w>=10||g>=18)t.push(`風大（陣風 ${Math.round(g)} m/s）：開車門時要握緊，慢慢打開，以免車門被風吹壞`);
+  if(c>=95)t.push("有雷暴：避開山頂和空曠的地方");
+  if((c>=71&&c<=77)||c===85||c===86)t.push("可能下雪：出發前看 umferdin.is 路況，慢駛");
+  else if(pr>=60||(c>=51&&c<=67)||(c>=80&&c<=82))t.push("會下雨：步道和石面濕滑，穿防水外套和防滑鞋");
+  if(c===45||c===48)t.push("有霧：開車頭燈、減速、保持車距");
+  if(tn!=null&&tn<=1)t.push("清晨可能結冰：橋面和陰影處的路面要慢駛");
+  return t}
 
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bkv2]");if(!b)return;BKV=b.dataset.bkv2;store.set("iceland-bkv",BKV);const y=window.scrollY;renderGuide();try{window.scrollTo(0,y)}catch(err){}});
 let HOMEV="prep";
@@ -2906,8 +2928,10 @@ const TODAY={d:null,docMode:"date",
     return `<div class="tgrid2">${stayT}${wx}${sun}</div>`},
   wx(raw,day){const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null);if(!k||!pts[k])return;
     const date=new Date(Date.UTC(2027,8,11+raw.d)).toISOString().slice(0,10),diff=(Date.parse(date)-nowIS())/864e5;if(diff>15||diff<-1)return;
-    const [,lon,lat]=pts[k];try{TODAY.aur(raw,day,lat,lon,date,diff)}catch(e){}fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&wind_speed_unit=ms&timezone=Atlantic%2FReykjavik&start_date=${date}&end_date=${date}`).then(r=>r.json()).then(j=>{const D=j&&j.daily;if(!D||!D.time||!D.time.length||TODAY.d!==raw.d)return;
-      const a=$("twx");if(a)a.innerHTML=`<b title="${WXC[D.weather_code[0]]||""}">${TODAY.wxIcon(D.weather_code[0])}</b><span>${Math.round(D.temperature_2m_max[0])}° / ${Math.round(D.temperature_2m_min[0])}°</span><small>風 ${Math.round(D.wind_speed_10m_max[0])} m/s</small>`}).catch(()=>{})},
+    const [,lon,lat]=pts[k];try{TODAY.aur(raw,day,lat,lon,date,diff)}catch(e){}fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max&wind_speed_unit=ms&timezone=Atlantic%2FReykjavik&start_date=${date}&end_date=${date}`).then(r=>r.json()).then(j=>{const D=j&&j.daily;if(!D||!D.time||!D.time.length||TODAY.d!==raw.d)return;
+      const a=$("twx");if(a)a.innerHTML=`<b title="${WXC[D.weather_code[0]]||""}">${TODAY.wxIcon(D.weather_code[0])}</b><span>${Math.round(D.temperature_2m_max[0])}° / ${Math.round(D.temperature_2m_min[0])}°</span><small>風 ${Math.round(D.wind_speed_10m_max[0])} m/s</small>`;
+      try{const tp=wxTips(D),bx=TODAY.box;if(tp.length&&bx){let sec=bx.querySelector(".tnotes");if(!sec){const q=bx.querySelector(".tquick")||bx.querySelector(".tdsB");if(!q)return;q.insertAdjacentHTML("afterend",`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul></ul></section>`);sec=bx.querySelector(".tnotes")}
+        sec.querySelector("ul").insertAdjacentHTML("afterbegin",tp.map(x=>`<li class="twxtip">${DOCX.esc(x)}</li>`).join(""))}}catch(e){}}).catch(()=>{})},
   /* 今晚極光：雲量（Open-Meteo，晚上 22:00–02:00 平均）＋ Kp 指數（NOAA SWPC，只有 3 日內預報）；拿不到就不顯示 */
   aur(raw,day,lat,lon,date,diff){const box=$("taur");if(!box)return;const nx=new Date(Date.parse(date)+864e5).toISOString().slice(0,10);
     const cl=fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover&timezone=GMT&start_date=${date}&end_date=${nx}`).then(r=>r.json()).then(j=>{const h=j&&j.hourly;if(!h||!h.time)return null;const v=h.time.map((t,i)=>[t,h.cloud_cover[i]]).filter(([t])=>t>=date+"T22"&&t<=nx+"T02").map(x=>x[1]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null}).catch(()=>null);
@@ -2939,7 +2963,12 @@ const TODAY={d:null,docMode:"date",
   art(k,day){const tx=(day.plan||[]).map(r=>r[1]).join(" ");if(k==="skaf"&&!/攀冰|健行/.test(tx))return "skafv";if(k==="fjall"&&/冰浮/.test(tx))return "fjallf";return k},
   quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const ks=[...new Set((day.legs||[]).filter(l=>!l.c2&&!l.hide).flatMap(l=>[l.a,l.b]))].filter((k,i,A)=>pts[k]&&pts[k][3]!=="stay"&&!(i===A.length-1&&i>0)),st=ks.map(k=>String(nm(k)).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,5);
-    const kk=ks.filter(k=>Q[k]||pts[k]),bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
+    let kk=ks.filter(k=>Q[k]||pts[k]);
+    /* 沒有車程的日子（H0、D0 市區）：由時間表文字找景點 */
+    if(!kk.length){const sk=/^(早餐|午餐|晚餐|入住|退房)/;(pl||[]).forEach(r=>{const tx=cl(String(r[1]||"")).split("｜")[0];if(!tx||r[2]==="m"||sk.test(tx))return;
+      const hit=Object.keys(SPKW).find(k=>SPKW[k].test(tx))||Object.keys(SP).find(k=>pts[k]&&pts[k][3]!=="stay"&&(()=>{const n=String(pts[k][0]).split(/[ （(]/)[0];return n.length>=4&&tx.includes(n)})());
+      if(hit&&!kk.includes(hit))kk.push(hit)});kk=kk.slice(0,5)}
+    const bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
     if(!bd.length)return "";
     return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n,v])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}" data-art="${v}">${window.LANDING?LANDING.badge(v,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
   render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
