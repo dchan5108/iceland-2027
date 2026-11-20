@@ -3044,7 +3044,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tquick .bdg span{font-size:12.5px;line-height:1.3;font-weight:600;overflow-wrap:anywhere}
 .tquick .bdg span:after{content:" ↗";color:var(--muted);font-weight:400}
 /* ===== 倒數封面 ===== */
-.landing{position:fixed;inset:0;z-index:9999;overflow:auto;display:flex;align-items:flex-end;justify-content:center;background:#0b2748;font-family:Georgia,"Noto Serif TC","Songti TC",serif}
+.landing{position:fixed;inset:0;z-index:9999;overflow:auto;display:flex;align-items:flex-end;justify-content:center;background:#0b2748;font-family:var(--sans)}
 .landing .lscene{position:fixed;inset:0;width:100%;height:100%}
 .landing .lbox{position:relative;width:min(440px,100%);padding:16px 16px calc(28px + env(safe-area-inset-bottom,0px));margin-top:auto;text-align:center;color:#fff}
 .landing .ltitle{font-size:clamp(34px,9vw,54px);letter-spacing:.04em;font-weight:700;text-shadow:0 2px 14px rgba(0,0,0,.35);margin-bottom:6px}
@@ -3053,8 +3053,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .landing .lcard{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#14242c;border-radius:22px;padding:18px 18px 16px;box-shadow:0 12px 40px rgba(0,0,0,.28);font-family:system-ui,"PingFang TC","Noto Sans TC",sans-serif}
 .landing .ltag{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:8px}
 .landing .ltag b{color:#1d6e8a;letter-spacing:.06em;text-transform:uppercase}.landing .ltag span{color:#5a6c73}
-.landing .lnum b{font-size:64px;line-height:1;font-family:Georgia,serif;font-weight:700}.landing .lnum span{margin-left:8px;font-size:16px;color:#5a6c73}
-.landing .lwel{font-family:Georgia,serif;font-size:36px;line-height:1.1;font-weight:700}
+.landing .lnum b{font-size:64px;line-height:1;font-family:var(--sans);font-weight:700}.landing .lnum span{margin-left:8px;font-size:16px;color:#5a6c73}
+.landing .lwel{font-family:var(--sans);font-size:36px;line-height:1.1;font-weight:700}
 .landing .lsub{margin:8px 0 14px;font-size:13px;color:#5a6c73}
 .landing .lg{display:flex;justify-content:center;min-height:44px}
 .landing .lmsg{margin:6px 0 0;font-size:12px;color:#5a6c73;min-height:1em}
@@ -3066,21 +3066,21 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}}
 :root[data-theme="dark"]{--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}
 .tcard,.fcd,.ovplan,.ovhero{border-radius:20px}
-.tdate,.ovhero h1,.ovhero h2,.thd2 b,.ovplan h2,.ovplan h3{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.01em}
+.tdate,.ovhero h1,.ovhero h2,.thd2 b,.ovplan h2,.ovplan h3{font-family:var(--sans);letter-spacing:.01em}
 .tdate{font-size:28px}
 .thero .tsub{letter-spacing:.14em;text-transform:uppercase;color:var(--route)}
 .tcard.tquick{border-top:3px solid #c9a45c}
 /* 倒數卡 F */
 .fcd{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);padding:18px}
 .fcd .fct{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
-.fcd .fct b{font:700 34px/1.1 Georgia,"Noto Serif TC",serif;color:var(--fg)}.fcd .fct span{color:var(--muted);font-size:13px}
+.fcd .fct b{font:700 34px/1.1 var(--sans);color:var(--fg)}.fcd .fct span{color:var(--muted);font-size:13px}
 .fcd .fcb{height:10px;border-radius:9px;background:var(--line);margin:16px 6px 8px;position:relative}
 .fcd .fcb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#4aa3c7,#14283a)}
 .fcd .fcb u{position:absolute;top:-8px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
 .fcd .fcb u.car{top:-16px}
 .fcd .fcr{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .fcd .fci{margin-top:6px;justify-content:flex-start}
-.hero h1{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.03em}
+.hero h1{font-family:var(--sans);letter-spacing:.03em}
 .landing .lnote{margin:10px 0 0;font-size:12.5px;color:#5a6c73}
 .tdsB{margin:4px 0 0;padding:0;background:none;border:0}
 .tdsB .dhB{padding-top:12px;border-top:1px solid var(--line)}
@@ -3089,18 +3089,18 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* ===== Journey at a glance ===== */
 .glance{padding:20px 18px}
 .glh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px}
-.glh h3{margin:0;font:700 22px/1.2 Georgia,"Noto Serif TC",serif;color:var(--fg)}
+.glh h3{margin:0;font:700 22px/1.2 var(--sans);color:var(--fg)}
 .glh small{color:var(--muted);font-size:12px;letter-spacing:.12em}
 .glst{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
 .glst>div{display:grid;justify-items:center;gap:2px;padding:14px 4px;color:var(--route)}
 .glst>div+div{border-left:1px solid var(--line)}
-.glst b{font:700 26px/1.1 Georgia,serif;color:var(--fg);font-variant-numeric:tabular-nums}
+.glst b{font:700 26px/1.1 var(--sans);color:var(--fg);font-variant-numeric:tabular-nums}
 .glst small{font-size:11.5px;color:var(--muted)}
 .glrt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;margin:16px 0 4px}
 .glrt button{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:6px 11px;font:600 12.5px/1 system-ui,sans-serif;cursor:pointer}
 .glrt i{width:10px;height:1px;background:var(--muted);opacity:.6}
 .glhl{margin-top:18px}
-.glk{font:700 15px Georgia,"Noto Serif TC",serif;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.glk{font:700 15px var(--sans);display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .glk:before{content:"";width:18px;height:2px;background:#c9a45c}
 .glb{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 8px}
 @media (min-width:700px){.glb{grid-template-columns:repeat(6,1fr)}}
@@ -3166,7 +3166,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 :root[data-theme="dark"] .glance{background:var(--card);border-color:var(--line)}
 .glh{display:block;margin-bottom:20px}
 .glh small{display:block;font:600 11.5px/1 system-ui,sans-serif;letter-spacing:.15em;color:#8C857B;margin-bottom:6px}
-.glh h3{font:700 24px/1.2 Georgia,"Noto Serif TC",serif}
+.glh h3{font:700 24px/1.2 var(--sans)}
 .glst{border-block:0;align-items:center}
 .glst>div{padding:6px 4px;color:#4A607A;gap:0}
 .glst>div+div{border-left:0;position:relative}
@@ -3186,7 +3186,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .ovsil{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;padding:28px 20px 22px;box-sizing:border-box;background:radial-gradient(90% 70% at 50% 40%,color-mix(in srgb,var(--route) 7%,transparent),transparent 70%)}
 .ovsil svg{width:100%;max-width:300px;height:auto;filter:drop-shadow(0 6px 14px rgba(20,40,58,.12))}
 .ovsil-t{display:grid;justify-items:center;gap:3px;text-align:center}
-.ovsil-t b{font:700 13px Georgia,"Noto Serif TC",serif;letter-spacing:.32em;text-transform:uppercase;color:var(--fg)}
+.ovsil-t b{font:700 13px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--fg)}
 .ovsil-t span{font-size:12px;color:var(--muted)}
 @media (min-width:1000px){
   #home #homeTop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-areas:"hero map" "plan plan"!important;align-items:stretch!important}
@@ -3209,7 +3209,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #today,#todayIn{min-width:0;max-width:100%}#todayIn{display:grid;grid-template-columns:minmax(0,1fr)}
 /* ===== 全站一致：卡片標題同一級、卡片外觀統一 ===== */
 :root{--fs-sec:17px}
-.thd2>b,.glh h3,.bc-h .glk,#bookp h3.bkh,.hrh b{font:700 var(--fs-sec)/1.3 Georgia,"Noto Serif TC","Songti TC",serif!important;color:var(--fg);letter-spacing:.01em;margin:0}
+.thd2>b,.glh h3,.bc-h .glk,#bookp h3.bkh,.hrh b{font:700 var(--fs-sec)/1.3 var(--sans)!important;color:var(--fg);letter-spacing:.01em;margin:0}
 .thd2{margin-bottom:12px}
 .glh{margin-bottom:16px}.glh small,.tsub{font:600 11px/1 system-ui,sans-serif!important;letter-spacing:.15em;color:var(--muted)!important;text-transform:none;margin-bottom:6px}
 .glk:before{display:none}
@@ -3421,7 +3421,7 @@ details.dmore .dmm button[data-dlyopen]{display:flex!important;align-items:cente
 #view-trip .dsum2 .navbtn.fabmin{padding:0!important;width:46px;justify-content:center}
 #view-trip .dsum2 .navbtn.fabmin span{display:none}
 /* 6 預算頁小標題同其他分頁同一款 */
-.bsh h3,details.bsec>summary{font-family:Georgia,"Noto Serif TC","Songti TC",serif!important}
+.bsh h3,details.bsec>summary{font-family:var(--sans)!important}
 details.bsec>summary span,details.bsec>summary small{font-family:var(--sans)!important}
 /* 1 預算頁：同其他分頁一樣，用頁面底色＋獨立卡片 */
 @media (max-width:760px){
