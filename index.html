@@ -932,9 +932,14 @@ const AUR={
       const cw=diff>15?"出發前 16 日內才有預報":diff<-1?"日子已過，沒有預報":"載入中…",kw=diff>3?"3 日內才有預報":diff<-1?"日子已過，沒有預報":"載入中…";
       return `<details class="aurx noen" data-d="${d}"><summary>🌌 極光資訊</summary><dl>
 <div><dt>今晚天文黑暗<em class="aurt">計算</em></dt><dd class="tnum">${dk}</dd></div>
-<div><dt>雲量（22:00–02:00）<em class="aurt aurp">預報</em></dt><dd data-aur="c">${cw}</dd></div>
+<div><dt>雲量（天文黑暗時段）<em class="aurt aurp">預報</em></dt><dd data-aur="c">${cw}</dd></div>
 <div><dt>極光活動 Kp<em class="aurt aurp">預報</em></dt><dd data-aur="k">${kw}</dd></div></dl>
 <p>冰島時間・${DOCX.esc(String(name||"").replace(/（.*?）/g,"").trim())}。黑暗時段是計算值；雲量、Kp 是預報，會變。淡綠色只標示天文黑暗，不是極光預報，也不保證見到極光。</p></details>`}catch(e){return ""}},
+  /* C：今晚提示（只在旅程期間）；同時考慮天文黑暗、雲量和 Kp；任何資料缺少就只顯示天文黑暗 */
+  lvl(c,k,dk){if(!dk)return 0;if(c!=null&&c>=60)return 2;if(c==null||k==null)return 0;return k>=2?3:1},
+  status(box,c,k,dk){const L=AUR.lvl(c,k,dk),W=["🔭 預測資料不足","🌙 極光活動偏低","☁️ 雲量較多","🌌 今晚值得留意"][L],cls=["al","al","al","ah"][L];
+    const sm=[k!=null?`Kp ${Math.round(k*10)/10}`:"",c!=null?`雲量 ${c}%`:"",dk?`天文黑暗 ${dk}`:""].filter(Boolean).join(" · ");
+    box.innerHTML=`<b class="${cls}">${W}</b><small>${sm}${sm?" · ":""}不保證見到極光</small>`;box.hidden=false},
   /* 由 TODAY.aur() 已拿到的數據填入（不會多 call API） */
   fill(d,c,k){if(!AURFX)return;document.querySelectorAll(`.aurx[data-d="${d}"]`).forEach(b=>{const C=b.querySelector('[data-aur="c"]'),K=b.querySelector('[data-aur="k"]');
     if(C&&C.textContent==="載入中…")C.textContent=c!=null?`平均 ${c}%`:"暫時拿不到";if(K&&K.textContent==="載入中…")K.textContent=k!=null?`最高 ${Math.round(k*10)/10}`:"暫時拿不到"})}
@@ -2969,10 +2974,11 @@ const TODAY={d:null,docMode:"date",
         sec.querySelector("ul").insertAdjacentHTML("afterbegin",tp.map(x=>`<li class="twxtip">${DOCX.esc(x)}</li>`).join(""))}}catch(e){}}).catch(()=>{})},
   /* 今晚極光：雲量（Open-Meteo，晚上 22:00–02:00 平均）＋ Kp 指數（NOAA SWPC，只有 3 日內預報）；拿不到就不顯示 */
   aur(raw,day,lat,lon,date,diff){const box=$("taur");if(!box)return;const nx=new Date(Date.parse(date)+864e5).toISOString().slice(0,10);
-    const cl=fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover&timezone=GMT&start_date=${date}&end_date=${nx}`).then(r=>r.json()).then(j=>{const h=j&&j.hourly;if(!h||!h.time)return null;const v=h.time.map((t,i)=>[t,h.cloud_cover[i]]).filter(([t])=>t>=date+"T22"&&t<=nx+"T02").map(x=>x[1]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null}).catch(()=>null);
+    let dk=null,ca=date+"T22",cb=nx+"T02";if(AURFX){try{const z=AUR.dark(254+raw.d,lat,lon);if(z.ds&&z.nw){dk=`${z.ds}–${z.nw}`;ca=(z.ds<"12:00"?nx:date)+"T"+z.ds.slice(0,2);cb=nx+"T"+z.nw.slice(0,2)}}catch(e){}}
+    const cl=fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover&timezone=GMT&start_date=${date}&end_date=${nx}`).then(r=>r.json()).then(j=>{const h=j&&j.hourly;if(!h||!h.time)return null;const v=h.time.map((t,i)=>[t,h.cloud_cover[i]]).filter(([t])=>t>=ca&&t<=cb).map(x=>x[1]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null}).catch(()=>null);
     const kp=diff>3?Promise.resolve(null):fetch("https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json").then(r=>r.json()).then(j=>{const rows=(Array.isArray(j)?j:[]).map(r=>Array.isArray(r)?{t:r[0],k:r[1]}:{t:r.time_tag,k:r.kp}).filter(r=>/^\d{4}-/.test(String(r.t)));
       const a=Date.parse(date+"T21:00:00Z"),b=Date.parse(nx+"T03:00:00Z"),v=rows.filter(r=>{const t=Date.parse(String(r.t).replace(" ","T")+(String(r.t).endsWith("Z")?"":"Z"));return t>=a&&t<b}).map(r=>+r.k).filter(x=>!isNaN(x));return v.length?Math.max(...v):null}).catch(()=>null);
-    Promise.all([cl,kp]).then(([c,k])=>{try{AUR.fill(raw.d,c,k)}catch(e){}if(c==null&&k==null||TODAY.d!==raw.d)return;
+    Promise.all([cl,kp]).then(([c,k])=>{try{AUR.fill(raw.d,c,k)}catch(e){}if(AURFX){if(TODAY.d===raw.d&&TODAY.live&&TODAY.live())AUR.status(box,c,k,dk);return}if(c==null&&k==null||TODAY.d!==raw.d)return;
       const lv=c!=null&&c>=80?0:k==null?(c<40?1:0):k>=4&&(c==null||c<50)?2:k>=3&&(c==null||c<70)?1:k>=2&&(c==null||c<40)?1:0;
       const word=k==null?(lv?"天空清，有機會":"雲多，機會低"):["機會低","有機會","機會高"][lv];
       box.innerHTML=`🌌 今晚極光 <b class="${["al","am","ah"][lv]}">${word}</b><small>${[k!=null?`Kp ${Math.round(k*10)/10}`:"",c!=null?`雲量 ${c}%`:""].filter(Boolean).join(" · ")}${k==null?" · 極光指數 3 日內才有":""}</small>`;box.hidden=false})},
