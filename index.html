@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-20-cd2">
+<link rel="stylesheet" href="style.css?v=2026-11-20-cd3">
 
 </head>
 <body>
@@ -903,11 +903,11 @@ const dayUrl=day=>{let s=stopsOf(day);
   try{const eo=(day.opt||[]).find(x=>x.early&&x.k&&pts[x.k]);if(eo&&s.length&&(RECP[day.d]||[]).includes(eo.id)){const o=s[0],r=s.filter((k,i)=>i===0||k!==eo.k);s=[o,eo.k,o,...r.slice(1)]}}catch(e){}
   return s.length?dir(s.map(k=>k.startsWith("via:")?vq(k.slice(4)):qn(k)).filter(Boolean)):null};
 const Rd=Math.PI/180;
-function sunAt(Nd,lat,lon,rise,zen){const lh=lon/15,t=Nd+((rise?6:18)-lh)/24,M=0.9856*t-3.289;
+function sunAt(Nd,lat,lon,rise){const lh=lon/15,t=Nd+((rise?6:18)-lh)/24,M=0.9856*t-3.289;
   const Lg=(M+1.916*Math.sin(M*Rd)+0.020*Math.sin(2*M*Rd)+282.634+360)%360;
   let RA=(Math.atan(0.91764*Math.tan(Lg*Rd))/Rd+360)%360;RA=(RA+(Math.floor(Lg/90)-Math.floor(RA/90))*90)/15;
   const sd=0.39782*Math.sin(Lg*Rd),cd=Math.cos(Math.asin(sd));
-  const ch=(Math.cos((zen||90.833)*Rd)-sd*Math.sin(lat*Rd))/(cd*Math.cos(lat*Rd));
+  const ch=(Math.cos(90.833*Rd)-sd*Math.sin(lat*Rd))/(cd*Math.cos(lat*Rd));
   let H=Math.acos(ch)/Rd;if(rise)H=360-H;H/=15;
   const UT=(((H+RA-0.06571*t-6.622-lh)%24)+24)%24;let h=Math.floor(UT),m=Math.round((UT-h)*60);if(m===60){h++;m=0}
   return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`}
@@ -2755,7 +2755,7 @@ function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=(H<1
     big=[`距離冰島之旅還有 ${Math.round((T0-td)/864e5)}\u00a0日`,"冰島之旅正式開始！",`冰島之旅第 ${dx}\u00a0日`,"冰島之旅最後一天","冰島之旅圓滿結束 ✨"][st],
     p=st===0?Math.max(0,Math.min(100,(now-S)/(T0-S)*100)):st===4?100:dx/N*100,
     lab=st===0?["今日","出發 🇮🇸"]:st===4?["9月12日","9月23日"]:[st===3?`第 ${dx} / ${N} 日`:`還有 ${Math.round((T1-td)/864e5)} 日`,"9月23日"];
-  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i><u style="left:${p}%">🚙</u></div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
+  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
 /* 冰島午夜自動更新倒數卡（唔使重新載入）；返回分頁時亦更新 */
 {const re=()=>document.querySelectorAll("section.fcd").forEach(el=>{try{el.outerHTML=bpassHTML()}catch(e){}});
  const tick=()=>{const n=new Date();let ms;try{const f=new Intl.DateTimeFormat("en-GB",{timeZone:"Atlantic/Reykjavik",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(n),g=k=>+f.find(x=>x.type===k).value;ms=(86400-(g("hour")*3600+g("minute")*60+g("second")))*1000-n.getMilliseconds()+500}catch(e){ms=864e5-(n%864e5)+500}
@@ -2918,7 +2918,7 @@ const TODAY={d:null,docMode:"date",
     const lis=ds?[...ds.querySelectorAll("ul > li > span")].map(x=>x.textContent.trim()):[];let rt=lis[0]||(o&&o.rt)||"";rt=rt.split("→").map(toLat).filter(Boolean).join(" → ");if((day.legs||[]).some(l=>l.walk)||!rt)rt=lat(TODAY.place[raw.d]||"").replace(/^\s*→\s*/,"");
     const drv=lis[1]||(o&&o.drv)||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];let sun="";
-    if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div><div class="sunbar" data-sa="${raw.d}|${k}"></div>`}
+    if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div><div class="sunbar"></div>`}
     return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS"><span>${drv?`${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}`:"🚶 不用開車"}</span><span>🏠 ${ht?E(ht):"—"}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</span></div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
   /* 每日資料（舊：一大格）：已經改用 headB */
   info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
@@ -3022,45 +3022,6 @@ const TRIPLINKS=()=>`<section class="hlinks dlinks"><div class="hicons noen">
 DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".dhB"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
   TODAY.d=sel;const day=TODAY.dayOf(raw);const ds=art.querySelector(".dsum2");if(ds){ds.classList.add("dsB");ds.insertAdjacentHTML("afterbegin",TODAY.headB(raw,day,ds))}else{const h3=art.querySelector("h3");if(h3)h3.insertAdjacentHTML("afterend",`<div class="dsum2 dsB">${TODAY.headB(raw,day,null)}</div>`)}
   if(HPHASE()>=2)art.insertAdjacentHTML("beforeend",TRIPLINKS());try{TODAY.wx(raw,day)}catch(e){}try{tripHero()}catch(e){}};
-/* ===== 日照進階模式（實驗）：現在時間線、活動標記、黃金時段；預設關閉。移除：刪走呢段＋style.css「日照進階模式」段 ===== */
-const SA={K:"iceland-sunadv",on:()=>store.get(SA.K)==="1",
-  m:x=>{const q=String(x||"").match(/(\d{1,2}):(\d{2})/);return q?+q[1]*60+ +q[2]:null},
-  /* 主要活動：用現有時間表（day.plan），跳過用餐、入住／退房、車程、出發 */
-  acts(day){return (day.plan||[]).map((r,i)=>({r,i,s:SA.m(r[0]),tx:cl(String(r[1]||"")).replace(/<[^>]*>/g,"")})).filter(o=>o.s!=null&&!["m","c"].includes(o.r[2])&&!isDrv(o.tx)
-    &&!/^(早餐|午餐|晚餐|小吃|入住|退房|出發|前往|開車|返回|超市|休息|還車|取車|⚠)/.test(o.tx)&&/[–-]\s*\d{1,2}:\d{2}/.test(o.r[0]))},
-  deco(root){(root||document).querySelectorAll(".sunbar[data-sa]").forEach(bar=>{try{SA.one(bar)}catch(e){}})},
-  one(bar){const [ds,k]=bar.dataset.sa.split("|"),d=+ds,raw=days.find(x=>x.d===d),p=pts[k];if(!raw||!p)return;
-    bar.querySelectorAll(".sa-x").forEach(e=>e.remove());bar.classList.remove("sa");
-    let tg=bar.nextElementSibling;if(!tg||!tg.classList.contains("sa-tog")){bar.insertAdjacentHTML("afterend",`<label class="sa-tog noen"><input type="checkbox" role="switch"><span>日照進階模式</span></label>`);tg=bar.nextElementSibling}
-    const cb=tg.querySelector("input");cb.checked=SA.on();cb.onchange=()=>{store.set(SA.K,cb.checked?"1":"0");SA.deco()};
-    if(!SA.on())return;
-    const N=254+d,sr=SA.m(sunAt(N,p[2],p[1],1)),ss=SA.m(sunAt(N,p[2],p[1],0)),L=ss-sr;if(!(L>0))return;
-    const pc=t=>Math.max(0,Math.min(100,(t-sr)/L*100)),H=[];bar.classList.add("sa");
-    /* 黃金時段：太陽高度 0°–6°（同一日、同一地點） */
-    const g1=SA.m(sunAt(N,p[2],p[1],1,84)),g2=SA.m(sunAt(N,p[2],p[1],0,84));
-    if(g1!=null&&g1>sr)H.push(`<i class="sa-x sa-gold" style="left:0;width:${pc(g1).toFixed(2)}%" title="黃金時段 ${saHm(sr)}–${saHm(g1)}"></i>`);
-    if(g2!=null&&g2<ss)H.push(`<i class="sa-x sa-gold" style="left:${pc(g2).toFixed(2)}%;right:0" title="黃金時段 ${saHm(g2)}–${saHm(ss)}"></i>`);
-    /* 活動標記：太近就合併，手機唔會疊埋 */
-    const day=TODAY.dayOf(raw),A=SA.acts(day).filter(o=>o.s>=sr&&o.s<=ss),w=bar.clientWidth||320,gap=Math.max(3,18/w*100),G=[];
-    A.forEach(o=>{const x=pc(o.s),g=G[G.length-1];if(g&&x-g.x<gap)g.it.push(o);else G.push({x,it:[o]})});
-    G.forEach(g=>{const t=g.it.map(o=>`${o.r[0]} ${TODAY.title(o.r[1])}`).join("\n");
-      H.push(`<button type="button" class="sa-x sa-mk${g.it.length>1?" sa-mk2":""}" style="left:${g.x.toFixed(2)}%" data-sad="${d}" data-sai="${g.it[0].i}" title="${escA(t)}" aria-label="${escA(t)}"><b></b></button>`)});
-    /* 現在時間：只在旅程期間、睇緊當日先顯示（冰島時間＝UTC） */
-    let td=null;try{td=todayDay()}catch(e){}
-    if(td&&td.d===d){const n=nowIS(),nm=n.getUTCHours()*60+n.getUTCMinutes();if(nm>=sr-60&&nm<=ss+60)H.push(`<i class="sa-x sa-now${nm<sr||nm>ss?" sa-out":""}" style="left:${pc(nm).toFixed(2)}%" title="冰島時間 ${saHm(nm)}"></i>`)}
-    bar.insertAdjacentHTML("beforeend",H.join(""));
-    bar.querySelectorAll(".sa-mk").forEach(b=>b.onclick=e=>{e.stopPropagation();SA.go(+b.dataset.sad,+b.dataset.sai,!!(TODAY.box&&TODAY.box.contains(b)))})},
-  /* 按標記：去「行程」該日，捲到對應時間表行並閃一下 */
-  go(d,i,fromToday){const raw=days.find(x=>x.d===d);if(!raw)return;const r=(TODAY.dayOf(raw).plan||[])[i];if(!r)return;
-    if(fromToday){view("trip");select(d)}else if(sel!==d)select(d)
-    let n=0;const f=()=>{const ts=[...document.querySelectorAll("article.day .sched .t")].filter(e=>e.offsetParent),k=String(r[0]).trim(),
-      t=ts.find(e=>e.textContent.trim().startsWith(k))||ts.find(e=>{const a=e.nextElementSibling;return a&&!/\b(drv|cn)\b/.test(a.className)&&a.textContent.includes(TODAY.title(r[1]))});
-      if(!t){if(++n<12)setTimeout(f,100);return}const a=t.nextElementSibling;try{t.scrollIntoView({behavior:"smooth",block:"center"})}catch(e){t.scrollIntoView()}
-      [t,a].forEach(e=>{if(!e)return;e.classList.remove("sa-hit");void e.offsetWidth;e.classList.add("sa-hit")});setTimeout(()=>[t,a].forEach(e=>e&&e.classList.remove("sa-hit")),2200)};setTimeout(f,80)}};
-const saHm=x=>`${String(Math.floor(x/60)%24).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`;
-{const _r=TODAY.render;TODAY.render=function(b){_r.call(TODAY,b);try{SA.deco(TODAY.box)}catch(e){}};
- const _t=DOCX.dayTiles;DOCX.dayTiles=function(r){_t(r);try{SA.deco(r)}catch(e){}};
- setInterval(()=>{if(SA.on())document.querySelectorAll(".sunbar.sa").forEach(b=>{try{SA.one(b)}catch(e){}})},60000)}
 {const _m=DOCX.mark;DOCX.mark=function(r){_m.call(DOCX,r);try{DOCX.dayTiles(r)}catch(e){}}}
 try{tripHero()}catch(e){}
 /* 得一個 tab（大眾版）就收起底部導航 */

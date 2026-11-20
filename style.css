@@ -3076,7 +3076,8 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .fcd .fct b{font:700 34px/1.1 Georgia,"Noto Serif TC",serif;color:var(--fg)}.fcd .fct span{color:var(--muted);font-size:13px}
 .fcd .fcb{height:10px;border-radius:9px;background:var(--line);margin:16px 6px 8px;position:relative}
 .fcd .fcb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#4aa3c7,#14283a)}
-.fcd .fcb u{position:absolute;top:-16px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
+.fcd .fcb u{position:absolute;top:-8px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
+.fcd .fcb u.car{top:-16px}
 .fcd .fcr{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .fcd .fci{margin-top:6px;justify-content:flex-start}
 .hero h1{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.03em}
@@ -3506,18 +3507,3 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #budget .bctl .brate{flex-basis:100%;font-size:13px;color:var(--muted)}
 #budget .bctl .brate summary{cursor:pointer}
 #budget .bctl .brate label{margin:6px 12px 0 0}
-/* ===== 日照進階模式（實驗）：預設關閉時唔改任何現有樣式；移除：刪走呢段 ===== */
-.sa-tog{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin:6px 0 0;font-size:11px;color:var(--muted);cursor:pointer;user-select:none}
-.sa-tog input{appearance:none;-webkit-appearance:none;width:24px;height:14px;margin:0;border-radius:7px;background:var(--line);position:relative;cursor:pointer;transition:background-color .2s}
-.sa-tog input::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:transform .2s}
-.sa-tog input:checked{background:#f2b05e}.sa-tog input:checked::after{transform:translateX(10px)}
-.sunbar.sa{position:relative}
-.sa-gold{position:absolute;top:0;bottom:0;border-radius:3px;background:rgba(255,196,84,.4);box-shadow:0 0 5px rgba(255,190,80,.55);pointer-events:none}
-.sa-mk{position:absolute;top:50%;width:22px;height:22px;margin:0;padding:0;border:0;background:none;transform:translate(-50%,-50%);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sa-mk b{display:block;width:7px;height:7px;margin:auto;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px #1f3b57;transition:transform .15s}
-.sa-mk2 b{width:9px;height:9px}.sa-mk:hover b,.sa-mk:focus-visible b{transform:scale(1.35)}
-.sa-now{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;border-radius:1px;background:#e8503a;box-shadow:0 0 0 1px rgba(255,255,255,.8);pointer-events:none}
-.sa-now.sa-out{opacity:.5}
-.sa-hit{animation:saHit 2s ease}
-@keyframes saHit{0%,60%{background-color:rgba(242,176,94,.35)}100%{background-color:transparent}}
-@media (prefers-reduced-motion:reduce){.sa-hit{animation:none;background-color:rgba(242,176,94,.25)}}
