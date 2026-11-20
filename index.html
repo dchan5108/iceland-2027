@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-20-aur1">
+<link rel="stylesheet" href="style.css?v=2026-11-20-aur2">
 
 </head>
 <body>
@@ -923,9 +923,9 @@ const AUR={
   /* 時間軸條：日出 16%、日落 84%（跟現有漸變），其他時間按比例 */
   bar(Nd,lat,lon){if(!AURFX)return `<div class="sunbar"></div>`;
     try{const m=x=>+x.slice(0,2)*60+ +x.slice(3),r=m(sunAt(Nd,lat,lon,1)),st=m(sunAt(Nd,lat,lon,0)),d=AUR.dark(Nd,lat,lon);let g="";
-      if(d.dw){const w=m(d.dw)/r*16;if(w>0.5)g+=`<i class="aurg" style="left:0;width:${w.toFixed(1)}%"></i>`}
-      if(d.ds){const x=m(d.ds),l=x<st?100:84+(x-st)/(1440-st)*16;if(l<99.5)g+=`<i class="aurg aurr" style="left:${l.toFixed(1)}%;right:0"></i>`}
-      return `<div class="sunbar${g?" aurfx":""}">${g}</div>`}catch(e){return `<div class="sunbar"></div>`}},
+      let h="";if(d.dw){const w=m(d.dw)/r*16;if(w>0.5){g+=`<i class="aurg" style="left:0;width:${w.toFixed(1)}%"></i>`;h+=`<i class="aurh" style="left:0;width:${(w+4).toFixed(1)}%"></i>`}}
+      if(d.ds){const x=m(d.ds),l=x<st?100:84+(x-st)/(1440-st)*16;if(l<99.5){g+=`<i class="aurg aurr" style="left:${l.toFixed(1)}%;right:0"></i>`;h+=`<i class="aurh" style="left:${Math.max(0,l-4).toFixed(1)}%;right:0"></i>`}}
+      return g?`<div class="aurw" aria-hidden="true">${h}<div class="sunbar aurfx">${g}</div></div>`:`<div class="sunbar"></div>`}catch(e){return `<div class="sunbar"></div>`}},
   /* 極光資訊（預設收起）：計算資料和即時預報分開標示 */
   info(d,Nd,lat,lon,name){if(!AURFX)return "";try{const k=AUR.dark(Nd,lat,lon),diff=(Date.parse(new Date(Date.UTC(2027,8,11+d)).toISOString().slice(0,10))-nowIS())/864e5;
       const dk=k.ds&&k.nw?`${k.ds<"12:00"?"翌日 ":""}${k.ds} – 翌日 ${k.nw}`:"今晚沒有天文黑暗";
