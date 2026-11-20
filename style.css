@@ -3076,7 +3076,7 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .fcd .fct b{font:700 34px/1.1 Georgia,"Noto Serif TC",serif;color:var(--fg)}.fcd .fct span{color:var(--muted);font-size:13px}
 .fcd .fcb{height:10px;border-radius:9px;background:var(--line);margin:16px 6px 8px;position:relative}
 .fcd .fcb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#4aa3c7,#14283a)}
-.fcd .fcb u{position:absolute;top:-8px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
+.fcd .fcb u{position:absolute;top:-16px;font-size:20px;text-decoration:none;transform:translateX(-50%)}
 .fcd .fcr{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .fcd .fci{margin-top:6px;justify-content:flex-start}
 .hero h1{font-family:Georgia,"Noto Serif TC","Songti TC",serif;letter-spacing:.03em}
