@@ -2746,10 +2746,21 @@ DOCX.prep=()=>{const box=$("prep-docs");if(!box)return;try{DOCX.taskMark()}catch
   box.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{DOCX.mode=b.dataset.dm;DOCX.prep()})};
 renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(e){}try{prepHero()}catch(e){}return r})(renderPrep);
 /* 準備頁頂部：出發倒數 */
-function bpassHTML(){const now=nowIS(),dd=Math.ceil((Date.UTC(2027,8,12)-now)/864e5),t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
-  /* 倒數卡（F 款）：路線進度條，飛機由今日向冰島飛 */
-  const S=Date.UTC(2026,8,12),p=Math.max(0,Math.min(100,(now-S)/(Date.UTC(2027,8,12)-S)*100)),big=dd>0?`${dd} 日後出發`:now<Date.UTC(2027,8,24)?"旅程中":"完成";
-  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${dd>0?p:100}%"></i><u style="left:${dd>0?p:100}%">✈️</u></div><div class="fcr"><span>今日</span><span>出發 🇮🇸</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
+/* 冰島日期（Atlantic/Reykjavik）→ 當日 00:00 UTC 毫秒 */
+const isDay=t=>{try{return Date.parse(new Intl.DateTimeFormat("en-CA",{timeZone:"Atlantic/Reykjavik",year:"numeric",month:"2-digit",day:"2-digit"}).format(t))}catch(e){const d=new Date(t);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())}};
+function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=(H<12?"上午 ":"下午 ")+(H%12||12),mm=String(t.getUTCMinutes()).padStart(2,"0");
+  /* 倒數卡（F 款）：路線進度條；出發前＝準備進度，旅程中＝第幾日；階段按冰島日期 */
+  const S=Date.UTC(2026,8,12),T0=Date.UTC(2027,8,12),T1=Date.UTC(2027,8,23),N=Math.round((T1-T0)/864e5)+1,td=isDay(now),
+    st=td<T0?0:td===T0?1:td<T1?2:td===T1?3:4,dx=Math.round((td-T0)/864e5)+1,
+    big=[`距離冰島之旅還有 ${Math.round((T0-td)/864e5)}\u00a0日`,"冰島之旅正式開始！",`距離旅程結束還有 ${Math.round((T1-td)/864e5)}\u00a0日`,"冰島之旅最後一天","冰島之旅圓滿結束 ✨"][st],
+    p=st===0?Math.max(0,Math.min(100,(now-S)/(T0-S)*100)):st===4?100:dx/N*100,
+    lab=st===0?["今日","出發 🇮🇸"]:st===4?["9月12日","9月23日"]:[`第 ${dx} 日 / 共 ${N} 日`,"9月23日"];
+  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i><u style="left:${p}%">🚙</u></div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
+/* 冰島午夜自動更新倒數卡（唔使重新載入）；返回分頁時亦更新 */
+{const re=()=>document.querySelectorAll("section.fcd").forEach(el=>{try{el.outerHTML=bpassHTML()}catch(e){}});
+ const tick=()=>{const n=new Date();let ms;try{const f=new Intl.DateTimeFormat("en-GB",{timeZone:"Atlantic/Reykjavik",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(n),g=k=>+f.find(x=>x.type===k).value;ms=(86400-(g("hour")*3600+g("minute")*60+g("second")))*1000-n.getMilliseconds()+500}catch(e){ms=864e5-(n%864e5)+500}
+   setTimeout(()=>{re();tick()},Math.max(1000,ms))};tick();
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)re()})}
 function prepHero(){const box=$("prepHero");if(box)box.innerHTML=bpassHTML()}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-docs]");if(!b)return;e.preventDefault();e.stopPropagation();DOCX.open(b.dataset.docs.split(","))},true);
 const SPTOP={
