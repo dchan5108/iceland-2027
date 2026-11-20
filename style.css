@@ -3507,3 +3507,24 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 #budget .bctl .brate{flex-basis:100%;font-size:13px;color:var(--muted)}
 #budget .bctl .brate summary{cursor:pointer}
 #budget .bctl .brate label{margin:6px 12px 0 0}
+
+/* 極光加強（AURFX）：天文黑暗時段淡綠光暈＋極光資訊 */
+.sunbar.aurfx{position:relative;overflow:hidden}
+.sunbar .aurg{position:absolute;top:0;bottom:0;pointer-events:none;opacity:.15;background:linear-gradient(90deg,transparent,#3fd99c 30%,#7af0c4 50%,#3fd99c 70%,transparent) 0 0/200% 100%;animation:aurdrift 16s ease-in-out infinite alternate}
+.sunbar .aurg:not(.aurr){-webkit-mask:linear-gradient(90deg,#000 70%,transparent);mask:linear-gradient(90deg,#000 70%,transparent)}
+.sunbar .aurr{-webkit-mask:linear-gradient(90deg,transparent,#000 30%);mask:linear-gradient(90deg,transparent,#000 30%)}
+@keyframes aurdrift{0%{background-position:0 0;opacity:.1}50%{opacity:.2}100%{background-position:100% 0;opacity:.12}}
+@media (prefers-reduced-motion:reduce){.sunbar .aurg{animation:none;opacity:.15}}
+.aurx{margin-top:8px;font-size:12.5px;color:var(--muted)}
+.aurx summary{cursor:pointer;font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:4px;min-height:32px}
+.aurx summary::-webkit-details-marker{display:none}
+.aurx summary::after{content:"›";transition:transform .2s}
+.aurx[open] summary::after{transform:rotate(90deg)}
+@media (prefers-reduced-motion:reduce){.aurx summary::after{transition:none}}
+.aurx dl{margin:4px 0 6px;display:grid;gap:4px}
+.aurx dl>div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.aurx dt{font-weight:600}.aurx dd{margin:0;color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.aurx .aurt{font-style:normal;font-size:10.5px;font-weight:700;margin-left:6px;padding:0 6px;border-radius:8px;border:1px solid var(--line)}
+.aurx .aurp{color:var(--ok);border-color:currentColor}
+.aurx p{margin:0;font-size:11.5px;line-height:1.5}
+.dsum2.dsB>.aurx{width:100%;box-sizing:border-box}
