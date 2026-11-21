@@ -75,8 +75,8 @@ skool:{t:"Skool Beans 校巴咖啡店",park:"店旁停車場，免費",d:"Vík �
 seyd:{t:"藍色教堂（Seyðisfjörður）",park:"教堂旁路邊或鎮中心停車場，免費",d:"淺藍色的木教堂，彩虹地磚路由主街一直鋪到教堂門口，是鎮上最多人拍照的位置。",stay:"45–60 分鐘",hours:"教堂內部星期一至五 13:00–16:00 開放，週末不開（Google Maps）；外觀和彩虹街隨時可看",closed:"星期六、日內部不開放",ticket:"免費",book:"不用",when:"任何時間；不用等教堂開門",photo:"站在彩虹步道起點，正面對住教堂",w:["要翻過 Fjarðarheiði 山口，常有霧，慢駛"],alt:"Hengifoss 瀑布（要行山約 1.5–2 小時）"},
  hofn:{t:"赫本",park:"港口附近；Pakkhús 旁有停車位",d:"以挪威海螯蝦（當地叫龍蝦）聞名的漁港，天晴時在港口可以看到瓦特納冰川的冰舌；小鎮不大，步行可以走完。",stay:"過夜",hours:"—",closed:"—",ticket:"—",book:"熱門餐廳要早一點去",when:"傍晚港口散步",photo:"港口望瓦特納冰川",w:["7 人一桌，Pakkhús 不接受訂位，要早一點排"]},
  vest:{t:"蝙蝠山 Batman Mountain（Vestrahorn／Stokksnes）",park:"Viking Café 停車場；付款後駛過小閘門",d:"輝長岩構成的鋸齒狀山峰，前面是長滿草的黑沙丘；潮退後的濕沙會映出山的倒影。屬私人土地，要先在 Viking Café 付入場費。",stay:"約 1 小時",hours:"Viking Café 週一至六 09:00–20:00，週日 09:00–18:00；半島 24 小時開放",closed:"無",ticket:"每人 800 ISK（Viking Café 櫃檯付款；café 關門後用門外機器，可用信用卡）",book:"不用",when:"日落前後金色時段最好；冬季和春季有機會見到北極光",photo:"沙丘、淺水位的倒影；帶三腳架（風大），建議廣角鏡頭",dress:"風大，穿防風外套；建議行山鞋（Viking Village 和沙丘）",w:["私人土地，入場要先繳費","風大時小心站立，帶好相機","不要下水：有 sneaker waves 危險"],alt:"由高處望沙丘，或在 Viking Café 附近拍照"},
- jok:{t:"冰河湖獨木舟",park:"冰河湖大停車場（1 號公路橋旁），收費約 1,000–1,100 ISK（Parka app），當日有效到午夜；和鑽石沙灘是同一個收費區，D6 給一次就夠",d:"冰川融水和海水形成的潟湖，湖面滿佈由 Breiðamerkurjökull 冰川斷出的浮冰；划獨木舟可以貼近冰山，常見海豹。",stay:"連換裝約 2 小時（水上約 1.5 小時）",hours:"按團時間；列明 5–9 月",closed:"天氣差、風大會取消",ticket:"每人 18,400 ISK",book:"必須預約；確認 9/17 有團",when:"9/17 下午，目標 13:00–14:00 開始（未預約；按營運商有位班次）",photo:"由獨木舟低角度影浮冰",dress:"公司提供乾式衣、救生衣和防水鞋；裡面穿保暖衣物，帶手套",bag:"身上不可以帶袋，手機用防水袋；行李留在車上",w:["不要爬上浮冰"],alt:"冰河湖岸邊散步，或 Fjallsárlón 小冰河湖"},
- diam:{t:"鑽石沙灘",park:"1 號公路橋另一邊的海灘停車場；和冰河湖是同一個收費區，D6 在冰河湖付了就不用再給",d:"冰河湖的浮冰經出海口被海浪推回岸上，散落在黑沙上，大小形狀每天不同；1 號公路兩邊都有停車場。",stay:"45 分鐘",hours:"全日",closed:"無",ticket:"停車可能收費",book:"不用",when:"下午，逆光時冰塊最通透",photo:"蹲低用冰塊做前景",w:["有瘋狗浪，不要背向大海","不要爬上冰塊"]},
+ jok:{t:"冰河湖獨木舟",park:"冰河湖大停車場（1 號公路橋旁），收費約 1,000–1,100 ISK（Parka app），當日有效到午夜；和鑽石沙灘是同一個收費區，D7 給一次就夠",d:"冰川融水和海水形成的潟湖，湖面滿佈由 Breiðamerkurjökull 冰川斷出的浮冰；划獨木舟可以貼近冰山，常見海豹。",stay:"連換裝約 2 小時（水上約 1.5 小時）",hours:"按團時間；列明 5–9 月",closed:"天氣差、風大會取消",ticket:"每人 18,400 ISK",book:"必須預約；確認 9/18 有團",when:"9/18 上午，目標 09:00–09:30 開始（未預約；要 11:15 左右完，13:40 去 Troll 報到）",photo:"由獨木舟低角度影浮冰",dress:"公司提供乾式衣、救生衣和防水鞋；裡面穿保暖衣物，帶手套",bag:"身上不可以帶袋，手機用防水袋；行李留在車上",w:["不要爬上浮冰"],alt:"冰河湖岸邊散步，或 Fjallsárlón 小冰河湖"},
+ diam:{t:"鑽石沙灘",park:"1 號公路橋另一邊的海灘停車場；和冰河湖是同一個收費區，D7 在冰河湖付了就不用再給",d:"冰河湖的浮冰經出海口被海浪推回岸上，散落在黑沙上，大小形狀每天不同；1 號公路兩邊都有停車場。",stay:"45 分鐘",hours:"全日",closed:"無",ticket:"停車可能收費",book:"不用",when:"下午，逆光時冰塊最通透",photo:"蹲低用冰塊做前景",w:["有瘋狗浪，不要背向大海","不要爬上冰塊"]},
  skaf:{t:"斯卡夫塔山 Troll 冰川健行＋攀冰",park:"Troll Expeditions Skaftafell 基地（斯卡夫塔山遊客中心附近；Google Maps 搜「Troll Expeditions Skaftafell」）",d:"冰川健行和攀冰的出發地；導遊帶隊行上冰川舌，先學用冰爪行冰面，再用冰斧試攀冰壁。",stay:"4 小時（冰上約 3 小時）",hours:"全年有團；按預訂時間",closed:"天氣、路況差會取消：Troll 改期或全數退款",ticket:"每人 US$253.50（Troll 網頁價）",book:"必須預約，揀約 10:00 開團；開團前 20 分鐘報到，遲到不保留位、不退款",when:"約 10:00 團",photo:"冰川裂縫和藍冰",dress:"保暖底層、防水外套和褲、手套、帽；不要著牛仔褲。冰爪、冰斧、安全帶、頭盔由公司提供，鞋可以租",bag:"小背囊，帶小吃和水",w:["12 歲以上","24 小時前書面取消（info@troll.is）全數退款，扣 3% 卡手續費；24 小時內不退"],alt:"如果取消：D8 補做同一個團；再取消就改去 Sólheimajökull 攀冰（Troll）"},
  svart:{t:"Svartifoss 黑瀑布步道",park:"斯卡夫塔山遊客中心停車場，收費，步道由這裡出發",d:"約 20 米高的瀑布，從六角形玄武岩柱圍成的崖壁落下；由遊客中心上斜行約 1.5 公里，來回連拍照約 1.5 小時。",stay:"1.5–2 小時來回",hours:"全日",closed:"無",ticket:"免費；停車收費（約 1,000 ISK 以內）",book:"不用",when:"上午",photo:"瀑布正前方的小橋",dress:"登山鞋",w:["上斜路段要慢行"],alt:"Skaftafellsjökull 冰川舌觀景步道（較短）"},
  eld:{t:"埃爾德熔岩原",park:"1 號公路旁 Eldhraun 指定停車處，免費；不要隨意停路邊",d:"1783 年 Laki 火山噴發流出的熔岩，至今鋪滿厚苔蘚，延綿數十公里；苔蘚生長很慢，只可以走指定小徑。",stay:"20 分鐘",hours:"全日",closed:"無",ticket:"免費",book:"不用",when:"任何時間",photo:"指定停車處旁的步道",w:["不要踩苔蘚，踩壞要幾十年才恢復","只在指定停車處停車"]},
@@ -115,19 +115,16 @@ SPKW:{seydt:/^Seyðisfjörður 塞濟斯菲厄澤：/,osland:/^日落：Ósland/
 PQ:{grab:"Grábrók parking",glaum:"Glaumbær museum parking",klaus:"Kirkjubæjarklaustur",gufu:"Gufufoss parking Seyðisfjörður",fask:"Fáskrúðsfjörður",egg:"Eggin í Gleðivík parking",hvaln:"Hvalnes lighthouse parking",petra:"Steinasafn Petru",bl:"Blue Lagoon parking",hall:"Hallgrímskirkja parking",nauth:"Nauthólsvík geothermal beach parking",ytri:"Ytri Tunga parking",budir:"Búðakirkja parking",djup:"Djúpalónssandur parking",ingj:"Ingjaldshólskirkja",kirk:"Kirkjufellsfoss parking",borg:"Landnámssetur Íslands Borgarnes",stykk:"Stykkishólmskirkja parking",kolu:"Kolugljúfur parking",husa:"Húsavík harbour parking",geosea:"GeoSea Húsavík",leir:"Leirhnjúkur parking",goda:"Goðafoss parking",hver:"Hverir parking",dett:"Dettifoss west parking",seyd:"Seyðisfjarðarkirkja",hofn:"Pakkhús Höfn",vest:"Viking Café Stokksnes",jok:"Jökulsárlón parking",diam:"Diamond Beach parking Iceland",skaf:"Skaftafell Visitor Centre parking",svart:"Skaftafell Visitor Centre parking",eld:"Eldhraun parking",fjad:"Fjaðrárgljúfur parking",reyn:"Reynisfjara parking",dyr:"Dyrhólaey lighthouse parking",solh:"Sólheimajökull parking",skog:"Skógafoss parking",skal:"Skálakot Manor",selj:"Seljalandsfoss parking",gull:"Gullfoss parking",geys:"Geysir parking",silf:"Silfra P5 parking Þingvellir",thing:"Þingvellir Visitor Centre P1 parking",skyl:"Sky Lagoon Kópavogur",raufar:"Raufarhólshellir",hvera:"Hveragerði",costco:"Costco Kauptún Garðabær",fjall:"Fjallsárlón parking",hof:"Hofskirkja Öræfi"},
 /* 地點：日出 */
 SUNRISE:{
- 6:{k:"vest",spot:"Stokksnes 黑沙灘（Vestrahorn 倒影）",q:"Stokksnes Iceland",pq:"Viking Cafe Stokksnes",go:"06:10 由赫本開車出發（約 15 分鐘；入場先在 Viking Café 繳費；日出時間出發前用 vedur.is 核實）",back:"08:15 在 Vestrahorn 和大隊會合（其他人 08:00 正常出發）",
-   d:"出發前查看 Stokksnes 潮汐表和天氣預報：潮退、無風才會有黑沙灘倒影；條件不理想就按一般時間出發，不用勉強早起。",
-   w:["只是想影日出的人去，其他團員正常起身","沙丘和海邊風大，帶帽和手套","入場費要在 Viking Café 先繳"]}
 },
 /* 地點：景點資料欄位 */
 SPF:[["park","停車"],["wc","廁所"],["stay","建議停留"],["hours","營業時間"],["closed","休館日"],["ticket","門票／收費"],["book","預約"],["when","建議時段"],["photo","最佳拍照"],["dress","服裝／規定"],["bag","行李"],["alt","替代景點"]],
 /* 餐廳建議 */
 EAT:{2:[["午餐","Hjá Góðu Fólki","Ytri Tunga 附近小咖啡店，魚湯、溫室菜湯、深盤薄餅；+354 892 5667"],["午餐","Hótel Búðir 餐廳（後備）","下一站布迪爾黑教堂旁邊"],["晚餐","Hlaðan Veitingahús（Miðhraun 酒店餐廳）","住處餐廳，不用再開車；訂房時一齊訂 7 人晚餐"]],
  3:[["午餐","Dirty Burger and Ribs（博爾加內斯）","漢堡、豬肋骨；博爾加內斯分店的地址和營業時間要先確認"],["午餐","Settlement Center 餐廳（博爾加內斯）","Brákarbraut 13–15；每日 11:30–21:00，有自助午餐；7 人預先打電話"],["晚餐","阿克雷里市區：Strikið 或 Rub 23","Strikið：Skipagata 14（5 樓），海鮮、望峽灣；Rub 23：Kaupvangsstræti 6，壽司和燒烤；住市區，可以步行去"],["晚餐","自己煮","阿克雷里有 Bónus、Krónan，營業時間出發前看清楚"]],
- 4:[["午餐","Naustið（胡薩維克）","家庭經營的海鮮小店，自家焗麵包"],["午餐","Gamli Baukur（胡薩維克）","港口木屋，本地魚和羊；夏季每日 11:30–20:00，9 月中有沒有開要確認"],["晚餐","Salt Café & Bistro（埃伊爾斯塔濟）","市中心餐廳；營業時間出發前核實"],["晚餐","Askur Pizzeria（埃伊爾斯塔濟）","薄餅，可以買回住處吃；營業時間出發前核實"]],
- 5:[["午餐","Hotel Aldan 餐廳（Seyðisfjörður）","Norðurgata 2，鎮中心；用東部峽灣本地食材；9 月午餐時間要先確認；7 人建議預先問：+354 472 1277／info@hotelaldan.is"],["午餐","Egilsstaðir 簡單午餐","鎮上超市（Bónus、Nettó）買三文治和補給，或者油站餐廳；營業時間出發前核實"],["晚餐","Pakkhús（赫本）","Krosseyjarvegur 3，港口旁；每日 12:00–22:00；不接受訂位，建議提早到場排隊；電話 +354 478-2280；官方網站未列價錢，到場前可致電查詢（Krosseyjarvegur 3, by the harbour）"],["晚餐","Hafnarbúðin（赫本）","港口小小快餐店，龍蝦包較便宜；營業時間要確認"]],
- 6:[["午餐","The Café（冰河湖）","全年開，6–9 月 09:00–19:00；海鮮湯、三文治"],["晚餐","住處餐廳","冰河湖一帶選擇少，入住時順便訂位"],["晚餐","Hof-1 餐廳","每日 18:00–21:00；18:00 去，日落前回到住處"]],
- 7:[["午餐","自備午餐","前一晚準備好三文治和小吃（健行或沿途步道都適用）"],["晚餐","住處餐廳","吃完不用再開車"],["晚餐","Hof-1 餐廳","每日 18:00–21:00"],["午餐","Freysnes 油站餐廳（斯卡夫塔山）","每日 09:00–20:00；湯、主菜，快而便宜"]],
+ 4:[["午餐","Naustið（胡薩維克）","家庭經營的海鮮小店，自家焗麵包"],["午餐","Gamli Baukur（胡薩維克）","港口木屋，本地魚和羊；夏季每日 11:30–20:00，9 月中有沒有開要確認"],["晚餐","Vogafjós Cowshed Café（米湖）","牛棚餐廳，煙燻鱒魚、地熱焗黑麥麵包；+354 464 3800"],["晚餐","Daddi's Pizza（米湖）","薄餅；營業時間出發前核實"]],
+ 5:[["午餐","自備午餐","D4 喺米湖超市買；Dettifoss 一帶冇餐廳"],["晚餐","Salt Café & Bistro（埃伊爾斯塔濟）","市中心餐廳；營業時間出發前核實"],["晚餐","Askur Pizzeria（埃伊爾斯塔濟）","薄餅，可以買回住處吃；營業時間出發前核實"]],
+ 6:[["午餐","Hotel Aldan 餐廳（Seyðisfjörður）","Norðurgata 2，鎮中心；用東部峽灣本地食材；9 月午餐時間要先確認；7 人建議預先問：+354 472 1277／info@hotelaldan.is"],["午餐","Egilsstaðir 簡單午餐","鎮上超市（Bónus、Nettó）買三文治和補給，或者油站餐廳；營業時間出發前核實"],["晚餐","Pakkhús（赫本）","Krosseyjarvegur 3，港口旁；每日 12:00–22:00；不接受訂位，建議提早到場排隊；電話 +354 478-2280；官方網站未列價錢，到場前可致電查詢（Krosseyjarvegur 3, by the harbour）"],["晚餐","Hafnarbúðin（赫本）","港口小小快餐店，龍蝦包較便宜；營業時間要確認"]],
+ 7:[["午餐","斯卡夫塔山遊客中心","健行前快食"],["午餐","Freysnes 油站餐廳（斯卡夫塔山）","每日 09:00–20:00；湯、主菜，快而便宜"],["晚餐","Hótel Jökulsárlón 餐廳","住處餐廳，吃完不用再開車"]],
  8:[["午餐","Freysnes 油站餐廳（斯卡夫塔山）","每日 09:00–20:00；湯、主菜，快而便宜"],["晚餐","Suður Vík","Vík 鎮上餐廳，薄餅和牛排；7 人要訂位"],["晚餐","Smiðjan Brugghús","Vík 精釀啤酒餐廳，漢堡和豬肋骨"]],
  9:[["午餐","Mia's Country Grill（Skógar）","炸魚薯條餐車，每日 12:00–16:00，室外座位"],["午餐","Hótel Skógafoss Bistro","非住客都可以吃"]],
  10:[["午餐","Friðheimar 番茄溫室餐廳","在溫室入面吃任添番茄湯；廚房每日 11:30–16:00，一定要預約；離間歇泉約 20 分鐘，要再預 Silfra 前的車程"],["午餐","不吃番茄的人","Friðheimar 幾乎每樣東西都有番茄（連甜品和啤酒都有），訂位時講明有人不吃番茄，問有沒有其他選擇；或者去附近 Reykholt 的 Mika 餐廳（Skólabraut 4，約 1 公里；薄餅、海螯蝦、手工朱古力），吃完再會合"],["午餐","Geysir 遊客中心","湯、咖啡，最方便"],["晚餐","Hlemmur Mathöll 美食廣場","星期三正常營業"],["晚餐","Messinn","最後一晚可以吃好一點"],["晚餐","划算・Mai Thai Bistro","Laugavegur 116，近 Hlemmur；泰國菜，份量大"],["晚餐","划算・Mandi","Veltusund 3b（Ingólfstorg 旁）；沙威瑪，開到好夜"]],
@@ -152,7 +149,7 @@ PRECHK:[
  ["離線地圖","Google Maps 下載冰島離線區域（要分幾塊下載）；山區和東部峽灣有路段沒有訊號"],
  ["112 Iceland app＋safetravel.is","裝 app（遇事可以一鍵傳送位置）；在 safetravel.is 登記行程"],
  ["eSIM／數據","出發前裝好、測試"],
- ["8 月尾再確認","冰河湖獨木舟（9/17 有沒有團）、冰川健行（9/18）的天氣取消安排"],
+ ["8 月尾再確認","冰河湖獨木舟（9/18 上午有沒有團）、冰川健行（9/18）的天氣取消安排"],
  ["溫泉用品","泳衣、快乾毛巾（藍湖、Sky Lagoon 有得租，其他未必）"],
  ["轉插和充電","歐洲兩腳圓插（Type C／F，230V）；車用 USB 充電線"],
  ["預訂確認","截圖或離線儲存所有確認信"]],
@@ -160,14 +157,14 @@ PRECHK:[
 BOOK:[
  ["景點和體驗（必須預約）",[
   ["藍湖 Blue Lagoon","D1 9/12 13:00","bluelagoon.com","4–6 星期","時段價錢浮動，越早越便宜；市區取車後先去"],
-  ["冰河湖 Jökulsárlón 獨木舟","D6 9/17（時間有彈性）","Nonni Travel 頁面列出的冰河湖獨木舟團（預算用那個價）","1–2 個月","訂 9/17 上午稍晚至中午；確認有團（列明 5–9 月）"],
-  ["Troll 冰川健行＋攀冰（斯卡夫塔山）","D7 9/18 約 10:00","troll.is/tour/skaftafell-ice-climbing-glacier-hike","1–2 個月","訂 9/18；天氣取消 Troll 會改期（改 9/19）或全數退款；後備：Sólheimajökull 攀冰（troll.is）"],
+  ["冰河湖 Jökulsárlón 獨木舟","D7 9/18 上午（約 09:00–09:30 開始）","Nonni Travel 頁面列出的冰河湖獨木舟團（預算用那個價）","1–2 個月","訂 9/18 09:00–09:30 開始嘅班次；確認有團（列明 5–9 月）"],
+  ["Troll 冰川健行＋攀冰（斯卡夫塔山）","D7 9/18 14:00","troll.is/tour/skaftafell-ice-climbing-glacier-hike","1–2 個月","訂 9/18；天氣取消 Troll 會改期（改 9/19）或全數退款；後備：Sólheimajökull 攀冰（troll.is）"],
   ["Skálakot 騎馬","D9 9/20 12:30 左右（約 2 小時）","skalakot.com","2–4 星期","訂 9/20 12:30 左右"],
   ["Silfra 浮潛","D10 9/21 13:30","Nonni Travel 頁面列出的 Silfra 浮潛團（現場集合，不含接送）","1–2 個月","訂 9/21 13:30；要填健康聲明、會游泳"],
   ["Sky Lagoon","D11 9/22 17:30","skylagoon.com","2–4 星期","選 17:30 時段"],
   ["Raufarhólshellir 熔岩隧道","D11 9/22 12:00（不去就不用訂）","官網或旅遊網站","1–2 星期","每個小時頭一班；約 1 小時"],["Fjallsárlón 冰浮","D8 9/19 09:15","fjallsarlon.is／+354 570 2700","2–4 星期","價錢要問"]]],
  ["建議預約",[
-  ["GeoSea 海水溫泉","D4 9/15 12:15（全部人）","geosea.is","1 星期",""],
+  ["GeoSea 海水溫泉","D4 9/15 10:30（GeoSea 組）","geosea.is","1 星期",""],
   ]],
  ["餐廳訂位",[
   ["Messinn","D1、D11 晚餐","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
@@ -178,7 +175,7 @@ BOOK:[
   ["Strikið","D3 晚餐（如出去吃）","官網","1 星期","入住後 19:30 或之後"],
   ["Vogafjós","D4 晚餐","+354 464 3800","幾日前","19:00 前後"],
   ["Hof 一帶晚餐（Hof-1 酒店餐廳或住處自己煮）","D7、D8 晚餐","住 Hof 的話訂房時問；自己煮就在赫本 Höfn 預先買好材料","—","住宿已改冰河湖以西（Hof／Skaftafell），不再住 Hótel Jökulsárlón"],
-  ["不接受訂位","Pakkhús、Sægreifinn、Bæjarins Beztu、美食廣場","早一點去","—","Pakkhús：D5 約 19:30 先到赫本，08:30 出發版約 18:00"]]],
+  ["不接受訂位","Pakkhús、Sægreifinn、Bæjarins Beztu、美食廣場","早一點去","—","Pakkhús：D6 約 18:05 到赫本"]]],
  ["其他要預先訂",[
   ["租車 2 部","9/12 KEF 機場取車、9/23 KEF 還車","租車公司","越早越好","保險要包 SCDW＋碎石 GP＋沙塵 SAAP；第二司機；7 人行李空間；停車繳費系統；比較報價要看包不包括每公里道路費"],
   ["住宿","全程","Airbnb／酒店","越早越好","冰河湖一帶要連住兩晚"],
