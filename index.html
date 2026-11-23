@@ -266,7 +266,7 @@ function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.vie
   if(o.fn&&CHOICE_FN[o.fn]){const x=CHOICE_FN[o.fn](raw,{...raw,plan:o.base||raw.plan});plan=x.plan;arrive=x.arrive||raw.arrive}
   if(!plan&&!o.legs&&!arrive&&!o.notes)return null;const r={};if(plan)r.plan=plan;if(o.legs)r.legs=o.legs;if(arrive)r.arrive=arrive;if(o.notes)r.notes=o.notes;return r}catch(e){return null}}
 /* 行程調整原因：只喺真實版／管理者版（REAL），預設摺埋 */
-function adjWhy(raw){try{const w=REAL&&raw&&(window.TRIP.WHY||{})[raw.d];if(!w)return "";return w.map(([a,o,n,h,r])=>`<details class="more adjwhy noen"><summary>行程調整原因：${a}</summary><p><b>原本安排：</b>${o}</p><p><b>現時安排：</b>${n}</p><p><b>${h}：</b>${r}</p></details>`).join("")}catch(e){return ""}}
+function adjWhy(raw){try{const w=REAL&&raw&&(window.TRIP.WHY||{})[raw.d];if(!w)return "";return w.map(([a,o,n,h,r])=>`<details class="more adjwhy noen"><summary>行程調整原因：${a}</summary><p><b>原本安排：</b>${o}</p><p><b>現時安排：</b>${n}</p>${r?`<p><b>${h}：</b>${r}</p>`:""}</details>`).join("")}catch(e){return ""}}
 /* AI 建議提早出發：喺當日頂部用黃框顯示（所有版本） */
 function aiEarly(raw){try{const vo=viewOpt(raw),p=(vo&&vo.plan)||(raw.v?((raw.v[scen]||raw.v.ok).plan):raw.plan)||[];
   const xs=p.map(r=>{const t=String(r[1]),i=t.indexOf("｜AI 建議");return i<0?null:[r[0],t.slice(i+1)]}).filter(Boolean);
