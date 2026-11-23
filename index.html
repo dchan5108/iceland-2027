@@ -3070,7 +3070,7 @@ const TRIPLINKS=()=>`<section class="hlinks dlinks"><div class="hicons noen">
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a><a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div></section>`;
 DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".dhB"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
   TODAY.d=sel;const day=TODAY.dayOf(raw);const ds=art.querySelector(".dsum2");if(ds){ds.classList.add("dsB");ds.insertAdjacentHTML("afterbegin",TODAY.headB(raw,day,ds))}else{const h3=art.querySelector("h3");if(h3)h3.insertAdjacentHTML("afterend",`<div class="dsum2 dsB">${TODAY.headB(raw,day,null)}</div>`)}
-  /* 版本掣固定放喺日子標題下面、資料卡上面：卡高度跟版本變，放下面會跳位 */try{const h3=art.querySelector("h3");if(h3)[...art.querySelectorAll(".scenbox")].reverse().forEach(b=>h3.after(b))}catch(e){}
+  /* 版本／情境掣統一放喺出發通知下面（所有日子同一位置） */try{const an=art.querySelector(".golin.g1")||art.querySelector(".tdep");if(an)[...art.querySelectorAll(".scenbox")].reverse().forEach(b=>an.after(b))}catch(e){}
   if(HPHASE()>=2)art.insertAdjacentHTML("beforeend",TRIPLINKS());try{TODAY.wx(raw,day)}catch(e){}try{tripHero()}catch(e){}};
 {const _m=DOCX.mark;DOCX.mark=function(r){_m.call(DOCX,r);try{DOCX.dayTiles(r)}catch(e){}}}
 try{tripHero()}catch(e){}
