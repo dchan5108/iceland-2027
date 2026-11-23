@@ -284,8 +284,8 @@ try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","icelan
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
 const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
 if(PV){REAL=PV==="real";DT=false;OWNER=false;store.set=()=>{}}
-/* 管理者版：D6 Ósland 日落預設已加入（只做一次） */
-try{if(DT&&!store.get("iceland-seed-osland6")){RECP[6]=[...new Set([...(RECP[6]||[]),"osland6"])];store.set("iceland-recp",JSON.stringify(RECP));store.set("iceland-seed-osland6","1")}}catch(e){}
+/* 管理者版：D6 Ósland 日落、D7 鑽石沙灘預設已加入（只做一次） */
+try{if(DT){let ch=0;[[6,"osland6"],[7,"dusk7"]].forEach(([d,id])=>{if(store.get("iceland-seed-"+id))return;RECP[d]=[...new Set([...(RECP[d]||[]),id])];store.set("iceland-seed-"+id,"1");ch=1});if(ch)store.set("iceland-recp",JSON.stringify(RECP))}}catch(e){}
 const HASH0=location.hash;
 window.addEventListener("hashchange",()=>{const h=location.hash.replace("#","");if(location.hash===HASH0)return;
   if(h==="dt5x-pub"||h==="dt5x-real")location.reload()});
