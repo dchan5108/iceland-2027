@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-23-xls5">
+<link rel="stylesheet" href="style.css?v=2026-11-24-a">
 
 </head>
 <body>
@@ -126,10 +126,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-23-xls8"></script>
-<script src="landing.js?v=2026-11-16-uq2"></script>
-<script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
-<script src="data.js?v=2026-11-23-xls8"></script>
+<script src="trip.js?v=2026-11-24-a"></script>
+<script src="landing.js?v=2026-11-24-a"></script>
+<script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
+<script src="data.js?v=2026-11-24-a"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -1642,7 +1642,7 @@ function card(raw){
     ${(()=>{if(!DT&&!REAL)return "";const xv=raw.v?raw.v[scen]:null,os=((xv&&xv.plan)?xv.plan:(raw.real?raw.real.plan:raw.plan)).filter(r=>r[2]==="o");if(!os.length)return "";const pk=oPicked(raw);
       return `<div class="sub2">可選行程</div><p class="rhint">${pk.length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p><ul class="opick">${os.map(r=>{const on=pk.includes(oKey(r[1])),ai=isAI(raw.d,r[1]),sg=String(r[1]).split("｜");return `<li><label><input type="checkbox" data-recpick="${raw.d}|${oKey(r[1])}"${on?" checked":""}><span>${sg[0]} ${OST(on,ai)}</span><small>${r[0]}</small></label>${sg.length>1?`<details class="odet"><summary>詳情</summary><ul>${sg.slice(1).map(t=>`<li>${t}</li>`).join("")}</ul></details>`:""}</li>`}).join("")}</ul>`})()}
     ${(raw.rec||[]).length?`<div class="sub2">推薦行程（${raw.recT}）</div>${raw.recHint?`<p class="rhint">${raw.recHint}${ieB("rec",raw.d,"hint",raw.recHint)}</p>`:""}${(DT||REAL)?`<p class="rhint">${recPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts rec">${raw.rec.map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${recPicked(raw).includes(o.id)?" checked":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add||""}</span>${ieB("opt",o.id,"add",o.add)}</summary>${o.meal?`<ul class="reat">${(EAT[raw.d]||[]).filter(e=>e[0]===o.meal).map(([m,n,t])=>`<li><b>${n}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul>`:""}${o.k&&SP[o.k]?spDetail(o.k):o.d?`<p>${o.d}${ieB("opt",o.id,"d",o.d)}</p>`:""}</details>`).join("")}</div>`:""}
-    ${(raw.opt||[]).some(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw))))?`<div class="sub2">推薦可選（時間夠先去）</div>${(DT||REAL)?`<p class="rhint">${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.filter(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw)))).map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add||""}</span>${ieB("opt",o.id,"add",o.add)}${OST((DT||REAL)&&optPicked(raw).includes(o.id),(window.TRIP.AIOPT||[]).includes(o.id))}</summary><p>${o.d}</p>${o.k&&SP[o.k]?spDetail(o.k):o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(qn(o.k))}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}${wpickH(raw)}</div>`:""}`;
+    ${(raw.opt||[]).some(o=>!o.sun&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw))))?`<div class="sub2">推薦可選（時間夠先去）</div>${(DT||REAL)?`<p class="rhint">${optPicked(raw).length?` <button type="button" class="mini" data-recclear="${raw.d}">全部清除</button>`:""}</p>`:""}<div class="spots opts">${raw.opt.filter(o=>!o.sun&&(!o.dt||DT)&&(!o.nodt||!DT)&&(!o.vw||o.vw.includes(viewId(raw)))).map((o,i,a)=>`${grpHead(a,i)}${(DT||REAL)&&o.id?`<label class="recpick"><input type="checkbox" data-recpick="${raw.d}|${o.id}"${optPicked(raw).includes(o.id)?" checked":""}><span class="vh">選</span></label>`:""}<details${o.k?` data-spot="${o.k}"`:""}><summary>${o.t}${ieB("opt",o.id,"t",o.t)}<span class="add">${o.add||""}</span>${ieB("opt",o.id,"add",o.add)}${OST((DT||REAL)&&optPicked(raw).includes(o.id),(window.TRIP.AIOPT||[]).includes(o.id))}</summary><p>${o.d}</p>${o.k&&SP[o.k]?spDetail(o.k):o.k?`<a href="https://www.google.com/maps/search/?api=1&query=${enc(qn(o.k))}" target="_blank" rel="noopener">在 Google Maps 打開</a>`:""}</details>`).join("")}${wpickH(raw)}</div>`:""}`;
   const infoH=`${nvBanner(raw)}${wxH}${(()=>{if(!REAL)return "";const all=[...new Set(day.legs.flatMap(l=>[l.a,l.b]))].filter(k=>WC[k]),ks=all.filter(k=>WC[k].startsWith("有"));return all.length?`<div class="dnote wc"><div class="dnh">廁所</div><p>${ks.length?ks.map(k=>nm(k)).join("、"):"景點沒有廁所，用午餐地點或油站"}</p></div>`:""})()}${notes?`<div class="dnote"><div class="dnh">當日注意事項</div><ul>${notes}</ul></div>`:""}${auroraHTML(day)}${AT.warnH(day)}`;
   const legsH=`<div class="links">${du?`<a href="${du}" target="_blank" rel="noopener">整日導航</a>`:""}<a href="https://en.vedur.is/weather/forecasts/areas/" target="_blank" rel="noopener">天氣</a><a href="https://umferdin.is/en" target="_blank" rel="noopener">路況</a><a href="https://safetravel.is/" target="_blank" rel="noopener">安全警告</a></div>${legs&&day.legs.every(l=>l.walk||l.ride)?`<div class="sub2">路段（徒步路線＋團體巴士，不用自己開車）</div>${legs}`:legs&&day.bus?`<div class="sub2">巴士路線（約數）</div>${legs}`:legs?`<div class="sub2">${drv==="raw"?"車程（導航時間）":(REAL?"車程（行程預算）":"車程")}</div>${legs}`:""}`;
   const dnav=cls=>{const i=days.findIndex(x=>x.d===day.d),pv=days[i-1],nx=days[i+1],gh=' class="ghost" tabindex="-1" aria-hidden="true"';return `<div class="daynav ${cls}"><button type="button"${pv?` data-go="${pv.d}"`:gh}>‹ ${pv?dLab(pv.d):""}</button><button type="button" data-go="${ALL}">全部日子</button><button type="button"${nx?` data-go="${nx.d}"`:gh}>${nx?dLab(nx.d):""} ›</button></div>`};
