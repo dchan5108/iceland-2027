@@ -132,6 +132,12 @@ const DLY={
  11:{m:["Silfra 浮潛 12:00（11:30 前報到）","18:00 前市區還車"],o:["17:00 後自由活動"],
  s:["18:00 前要還車，Silfra 之後直接返市區入油"],
  i:"約 17:00 還完車；遲咗都仲有 1 個鐘緩衝到 18:00。"}};
+/* 行程調整原因（只喺真實版／管理者版顯示，預設摺埋）。每項 [活動, 原本安排, 現時安排, 原因標題, 原因]。原因標題：有記錄先寫「AI建議原因」，冇記錄寫「可能考慮（冇記錄）」 */
+const WHY={
+4:[["騎馬、米湖景點","09:00 退房；Polar Hestar 騎馬 11:00 開始（約 1.5 小時）→ Goðafoss → Vogafjós 午餐 → 洞穴溫泉 → Víti 火口湖；19:30 入住","10:00 退房；Akureyri 散步＋Café Lyst 早午餐；騎馬 14:00–16:00 → Goðafoss；18:00 入住。冇 Vogafjós、洞穴溫泉、Víti","可能考慮（冇記錄）","遲啲出發、早啲入住，日落前到米湖。待團友討論：Akureyri 散步係市區行；洞穴溫泉如果係 Grjótagjá，據了解現時唔准落水，出發前核實。"]],
+9:[["黑沙灘至 Brún 路線","09:30 退房；Reynisfjara 11:00 → Sólheimasandur 飛機殘骸 → Mia's 午餐 → Skógafoss；17:30 入住 Brún","09:15 出發；Reynisfjara → Skógafoss＋瀑布頂 → Skógar 午餐 → Seljalandsfoss＋Gljúfrabúi → DC-3 飛機殘骸（Eyvindarholt）；16:35 入住。Laugarás Lagoon 保留做可選","可能考慮（冇記錄）","Sólheimasandur 來回要行約 7 公里，原本 1 小時唔夠；Seljalandsfoss 順路。DC-3（Eyvindarholt）開放同入場安排未核實。"]],
+10:[["金圈次序","Gullfoss 11:00 → Friðheimar 午餐 12:30 → Geysir 14:00 → 16:00 返雷克雅維克","Gullfoss 10:05 → Geysir 10:55 → Friðheimar 12:00 → 14:50 返雷克雅維克；17:30 Sky Lagoon（已訂）","可能考慮（冇記錄）","Geysir 喺 Gullfoss 同 Friðheimar 中間，改次序唔使行回頭路；早啲返市區預留 Sky Lagoon。Friðheimar 時間要跟實際訂位。"]],
+11:[["Silfra 浮潛、還車","只有 T、D、J 去 Silfra（11:30–14:00）；其他人全日留雷克雅維克；15:30 還車","10:30 出發；Silfra 預留到 15:00；16:30–17:00 還車","AI建議原因","原本 10:45 出發，車程約 50 分鐘，11:35 先到，趕唔切 11:30 報到。待討論：網站冇寫明邊個去 Silfra；團友唔揸車，第二架車要有人揸或者提早還。"]]};
 const AIOPT=["hvamm1","early3","bonus5","netto6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
 /* Excel 版行程（Iceland.xlsx）。每行 [時間, 內容, 類型, 比較用關鍵字]；關鍵字唔喺原版嗰日出現就標示為不同 */
 const XLS={
@@ -142,4 +148,4 @@ const XLS={
 11:[["11:30–14:00","T & D & J：浮潛 Troll Expeditions Silfra（12:00 開始）","","Silfra"],["15:30","雷克雅維克市區還車（18:00 前要還）","c"],["全日","其他人：雷克雅維克市區",""]],
 12:[["全日","雷克雅維克市區","",""]]};
 for(const k in XLS){const d=days.find(x=>x.d===+k);if(d)d.xls={plan:XLS[k]}}
-return {pts,N,ROUTES,days,AI,AIOPT,DLY}})((a,b,m,o={})=>({a,b,m,...o}));
+return {pts,N,ROUTES,days,AI,AIOPT,DLY,WHY}})((a,b,m,o={})=>({a,b,m,...o}));

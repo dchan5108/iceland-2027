@@ -265,6 +265,8 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
   if(o.fn&&CHOICE_FN[o.fn]){const x=CHOICE_FN[o.fn](raw,{...raw,plan:o.base||raw.plan});plan=x.plan;arrive=x.arrive||raw.arrive}
   if(!plan&&!o.legs&&!arrive&&!o.notes)return null;const r={};if(plan)r.plan=plan;if(o.legs)r.legs=o.legs;if(arrive)r.arrive=arrive;if(o.notes)r.notes=o.notes;return r}catch(e){return null}}
+/* 行程調整原因：只喺真實版／管理者版（REAL），預設摺埋 */
+function adjWhy(raw){try{const w=REAL&&raw&&(window.TRIP.WHY||{})[raw.d];if(!w)return "";return w.map(([a,o,n,h,r])=>`<details class="more adjwhy noen"><summary>行程調整原因：${a}</summary><p><b>原本安排：</b>${o}</p><p><b>現時安排：</b>${n}</p><p><b>${h}：</b>${r}</p></details>`).join("")}catch(e){return ""}}
 /* AI 建議提早出發：喺當日頂部用黃框顯示（所有版本） */
 function aiEarly(raw){try{const vo=viewOpt(raw),p=(vo&&vo.plan)||(raw.v?((raw.v[scen]||raw.v.ok).plan):raw.plan)||[];
   const xs=p.map(r=>{const t=String(r[1]),i=t.indexOf("｜AI 建議");return i<0?null:[r[0],t.slice(i+1)]}).filter(Boolean);
@@ -1668,7 +1670,7 @@ function card(raw){
         ${dusk<20?`<div class="dlong">${I('<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>')}<span class="noen">最後一段車程貼近日落，留意不要太遲出發。</span></div>`:""}
         <div class="dact">${du&&(REAL||DT)?`<a class="navbtn" href="${du}" target="_blank" rel="noopener" aria-label="Google Maps 整日導航">${I('<path d="M12 2l7 19-7-4-7 4z"/>')}<span>導航</span></a>`:""}<button type="button" class="mapbtn" data-showmap="1" aria-label="看地圖">${I('<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>')}<span>地圖</span></button></div></div>`})()}${raw.d===7?scenH():raw.v?(scen==="redo"?`<p class="rhint scnote noen">D7 冰川健行取消，今日補做健行（喺 D7 改返「順利」）</p>`:""):""}
     ${viewBar(raw)}
-    ${aiEarly(raw)}
+    ${aiEarly(raw)}${adjWhy(raw)}
     ${todayHTML(day)}
     ${DT&&!SHARED&&ADDOPEN.has(raw.d)&&EDITING!==raw.d?(()=>{const cu=cuGet(raw.d);return `<div class="addp">${edBar(raw)}${cu.length?`<p class="rhint">另有 ${cu.length} 個自訂項目 <button type="button" class="mini" data-cuopen="${raw.d}">管理</button></p>`:""}</div>`})():""}
     ${REAL&&day.firmT?`<div class="golin g1"><span>通知<i class="gl-l">大家</i> <b>${day.toldT}</b><i class="gl-l"> 出發</i> · 最遲 <b class="late">${day.firmT}</b><i class="gl-l"> 出發</i></span></div>`:""}${pubDep}
@@ -3042,7 +3044,7 @@ const TODAY={d:null,docMode:"date",
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
     box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
       <div class="tbtns"><button type="button" data-tgo="now" ${DT&&td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute tlink noen" href="${ru}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>當日路線</a>`:""}<button type="button" class="tfull2" data-tfull="${raw.d}">完整時間表 ›</button></div>
-      </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${(()=>{try{return (raw.view||raw.xls)?viewBar(raw):""}catch(e){return ""}})()}${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
+      </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${(()=>{try{return (raw.view||raw.xls)?viewBar(raw):""}catch(e){return ""}})()}${adjWhy(raw)}${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}`;
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
     box.querySelectorAll("[data-tday]").forEach(b=>b.onclick=()=>{TODAY.d=+b.dataset.tday;TODAY.render()});{const c=box.querySelector('.tchips [aria-pressed="true"]'),w=c&&c.parentElement;if(c&&w&&w.offsetParent)w.scrollLeft=c.offsetLeft-(w.clientWidth-c.offsetWidth)/2}/* 只橫向捲日子列，唔郁成頁 */
