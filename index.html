@@ -250,7 +250,7 @@ const L=(a,b,m,o={})=>({a,b,m,...o});
 if(PRIV.BR&&PRIV.BR.length){const fix=o=>{if(Array.isArray(o))o.forEach((x,i)=>{if(typeof x==="string"&&x.includes("⟦#"))o[i]=x.replace(/⟦#(\d+)⟧/g,(m,n)=>PRIV.BR[+n]||"");else if(x&&typeof x==="object")fix(x)});else if(o&&typeof o==="object"&&!(o instanceof RegExp))for(const k in o){const x=o[k];if(typeof x==="string"&&x.includes("⟦#"))o[k]=x.replace(/⟦#(\d+)⟧/g,(m,n)=>PRIV.BR[+n]||"");else if(x&&typeof x==="object")fix(x)}};fix(days)}
 if(PRIV.D0&&!days.some(x=>x.d===0)){const j=days.findIndex(x=>x.d>0);days.splice(j<0?days.length:j,0,PRIV.D0)}
 NVP=planNewVer(days);applyPlan(days,OV.plan);
-let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
+let scen="ok";
 /* 每日切換掣（例如 D4 觀不觀鯨、D5 去不去藍色教堂、D6 日出／潮退／日落）：選了哪個，日程表、地圖、導航都跟住變 */
 let VIEW={};try{VIEW=JSON.parse(store.get("iceland-view")||"{}")||{}}catch(e){VIEW={}}
 function viewId(raw){if(!raw||!raw.view)return "";const ids=raw.view.opts.map(o=>o.id),v=VIEW[raw.d];return ids.includes(v)?v:(raw.view.def||ids[0])}
