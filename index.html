@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-24-b">
+<link rel="stylesheet" href="style.css?v=2026-11-24-c">
 
 </head>
 <body>
@@ -2216,7 +2216,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
         const note=(mm[2]||"").split("，").filter(x=>x&&!/^前往/.test(x)),ds=a.querySelectorAll(".tl-d");
         ds.forEach(d=>{const v=d.textContent.replace(/[，,]?\s*由[^，,]*?開車約 ?[\d小時分鐘 ]+$/,"").replace(/[，,]?\s*約 ?[\d小時分鐘 ]+$/,"").trim();if(!v)d.remove();else d.textContent=v});
         const dm=+a.dataset.dm;line=[dm?"約 "+fmt(dm):"",...note].filter(Boolean).join(" · ");tn.textContent=mm[1];tn.classList.add("noen")}
-      a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo${line?" depline":""}" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener">${line?`<span class="depm"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${DOCX.esc(line)}</span>`:""}<span class="drvpill">${a.dataset.walk?"🚶 導航":a.dataset.bus?"🚌 導航":"導航"}</span></a>`)}
+      a.insertAdjacentHTML("beforeend",`<a class="drvgo depgo${line?" depline":""}" href="${a.dataset.nav.replace(/"/g,"&quot;")}" target="_blank" rel="noopener">${line?`<span class="depm"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>${DOCX.esc(line)}</span>`:""}<span class="drvpill${a.dataset.walk||a.dataset.bus?" emo":""}">${a.dataset.walk?"🚶 導航":a.dataset.bus?"🚌 導航":"導航"}</span></a>`)}
     if(a.classList.contains("drv"))return;
     const t=a.previousElementSibling&&a.previousElementSibling.classList.contains("t")?a.previousElementSibling:null;
     if(live&&t&&!t.querySelector(".tick")){t.insertAdjacentHTML("beforeend",`<button type="button" class="tick noen" data-tick="${d}|${i}" aria-label="已到"></button>`)}
@@ -2771,7 +2771,7 @@ const DOCX={
         const nx=t.nextElementSibling;if(nx&&nx.querySelector(".bkb")){const r=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);if(r){n.textContent=r[1];const e=document.createElement("small");e.className="tend noen";e.textContent="至 "+r[2];n.after(e);t.title=full}return}const m=full.match(/^(\d{1,2}:\d{2})\s*[–-]\s*\d{1,2}:\d{2}/);if(m){n.textContent=m[1];t.title=full}})}});tripNavApply(root)}catch(e){}
     /* 用「｜」分隔嘅行（例如徒步每日）：第一段做標題，其餘變成 1、2、3 步驟 */
     try{root&&root.querySelectorAll(".sched.rich > .a").forEach(a=>{const n=a.querySelector(".tl-n")||a.querySelector(".tl-h")||a;if(a.querySelector(".tsteps,.tmeta"))return;const t=n.textContent;if(!t.includes("｜"))return;const [h,...st]=t.split("｜").map(x=>x.trim()).filter(Boolean);
-      n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;if(st.length===1&&/^AI 建議/.test(st[0])){a.insertAdjacentHTML("afterend",`<div class="tmeta aisug aisrow noen">🤖 ${DOCX.esc(st[0])}</div>`);return}tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
+      n.textContent=h;n.classList.add("noen");const tl=a.querySelector(".tl-h")||n;if(st.length===1&&/^AI 建議/.test(st[0]))return;/* AI 建議只喺當日頂部黃框顯示一次 */tl.insertAdjacentHTML("afterend",st.length===1?`<div class="tmeta noen">${DOCX.esc(st[0])}</div>`:`<ol class="tsteps noen">${st.map(x=>`<li>${DOCX.esc(x)}</li>`).join("")}</ol>`)})}catch(e){}
     try{root&&root.querySelectorAll(".sched.simp > .a").forEach(a=>{const n=a.querySelector(".tl-n");if(!n||a.querySelector(".tsteps,.tmeta"))return;const h=a.querySelector(".tl-h")||a;if(h.querySelector(".tcat")||h.querySelector(".snin:not(:empty)"))return;const e=DOCX.cat(a,(n||a).textContent)||"📍";if(e)(n||h).insertAdjacentHTML("beforebegin",`<i class="tcat noen" aria-hidden="true">${e}</i>`)})}catch(e){}try{DOCX.dayBox(root)}catch(e){}if(!DOCX.all().length||!root)return;root.querySelectorAll(".sched .a").forEach(a=>{if(a.querySelector(".docb"))return;const ds=DOCX.match(a.textContent.split("\n")[0]);if(!ds.length)return;a.classList.add("hasdoc");a.insertAdjacentHTML("beforeend",DOCX.clip(ds,"inl docr"))})}
 };
 /* 準備頁：全部票券（按日期／按類型） */
@@ -3069,7 +3069,7 @@ const TRIPLINKS=()=>`<section class="hlinks dlinks"><div class="hicons noen">
     <a href="https://umferdin.is/en" target="_blank" rel="noopener"><i>🛣️</i><span>路況</span></a><a href="https://safetravel.is/" target="_blank" rel="noopener"><i>⚠️</i><span>安全</span></a></div></section>`;
 DOCX.dayTiles=root=>{const art=root&&root.querySelector("article.day");if(!art||typeof sel!=="number"||art.querySelector(".dhB"))return;const raw=days.find(x=>x.d===sel);if(!raw)return;
   TODAY.d=sel;const day=TODAY.dayOf(raw);const ds=art.querySelector(".dsum2");if(ds){ds.classList.add("dsB");ds.insertAdjacentHTML("afterbegin",TODAY.headB(raw,day,ds))}else{const h3=art.querySelector("h3");if(h3)h3.insertAdjacentHTML("afterend",`<div class="dsum2 dsB">${TODAY.headB(raw,day,null)}</div>`)}
-  /* 版本掣固定放喺日子標題下面、資料卡上面：卡高度跟版本變，放下面會跳位 */try{const vb=art.querySelector(".viewbox"),h3=art.querySelector("h3");if(vb&&h3)h3.after(vb)}catch(e){}
+  /* 版本掣固定放喺日子標題下面、資料卡上面：卡高度跟版本變，放下面會跳位 */try{const h3=art.querySelector("h3");if(h3)[...art.querySelectorAll(".scenbox")].reverse().forEach(b=>h3.after(b))}catch(e){}
   if(HPHASE()>=2)art.insertAdjacentHTML("beforeend",TRIPLINKS());try{TODAY.wx(raw,day)}catch(e){}try{tripHero()}catch(e){}};
 {const _m=DOCX.mark;DOCX.mark=function(r){_m.call(DOCX,r);try{DOCX.dayTiles(r)}catch(e){}}}
 try{tripHero()}catch(e){}
