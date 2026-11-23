@@ -126,10 +126,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-23-xls2"></script>
+<script src="trip.js?v=2026-11-23-xls3"></script>
 <script src="landing.js?v=2026-11-16-uq2"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
-<script src="data.js?v=2026-11-23-xls2"></script>
+<script src="data.js?v=2026-11-23-xls3"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -1054,7 +1054,7 @@ const CONFIRMED={1:[/大隊下機 KEF/],
  2:true,
  3:true,
  6:[/冰河湖獨木舟/],
- 9:[/^Skógafoss 斯科加爾瀑布/,/^午餐：Skógar/,/^到 Mr Iceland/]};
+ 9:[/^Skógafoss 斯科加爾瀑布/,/^午餐：Skógar/,/^到 Brún/]};
 if(PRIV.CONFIRMED)for(const k in PRIV.CONFIRMED)if(!(k in CONFIRMED))CONFIRMED[k]=PRIV.CONFIRMED[k];
 const escA=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const BKRE=/預約|報到|集合|開團|check.?in|航班|Flybus|取車|還車|下機|起飛|渡輪|船班/i;
