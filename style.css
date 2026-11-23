@@ -3534,5 +3534,5 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 .aurx p{margin:0;font-size:11.5px;line-height:1.5}
 .dsum2.dsB>.aurx{width:100%;box-sizing:border-box}
 
-mark.xdiff{background:#ffe58a;color:inherit;border-radius:3px;padding:0 2px}
-mark.xmiss{background:#ffd0d0}
+mark.xdiff{background:#ffe58a;color:#1c1c1c;border-radius:3px;padding:0 2px}
+mark.xmiss{background:#ffd0d0;color:#1c1c1c}
