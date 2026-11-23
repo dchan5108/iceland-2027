@@ -603,7 +603,7 @@ const R1=day0=>{const d=R0(day0),x=day0.v?((scen==="ok"&&viewOpt(day0))||day0.v[
 
 /* 用語：導航時間＝Google Maps 原始預計車程；行程預算＝導航時間加合理緩衝；停留時間＝喺景點／活動逗留嘅時間（唔包車程）。
    行程預算全站只用呢一條公式（按路段類型）：短途／市區（20 分鐘或以下）＋25%（最少 5）＋泊車 5；公路＋10%＋泊車 5；山路／山口再 +10；碎石路段再 +10；進位到 5 分鐘 */
-const BUFK={GRAV:["kolu","vest","fjall","ytri","grjo"],MTK:["seyd","gufu","hvera","raufar","viti","leir"],MT:/山口|Fjarðarheiði|Hellisheiði|Þrengsli|Öxi|Holtavörðuheiði|Möðrudal/,
+const BUFK={GRAV:["kolu","vest","fjall","ytri","grjo","stud"],MTK:["seyd","gufu","hvera","raufar","viti","leir"],MT:/山口|Fjarðarheiði|Hellisheiði|Þrengsli|Öxi|Holtavörðuheiði|Möðrudal/,
   kind(k,txt,m){k=k||"";txt=String(txt||"");return {c:m<=20,g:this.GRAV.includes(k)||/碎石/.test(txt),mt:this.MTK.includes(k)||this.MT.test(txt)}},
   buf(m,t){let b=t.c?m+Math.max(5,Math.round(m*.25))+5:m+Math.round(m*.1)+5;if(t.mt)b+=10;if(t.g)b+=10;return Math.ceil(b/5)*5}};
 const buf=(m,k,txt)=>BUFK.buf(m,BUFK.kind(k,txt,m));
@@ -1238,10 +1238,11 @@ function optPlan(raw,day){
   raw.opt.filter(o=>ids.includes(o.id)&&o.ins&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw)))).reverse().forEach(o=>{const s=o.ins,i=plan.findIndex(r=>s.anchor.test(r[1]));if(i<0){miss.push(o.t.split("（")[0]);return}
     let lab=s.at||s.label||"途中";if(!s.at&&s.dur!=null){const ends=String(plan[i][0]).match(/(\d{2}:\d{2})(?!.*\d{2}:\d{2})/);if(ends){const st=tm(ends[1])+(s.gap||0);lab=`${tt(st)}–${tt(st+s.dur)}`}}
     const row=[lab,o.d&&!(o.k&&SP[o.k])?`${s.row}<details class='stinfo'><summary>詳情</summary><p>${o.d}</p></details>`:s.row,"pk"];
-    if(s.replace)plan.splice(i,1,row);else if(s.before)plan.splice(i,0,row);else plan.splice(i+1,0,row);
-    const at=plan.indexOf(row),na=arrive&&s.shift?sh(arrive,s.shift):arrive;
+    const RS=s.rows?s.rows.map(x=>[x[0],x[1],x[2]||"pk"]):[row];/* s.rows：一次插入幾行（例如 開車→景點→開車） */
+    if(s.replace)plan.splice(i,1,...RS);else if(s.before)plan.splice(i,0,...RS);else plan.splice(i+1,0,...RS);
+    const at=plan.indexOf(RS[RS.length-1]),na=arrive&&s.shift?sh(arrive,s.shift):arrive;
     plan=plan.map((r,j)=>{if(j<=at)return r;if(/晚餐/.test(r[1])&&/^\d{2}:\d{2}$/.test(r[0])&&na&&tm(r[0])>=tm(na)+15)return r;return [sh(r[0],s.shift||0),...r.slice(1)]});
-    if(s.remove)plan=plan.filter(r=>r===row||!s.remove.test(r[1]));
+    if(s.remove)plan=plan.filter(r=>RS.includes(r)||!s.remove.test(r[1]));
     arrive=na});
   if(miss.length)plan.push(["⚠",`這個版本排不到：${miss.join("、")}`,""]);
   return {...day,plan,arrive};
