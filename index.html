@@ -268,7 +268,7 @@ function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.vie
 /* AI 建議提早出發：喺當日頂部用黃框顯示（所有版本） */
 function aiEarly(raw){try{const vo=viewOpt(raw),p=(vo&&vo.plan)||(raw.v?((raw.v[scen]||raw.v.ok).plan):raw.plan)||[];
   const xs=p.map(r=>{const t=String(r[1]),i=t.indexOf("｜AI 建議");return i<0?null:[r[0],t.slice(i+1)]}).filter(Boolean);
-  return xs.map(([tm,t])=>`<div class="tmeta aisug noen">🤖 ${DOCX.esc(String(tm))}｜${DOCX.esc(t)}</div>`).join("")}catch(e){return ""}}
+  const e=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);return xs.map(([tm,t])=>`<div class="tmeta aisug noen">🤖 ${e(tm)}｜${e(t)}</div>`).join("")}catch(e){return ""}}
 function viewBar(raw){const xb=xlsBar(raw);if(XLS&&raw.xls)return xb;if(!raw.view||(raw.v&&scen!=="ok"))return xb;const cur=viewId(raw);
   return xb+`<div class="scenbox viewbox noen" role="group" aria-label="${escA(raw.view.label)}"><span class="sl">${raw.view.label}</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="${raw.d}|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div></div>${raw.d===6&&cur==="tide"?tideH(raw):""}`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-view]");if(!b)return;const k=b.dataset.view,q=k.indexOf("|");VIEW[k.slice(0,q)]=k.slice(q+1);store.set("iceland-view",JSON.stringify(VIEW));const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
