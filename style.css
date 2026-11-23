@@ -3536,3 +3536,5 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 
 mark.xdiff{background:#ffe58a;color:#1c1c1c;border-radius:3px;padding:0 2px}
 mark.xmiss{background:#ffd0d0;color:#1c1c1c}
+
+.tmeta.aisug{display:block;margin-top:6px;padding:7px 10px;border-left:4px solid #e0a000;border-radius:6px;background:#fff1c2;color:#4a3700;font-weight:700;font-size:13px;line-height:1.45}
