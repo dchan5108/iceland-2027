@@ -126,10 +126,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-23-xls5"></script>
+<script src="trip.js?v=2026-11-23-xls6"></script>
 <script src="landing.js?v=2026-11-16-uq2"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
-<script src="data.js?v=2026-11-23-xls5"></script>
+<script src="data.js?v=2026-11-23-xls6"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -258,7 +258,7 @@ let XLS=store.get("iceland-xls")==="1",XHL=store.get("iceland-xhl")==="1";
 function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const cl=x=>String(x).replace(/<[^>]*>/g,""),P=[raw.plan,raw.real&&raw.real.plan,...((raw.view&&raw.view.opts)||[]).map(o=>o.plan),...Object.values(raw.v||{}).map(v=>v&&v.plan)].filter(Boolean).flat().map(r=>[String(r[0]),cl(r[1])]),st=t=>String(t).split("–")[0].trim(),mv=/^(退房|開去|出發|前往|到 )|開去|前往|出發去/;
  const out=raw.xls.plan.map(r=>{let a=r[1];if(XHL&&r[3]){const re=new RegExp(r[3],"i"),m=P.find(p=>re.test(p[1])&&!mv.test(p[1]))||P.find(p=>re.test(p[1])),n=!m?"原版冇":st(m[0])!==st(r[0])?`原版 ${m[0]}`:"";if(n)a=`<mark class="xdiff">${a}（${n}）</mark>`}return [r[0],a,r[2]||""]});
  if(XHL){const vo=raw.view&&raw.view.opts.find(o=>o.id===viewId(raw)),base=(vo&&vo.plan)||(raw.v&&raw.v.ok&&raw.v.ok.plan)||raw.plan||[],X=JSON.stringify(raw.xls.plan).toLowerCase(),mn=t=>{const m=String(t).match(/^(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};
-  base.filter(r=>r[1]&&r[2]!=="y"&&!/^(早餐|退房|開去|出發|前往|到 |開車)/.test(cl(r[1]))).forEach(r=>{const t=cl(r[1]).split(/[（(]/)[0],k=[...(t.match(/[A-Za-zÀ-ÿðþæÐÞÆ']{4,}/g)||[]),...(t.match(/[\u4e00-\u9fff]{2,}/g)||[]).filter(z=>!/^(午餐|晚餐|早午餐|自由|住處|自己|市區|散步|可選)/.test(z))];if(!k.length||k.some(w=>X.includes(w.toLowerCase())))return;const m0=mn(r[0]),row=[r[0],`<mark class="xdiff xmiss">${cl(r[1])}（Excel 冇）</mark>`,""];let i=m0==null?-1:out.findIndex(x=>{const v=mn(x[0]);return v!=null&&v>m0});if(i<0)out.push(row);else out.splice(i,0,row)})}
+  base.filter(r=>r[1]&&r[2]!=="y"&&!/^(早餐|退房|開去|出發|前往|到 |開車)/.test(cl(r[1]))&&!/未定|待定/.test(cl(r[1]))&&!raw.xls.plan.some(x=>x[3]&&new RegExp(x[3],"i").test(cl(r[1])))).forEach(r=>{const t=cl(r[1]).split(/[（(]/)[0],k=[...(t.match(/[A-Za-zÀ-ÿðþæÐÞÆ']{4,}/g)||[]),...(t.match(/[\u4e00-\u9fff]{2,}/g)||[]).filter(z=>!/^(午餐|晚餐|早午餐|自由|住處|自己|市區|散步|可選)/.test(z))];if(!k.length||k.some(w=>X.includes(w.toLowerCase())))return;const m0=mn(r[0]),row=[r[0],`<mark class="xdiff xmiss">${cl(r[1])}（Excel 冇）</mark>`,""];let i=m0==null?-1:out.findIndex(x=>{const v=mn(x[0]);return v!=null&&v>m0});if(i<0)out.push(row);else out.splice(i,0,row)})}
  return {plan:out}}
 function xlsBar(raw){if(!raw||!raw.xls)return "";return `<div class="scenbox viewbox noen" role="group" aria-label="行程版本"><span class="sl">版本</span><div class="seg"><button type="button" data-xls="0" aria-pressed="${!XLS}">原版</button><button type="button" data-xls="1" aria-pressed="${XLS}">Excel 版</button></div>${XLS?`<div class="seg"><button type="button" data-xhl="1" aria-pressed="${XHL}">標示不同</button></div>`:""}</div>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-xls],[data-xhl]");if(!b)return;if(b.dataset.xls!=null){XLS=b.dataset.xls==="1";store.set("iceland-xls",XLS?"1":"0")}else{XHL=!XHL;store.set("iceland-xhl",XHL?"1":"0")}const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
@@ -278,7 +278,7 @@ let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE
 /* 來源標籤：只標 AI 原創建議（不代表重要性或批准）；未知來源不標 */
 const AIB=`<span class="ost ai" title="由 AI 原本提出">AI 建議</span>`,AIRX=Object.fromEntries(Object.entries(window.TRIP.AI||{}).map(([d,r])=>[d,new RegExp(r)]));
 const isAI=(d,t)=>{const r=AIRX[d];return !!r&&r.test(String(t).replace(/<[^>]*>/g,"").split(/[（｜]/)[0])};
-const MYFOOD=/小龍蝦|langoustine|humar|Friðheimar|番茄|書店酒吧|Hús máls og menningar|bookshop/i,foodAI=n=>!MYFOOD.test(String(n))&&!/^(住處|自己煮|自備|超市)/.test(String(n));
+const MYFOOD=/Fjallakaffi|Café Lyst|Cafe Vatnajökull|Settlement Center|小龍蝦|langoustine|humar|Friðheimar|番茄|書店酒吧|Hús máls og menningar|bookshop/i,foodAI=n=>!MYFOOD.test(String(n))&&!/^(住處|自己煮|自備|超市)/.test(String(n));
 const OST=(added,ai)=>`${ai?AIB:""}${added?`<span class="ost on">已加入行程</span>`:""}`;
 try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","iceland-sync-pass","iceland-sync-t"].forEach(k=>localStorage.removeItem(k))}catch(e){}
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
