@@ -31,11 +31,11 @@ const pts={lmlg:["Landmannalaugar（H1 起點，海拔約 600 米）",-19.0600,6
  geys:["間歇泉",-20.30,64.31,"spot","t"], wreck:["Sólheimasandur 飛機殘骸",-19.3647,63.4591,"spot","r"], dc3:["Eyvindarholt DC-3 飛機殘骸",-19.9336202,63.6487968,"spot","r"], vikk:["Víkurkirkja 紅屋頂教堂",-19.0028366,63.4205562,"spot","l"], silf:["Silfra 浮潛",-21.12,64.26,"spot","t",1],
  costco:["Costco",-21.93,64.07,"spot","r",1], fuelk:["機場附近油站",-22.53,63.99,"spot","r"], skyl:["Sky Lagoon",-21.95,64.11,"spot",null,1], raufar:["Raufarhólshellir 熔岩隧道",-21.40,63.94,"spot","r"], hvera:["Hveragerði 小鎮",-21.19,64.00,"spot","r"],
  djup:["Djúpalónssandur 黑沙灘",-23.900,64.753,"spot",null,1], grjo:["Grjótagjá 溫泉洞",-16.8835,65.6262,"opt"], stud:["Stuðlagil 玄武岩峽谷",-15.31,65.16,"opt"],
- fjall:["Fjallsárlón 小冰河湖",-16.37,64.01,"spot","l"], hofsk:["Hofskirkja 草皮教堂",-16.70,63.90,"opt"], skool:["Skool Beans 校巴咖啡店",-18.9813,63.4203,"opt"], svart:["Svartifoss 黑瀑布",-16.975,64.028,"opt"], stjo:["Stjórnarfoss 瀑布",-18.05,63.80,"opt"], hvamm:["Hvammsvík 溫泉",-21.53,64.36,"opt"], hverf:["Hverfjall 火山口",-16.87,65.605,"opt"], geosea:["GeoSea 海水溫泉",-17.335,66.056,"spot","r"], thingv:["Þingvellir 國家公園",-21.13,64.256,"spot","t"], almg:["大裂谷 Almannagjá",-21.126,64.259,"opt"], oxar:["Öxarárfoss 瀑布",-21.118,64.266,"opt"]
+ fjall:["Fjallsárlón 小冰河湖",-16.37,64.01,"spot","l"], hofsk:["Hofskirkja 草皮教堂",-16.70,63.90,"opt"], skool:["Skool Beans 校巴咖啡店",-18.9813,63.4203,"opt"], svart:["Svartifoss 黑瀑布",-16.975,64.028,"opt"], stjo:["Stjórnarfoss 瀑布",-18.05,63.80,"opt"], hvamm:["Hvammsvík 溫泉",-21.53,64.36,"spot","r"], hverf:["Hverfjall 火山口",-16.87,65.605,"opt"], geosea:["GeoSea 海水溫泉",-17.335,66.056,"spot","r"], thingv:["Þingvellir 國家公園",-21.13,64.256,"spot","t"], almg:["大裂谷 Almannagjá",-21.126,64.259,"opt"], oxar:["Öxarárfoss 瀑布",-21.118,64.266,"opt"]
 };
 const N={skyl:"Sky Lagoon",borg:"博爾加內斯",hver:"Hverir 地熱區",rvk:"雷克雅維克",seyd:"藍色教堂",hjok:"冰河湖",skal:"Skálakot 馬場",solh:"Sólheimajökull 冰川",vik:"維克",skaf:"斯卡夫塔山",husa:"胡薩維克",hofn:"赫本",jok:"冰河湖",silf:"Silfra"};
 const ROUTES={
-  "d1":[L("kef","rvk",45,{ride:"Flybus 機場巴士",c:1}),L("rvk","bl",45,{c:1}),L("bl","rvk",45,{c:1})],
+  "d1":[L("kef","rvk",45,{ride:"Flybus 機場巴士",c:1}),L("rvk","hvamm",50,{c:1}),L("hvamm","rvk",50,{c:1})],
   "d2":[L("rvk","ytri",150,{c:1,via:["Hvalfjörður 隧道","博爾加內斯"]}),L("ytri","budir",60,{c:1,via:["Hjá Góðu Fólki（午餐）"]}),L("budir","ingj",40,{c:1}),L("ingj","kirk",35,{dy:-16}),L("kirk","midh",45,{c:1,via:["54、56 號公路"]})],
   "d3":[L("midh","borg",60,{c:1,via:["54 號公路"]}),L("borg","kolu",115,{c:1}),L("kolu","akur",160,{c:1})],
   "d4":[L("akur","goda",35,{c:1}),L("goda","myv",40,{c:1})],
@@ -59,8 +59,8 @@ const ROUTES={
   "d12":[L("rvk","kef",45,{c:1})]
 };
 const days=[
- {d:1,opt:[{id:"hvamm1",k:"hvamm",t:"Hvammsvík Hot Springs 赫瓦姆斯維克潮汐溫泉",add:"約 3 小時（來回車程約 1.5 小時）",d:"Hvalfjörður 峽灣海邊的溫泉，部分水池會隨潮汐變化，要網上預約時段。由雷克雅維克開車約 45–50 分鐘。和日已經去藍湖，一般只選其中一個（例如不去藍湖就改去這裡）；返程要在日落（約 20:00）前開完。<a href='https://www.google.com/maps/search/?api=1&query=Hvammsvik+Hot+Springs+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>"}],wx:"藍湖下雨照浸；大風取車後慢慢開；Flybus 班次上 re.is 看；市區下雨改室內：Perlan、國家博物館。",date:"9/12（日）",stay:"雷克雅維克",legs:ROUTES["d1"],
-  plan:[["07:30–08:15","早餐：Dorcas & Tebe 在雷克雅維克住處自理；大隊在飛機上吃","m"],["08:00","大隊下機 KEF；過關、取行李","c"],["09:00","大隊坐 Flybus 去雷克雅維克 BSÍ 巴士站（約 45 分鐘；班次上 re.is 查）","c"],["10:00–10:45","市區附近取車（取車地點待定；2 部；Dorcas & Tebe 直接去取車地點會合）","c"],["10:45–11:15","先去住處放行李（視乎入住時間；未可以入住或寄存，就直接去藍湖，之後先回住處）","c"],["11:15","開車去藍湖（約 50 分鐘）；貴重物品不要放在車上顯眼位置","c"],["12:15–12:55","午餐：藍湖 Blue Café 或 Lava 餐廳","m"],["13:00–15:15","藍湖（預約 13:00 時段）","c"],["15:30","開車回雷克雅維克住處（約 45 分鐘）","c"],["16:15","到雷克雅維克住處入住、休息；需要早餐、零食就去附近 Bónus／Krónan（星期日營業時間要確認）","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
+ {d:1,wx:"Hvammsvík 下雨照浸；大風取車後慢慢開，Hvalfjörður 峽灣沿岸風大；Flybus 班次上 re.is 看；市區下雨改室內：Perlan、國家博物館。",date:"9/12（日）",stay:"雷克雅維克",legs:ROUTES["d1"],
+  plan:[["07:30–08:30","早上：Dorcas & Tebe 去 Tebe 想飲嘅 café（店名待定）；大隊在飛機上吃早餐","m"],["08:00","大隊下機 KEF；過關、取行李","c"],["09:00","大隊坐 Flybus 去雷克雅維克 BSÍ 巴士站（約 45 分鐘；班次上 re.is 查）","c"],["10:00–10:45","市區附近取車、行李直接放車尾箱（取車地點待定；2 部；Dorcas & Tebe 直接去取車地點會合；不用先去住處寄存行李）","c"],["10:45","開車去 Hvammsvík Hot Springs（導航約 50 分鐘，經 1 號公路轉 47 號公路入 Hvalfjörður）；行李同貴重物品不要放在車內顯眼位置","c"],["11:45","到 Hvammsvík","c"],["12:00–13:00","午餐：Stormur Bistro（Hvammsvík 溫泉餐廳；AI 建議）","m"],["13:00–15:15","Hvammsvík Hot Springs 溫泉（預約 13:00 時段）","c"],["15:15","開車返雷克雅維克（導航約 50 分鐘）","c"],["16:15–17:00","到雷克雅維克住處 check-in、休息","c"],["17:00","超市補給：Bónus／Krónan（星期日營業時間要確認）","c"],["19:30","晚餐：住處自己煮或步行可到的餐廳","m"]],
   notes:[]},
  {d:2,opt:[{id:"arn2",t:"Arnarstapi 至 Hellnar 海岸步道",add:"約 30–60 分鐘",d:"Snæfellsnes 南岸，海蝕拱門和玄武岩海岸；可以只行 Arnarstapi 一段。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"djup2",k:"djup",t:"Djúpalónssandur 黑石灘",add:"約 30–40 分鐘",d:"半島西端的黑石灘，有舊船難殘骸；時間夠先去。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"}],wx:"黃色風警告：54 號公路沿海風大，開車門駕駛實；Ytri Tunga、布迪爾停短一點。",date:"9/13（一）",stay:"Miðhraun - Lava Resort",arrive:"19:35",legs:ROUTES["d2"],
   plan:[["07:45–08:30","早餐：住處自己解決（用 D1 預先買好的材料）","m"],["09:30","退房出發，經 Hvalfjörður 海底隧道，沿 1 號轉 54 號公路進入斯奈山半島","c"],["12:00–12:45","Ytri Tunga 海豹沙灘（預估 11:20 潮退 low tide，之後一個小時內都還合適）"],["13:00–14:00","午餐：Hjá Góðu Fólki","m"],["14:45–15:30","布迪爾黑教堂：影座落在金黃秋季苔原和黑色熔岩原之間的木教堂"],["16:30–17:15","因亞爾茲霍爾教堂 Ingjaldshólskirkja（布迪爾開過去約 40 分鐘，直接行 54 號公路）"],["17:50–18:50","草帽山與瀑布"],["19:35","入住 Miðhraun - Lava Resort（4 房 apartment）","c"],["20:15","晚餐：Hlaðan Veitingahús（酒店餐廳）","m"]]},
@@ -107,7 +107,7 @@ const days=[
   notes:[["Flybus 預先買票；預早 3 小時到機場"]]}
 ];
 /* 來源標籤：只列 AI 原本提出的項目（你核實過的名單）。key＝日子號碼，值＝行名稱的 regex */
-const AI={0:"哈爾格林姆大教堂|^彩虹街|^Laugavegur 逛街|^Harpa|^Sun Voyager|^Laugardalslaug",5:"^Gufufoss",7:"^Svartifoss",10:"Friðheimar 番茄農場",12:"^午餐：羊肉熱狗"};
+const AI={0:"哈爾格林姆大教堂|^彩虹街|^Laugavegur 逛街|^Harpa|^Sun Voyager|^Laugardalslaug",1:"^午餐：Stormur",5:"^Gufufoss",7:"^Svartifoss",10:"Friðheimar 番茄農場",12:"^午餐：羊肉熱狗"};
 /* 延誤 20–40 分鐘：每日後備建議（只係建議，唔會自動改行程）。m＝必去／已訂，o＝可彈性／可選，s＝做法（先重排、減等候，最後先刪），i＝對到達時間影響 */
 const DLY={
 2:{m:["Ytri Tunga 海豹（潮退後約一個鐘最好）","Kirkjufell 草帽山","Hlaðan 晚餐 19:45"],o:["因亞爾茲霍爾教堂","可選：Arnarstapi 步道、Djúpalónssandur"],
