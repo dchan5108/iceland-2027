@@ -265,6 +265,10 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
   if(o.fn&&CHOICE_FN[o.fn]){const x=CHOICE_FN[o.fn](raw,{...raw,plan:o.base||raw.plan});plan=x.plan;arrive=x.arrive||raw.arrive}
   if(!plan&&!o.legs&&!arrive&&!o.notes)return null;const r={};if(plan)r.plan=plan;if(o.legs)r.legs=o.legs;if(arrive)r.arrive=arrive;if(o.notes)r.notes=o.notes;return r}catch(e){return null}}
+/* AI 建議提早出發：喺當日頂部用黃框顯示（所有版本） */
+function aiEarly(raw){try{const vo=viewOpt(raw),p=(vo&&vo.plan)||(raw.v?((raw.v[scen]||raw.v.ok).plan):raw.plan)||[];
+  const xs=p.map(r=>{const t=String(r[1]),i=t.indexOf("｜AI 建議");return i<0?null:[r[0],t.slice(i+1)]}).filter(Boolean);
+  return xs.map(([tm,t])=>`<div class="tmeta aisug noen">🤖 ${DOCX.esc(String(tm))}｜${DOCX.esc(t)}</div>`).join("")}catch(e){return ""}}
 function viewBar(raw){const xb=xlsBar(raw);if(XLS&&raw.xls)return xb;if(!raw.view||(raw.v&&scen!=="ok"))return xb;const cur=viewId(raw);
   return xb+`<div class="scenbox viewbox noen" role="group" aria-label="${escA(raw.view.label)}"><span class="sl">${raw.view.label}</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="${raw.d}|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div></div>${raw.d===6&&cur==="tide"?tideH(raw):""}`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-view]");if(!b)return;const k=b.dataset.view,q=k.indexOf("|");VIEW[k.slice(0,q)]=k.slice(q+1);store.set("iceland-view",JSON.stringify(VIEW));const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
@@ -1663,6 +1667,7 @@ function card(raw){
         ${dusk<20?`<div class="dlong">${I('<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>')}<span class="noen">最後一段車程貼近日落，留意不要太遲出發。</span></div>`:""}
         <div class="dact">${du&&(REAL||DT)?`<a class="navbtn" href="${du}" target="_blank" rel="noopener" aria-label="Google Maps 整日導航">${I('<path d="M12 2l7 19-7-4-7 4z"/>')}<span>導航</span></a>`:""}<button type="button" class="mapbtn" data-showmap="1" aria-label="看地圖">${I('<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>')}<span>地圖</span></button></div></div>`})()}${raw.d===7?scenH():raw.v?(scen==="redo"?`<p class="rhint scnote noen">D7 冰川健行取消，今日補做健行（喺 D7 改返「順利」）</p>`:""):""}
     ${viewBar(raw)}
+    ${aiEarly(raw)}
     ${todayHTML(day)}
     ${DT&&!SHARED&&ADDOPEN.has(raw.d)&&EDITING!==raw.d?(()=>{const cu=cuGet(raw.d);return `<div class="addp">${edBar(raw)}${cu.length?`<p class="rhint">另有 ${cu.length} 個自訂項目 <button type="button" class="mini" data-cuopen="${raw.d}">管理</button></p>`:""}</div>`})():""}
     ${REAL&&day.firmT?`<div class="golin g1"><span>通知<i class="gl-l">大家</i> <b>${day.toldT}</b><i class="gl-l"> 出發</i> · 最遲 <b class="late">${day.firmT}</b><i class="gl-l"> 出發</i></span></div>`:""}${pubDep}
