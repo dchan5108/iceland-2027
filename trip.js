@@ -28,7 +28,7 @@ const pts={lmlg:["Landmannalaugar（H1 起點，海拔約 600 米）",-19.0600,6
  selj:["水簾洞瀑布",-19.99,63.62,"spot",null,1,"t"],
  fjkaf:["Fjallakaffi（Möðrudalur）",-15.88,65.37,"spot","r"], self:["Brún（Laugarás，D9）",-20.493,64.123,"stay","b"], fridh:["Friðheimar 番茄農場",-20.4454,64.1780,"spot","r"],
  gull:["黃金瀑布",-20.12,64.33,"spot","r"],
- geys:["間歇泉",-20.30,64.31,"spot","t"], wreck:["Sólheimasandur 飛機殘骸",-19.3647,63.4591,"spot","r"], dc3:["Eyvindarholt DC-3 飛機殘骸",-19.90,63.64,"spot","r"], silf:["Silfra 浮潛",-21.12,64.26,"spot","t",1],
+ geys:["間歇泉",-20.30,64.31,"spot","t"], wreck:["Sólheimasandur 飛機殘骸",-19.3647,63.4591,"spot","r"], dc3:["Eyvindarholt DC-3 飛機殘骸",-19.90,63.64,"spot","r"], vikk:["Víkurkirkja 紅屋頂教堂",-19.0088,63.4195,"spot","l"], silf:["Silfra 浮潛",-21.12,64.26,"spot","t",1],
  costco:["Costco",-21.93,64.07,"spot","r",1], fuelk:["機場附近油站",-22.53,63.99,"spot","r"], skyl:["Sky Lagoon",-21.95,64.11,"spot",null,1], raufar:["Raufarhólshellir 熔岩隧道",-21.40,63.94,"spot","r"], hvera:["Hveragerði 小鎮",-21.19,64.00,"spot","r"],
  djup:["Djúpalónssandur 黑沙灘",-23.900,64.753,"spot",null,1], grjo:["Grjótagjá 溫泉洞",-16.8835,65.6262,"opt"], stud:["Stuðlagil 玄武岩峽谷",-15.31,65.16,"opt"],
  fjall:["Fjallsárlón 小冰河湖",-16.37,64.01,"spot","l"], hofsk:["Hofskirkja 草皮教堂",-16.70,63.90,"opt"], skool:["Skool Beans 校巴咖啡店",-18.9813,63.4203,"opt"], svart:["Svartifoss 黑瀑布",-16.975,64.028,"opt"], stjo:["Stjórnarfoss 瀑布",-18.05,63.80,"opt"], hvamm:["Hvammsvík 溫泉",-21.53,64.36,"opt"], hverf:["Hverfjall 火山口",-16.87,65.605,"opt"], geosea:["GeoSea 海水溫泉",-17.335,66.056,"spot","r"], thingv:["Þingvellir 國家公園",-21.13,64.256,"spot","t"], almg:["大裂谷 Almannagjá",-21.126,64.259,"opt"], oxar:["Öxarárfoss 瀑布",-21.118,64.266,"opt"]
@@ -43,8 +43,10 @@ const ROUTES={
   "d5":[L("myv","husa",45,{c:1}),L("husa","geosea",5,{c:1}),L("geosea","dett",80,{c:1}),L("dett","egil",140,{c:1})],
   "d5.view.opts.nogeo":[L("myv","dett",60,{c:1}),L("dett","fjkaf",60,{c:1}),L("fjkaf","egil",90,{c:1})],
   "d6":[L("egil","seyd",30,{c:1}),L("seyd","egil",30,{c:1}),L("egil","djst",135,{c:1,via:["Fáskrúðsfjörður"]}),L("djst","vest",80,{c:1}),L("vest","hofn",20,{c:1})],
+  "d7.v.redo":[L("hofn","jok",70,{c:1}),L("jok","hjok",15,{c:1})],
   "d7":[L("hofn","skaf",110,{c:1}),L("skaf","hjok",70,{c:1})],
   "d7.v.ok":[L("hofn","jok",70,{c:1}),L("jok","skaf",50,{c:1}),L("skaf","hjok",60,{c:1})],
+  "d8.v.redo":[L("hjok","skaf",60,{c:1}),L("skaf","vik",120,{c:1})],
   "d8":[L("hjok","fjad",90,{c:1}),L("fjad","vik",60,{c:1})],
   "d8.view.opts.nofloat":[L("hjok","fjall",20,{c:1}),L("fjall","skaf",40,{c:1}),L("skaf","fjad",70,{c:1}),L("fjad","vik",60,{c:1})],
   "d8.v.ok":[L("hjok","fjall",20,{c:1}),L("fjall","skaf",40,{c:1}),L("skaf","fjad",70,{c:1}),L("fjad","vik",60,{c:1})],
@@ -78,18 +80,20 @@ const days=[
   plan:[["09:00–09:45","早餐：Egilsstaðir 住處自理","m"],["10:00","退房（Egilsstaðir 住處）","c"],["11:00","開去 Seyðisfjörður 塞濟斯菲厄澤（93 號公路翻越 Fjarðarheiði 山口，約 30 分鐘；出發前確認天氣及路況）","c"],["11:30–12:30","Blue Church 藍色教堂 Seyðisfjarðarkirkja＋Rainbow Street 彩虹街（教堂外觀隨時可看；內部星期一至五 13:00–16:00 先開）",""],["12:30–14:00","午餐：Hotel Aldan 餐廳（Seyðisfjörður）","m"],["14:00","南下 Vestrahorn 蝙蝠山（經 Egilsstaðir 轉 1 號公路沿海；Excel 寫約 2.5 小時，實際可能要 3.5–4 小時，出發前用 Google Maps 確認）","c"],["17:00–18:00","Vestrahorn 蝙蝠山、Stokksnes 黑沙灘（入場先在 Viking Café 繳費）",""],["18:00","開去赫本 Höfn（約 20 分鐘）","c"],["18:30","赫本 Höfn 港口",""],["19:30","赫本 Höfn 入住","c"],["20:00","小龍蝦晚餐：Pakkhús（不接受訂位；如住在鎮上可步行前往）","m"]],
   notes:[["跟 J&J 行程：10:00 退房",1],["Vestrahorn／Stokksnes 入場先在 Viking Café 繳費",1],["去赫本行 1 號公路沿海，不要跟導航行 939 號 Öxi 碎石路"]],
   opt:[{id:"osland6",sun:1,lab:"日落",t:"日落：Ósland 小山（Höfn 赫本港口出口，開車 3 分鐘；日落約 19:25）",add:"約 35 分鐘",d:"赫本港口出口嘅小山，望港口同冰川；日落時間出發前用 vedur.is 核實。",ins:{anchor:/^赫本 Höfn 入住/,before:true,at:"19:00–19:35",shift:10,row:"日落：Ósland 小山（Höfn 赫本港口出口，開車 3 分鐘；日落約 19:25）"}},{id:"bonus5",t:"Bónus 補給（Egilsstaðir，D6 晚餐／D7 早餐）",add:"約 15 分鐘",d:"經 Egilsstaðir 南下時順路買 D6 晚餐、D7 早餐及零食；Google Maps：每日 10:00–20:00。<a href='https://www.google.com/maps/search/?api=1&query=Bonus+Egilsstadir+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>",ins:{anchor:/^午餐：Hotel Aldan/,gap:40,dur:15,shift:15,row:"超市補給：Bónus（Egilsstaðir，買 D6 晚餐、D7 早餐及零食）"}},{id:"netto6",t:"Nettó 超市（Höfn 港口附近）",add:"約 30 分鐘",d:"買 D7 早餐和零食；Höfn 未確認有 Bónus，所以用 Nettó；Google Maps：每日 08:00–20:00。<a href='https://www.google.com/maps/search/?api=1&query=Netto+Hofn+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>",ins:{anchor:/^赫本 Höfn 入住/,gap:5,dur:25,shift:30,row:"超市補給：Nettó（Höfn 港口附近）"}}]},
- {d:7,wx:"大風或者下雨：冰川健行取消；鑽石沙灘大浪不要行近海邊。",date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"19:30",legs:ROUTES["d7"],
+ {d:7,wx:"大風或者下雨：冰川健行取消，改去 9/19 14:00 補做（見 9/19）；鑽石沙灘大浪不要行近海邊。",date:"9/18（六）",stay:"Hótel Jökulsárlón",arrive:"19:30",legs:ROUTES["d7"],
   plan:[["09:00–09:45","早餐：赫本住處自理","m"],["10:00","退房（赫本住處）","c"],["11:00","出發去斯卡夫塔山 Troll 基地（Excel 寫約 1.5 小時；實際約 2 小時）","c"],["12:30–13:30","午餐：Cafe Vatnajökull","m"],["13:40","Troll Expeditions Skaftafell 集合（遲到不保留位、不退款）","c"],["14:00–18:00","Troll 冰川健行＋攀冰（4 小時，冰上約 3 小時）；帶小吃和水，完團有咖啡和朱古力","c"],["18:00","開去 Hótel Jökulsárlón（約 1 小時）","c"],["19:30","到 Hótel Jökulsárlón 入住","c"],["20:00","晚餐：酒店餐廳","m"]],
   opt:[{id:"dusk7",sun:1,dt:1,lab:"Diamond Beach",t:"Diamond Beach 鑽石沙灘（19:05–19:35）",add:"約 30 分鐘",d:"Jökulsárlón 冰河湖對面嘅黑沙灘，冰塊喺沙灘上；日落約 19:35（出發前用 vedur.is 核實）。健行完去酒店途中順路。",ins:{anchor:/^到 Hótel Jökulsárlón/,before:true,at:"19:05–19:35",shift:30,row:"Diamond Beach 鑽石沙灘（日落約 19:35）"}}],
-  notes:[["Troll 13:40 報到，14:00 開始；遲到不保留位、不退款",1]]},
+  notes:[["Troll 13:40 報到，14:00 開始；遲到不保留位、不退款",1],["健行取消：9/19 14:00 補做（見 9/19）",1]]},
 
  {d:8,wx:"Svartifoss 步道濕滑，著防滑鞋；Mýrdalssandur 沙原小心側風。",date:"9/19（日）",stay:"Vík（Vík Apartments／Hotel Vík í Mýrdal）",arrive:"20:20",legs:ROUTES["d8"],
   plan:[["09:30–10:15","早餐＋收拾行李（Hótel Jökulsárlón）","m"],["10:30","退房，前往冰河湖獨木舟集合（約 10 分鐘）","c"],["11:00–13:00","冰河湖獨木舟（11:00 開始；未預約，要預約；連換裝及講解約 2 小時）",""],["13:10–13:40","午餐：Hótel Jökulsárlón 酒店餐廳 Gunna á Leiti","m"],["13:45–14:15","Diamond Beach 鑽石沙灘（冰河湖對面，車程約 5 分鐘）",""],["14:20","開去 Fjallsárlón 小冰河湖（約 15 分鐘）","c"],["14:40–16:10","Fjallsárlón 冰浮（連換裝約 1.5 小時；未預約，要預約）",""],["16:10","開去 Fjaðrárgljúfur 羽毛峽谷（約 1 小時 20 分鐘）","c"],["17:30–18:10","Fjaðrárgljúfur 羽毛峽谷（行峽谷上方步道到觀景台）",""],["18:10","開去 Kirkjubæjarklaustur（約 10 分鐘）","c"],["18:20–19:20","晚餐：Restaurant Mika（Kirkjubæjarklaustur）","m"],["19:20","出發去 Vík 維克（約 1 小時；日落約 19:35，後半程天黑）","c"],["20:20","到 Vík、入住（Vík Apartments／Hotel Vík í Mýrdal）","c"]],
-  notes:[["Fjallsárlón 冰浮未預約，要預約（+354 570 2700）；9 月有冇團、班次要先問",1],["羽毛峽谷之後天黑前未必到 Vík：19:20 出發，後半程天黑，慢慢開",1]]},
- {d:9,wx:"黑沙灘有黃色或紅色警告就不要到沙灘。",date:"9/20（一）",stay:"Brún（Austurbyggð 3, Laugarás）",arrive:"16:05",legs:ROUTES["d9"],
+  notes:[["9/18 健行順利：獨木舟之後去 Fjallsárlón 冰浮（未預約，要預約 +354 570 2700；9 月有冇團、班次要先問）；19:20 由 Mika 出發，後半程天黑",1],["9/18 健行取消：改 redo 版本，14:00 補做 Troll（會日落後揸車去 Vík，要改住宿）",1]],
+  v:{ok:{tag:"健行順利版",arrive:"20:20",legs:ROUTES["d8"],plan:[["09:30–10:15","早餐＋收拾行李（Hótel Jökulsárlón）","m"],["10:30","退房，前往冰河湖獨木舟集合（約 10 分鐘）","c"],["11:00–13:00","冰河湖獨木舟（11:00 開始；未預約，要預約；連換裝及講解約 2 小時）",""],["13:10–13:40","午餐：Hótel Jökulsárlón 酒店餐廳 Gunna á Leiti","m"],["13:45–14:15","Diamond Beach 鑽石沙灘（冰河湖對面，車程約 5 分鐘）",""],["14:20","開去 Fjallsárlón 小冰河湖（約 15 分鐘）","c"],["14:40–16:10","Fjallsárlón 冰浮（連換裝約 1.5 小時；未預約，要預約）",""],["16:10","開去 Fjaðrárgljúfur 羽毛峽谷（約 1 小時 20 分鐘）","c"],["17:30–18:10","Fjaðrárgljúfur 羽毛峽谷（行峽谷上方步道到觀景台）",""],["18:10","開去 Kirkjubæjarklaustur（約 10 分鐘）","c"],["18:20–19:20","晚餐：Restaurant Mika（Kirkjubæjarklaustur）","m"],["19:20","出發去 Vík 維克（約 1 小時；日落約 19:35，後半程天黑）","c"],["20:20","到 Vík、入住（Vík Apartments／Hotel Vík í Mýrdal）","c"]]},
+   redo:{tag:"健行補做版",arrive:"19:55",legs:ROUTES["d8.v.redo"],plan:[["08:30–09:30","早餐＋收拾行李（Hótel Jökulsárlón）","m"],["09:30","退房，前往冰河湖獨木舟集合（約 10 分鐘）","c"],["10:00–12:00","冰河湖獨木舟（10:00 開始；未預約，要預約）",""],["12:10–12:40","午餐：Hótel Jökulsárlón 酒店餐廳 Gunna á Leiti","m"],["12:45","開去斯卡夫塔山 Troll 基地（約 1 小時 10 分鐘）","c"],["14:00–18:00","補做 Troll 冰川健行＋攀冰（4 小時）",""],["18:00","開去 Vík 維克（約 1 小時 55 分鐘）","c"],["19:55","到 Vík、入住（日落約 19:35，已經日落後揸車，要改住宿或安排）","c"]],
+     notes:[["⚠ 補做版會日落後揸車去 Vík，建議改住 Jökulsárlón 或斯卡夫塔山附近一晚",1],["Troll 13:40 報到前要到，12:45 出發",1],["⚠ 獨木舟改咗 11:00：補做版趕唔切 Troll 13:40 報到，要另外改獨木舟時間或者取消",1]]}}}, {d:9,wx:"黑沙灘有黃色或紅色警告就不要到沙灘。",date:"9/20（一）",stay:"Brún（Austurbyggð 3, Laugarás）",arrive:"16:05",legs:ROUTES["d9"],
   plan:[["08:30–09:10","早餐：Vík 住處自理","m"],["09:15","退房出發，前往 Reynisfjara 雷尼斯黑沙灘（約 15 分鐘）","c"],["09:30–10:15","Reynisfjara 雷尼斯黑沙灘（先看 safetravel.is）","c"],["10:15","開去 Skógar（約 30 分鐘）","c"],["10:45–12:00","Skógafoss 斯科加爾瀑布＋瀑布頂（行 500 幾級樓梯上頂；河步道行一段就折返）",""],["12:00–12:40","午餐：Skógar","m"],["12:40","開去 Seljalandsfoss（約 30 分鐘）","c"],["13:10–14:10","Seljalandsfoss 水簾洞瀑布＋Gljúfrabúi 隱藏瀑布（可以行到瀑布後面，著防水衫褲）",""],["14:10","開去 Eyvindarholt DC-3 飛機殘骸（約 10 分鐘）","c"],["14:20–14:50","DC-3 飛機殘骸（Eyvindarholt；停車場行幾分鐘，打卡）",""],["14:50","開去 Brún（Laugarás，約 1 小時 15 分鐘）","c"],["16:05","到 Brún（Austurbyggð 3, Laugarás）、入住","c"],["19:00","晚餐：住處自己煮","m"]],
   notes:[],
-  opt:[{id:"solh9",k:"solh",t:"Sólheimajökull 冰川步行觀景",add:"約 1 小時",d:"冰川舌就在停車場附近，不跟團也可以行近看（不要自行上冰）；攀冰取消時的平價替代。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"selj9",k:"selj",t:"Seljavallalaug 山谷舊泳池（後備）",add:"來回行路約 1 小時",d:"山谷中的戶外舊泳池，水溫偏涼。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"dyr",k:"dyr",t:"Dyrhólaey 迪霍拉里",add:"+約 50 分鐘",d:"巨大海蝕拱門和燈塔，可以由高處望黑沙灘。只去下層停車場；上燈塔條路是碎石，不上。",leg:{a:"reyn",b:"skog",to:"dyr",m1:25,m2:25},ins:{anchor:/^Reynisfjara/,gap:20,dur:30,row:"Dyrhólaey 迪霍拉里（只去下層停車場）",shift:50}}]},
+  opt:[{id:"vikk9",k:"vikk",t:"Víkurkirkja 紅屋頂教堂（Vík）",add:"約 25 分鐘",d:"Vík 鎮後面小山上嘅白色紅屋頂教堂，可以望到 Vík 鎮同海蝕柱；車可以開上教堂門口。內部開放時間以現場為準。<a href='https://www.google.com/maps/search/?api=1&query=Vikurkirkja+Vik+Iceland' target='_blank' rel='noopener'>Google Map ↗</a>",ins:{anchor:/^退房出發，前往 Reynisfjara/,at:"09:20–09:40",shift:25,row:"Víkurkirkja 紅屋頂教堂（外觀；之後去 Reynisfjara）"}},{id:"solh9",k:"solh",t:"Sólheimajökull 冰川步行觀景",add:"約 1 小時",d:"冰川舌就在停車場附近，不跟團也可以行近看（不要自行上冰）；攀冰取消時的平價替代。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"selj9",k:"selj",t:"Seljavallalaug 山谷舊泳池（後備）",add:"來回行路約 1 小時",d:"山谷中的戶外舊泳池，水溫偏涼。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"dyr",k:"dyr",t:"Dyrhólaey 迪霍拉里",add:"+約 50 分鐘",d:"巨大海蝕拱門和燈塔，可以由高處望黑沙灘。只去下層停車場；上燈塔條路是碎石，不上。",leg:{a:"reyn",b:"skog",to:"dyr",m1:25,m2:25},ins:{anchor:/^Reynisfjara/,gap:20,dur:30,row:"Dyrhólaey 迪霍拉里（只去下層停車場）",shift:50}}]},
  {d:10,opt:[{id:"kerid10",t:"Kerið 火山口湖",add:"約 30 分鐘",d:"35 號公路旁，紅色火山口配藍色湖水；要買入場票。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"},{id:"thingv10",k:"thingv",t:"Þingvellir 國家公園",add:"約 45–60 分鐘",d:"美洲和歐亞板塊之間的裂谷；Silfra 就在公園內，可能已經包括在 Silfra 行程。資料由 AI 整理，未核實：出發前再查開放時間、路況和收費。"}],wx:"大風黃金瀑布下層步道會封，只去上層。",date:"9/21（二）",stay:"雷克雅維克",arrive:"13:45",legs:ROUTES["d10"],
   plan:[["08:30–09:15", "早餐：Brún 住處自理", "m"], ["09:25", "退房出發，前往 Gullfoss 黃金瀑布（約 40 分鐘）", "c"], ["10:05–10:35", "Gullfoss 黃金瀑布", ""], ["10:45–11:15", "Geysir 間歇泉", ""], ["11:30–12:20", "午餐：Friðheimar 番茄農場（番茄溫室餐廳，要預約）", "m"], ["12:25", "開回 Reykjavík 雷克雅維克（約 1 小時 20 分鐘）", "c"], ["13:45", "到 Reykjavík 雷克雅維克住處（入住時間要再確認）", "c"], ["14:00–18:30", "自選行程：自己安排", ""], ["19:00", "晚餐：住處或步行可到的餐廳", "m"]],
   notes:[["Friðheimar 一定要預約；不吃番茄訂位時講明"]]},
@@ -119,7 +123,7 @@ const DLY={
  s:["GeoSea 組遲：唔去 Húsavík 港口散步","兩組時間有變就打電話"],
  i:"GeoSea 組約 17:50 到 Egilsstaðir，不去組約 15:55；日落約 19:20 前都到。"},
 8:{m:["獨木舟 11:00（冰河湖，未預約）","Fjallsárlón 冰浮（未預約）","Fjaðrárgljúfur 羽毛峽谷","Mika 晚餐","Vík 住宿"],o:["可選：Svartifoss"],
- s:["獨木舟要 11:00 準時；遲咗打電話通知營運商","遲咗：羽毛峽谷停短啲或者唔去"],
+ s:["獨木舟要 11:00 準時；遲咗打電話通知營運商","遲咗：羽毛峽谷停短啲或者唔去","健行補做版：14:00 前到斯卡夫塔山，日落後揸車要改住宿"],
  i:"後半程天黑揸車去 Vík，慢慢開。"},
 9:{m:["Reynisfjara 黑沙灘","Skógafoss","Seljalandsfoss＋Gljúfrabúi","Eyvindarholt DC-3 飛機殘骸"],o:["Skógá 河步道（原本已寫明隨時可以折返）","可選：Dyrhólaey、Sólheimajökull、Seljavallalaug"],
  s:["騎馬前：午餐 12:10 食完、去 Skálakot 約 20 分鐘，冇緩衝；Skógar 午餐揀快嘅","你自己決定：Skógá 河步道早一點折返，可以拉返 20–40 分鐘（瀑布同上頂樓梯照去）","遲咗即刻打電話通知 Skálakot","騎馬之後遲：直接順延；今日唔好加可選景點"],
@@ -128,7 +132,7 @@ const DLY={
  11:{m:["Silfra 浮潛 12:00（11:30 前報到）","Sky Lagoon 17:30（已訂）"],o:["日間自選行程"],
  s:["17:15 前回住處，準時出發去 Sky Lagoon"],
  i:"Sky Lagoon 17:30 不變；下晝休息由 2 小時減到約 1 小時。"}};
-const AIOPT=["hvamm1","early3","bonus5","netto6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
+const AIOPT=["vikk9","hvamm1","early3","bonus5","netto6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
 /* Excel 版行程（Iceland.xlsx）。每行 [時間, 內容, 類型, 比較用關鍵字]；關鍵字唔喺原版嗰日出現就標示為不同 */
 const XLS={
 1:[["全日","待定","",""]],
