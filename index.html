@@ -1841,6 +1841,7 @@ if(REAL){$("drvgrp").hidden=false;document.querySelectorAll(".rawonly").forEach(
 /* budget: one table — prices on the left, one column per person on the right */
 const SRC={
  bl:["Blue Lagoon 2026 價目","https://www.bluelagoon.com/travel-professionals/BL-ratecard2026"],
+ hvamm:["Hvammsvík 官網","https://hvammsvik.com/"],
  sky:["Cars Iceland：Sky Lagoon 價錢","https://carsiceland.com/post/sky-lagoon"],
  myv:["Arctic Adventures：Mývatn 溫泉","https://adventures.is/iceland/attractions/myvatn-nature-baths"],
  whale:["North Sailing 胡薩維克賞鯨","https://www.northsailing.is/project-category/husavik/"],
@@ -1950,7 +1951,7 @@ $("budget").addEventListener("change",e=>{
 $("budget").addEventListener("input",e=>{if(e.target.type==="number")calc()});
 $("budget").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-bcur]");if(!b)return;CUR=b.dataset.bcur;store.set("iceland-cur",CUR);calc()});
 if(DT)$("b-adm").hidden=false;if(RO&&$("ps-budget"))$("ps-budget").hidden=true;
-const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))];
+const used=[...new Set(rowsAll.map(r=>r.src).filter(Boolean))].filter(k=>SRC[k]);
 $("b-src").innerHTML="價錢來源（2026 年資料）："+used.map(k=>`<a href="${SRC[k][1]}" target="_blank" rel="noopener">${SRC[k][0]}</a>`).join(" · ")+"。匯率為約數。";
 if(!RO)calc();
 
