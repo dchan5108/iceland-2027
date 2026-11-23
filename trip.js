@@ -132,7 +132,7 @@ const DLY={
  11:{m:["Silfra 浮潛 12:00（11:30 前報到）","Sky Lagoon 17:30（已訂）"],o:["日間自選行程"],
  s:["17:15 前回住處，準時出發去 Sky Lagoon"],
  i:"Sky Lagoon 17:30 不變；下晝休息由 2 小時減到約 1 小時。"}};
-const AIOPT=["vikk9","hvamm1","early3","bonus5","netto6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
+const AIOPT=["hvamm1","early3","bonus5","netto6","svart8","hof8","dyr","sun12","arn2","djup2","hvit3","myvb4","stud5","fjallb6","solh9","selj9","kerid10","thingv10"];
 /* Excel 版行程（Iceland.xlsx）。每行 [時間, 內容, 類型, 比較用關鍵字]；關鍵字唔喺原版嗰日出現就標示為不同 */
 const XLS={
 1:[["全日","待定","",""]],
