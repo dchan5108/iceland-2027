@@ -3533,3 +3533,5 @@ dialog.optdlg.spdlg .odb{padding-bottom:18px}
 .aurx .aurp{color:var(--ok);border-color:currentColor}
 .aurx p{margin:0;font-size:11.5px;line-height:1.5}
 .dsum2.dsB>.aurx{width:100%;box-sizing:border-box}
+
+mark.xdiff{background:#ffe58a;color:inherit;border-radius:3px;padding:0 2px}

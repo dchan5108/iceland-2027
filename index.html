@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-20-font1">
+<link rel="stylesheet" href="style.css?v=2026-11-23-xls">
 
 </head>
 <body>
@@ -126,7 +126,7 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-16-d5m"></script>
+<script src="trip.js?v=2026-11-23-xls"></script>
 <script src="landing.js?v=2026-11-16-uq2"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
 <script src="data.js?v=2026-11-18-gs3"></script>
@@ -254,11 +254,15 @@ let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 /* 每日切換掣（例如 D4 觀不觀鯨、D5 去不去藍色教堂、D6 日出／潮退／日落）：選了哪個，日程表、地圖、導航都跟住變 */
 let VIEW={};try{VIEW=JSON.parse(store.get("iceland-view")||"{}")||{}}catch(e){VIEW={}}
 function viewId(raw){if(!raw||!raw.view)return "";const ids=raw.view.opts.map(o=>o.id),v=VIEW[raw.d];return ids.includes(v)?v:(raw.view.def||ids[0])}
-function viewOpt(raw){try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
+let XLS=store.get("iceland-xls")==="1",XHL=store.get("iceland-xhl")==="1";
+function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const o=JSON.stringify({...raw,xls:0});return {plan:raw.xls.plan.map(r=>[r[0],XHL&&r[3]&&!o.includes(r[3])?`<mark class="xdiff">${r[1]}</mark>`:r[1],r[2]||""])}}
+function xlsBar(raw){if(!raw||!raw.xls)return "";return `<div class="scenbox viewbox noen" role="group" aria-label="行程版本"><span class="sl">版本</span><div class="seg"><button type="button" data-xls="0" aria-pressed="${!XLS}">原版</button><button type="button" data-xls="1" aria-pressed="${XLS}">Excel 版</button></div>${XLS?`<div class="seg"><button type="button" data-xhl="1" aria-pressed="${XHL}">標示不同</button></div>`:""}</div>`}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-xls],[data-xhl]");if(!b)return;if(b.dataset.xls!=null){XLS=b.dataset.xls==="1";store.set("iceland-xls",XLS?"1":"0")}else{XHL=!XHL;store.set("iceland-xhl",XHL?"1":"0")}const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
+function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
   if(o.fn&&CHOICE_FN[o.fn]){const x=CHOICE_FN[o.fn](raw,{...raw,plan:o.base||raw.plan});plan=x.plan;arrive=x.arrive||raw.arrive}
   if(!plan&&!o.legs&&!arrive&&!o.notes)return null;const r={};if(plan)r.plan=plan;if(o.legs)r.legs=o.legs;if(arrive)r.arrive=arrive;if(o.notes)r.notes=o.notes;return r}catch(e){return null}}
-function viewBar(raw){if(!raw.view||(raw.v&&scen!=="ok"))return "";const cur=viewId(raw);
-  return `<div class="scenbox viewbox noen" role="group" aria-label="${escA(raw.view.label)}"><span class="sl">${raw.view.label}</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="${raw.d}|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div></div>${raw.d===6&&cur==="tide"?tideH(raw):""}`}
+function viewBar(raw){const xb=xlsBar(raw);if(XLS&&raw.xls)return xb;if(!raw.view||(raw.v&&scen!=="ok"))return xb;const cur=viewId(raw);
+  return xb+`<div class="scenbox viewbox noen" role="group" aria-label="${escA(raw.view.label)}"><span class="sl">${raw.view.label}</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="${raw.d}|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div></div>${raw.d===6&&cur==="tide"?tideH(raw):""}`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-view]");if(!b)return;const k=b.dataset.view,q=k.indexOf("|");VIEW[k.slice(0,q)]=k.slice(q+1);store.set("iceland-view",JSON.stringify(VIEW));const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
 const ALL=99;
 let sel=+(store.get("iceland-day2")??ALL);
@@ -3025,7 +3029,7 @@ const TODAY={d:null,docMode:"date",
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
     box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
       <div class="tbtns"><button type="button" data-tgo="now" ${DT&&td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute tlink noen" href="${ru}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>當日路線</a>`:""}<button type="button" class="tfull2" data-tfull="${raw.d}">完整時間表 ›</button></div>
-      </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${(()=>{try{return raw.view?viewBar(raw):""}catch(e){return ""}})()}${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
+      </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${(()=>{try{return (raw.view||raw.xls)?viewBar(raw):""}catch(e){return ""}})()}${TODAY.dep(raw,day)}${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}`;
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull)});
     box.querySelectorAll("[data-tday]").forEach(b=>b.onclick=()=>{TODAY.d=+b.dataset.tday;TODAY.render()});{const c=box.querySelector('.tchips [aria-pressed="true"]'),w=c&&c.parentElement;if(c&&w&&w.offsetParent)w.scrollLeft=c.offsetLeft-(w.clientWidth-c.offsetWidth)/2}/* 只橫向捲日子列，唔郁成頁 */
