@@ -126,10 +126,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-23-xls"></script>
+<script src="trip.js?v=2026-11-23-xls2"></script>
 <script src="landing.js?v=2026-11-16-uq2"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-16-bcoff"></script>
-<script src="data.js?v=2026-11-18-gs3"></script>
+<script src="data.js?v=2026-11-23-xls2"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -255,7 +255,7 @@ let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 let VIEW={};try{VIEW=JSON.parse(store.get("iceland-view")||"{}")||{}}catch(e){VIEW={}}
 function viewId(raw){if(!raw||!raw.view)return "";const ids=raw.view.opts.map(o=>o.id),v=VIEW[raw.d];return ids.includes(v)?v:(raw.view.def||ids[0])}
 let XLS=store.get("iceland-xls")==="1",XHL=store.get("iceland-xhl")==="1";
-function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const o=JSON.stringify({...raw,xls:0});return {plan:raw.xls.plan.map(r=>[r[0],XHL&&r[3]&&!o.includes(r[3])?`<mark class="xdiff">${r[1]}</mark>`:r[1],r[2]||""])}}
+function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const P=[raw.plan,raw.real&&raw.real.plan,...((raw.view&&raw.view.opts)||[]).map(o=>o.plan),...Object.values(raw.v||{}).map(v=>v&&v.plan)].filter(Boolean).flat().map(r=>[String(r[0]),String(r[1]).replace(/<[^>]*>/g,"")]),st=t=>String(t).split("–")[0].trim();return {plan:raw.xls.plan.map(r=>{let a=r[1];if(XHL&&r[3]){const re=new RegExp(r[3],"i"),mv=/^(退房|開去|出發|前往|到 )|開去|前往|出發去/,m=P.find(p=>re.test(p[1])&&!mv.test(p[1]))||P.find(p=>re.test(p[1])),n=!m?"原版冇":st(m[0])!==st(r[0])?`原版 ${m[0]}`:"";if(n)a=`<mark class="xdiff">${a}（${n}）</mark>`}return [r[0],a,r[2]||""]})}}
 function xlsBar(raw){if(!raw||!raw.xls)return "";return `<div class="scenbox viewbox noen" role="group" aria-label="行程版本"><span class="sl">版本</span><div class="seg"><button type="button" data-xls="0" aria-pressed="${!XLS}">原版</button><button type="button" data-xls="1" aria-pressed="${XLS}">Excel 版</button></div>${XLS?`<div class="seg"><button type="button" data-xhl="1" aria-pressed="${XHL}">標示不同</button></div>`:""}</div>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-xls],[data-xhl]");if(!b)return;if(b.dataset.xls!=null){XLS=b.dataset.xls==="1";store.set("iceland-xls",XLS?"1":"0")}else{XHL=!XHL;store.set("iceland-xhl",XHL?"1":"0")}const y=window.scrollY;{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}try{window.scrollTo(0,y)}catch(err){}});
 function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
