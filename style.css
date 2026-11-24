@@ -3696,3 +3696,7 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 :root[data-theme="dark"] #today .thero,:root[data-theme="dark"] #homeToday .thero{background:linear-gradient(180deg,rgba(0,0,0,0) 90px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,var(--card)!important}
 /* 今日頁日子掣：放喺卡片外面（同行程頁一樣） */
 #today>.tchips,#homeToday>.tchips,#todayIn>.tchips,.tchips:not(.thero .tchips){margin:0 0 10px!important;padding:2px 0!important;background:none!important;border:0!important;box-shadow:none!important}
+/* 模擬日子提示條 */
+.simbar{position:sticky;top:0;z-index:999;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--gold);color:#fff;font-size:13px;font-weight:600;text-align:center}
+.simbar button{border:0;border-radius:999px;padding:3px 12px;background:#fff;color:var(--gold);font-weight:700;font-size:12px}
+.simrow input{font:inherit;font-size:14px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
