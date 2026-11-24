@@ -3625,3 +3625,27 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 :root:has(.thero[data-d="9"]){--hero-img:url(img/d9.jpg)}
 :root:has(.thero[data-d="-5"]){--hero-img:url(img/h0.jpg)}
 :root:has(.thero[data-d="-4"]){--hero-img:url(img/hike.jpg)}
+/* 每日頭格整理（2026-11-24） */
+.lic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:6px;color:var(--moss)}
+.dhS>span,.sunlab>span{display:inline-flex;align-items:center}
+.aurx>summary{display:flex;align-items:center}
+/* 1 版本標籤 */
+.vtag{color:var(--moss)!important;border:1px solid color-mix(in srgb,var(--moss) 55%,transparent)!important;background:color-mix(in srgb,var(--moss) 8%,transparent)!important;border-radius:999px!important;padding:1px 9px!important;font-family:var(--sans);font-size:12px!important;font-weight:600}
+/* 2 標題右邊掣：半透明底，唔會壓住相 */
+.day>h3 .h3act button,.day>h3 .h3act a{background:rgba(255,252,245,.88)!important;border:1px solid var(--line)!important;color:var(--fg)!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* 4 預報：細標籤 */
+.dhW{width:auto!important;min-width:0!important;display:inline-flex!important;align-items:center;gap:4px;align-self:flex-start;padding:3px 10px;border-radius:999px;background:var(--fill);font-size:11.5px;color:var(--muted)}
+.dhW b{font-size:14px;line-height:1}.dhW b:empty{display:none}
+/* 5 收窄留白 */
+.dhB{gap:8px}.dhS{margin-top:4px!important}.sunlab{margin:10px 0 4px!important}
+.aurx{margin-top:6px!important}.aurx>summary{padding:4px 0!important}
+.day .dsum2{padding-top:10px!important;padding-bottom:10px!important}
+/* 6 出發提示：放返卡片入面 */
+.tdep{margin:8px 16px 4px!important;padding:10px 14px!important;border-radius:12px!important;border:0!important;border-left:3px solid var(--moss)!important;background:var(--accent-bg)!important;box-shadow:none!important;font-size:14px!important;width:auto!important}
+.tdep .tdi{display:inline-flex}
+/* 版本選擇：標籤細字，掣靠右，揀中用苔綠 */
+.scenbox{display:flex!important;align-items:center;justify-content:space-between;gap:12px;margin:8px 16px!important;padding:8px 12px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--card)!important}
+.scenbox .sl{font-size:11.5px!important;letter-spacing:.12em;color:var(--gold)!important;font-weight:700}
+.scenbox .seg{margin-left:auto;background:var(--fill)!important;border-radius:999px!important;padding:3px!important;display:inline-flex;gap:2px}
+.scenbox .seg button{border-radius:999px!important;border:0!important;background:transparent!important;min-height:32px;padding:0 14px!important;font-weight:600;color:var(--muted)!important}
+.scenbox .seg button[aria-pressed="true"]{background:var(--moss)!important;color:#fff!important;box-shadow:0 1px 3px rgba(0,0,0,.12)}

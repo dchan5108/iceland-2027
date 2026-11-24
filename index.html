@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-24-j">
+<link rel="stylesheet" href="style.css?v=2026-11-24-k">
 
 </head>
 <body>
@@ -933,6 +933,7 @@ function sunAt(Nd,lat,lon,rise,zen){const lh=lon/15,t=Nd+((rise?6:18)-lh)/24,M=0
 
 /* aurora chance estimate from moonlight and city light; not a forecast */
 
+function LIC(n){const P={car:'<path d="M5 16v-5l2-5h10l2 5v5zM5 16v2M19 16v2"/><path d="M8 13h.01M16 13h.01"/>',bus:'<rect x="5" y="4" width="14" height="13" rx="2"/><path d="M5 11h14M8 20v-3M16 20v-3"/>',walk:'<circle cx="13" cy="4.5" r="1.5"/><path d="M11 21l2-6-2-3 1-4 3 3 3 1M10 9l-2 4"/>',home:'<path d="M4 11l8-6 8 6v9H4z"/><path d="M10 20v-5h4v5"/>',rise:'<path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 4v6M9 7l3-3 3 3"/>',set:'<path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 4v6M9 7l3 3 3-3"/>',aur:'<path d="M3 17c3-8 6-10 9-10s6 2 9 10"/><path d="M6 17c2-5 4-6.5 6-6.5s4 1.5 6 6.5"/><path d="M12 3v1M5 6l.7.7M19 6l-.7.7"/>'};return `<svg class="lic" viewBox="0 0 24 24" aria-hidden="true">${P[n]||""}</svg>`}
 const sunKey={"-5":"rvk","-4":"rvk","-3":"rvk","-2":"rvk","-1":"rvk",0:"rvk",1:"rvk",2:"midh",3:"akur",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"vik",9:"self",10:"rvk",11:"rvk",12:"rvk"};
 /* 極光加強（A 時間軸光暈＋B 極光資訊）：改成 false 就全部還原 */
 const AURFX=true;
@@ -949,7 +950,7 @@ const AUR={
   info(d,Nd,lat,lon,name){if(!AURFX)return "";try{const k=AUR.dark(Nd,lat,lon),diff=(Date.parse(new Date(Date.UTC(2027,8,11+d)).toISOString().slice(0,10))-nowIS())/864e5;
       const dk=k.ds&&k.nw?`${k.ds<"12:00"?"翌日 ":""}${k.ds} – 翌日 ${k.nw}`:"今晚沒有天文黑暗";
       const cw=diff>15?"出發前 16 日內才有預報":diff<-1?"日子已過，沒有預報":"載入中…",kw=diff>3?"3 日內才有預報":diff<-1?"日子已過，沒有預報":"載入中…";
-      return `<details class="aurx noen" data-d="${d}"><summary>🌌 極光資訊</summary><dl>
+      return `<details class="aurx noen" data-d="${d}"><summary>${LIC("aur")}極光資訊</summary><dl>
 <div><dt>今晚天文黑暗<em class="aurt">計算</em></dt><dd class="tnum">${dk}</dd></div>
 <div><dt>雲量（天文黑暗時段）<em class="aurt aurp">預報</em></dt><dd data-aur="c">${cw}</dd></div>
 <div><dt>極光活動 Kp<em class="aurt aurp">預報</em></dt><dd data-aur="k">${kw}</dd></div></dl>
@@ -1207,7 +1208,7 @@ function richRows(day){
     if(/天黑/.test(plain)&&sp.intro)sp.intro=String(sp.intro).replace(/[，,；]?\s*最後一段會天黑/,"");
     const gk=x.sp[0]&&!meal?x.sp[0]:null,named=meal?x.eat.filter(e=>{const w=ebase(e).split(/\s+/)[0];return w.length>3&&plain.includes(w)}):[],gq=gk?enc(qn(gk)):named[0]&&eatQ(named[0][1])?encodeURIComponent(eatQ(named[0][1])):null,head=`<div class="tl-h">${sn}${tag}<span class="tl-n">${sp.name}</span>${isAI(day.d,plain)||(meal&&!MYFOOD.test(plain)&&x.eat.some(e=>foodAI(e[1])&&plain.includes(String(e[1]).split(/[（(]/)[0].trim())))?AIB:""}${gq?`<a class="gpin" href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener" aria-label="在 Google Maps 看" title="Google Maps">${PINI}</a>`:""}${bk&&!/還車|取車|起飛|下機|抵達|Flybus|集合|入住|退房/.test(plain)?`<span class="bkb">預約</span>`:""}${al}</div>${meta.length?`<div class="tl-m">${meta.join(" · ")}</div>`:""}${sp.intro?`<div class="tl-d">${sp.intro}</div>`:""}`;
     const full=[sp.intro,sp.more].filter(Boolean).join("；"),longI=sp.intro&&sp.intro.length>22;
-    const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length&&!(meal&&x.sp.length)?eatList(x.eat):""}${(()=>{const h=x.sp.map(spDetail).join(""),m=meal&&x.sp.length?x.eat.map(e=>mustTxt(e[1])).find(Boolean):"";return m?h.replace(/(<div class="spd"[^>]*>)/,`$1<p>${m.replace(/^<br>/,"")}</p>`):h})()}`;
+    const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length&&!(meal&&x.sp.length)?eatList(x.eat):""}${(()=>{const h=(()=>{const g={};x.sp.forEach(k=>{const q=qn(k)||k,h=spDetail(k);if(!g[q]||h.length>g[q].length)g[q]=h});return Object.values(g).join("")})(),m=meal&&x.sp.length?x.eat.map(e=>mustTxt(e[1])).find(Boolean):"";return m?h.replace(/(<div class="spd"[^>]*>)/,`$1<p>${m.replace(/^<br>/,"")}</p>`):h})()}`;
     const inner0=!pri&&!((f==="pk"||meal)&&x.sp.length)?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${sp.html&&f==="pk"?sp.html:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^不/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&stayIn&&!/放行李/.test(plain)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn="";
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
@@ -2967,14 +2968,14 @@ const TODAY={d:null,docMode:"date",
   hotel(stay,pl){let h=String(stay||"").replace(/（[^）]*）/g,"").split(/[，,；]/)[0].trim();const lat=String(pl).replace(/[\u4e00-\u9fff].*$/,"").trim();
     if(/[A-Za-zÀ-ÿ]/.test(h)){h=h.replace(/[\u4e00-\u9fff]+/g,"").replace(/\s{2,}/g," ").trim();if(!h||h===lat)return "未訂"}else if(!/山屋/.test(h))return "未訂";return h},
   /* 每日頭格（設計 B）：路線大字、車程＋住宿、右上天氣、日照條 */
-  wxIcon:c=>c==null?"⏳":c===0?"☀️":c<=2?"🌤️":c===3?"☁️":c<=48?"🌫️":c<=67?"🌧️":c<=77?"❄️":c<=82?"🌦️":c<=86?"🌨️":"⛈️",
+  wxIcon:c=>c==null?"":c===0?"☀️":c<=2?"🌤️":c===3?"☁️":c<=48?"🌫️":c<=67?"🌧️":c<=77?"❄️":c<=82?"🌦️":c<=86?"🌨️":"⛈️",
   headB(raw,day,ds,o){const E=DOCX.esc,lat=t=>String(t).replace(/[\u4e00-\u9fff（）()「」，、]+/g," ").replace(/\s{2,}/g," ").trim();
     const toLat=t=>{const x=lat(t);if(x)return x;const z=String(t).replace(/[（(][^）)]*[）)]/g,"").trim(),hit=ENN.find(([c])=>z.includes(c));return hit?hit[1]:z};
     const lis=ds?[...ds.querySelectorAll("ul > li > span")].map(x=>x.textContent.trim()):[];let rt=lis[0]||(o&&o.rt)||"";rt=rt.split("→").map(toLat).filter(Boolean).join(" → ");if((day.legs||[]).some(l=>l.walk)||!rt)rt=lat(TODAY.place[raw.d]||"").replace(/^\s*→\s*/,"");
     const drv=lis[1]||(o&&o.drv)||"",stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     const k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k];let sun="";
-    if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>🌅 ${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>🌇 ${st}</span></div>${AUR.bar(254+raw.d,p[2],p[1])}${AUR.info(raw.d,254+raw.d,p[2],p[1],p[0])}`}
-    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS"><span>${drv?`${/徒步/.test(drv)?"🥾":/巴士/.test(drv)?"🚌":"🚗"} ${E(drv)}`:"🚶 不用開車"}</span><span>🏠 ${ht?E(ht):"—"}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</span></div></div><div class="dhW" id="twx"><b>⏳</b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
+    if(p){const r=sunAt(254+raw.d,p[2],p[1],1),st=sunAt(254+raw.d,p[2],p[1],0),m=x=>+x.slice(0,2)*60+ +x.slice(3),L=m(st)-m(r);sun=`<div class="sunlab"><span>${LIC("rise")}${r}</span><span>日照 ${Math.floor(L/60)} 小時 ${L%60} 分</span><span>${LIC("set")}${st}</span></div>${AUR.bar(254+raw.d,p[2],p[1])}${AUR.info(raw.d,254+raw.d,p[2],p[1],p[0])}`}
+    return `<div class="dhB noen"><div class="dhL"><div class="dhR">${E(rt||lat(pl))}</div><div class="dhS"><span>${drv?`${LIC(/徒步/.test(drv)?"walk":/巴士/.test(drv)?"bus":"car")}${E(drv)}`:LIC("walk")+"不用開車"}</span><span>${LIC("home")}${ht?E(ht):"—"}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</span></div></div><div class="dhW" id="twx"><b></b><span>16 日內有預報</span></div></div>${sun}<div class="dhA" id="taur" hidden></div>`},
   /* 每日資料（舊：一大格）：已經改用 headB */
   info(raw,day){const E=DOCX.esc,k=sunKey[raw.d]||((day.legs||[]).length?day.legs[day.legs.length-1].b:null),p=pts[k],stay=raw.stay||"",pl=TODAY.place[raw.d]||"",ht=stay?TODAY.hotel(stay,pl):"",sd=DOCX.all().filter(x=>x.type==="住宿"&&x.d===raw.d);
     return `<dl class="dinfo noen">${ht?`<div><dt>住宿</dt><dd>${E(ht)}${/已訂/.test(stay)?` <em class="tok">已訂</em>`:""}${DOCX.clip(sd)}</dd></div>`:""}<div><dt>天氣</dt><dd id="twx">⏳ 出發前 16 日內才有預報</dd></div>${p?`<div><dt>日出日落</dt><dd class="tnum">${sunAt(254+raw.d,p[2],p[1],1)} · <span class="tset">${sunAt(254+raw.d,p[2],p[1],0)}</span></dd></div>`:""}</dl>`},
@@ -3025,7 +3026,7 @@ const TODAY={d:null,docMode:"date",
   /* 今日重點：路線、出發時間、3–5 個主要停留點（住宿在上面的格） */
   dep(raw,day){try{const pl=day.plan||[],di=depI(pl),t=di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
     const tx=REAL&&day.firmT?`通知大家 <b>${day.toldT}</b> 出發 · 最遲 <b class="late">${day.firmT}</b> 出發`:t?`<b>${t}</b> 出發`:"";
-    return tx?`<section class="tcard tdep noen"><span class="tdi">🚗</span><span>${tx}</span></section>`:""}catch(e){return ""}},
+    return tx?`<section class="tcard tdep noen"><span class="tdi">${LIC("car")}</span><span>${tx}</span></section>`:""}catch(e){return ""}},
   /* 同一地點：當日做活動用活動插畫，只是路過／停留用景點插畫 */
   art(k,day){const tx=(day.plan||[]).map(r=>r[1]).join(" ");if(k==="skaf"&&!/攀冰|健行/.test(tx))return "skafv";if(k==="fjall"&&/冰浮/.test(tx))return "fjallf";return k},
   quick(raw,day){try{const E=DOCX.esc,rt=TODAY.routeLat(raw,day),pl=day.plan||[],di=depI(pl),dep=REAL&&day.firmT?day.firmT:di>=0?(String(pl[di][0]).match(/\d{1,2}:\d{2}/)||[""])[0]:"";
