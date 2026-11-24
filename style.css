@@ -3609,3 +3609,4 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .day[data-d="10"],.thero[data-d="10"]{--ph:url(img/d10.jpg)}
 .day[data-d="11"],.thero[data-d="11"]{--ph:url(img/d11.jpg)}
 .day[data-d="12"],.thero[data-d="12"]{--ph:url(img/d12.jpg)}
+.day[data-d="-5"],.thero[data-d="-5"]{--ph:url(img/h0.jpg)}
