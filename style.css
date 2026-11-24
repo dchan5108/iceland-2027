@@ -3546,3 +3546,50 @@ mark.xmiss{background:#ffd0d0;color:#1c1c1c}
 /* 2026-11-24 audit：步行／巴士導航掣只留 emoji；詳情內文唔用粗體 */
 .drvpill.emo::before{content:none!important;display:none!important}
 .sched.rich details.stinfo>p{font-weight:400!important;font-size:13px!important;color:var(--muted)!important}
+
+/* ===== Nordic Expedition Editorial（2026-11-24）— 只改外觀，不改資料／功能 ===== */
+:root{--serif:"Iowan Old Style","Charter","Georgia","Songti TC","Noto Serif TC","PMingLiU",serif;--gold:#a8874a;--glacier:#7f9fb0;--moss:#4f6b3d;--ph:none;
+--topo:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%23a8874a' stroke-opacity='.16' stroke-width='1'%3E%3Cpath d='M-10 60c40-30 80 20 130-5s80-35 130 0'/%3E%3Cpath d='M-10 85c45-25 85 22 132-2s78-30 128 4'/%3E%3Cpath d='M-10 150c35-20 70 25 120 5s90-40 140-5'/%3E%3Cpath d='M-10 175c40-18 80 28 125 8s85-35 135 0'/%3E%3Cpath d='M-10 205c45-15 85 25 128 8s82-30 132 2'/%3E%3C/svg%3E")}
+:root,:root[data-theme="light"]{--bg:#f6f1e6;--card:#fffcf5;--fg:#24302a;--muted:#6a6e64;--line:#e4dac6;--route:#4f6b3d;--fjord:#4f6b3d;--pill:#fffcf5;--pill-fg:#4f6b3d;--accent-bg:#ebeedf;--tint:#ebeedf;--fill:#efe8da;--nav:rgba(250,246,237,.92);--side:#f1eadc;--sea:#d9e6ea;--land:#f4eee1;--coast:#9fb7bf;--ok:#4f6b3d;--ok2:#4f6b3d;--okbg:#e6ecdb;--shadow:0 1px 2px rgba(70,58,36,.05),0 8px 22px rgba(70,58,36,.07);--shadow-l:0 10px 30px rgba(70,58,36,.12);--glass:rgba(255,252,245,.8);--glass-solid:#fbf7ee;--thick:rgba(250,246,237,.9);--thin:rgba(255,252,245,.7);
+--hero-fade:linear-gradient(90deg,rgba(246,241,230,.92) 0%,rgba(246,241,230,.55) 38%,rgba(246,241,230,0) 70%),linear-gradient(180deg,rgba(246,241,230,0) 55%,#f6f1e6 100%)}
+body{background:var(--topo) 0 0/240px 240px repeat,var(--bg)}
+:root[data-theme="dark"] body{--topo:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{--topo:none}}
+/* 標題：襯線；內文維持無襯線 */
+h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcard h3,.tiph{font-family:var(--serif)!important;letter-spacing:-.005em}
+.tdate,.day>h3>span:first-child{font-weight:700!important}
+.tsub,.pd-h,.hk{letter-spacing:.14em;text-transform:uppercase;color:var(--gold)!important;font-family:var(--sans)}
+/* 卡片：統一圓角、邊框、陰影、間距 */
+.tcard,.hcard,.card2,.day,.gfood,.glance,.ppanel>.tcard{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:var(--shadow)!important}
+.day{overflow:hidden;margin-bottom:var(--gap-card,14px)}
+/* 主頁 Hero：相片＋柔和漸層＋等高線 */
+.hero:not(.compact){background:var(--hero-fade),var(--topo) right -40px top -40px/280px no-repeat,var(--hero-img) center 40%/cover no-repeat,var(--card)!important;border-bottom:1px solid var(--line)}
+.hero:not(.compact) h1{font-family:var(--serif)!important;font-weight:600}
+.hero:not(.compact) h1::after{content:"";display:block;width:44px;height:3px;border-radius:2px;background:var(--moss);margin-top:10px}
+/* 今日／每日卡：頂部相片帶（未有相片時用冰川色漸層），固定高度避免切換版本時跳動 */
+.thero{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,252,245,0) 0,var(--card) 118px),var(--ph) center/cover no-repeat,linear-gradient(135deg,#dfe8e6 0%,#efe6d2 100%)!important}
+.thero::before{content:"";position:absolute;inset:0 0 auto 0;height:130px;background:var(--topo) right top/240px no-repeat;pointer-events:none}
+.thero>*{position:relative}
+.thero .tsub{padding-top:62px}
+.day>h3{background:linear-gradient(90deg,var(--card) 30%,rgba(255,252,245,.55) 70%,rgba(255,252,245,.1)),var(--ph) center/cover no-repeat,linear-gradient(120deg,var(--card) 40%,#e4ece9 100%);border-bottom:1px solid var(--line);min-height:56px}
+/* 按鈕、日子掣、主要動作：苔綠 */
+.chips button[aria-pressed="true"],.chips button.on,.tcatnav .tct[aria-selected="true"]{background:var(--moss)!important;border-color:var(--moss)!important;color:#fff!important}
+.chips button{border-radius:999px!important;border-color:var(--line)!important}
+.tbtns .troute,.navbtn{background:var(--moss)!important;border-color:transparent!important;color:#fff!important}
+.tbtns button,.tbtns a{border-color:var(--line)}
+/* 日照時間線：冰川藍→金 */
+.sunbar{background:linear-gradient(90deg,#2d3b4a,var(--gold) 18%,var(--glacier) 50%,var(--gold) 82%,#2d3b4a)!important}
+/* 導航列 */
+.bnav,.fnav{background:var(--nav)!important;border-color:var(--line)!important;-webkit-backdrop-filter:saturate(1.2) blur(14px);backdrop-filter:saturate(1.2) blur(14px)}
+.bnav [aria-current="page"],.bnav .on,.fnav [aria-current="page"],.fnav .on{color:var(--moss)!important}
+/* 警示保留可讀性 */
+.alrt{border-left:3px solid var(--gold)}
+/* 深色模式：保留原有配色，只加金色小強調 */
+:root[data-theme="dark"]{--moss:#9cbf86;--gold:#d2b36f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--moss:#9cbf86;--gold:#d2b36f}}
+:root[data-theme="dark"] .thero{background:var(--card)!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .thero{background:var(--card)!important}:root:not([data-theme="light"]) .chips button[aria-pressed="true"]{color:#000!important}}
+:root[data-theme="dark"] .chips button[aria-pressed="true"]{color:#000!important}
+/* 相片位置：收到相片後在此加入，例如
+:root{--hero-img:url(img/hero.jpg)}
+.day[data-d="9"],.thero[data-d="9"]{--ph:url(img/d9.jpg)} */

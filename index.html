@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-24-c">
+<link rel="stylesheet" href="style.css?v=2026-11-24-d">
 
 </head>
 <body>
@@ -3048,7 +3048,7 @@ const TODAY={d:null,docMode:"date",
     const day=TODAY.dayOf(raw),i=L.indexOf(TODAY.d),ru=TODAY.routeUrl(day),E=DOCX.esc;
     const dt=new Date(Date.UTC(2027,8,11+raw.d)),wd="日一二三四五六"[dt.getUTCDay()],td=(()=>{try{return todayDay()}catch(e){return null}})();
     const dd=DOCX.all().filter(x=>x.d===raw.d),docs=dd.length?`<section class="tcard"><div class="thd2 noen"><b>🎫 今日票券及文件</b></div>${dd.map(DOCX.item).join("")}</section>`:"";
-    box.innerHTML=`<section class="tcard thero"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
+    box.innerHTML=`<section class="tcard thero" data-d="${raw.d}"><div class="tsub noen">${td&&td.d===raw.d?"今日行程":"行程預覽"}</div><div class="tdrow"><h2 class="tdate">${dLab(raw.d)} · ${dFmt(raw.date)||`9月${dt.getUTCDate()}日（${wd}）`}</h2></div>${PVN}<div class="chips tchips noen" role="group" aria-label="選擇日子"${DT?"":" hidden"}>${L.map(d=>{const r=days.find(x=>x.d===d)||{};return `<button type="button" data-tday="${d}" aria-pressed="${d===raw.d}"${td&&td.d===d?' class="istoday"':""}>${dLab(d)}</button>`}).join("")}</div>
       <div class="tbtns"><button type="button" data-tgo="now" ${DT&&td&&L.includes(td.d)?"":"hidden"}>今日</button>${ru?`<a class="troute tlink noen" href="${ru}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>當日路線</a>`:""}<button type="button" class="tfull2" data-tfull="${raw.d}">完整時間表 ›</button></div>
       </section><section class="dsum2 dsB tdsB">${(()=>{const dl=(day.legs||[]).filter(l=>!l.c2&&!l.walk&&!l.ride),m=Math.round(dl.reduce((a,l)=>a+(REAL&&drv==="buf"?buf(l.m||0,l.b):(l.m||0)),0)),h=Math.floor(m/60),mi=m%60;return TODAY.headB(raw,day,null,{rt:TODAY.routeLat(raw,day),drv:m?`${h?h+" 小時":""}${mi?(h?" ":"")+mi+" 分":""}`:""})})()}</section>${TODAY.dep(raw,day)}${(()=>{try{return (raw.view||raw.xls)?viewBar(raw):""}catch(e){return ""}})()}${TODAY.quick(raw,day)}
       ${(()=>{let t=[];try{t=remPick(raw,day)}catch(e){}return t.length?`<section class="tcard tnotes noen"><div class="thd2"><b>⚠️ 今日注意</b></div><ul>${t.map(x=>`<li>${x}</li>`).join("")}</ul></section>`:""})()}${docs}`;
