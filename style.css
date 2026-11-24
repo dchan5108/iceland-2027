@@ -3694,3 +3694,5 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 #today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(255,252,245,0) 0,rgba(255,252,245,0) 90px,rgba(255,252,245,.7) 160px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,linear-gradient(135deg,#dfe8e6,#efe6d2)!important}
 #today .thero .tsub,#homeToday .thero .tsub{color:var(--gold)!important;text-shadow:none!important}
 :root[data-theme="dark"] #today .thero,:root[data-theme="dark"] #homeToday .thero{background:linear-gradient(180deg,rgba(0,0,0,0) 90px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,var(--card)!important}
+/* 今日頁日子掣：放喺卡片外面（同行程頁一樣） */
+#today>.tchips,#homeToday>.tchips,#todayIn>.tchips,.tchips:not(.thero .tchips){margin:0 0 10px!important;padding:2px 0!important;background:none!important;border:0!important;box-shadow:none!important}
