@@ -3593,3 +3593,12 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 /* 相片位置：收到相片後在此加入，例如
 :root{--hero-img:url(img/hero.jpg)}
 .day[data-d="9"],.thero[data-d="9"]{--ph:url(img/d9.jpg)} */
+/* 相片（Unsplash） */
+:root{--hero-img:url(img/hero.jpg)}
+.day[data-d="2"],.thero[data-d="2"]{--ph:url(img/d2.jpg)}
+.day[data-d="3"],.thero[data-d="3"]{--ph:url(img/d3.jpg)}
+.day[data-d="6"],.thero[data-d="6"]{--ph:url(img/d6.jpg)}
+.day[data-d="7"],.thero[data-d="7"]{--ph:url(img/d7.jpg)}
+.day[data-d="9"],.thero[data-d="9"]{--ph:url(img/d9.jpg)}
+.day[data-d="-4"],.thero[data-d="-4"]{--ph:url(img/hike.jpg)}
+.day[data-d="-3"],.day[data-d="-2"],.day[data-d="-1"],.thero[data-d="-3"],.thero[data-d="-2"],.thero[data-d="-1"]{--ph:url(img/pre.jpg)}
