@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-24-e">
+<link rel="stylesheet" href="style.css?v=2026-11-24-f">
 
 </head>
 <body>
@@ -2757,8 +2757,8 @@ const DOCX={
     x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has);
       a.querySelectorAll(".tl-m").forEach(e=>{if(dur(e.textContent.trim()))e.classList.add("durx")});
       a.querySelectorAll("details.dsx .spd").forEach(sp=>{if(sp.dataset.ord)return;sp.dataset.ord=1;let dl=sp.querySelector(":scope>dl");if(!dl){dl=document.createElement("dl");sp.append(dl)}
-        const P=["停留時間","預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
-        {/* 停留時間放入詳情，格式同其他欄一致 */const du=a.querySelector(".tl-m.durx");if(du&&!dl.querySelector("dt.stayx")){dl.insertAdjacentHTML("afterbegin",`<dt class="stayx">停留時間</dt><dd>${DOCX.esc(du.textContent.trim().replace(/^停留/,""))}</dd>`);du.remove()}}dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
+        const P=["停留時間","預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(停留時間|建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
+        /* 停留時間只喺行程行顯示，詳情唔再重複 */dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
         pairs.sort((x,y)=>{const i=k=>{const n=P.indexOf(x===k?x[0].textContent.trim():y[0].textContent.trim());return n<0?99:n};const a1=P.indexOf(x[0].textContent.trim()),b1=P.indexOf(y[0].textContent.trim());return (a1<0?99:a1)-(b1<0?99:b1)});
         pairs.forEach(([dt,dd])=>{if(HIDE.test(dt.textContent.trim())){dt.remove();dd&&dd.remove();return}dl.append(dt);dd&&dl.append(dd)});
         const ti=sp.querySelector(":scope>.spt");if(ti)ti.remove();
