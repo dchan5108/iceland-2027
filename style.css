@@ -3638,7 +3638,7 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .day>h3 .h3act button,:root:not([data-theme="light"]) .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}}
 
 /* 相片顯示多啲（2026-11-24）*/
-.day:is([data-d="1"],[data-d="10"],[data-d="11"],[data-d="12"],[data-d="2"],[data-d="3"],[data-d="4"],[data-d="5"],[data-d="6"],[data-d="7"],[data-d="8"],[data-d="9"],[data-d="-5"],[data-d="-4"])>h3{min-height:132px;align-items:flex-end!important;background:linear-gradient(180deg,rgba(255,252,245,0) 25%,rgba(255,252,245,.75) 72%,var(--card) 100%),var(--ph) center 45%/cover no-repeat!important;padding-bottom:10px!important}
+.day:is([data-d="0"],[data-d="1"],[data-d="10"],[data-d="11"],[data-d="12"],[data-d="2"],[data-d="3"],[data-d="4"],[data-d="5"],[data-d="6"],[data-d="7"],[data-d="8"],[data-d="9"],[data-d="-5"],[data-d="-4"])>h3{min-height:132px;align-items:flex-end!important;background:linear-gradient(180deg,rgba(255,252,245,0) 25%,rgba(255,252,245,.75) 72%,var(--card) 100%),var(--ph) center 45%/cover no-repeat!important;padding-bottom:10px!important}
 .thero{background:linear-gradient(180deg,rgba(18,24,20,.05) 0,rgba(18,24,20,.25) 90px,rgba(18,24,20,.6) 168px,var(--card) 168px),var(--ph) center top/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important}
 .thero .tsub{padding-top:96px!important;color:#f3ead2!important}
 .thero .tdate,#homeToday .thero .tdate{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.45)}
@@ -3646,3 +3646,4 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .thero::before{display:none}
 .day>h3 .h3act button,.day>h3 .h3act a{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 :root,:root[data-theme="light"]{--hero-fade:linear-gradient(90deg,rgba(246,241,230,.85) 0%,rgba(246,241,230,.35) 28%,rgba(246,241,230,0) 48%),linear-gradient(180deg,rgba(246,241,230,0) 78%,#f6f1e6 100%)}
+.day[data-d="0"],.thero[data-d="0"]{--ph:url(img/d0.jpg)}

@@ -27,7 +27,7 @@
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-24-l">
+<link rel="stylesheet" href="style.css?v=2026-11-24-m">
 
 </head>
 <body>
@@ -933,7 +933,7 @@ function sunAt(Nd,lat,lon,rise,zen){const lh=lon/15,t=Nd+((rise?6:18)-lh)/24,M=0
 
 /* aurora chance estimate from moonlight and city light; not a forecast */
 
-function HEROPH(d){try{const m={"1":"d1","10":"d10","11":"d11","12":"d12","2":"d2","3":"d3","4":"d4","5":"d5","6":"d6","7":"d7","8":"d8","9":"d9","-5":"h0","-4":"hike"}[d];document.documentElement.style.setProperty("--hero-img",m?`url(img/${m}.jpg)`:"url(img/hero.jpg)")}catch(e){}}
+function HEROPH(d){try{const m={"1":"d1","10":"d10","11":"d11","12":"d12","2":"d2","3":"d3","4":"d4","5":"d5","6":"d6","7":"d7","8":"d8","9":"d9","-5":"h0","-4":"hike","0":"d0"}[d];document.documentElement.style.setProperty("--hero-img",m?`url(img/${m}.jpg)`:"url(img/hero.jpg)")}catch(e){}}
 function LIC(n){const P={car:'<path d="M5 16v-5l2-5h10l2 5v5zM5 16v2M19 16v2"/><path d="M8 13h.01M16 13h.01"/>',bus:'<rect x="5" y="4" width="14" height="13" rx="2"/><path d="M5 11h14M8 20v-3M16 20v-3"/>',walk:'<circle cx="13" cy="4.5" r="1.5"/><path d="M11 21l2-6-2-3 1-4 3 3 3 1M10 9l-2 4"/>',home:'<path d="M4 11l8-6 8 6v9H4z"/><path d="M10 20v-5h4v5"/>',rise:'<path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 4v6M9 7l3-3 3 3"/>',set:'<path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 4v6M9 7l3 3 3-3"/>',aur:'<path d="M3 17c3-8 6-10 9-10s6 2 9 10"/><path d="M6 17c2-5 4-6.5 6-6.5s4 1.5 6 6.5"/><path d="M12 3v1M5 6l.7.7M19 6l-.7.7"/>'};return `<svg class="lic" viewBox="0 0 24 24" aria-hidden="true">${P[n]||""}</svg>`}
 const sunKey={"-5":"rvk","-4":"rvk","-3":"rvk","-2":"rvk","-1":"rvk",0:"rvk",1:"rvk",2:"midh",3:"akur",4:"myv",5:"egil",6:"hofn",7:"hjok",8:"vik",9:"self",10:"rvk",11:"rvk",12:"rvk"};
 /* 極光加強（A 時間軸光暈＋B 極光資訊）：改成 false 就全部還原 */
