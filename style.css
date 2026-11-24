@@ -3602,3 +3602,10 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .day[data-d="9"],.thero[data-d="9"]{--ph:url(img/d9.jpg)}
 .day[data-d="-4"],.thero[data-d="-4"]{--ph:url(img/hike.jpg)}
 .day[data-d="-3"],.day[data-d="-2"],.day[data-d="-1"],.thero[data-d="-3"],.thero[data-d="-2"],.thero[data-d="-1"]{--ph:url(img/pre.jpg)}
+.day[data-d="1"],.thero[data-d="1"]{--ph:url(img/d1.jpg)}
+.day[data-d="4"],.thero[data-d="4"]{--ph:url(img/d4.jpg)}
+.day[data-d="5"],.thero[data-d="5"]{--ph:url(img/d5.jpg)}
+.day[data-d="8"],.thero[data-d="8"]{--ph:url(img/d8.jpg)}
+.day[data-d="10"],.thero[data-d="10"]{--ph:url(img/d10.jpg)}
+.day[data-d="11"],.thero[data-d="11"]{--ph:url(img/d11.jpg)}
+.day[data-d="12"],.thero[data-d="12"]{--ph:url(img/d12.jpg)}
