@@ -3688,3 +3688,9 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 #today .thero .tsub,#homeToday .thero .tsub{padding-top:150px!important}
 #today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(18,24,20,.08) 0,rgba(18,24,20,.15) 120px,rgba(18,24,20,.45) 196px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important}
 #today .thero>*:last-child,#homeToday .thero>*:last-child{margin-bottom:0!important}
+/* 行程細項：全文顯示，唔再「…」截斷 */
+.sched .tl-d,.sched .tl-d *,.sched .tl-m,.sched .tl-more,.sched .tl-more *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;-webkit-line-clamp:unset!important}
+/* 今日卡：同行程頁一樣，淺色漸層淡入，日期深色 */
+#today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(255,252,245,0) 0,rgba(255,252,245,0) 90px,rgba(255,252,245,.7) 160px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,linear-gradient(135deg,#dfe8e6,#efe6d2)!important}
+#today .thero .tsub,#homeToday .thero .tsub{color:var(--gold)!important;text-shadow:none!important}
+:root[data-theme="dark"] #today .thero,:root[data-theme="dark"] #homeToday .thero{background:linear-gradient(180deg,rgba(0,0,0,0) 90px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,var(--card)!important}
