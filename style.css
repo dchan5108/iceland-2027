@@ -3700,3 +3700,27 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 .simbar{position:sticky;top:0;z-index:999;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--gold);color:#fff;font-size:13px;font-weight:600;text-align:center}
 .simbar button{border:0;border-radius:999px;padding:3px 12px;background:#fff;color:var(--gold);font-weight:700;font-size:12px}
 .simrow input{font:inherit;font-size:14px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+/* ===== 首頁（Landing）＋ Logo：Nordic Expedition Editorial ===== */
+.logo{color:var(--moss)!important}
+.landing{background:linear-gradient(180deg,rgba(24,30,26,.05) 0%,rgba(24,30,26,.2) 45%,rgba(24,30,26,.6) 100%),url(img/hero.jpg) center 40%/cover no-repeat,#2f3a33!important}
+.landing .lscene{display:none!important}
+.landing .lbox{width:min(460px,100%)!important}
+.landing .ltitle{font-family:var(--serif)!important;font-weight:600!important;letter-spacing:.06em!important;color:#fffaf0!important;text-shadow:0 2px 18px rgba(0,0,0,.4)!important}
+.landing .lring{color:#f1dfb4!important;letter-spacing:.3em!important}
+.landing .lring i{background:linear-gradient(90deg,transparent,rgba(241,223,180,.85),transparent)!important}
+.lcard{background:var(--topo) right -60px top -60px/260px no-repeat,rgba(255,252,245,.94)!important;color:var(--fg)!important;border:1px solid var(--line);border-radius:22px!important;box-shadow:0 16px 44px rgba(30,24,12,.3)!important;font-family:var(--sans)!important}
+.landing .ltag b{color:var(--gold)!important;letter-spacing:.16em!important}
+.landing .ltag span,.landing .lsub,.landing .lnote,.landing .lmsg,.landing .lnum span{color:var(--muted)!important}
+.landing .lnum b{font-family:var(--serif)!important;font-weight:600!important;color:var(--moss)!important}
+.landing .lwel{font-family:var(--serif)!important;font-weight:600!important;color:var(--fg)!important}
+.lenter{background:var(--moss)!important;color:#fff!important;font-weight:700!important;box-shadow:0 4px 14px rgba(79,107,61,.35)}
+/* 網頁版（闊螢幕）：卡片放中間偏左，標題放大 */
+@media (min-width:900px){
+ .landing{align-items:center!important;justify-content:flex-start!important;padding-left:max(6vw,48px);background-position:0 0,center 45%,0 0!important}
+ .landing .lbox{width:440px!important;padding:0!important;text-align:left!important}
+ .landing .ltitle{font-size:72px!important}
+ .landing .lring{justify-content:flex-start!important}
+ .landing .lring i:first-child{display:none}
+}
+/* 網頁版主網站：內容唔好拉到太闊 */
+@media (min-width:1100px){.hero:not(.compact) h1{font-size:40px}}
