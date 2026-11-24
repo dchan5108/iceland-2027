@@ -3610,3 +3610,18 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .day[data-d="11"],.thero[data-d="11"]{--ph:url(img/d11.jpg)}
 .day[data-d="12"],.thero[data-d="12"]{--ph:url(img/d12.jpg)}
 .day[data-d="-5"],.thero[data-d="-5"]{--ph:url(img/h0.jpg)}
+/* 主頁大圖跟當日行程（有相先換，冇就用預設） */
+:root:has(.thero[data-d="1"]){--hero-img:url(img/d1.jpg)}
+:root:has(.thero[data-d="10"]){--hero-img:url(img/d10.jpg)}
+:root:has(.thero[data-d="11"]){--hero-img:url(img/d11.jpg)}
+:root:has(.thero[data-d="12"]){--hero-img:url(img/d12.jpg)}
+:root:has(.thero[data-d="2"]){--hero-img:url(img/d2.jpg)}
+:root:has(.thero[data-d="3"]){--hero-img:url(img/d3.jpg)}
+:root:has(.thero[data-d="4"]){--hero-img:url(img/d4.jpg)}
+:root:has(.thero[data-d="5"]){--hero-img:url(img/d5.jpg)}
+:root:has(.thero[data-d="6"]){--hero-img:url(img/d6.jpg)}
+:root:has(.thero[data-d="7"]){--hero-img:url(img/d7.jpg)}
+:root:has(.thero[data-d="8"]){--hero-img:url(img/d8.jpg)}
+:root:has(.thero[data-d="9"]){--hero-img:url(img/d9.jpg)}
+:root:has(.thero[data-d="-5"]){--hero-img:url(img/h0.jpg)}
+:root:has(.thero[data-d="-4"]){--hero-img:url(img/hike.jpg)}
