@@ -3649,3 +3649,16 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .day[data-d="0"],.thero[data-d="0"]{--ph:url(img/d0.jpg)}
 /* 今日卡相片：要蓋過 #today／#homeToday 嘅透明底設定 */
 #today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(18,24,20,.05) 0,rgba(18,24,20,.25) 90px,rgba(18,24,20,.6) 168px,var(--card) 168px),var(--ph) center top/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:var(--shadow)!important;padding:0 16px 14px!important;overflow:hidden}
+/* 行程頁出發通知：同今日頁一樣字眼同樣式 */
+.golin.g1 .gl-l{display:inline!important;font-style:normal}
+.golin.g1{margin:8px 16px 4px!important;padding:10px 14px!important;border-radius:12px!important;border:0!important;border-left:3px solid var(--moss)!important;background:var(--accent-bg)!important;box-shadow:none!important;font-size:14px!important;width:auto!important}
+.golin.g1>span::before,.tdep>.tdi{display:none!important}
+/* 日期標題左右留位 */
+.day>h3{padding-left:16px!important;padding-right:12px!important;box-sizing:border-box}
+/* 收窄留白：導航掣浮動後留低嘅空行 */
+#view-trip .dsum2 .dact{margin:0!important;padding:0!important;min-height:0!important}
+#view-trip .dsum2 .dact:not(:has(.mapbtn:not([hidden]))){display:none!important}
+#panel .dsum2.dsB{padding-bottom:8px!important;margin-bottom:0!important}
+/* 版本掣：所有日子都靠右 */
+#panel article.day>.scenbox,#today .viewbox,#homeToday .viewbox,.scenbox{display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;align-items:center!important;margin:8px 16px!important;padding:8px 12px!important}
+#panel article.day>.scenbox .seg,#today .viewbox .seg,#homeToday .viewbox .seg,.scenbox .seg{margin-left:auto!important;flex:none!important;width:auto!important}
