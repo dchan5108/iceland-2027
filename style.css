@@ -3649,3 +3649,5 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .scenbox .seg{margin-left:auto;background:var(--fill)!important;border-radius:999px!important;padding:3px!important;display:inline-flex;gap:2px}
 .scenbox .seg button{border-radius:999px!important;border:0!important;background:transparent!important;min-height:32px;padding:0 14px!important;font-weight:600;color:var(--muted)!important}
 .scenbox .seg button[aria-pressed="true"]{background:var(--moss)!important;color:#fff!important;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+:root[data-theme="dark"] .day>h3 .h3act button,:root[data-theme="dark"] .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .day>h3 .h3act button,:root:not([data-theme="light"]) .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}}
