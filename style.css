@@ -3662,3 +3662,9 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 /* 版本掣：所有日子都靠右 */
 #panel article.day>.scenbox,#today .viewbox,#homeToday .viewbox,.scenbox{display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;align-items:center!important;margin:8px 16px!important;padding:8px 12px!important}
 #panel article.day>.scenbox .seg,#today .viewbox .seg,#homeToday .viewbox .seg,.scenbox .seg{margin-left:auto!important;flex:none!important;width:auto!important}
+/* 日期標題左右留位（要蓋過舊 article.day>h3 設定） */
+article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!important;padding-right:12px!important}
+/* 主頁標題：左邊象牙底加闊，標題唔再壓喺山上 */
+:root,:root[data-theme="light"]{--hero-fade:linear-gradient(90deg,#f6f1e6 0%,rgba(246,241,230,.95) 38%,rgba(246,241,230,.55) 58%,rgba(246,241,230,0) 78%),linear-gradient(180deg,rgba(246,241,230,0) 70%,rgba(246,241,230,.9) 100%)}
+.hero:not(.compact){background-position:0 0,right -40px top -40px,right 30%!important}
+.hero:not(.compact) h1::after{display:none!important}
