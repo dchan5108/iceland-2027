@@ -3668,3 +3668,14 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 :root,:root[data-theme="light"]{--hero-fade:linear-gradient(90deg,#f6f1e6 0%,rgba(246,241,230,.95) 38%,rgba(246,241,230,.55) 58%,rgba(246,241,230,0) 78%),linear-gradient(180deg,rgba(246,241,230,0) 70%,rgba(246,241,230,.9) 100%)}
 .hero:not(.compact){background-position:0 0,right -40px top -40px,right 30%!important}
 .hero:not(.compact) h1::after{display:none!important}
+/* 主頁標題：唔用相 */
+:root{--hero-img:none!important}
+.hero:not(.compact){background:var(--topo) right -40px top -40px/280px no-repeat,var(--bg)!important}
+/* 每日相片位置：顯示多啲上半部（山頂） */
+.day>h3{background-position:0 0,center 30%,0 0!important}
+.day[data-d="2"]>h3{background-position:0 0,center 12%,0 0!important}
+.day[data-d="2"],.thero[data-d="2"]{--php:center 10%}
+#today .thero[data-d="2"],#homeToday .thero[data-d="2"]{background-position:0 0,center 12%,0 0!important}
+/* 今日卡：日期喺相片下面，用深色字 */
+#today .thero .tdate,#homeToday .thero .tdate,.thero .tdate{color:var(--fg)!important;text-shadow:none!important}
+:root[data-theme="dark"] .thero .tdate{color:#fff!important}
