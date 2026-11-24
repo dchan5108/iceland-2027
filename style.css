@@ -3679,3 +3679,12 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 /* 今日卡：日期喺相片下面，用深色字 */
 #today .thero .tdate,#homeToday .thero .tdate,.thero .tdate{color:var(--fg)!important;text-shadow:none!important}
 :root[data-theme="dark"] .thero .tdate{color:#fff!important}
+/* 版本掣統一：隱藏咗嘅「標示不同」唔再霸位，掣靠右；標籤一律金色細字 */
+.scenbox .seg[aria-hidden="true"]{display:none!important}
+.scenbox .sl,#today .viewbox .sl,#homeToday .viewbox .sl,.thero .viewbox .sl,#panel .scenbox .sl{font-size:11.5px!important;letter-spacing:.12em;color:var(--gold)!important;font-weight:700}
+#today .viewbox,#homeToday .viewbox{margin:0 0 var(--gap-card,14px)!important;padding:10px 16px!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:var(--shadow)!important}
+/* 今日卡相片：固定 200px 相片帶，日期下面唔再留大段空白 */
+#today .thero,#homeToday .thero{padding-bottom:6px!important}
+#today .thero .tsub,#homeToday .thero .tsub{padding-top:150px!important}
+#today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(18,24,20,.08) 0,rgba(18,24,20,.15) 120px,rgba(18,24,20,.45) 196px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important}
+#today .thero>*:last-child,#homeToday .thero>*:last-child{margin-bottom:0!important}
