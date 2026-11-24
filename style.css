@@ -3610,21 +3610,6 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .day[data-d="11"],.thero[data-d="11"]{--ph:url(img/d11.jpg)}
 .day[data-d="12"],.thero[data-d="12"]{--ph:url(img/d12.jpg)}
 .day[data-d="-5"],.thero[data-d="-5"]{--ph:url(img/h0.jpg)}
-/* 主頁大圖跟當日行程（有相先換，冇就用預設） */
-:root:has(.thero[data-d="1"]){--hero-img:url(img/d1.jpg)}
-:root:has(.thero[data-d="10"]){--hero-img:url(img/d10.jpg)}
-:root:has(.thero[data-d="11"]){--hero-img:url(img/d11.jpg)}
-:root:has(.thero[data-d="12"]){--hero-img:url(img/d12.jpg)}
-:root:has(.thero[data-d="2"]){--hero-img:url(img/d2.jpg)}
-:root:has(.thero[data-d="3"]){--hero-img:url(img/d3.jpg)}
-:root:has(.thero[data-d="4"]){--hero-img:url(img/d4.jpg)}
-:root:has(.thero[data-d="5"]){--hero-img:url(img/d5.jpg)}
-:root:has(.thero[data-d="6"]){--hero-img:url(img/d6.jpg)}
-:root:has(.thero[data-d="7"]){--hero-img:url(img/d7.jpg)}
-:root:has(.thero[data-d="8"]){--hero-img:url(img/d8.jpg)}
-:root:has(.thero[data-d="9"]){--hero-img:url(img/d9.jpg)}
-:root:has(.thero[data-d="-5"]){--hero-img:url(img/h0.jpg)}
-:root:has(.thero[data-d="-4"]){--hero-img:url(img/hike.jpg)}
 /* 每日頭格整理（2026-11-24） */
 .lic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:6px;color:var(--moss)}
 .dhS>span,.sunlab>span{display:inline-flex;align-items:center}
@@ -3651,3 +3636,13 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 .scenbox .seg button[aria-pressed="true"]{background:var(--moss)!important;color:#fff!important;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 :root[data-theme="dark"] .day>h3 .h3act button,:root[data-theme="dark"] .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .day>h3 .h3act button,:root:not([data-theme="light"]) .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}}
+
+/* 相片顯示多啲（2026-11-24）*/
+.day:is([data-d="1"],[data-d="10"],[data-d="11"],[data-d="12"],[data-d="2"],[data-d="3"],[data-d="4"],[data-d="5"],[data-d="6"],[data-d="7"],[data-d="8"],[data-d="9"],[data-d="-5"],[data-d="-4"])>h3{min-height:132px;align-items:flex-end!important;background:linear-gradient(180deg,rgba(255,252,245,0) 25%,rgba(255,252,245,.75) 72%,var(--card) 100%),var(--ph) center 45%/cover no-repeat!important;padding-bottom:10px!important}
+.thero{background:linear-gradient(180deg,rgba(18,24,20,.05) 0,rgba(18,24,20,.25) 90px,rgba(18,24,20,.6) 168px,var(--card) 168px),var(--ph) center top/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important}
+.thero .tsub{padding-top:96px!important;color:#f3ead2!important}
+.thero .tdate,#homeToday .thero .tdate{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.thero .tdrow{min-height:48px}
+.thero::before{display:none}
+.day>h3 .h3act button,.day>h3 .h3act a{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+:root,:root[data-theme="light"]{--hero-fade:linear-gradient(90deg,rgba(246,241,230,.85) 0%,rgba(246,241,230,.35) 28%,rgba(246,241,230,0) 48%),linear-gradient(180deg,rgba(246,241,230,0) 78%,#f6f1e6 100%)}
