@@ -126,10 +126,10 @@
 </div>
 
 
-<script src="trip.js?v=2026-11-24-c"></script>
+<script src="trip.js?v=2026-11-24-d"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
-<script src="data.js?v=2026-11-24-b"></script>
+<script src="data.js?v=2026-11-24-c"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -1088,7 +1088,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
 const isDrv=t=>{t=String(t);return /^(沿|開車前往|前往|經|開車)/.test(t)&&/(車程|約|分鐘|小時|公路|｜)/.test(t)&&!/住宿|入住|休息|還車|機場|退房|午餐|晚餐|早餐|超市/.test(t)};
 const drvTxt=a=>String(a).replace(/[（(]((?:車程)?約[^）)]*)[）)]/,"｜$1");
 /* 景點資料配對次序：一般行先，「出發／前往 X」這類開車行排後（免得詳情跟了去出發行），特別標籤行最後 */
-const rowRank=r=>(TAGS[r[2]]?2:0)+(/^(退房出發|退房|出發|前往|開車|開去|返回)/.test(String(r[1]).replace(/<[^>]*>/g,""))?1:0);
+const rowRank=r=>(TAGS[r[2]]?2:0)+(/^(退房出發|退房|出發|前往|開車|開去|返回|南下|北上|駛往)/.test(String(r[1]).replace(/<[^>]*>/g,""))?1:0);
 function rowStops(day,plan){
   const att=plan.map(()=>[]),order=plan.map((r,i)=>i).sort((a,b)=>rowRank(plan[a])-rowRank(plan[b]));
   for(const k in SPKW){for(const i of order){const txt=String(plan[i][1]).split("｜")[0];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].push(k);break}}}
@@ -1161,14 +1161,15 @@ function richRows(day){
   for(const k in SPKW){for(const i of order){const txt=String(plan[i][1]).split("｜")[0];if(SKIP.test(txt))continue;if(SPKW[k].test(txt)){att[i].sp.push(k);used.add(k);break}}}
   /* map stop numbers (same as the map and the drive list) shown on the matching timetable rows */
   const SN={},SK={};if(day.ekeys){let n=0,pv=null;day.ekeys.forEach((k,i)=>{if(k&&pts[k]&&k!==pv){n++;SN[i]=n;SK[i]=k;pv=k}})}else{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));let last=-1;
-    sq.forEach((k,i)=>{if(i===sq.length-1&&k===sq[0]&&i>0)return;const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
+    sq.forEach((k,i)=>{const rt=i===sq.length-1&&k===sq[0]&&i>0;/* 返回起點：唔編號，但照樣對應到行，開車行先有導航 */const nm0=String(pts[k]?pts[k][0]:"").split(/[ （(]/)[0],en=String(Q[k]||"").split(/[ ,]/)[0];
       const okRow=j=>j>last&&plan[j][2]!=="y"&&SN[j]==null&&!/第二部車/.test(plan[j][1])&&!isDrv(plan[j][1])&&!isConn(j);let j=-1;
-      if(i===0){const d=depI(plan);j=d>=0?d:-1}
+      if(i===0){const d=depI(plan);if(d>=0)last=d;return}/* 起點：只用出發行；搵唔到都唔好向後搜，否則會食晒成日其他站 */
       if(j<0&&i===sq.length-1&&pts[k]&&pts[k][3]==="stay")j=plan.findIndex((r,x)=>okRow(x)&&/^(入住|到[^，；]*(住處|入住)|到赫本|到維克|到雷克雅維克|到塞爾福斯|到埃伊爾斯塔濟)/.test(r[1]));
+      if(j<0&&rt)return;
       if(j<0)j=plan.findIndex((r,x)=>okRow(x)&&att[x].sp.includes(k));
       if(j<0&&nm0)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(nm0));
       if(j<0&&en&&en.length>3)j=plan.findIndex((r,x)=>okRow(x)&&String(r[1]).includes(en));
-      if(j>=0){if(i>0){SN[j]=i+1;SK[j]=k}last=j}})}
+      if(j>=0){if(i>0){if(!rt)SN[j]=i+1;SK[j]=k}last=j}})}
   const NOE=((days.find(x=>x.d===day.d)||{}).noEat)||[],meals=(EAT[day.d]||[]).filter(e=>!NOE.includes(e[0])),done=new Set();
   plan.forEach((r,i)=>{if(r[2]==="y")return;const m=(r[1].match(/早餐|午餐|晚餐/)||[])[0];if(m&&!done.has(m)){const xs=meals.filter(e=>e[0]===m);if(xs.length){att[i].eat=xs;done.add(m)}}});
   const ebase=e=>String(e[1]).replace(/^划算・/,"").split(/[（(]/)[0].trim();
@@ -1182,7 +1183,7 @@ function richRows(day){
   /* 時間軸每行：名稱＋停留／車程＋一行簡介；其餘資料收在「詳情」 */
   const dep=depI(plan),LG=(day.legs||[]).filter(l=>!l.c2&&!l.hide),usedL=new Set(),PD={v:null};
   /* 開車行的目的地：之後第一個有地點的站；按這一行就導航去那裡 */
-  const drvTo=i=>{if(day.d===-4)return "";let j=i+1;while(j<plan.length&&!SK[j])j++;const k=j<plan.length?SK[j]:"";if(!k||!pts[k])return "";const q=qn(k),lg0=(day.legs||[]).find(l=>l.b===k&&!l.walk);return ` data-to="${escA(k)}"${lg0&&lg0.m?` data-dm="${Math.round(lg0.m)}"`:""} data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
+  const drvTo=i=>{if(day.d===-4)return "";{/* 目的地唔喺地圖站嘅開車行：直接用名搜尋導航 */const DNAV=[[/^退房（Old farm）出發去 Akureyri/,"Akureyri"],[/^開去 Polar Hestar/,"Polar Hestar"]],ov=DNAV.find(([r])=>r.test(String(plan[i][1]).replace(/<[^>]*>/g,"")));if(ov)return ` data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(ov[1])}&travelmode=driving`)}"`}let j=i+1;const pk=x=>plan[x][2]==="pk"&&att[x].sp[0]&&(pts[att[x].sp[0]]||Q[att[x].sp[0]]);/* 可選站（例如 Diamond Beach）：導航去佢，同標題一致 */while(j<plan.length&&!SK[j]&&!pk(j))j++;const k=j<plan.length?(SK[j]||(pk(j)?att[j].sp[0]:"")):"";if(!k||!(pts[k]||Q[k]))return "";const q=qn(k),lg0=(day.legs||[]).find(l=>l.b===k&&!l.walk);return ` data-to="${escA(k)}"${lg0&&lg0.m?` data-dm="${Math.round(lg0.m)}"`:""} data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
   const driveTo=k=>{const i=LG.findIndex((l,x)=>!usedL.has(x)&&l.b===k);if(i<0)return 0;usedL.add(i);return LG[i]};
   const bodyA=plan.map(([t,a,f],i)=>{if(isConn(i)){if(SK[i])driveTo(SK[i]);const p=String(a).replace(/<[^>]*>/g,"");
       let tx=p.replace(/\s*[（(]\s*/," · ").replace(/[）)]\s*[：:，,]\s*/," · ").replace(/[）)]\s*$/,"").replace(/[）)]\s*/g," ").replace(/[；;]\s*/g," · ").replace(/\s+·/g," ·");
@@ -1206,12 +1207,12 @@ function richRows(day){
     if(/天黑/.test(plain)&&sp.intro)sp.intro=String(sp.intro).replace(/[，,；]?\s*最後一段會天黑/,"");
     const gk=x.sp[0]&&!meal?x.sp[0]:null,named=meal?x.eat.filter(e=>{const w=ebase(e).split(/\s+/)[0];return w.length>3&&plain.includes(w)}):[],gq=gk?enc(qn(gk)):named[0]&&eatQ(named[0][1])?encodeURIComponent(eatQ(named[0][1])):null,head=`<div class="tl-h">${sn}${tag}<span class="tl-n">${sp.name}</span>${isAI(day.d,plain)||(meal&&!MYFOOD.test(plain)&&x.eat.some(e=>foodAI(e[1])&&plain.includes(String(e[1]).split(/[（(]/)[0].trim())))?AIB:""}${gq?`<a class="gpin" href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener" aria-label="在 Google Maps 看" title="Google Maps">${PINI}</a>`:""}${bk&&!/還車|取車|起飛|下機|抵達|Flybus|集合|入住|退房/.test(plain)?`<span class="bkb">預約</span>`:""}${al}</div>${meta.length?`<div class="tl-m">${meta.join(" · ")}</div>`:""}${sp.intro?`<div class="tl-d">${sp.intro}</div>`:""}`;
     const full=[sp.intro,sp.more].filter(Boolean).join("；"),longI=sp.intro&&sp.intro.length>22;
-    const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length?eatList(x.eat):""}${x.sp.map(spDetail).join("")}`;
-    const inner0=!pri?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${sp.html&&f==="pk"?sp.html:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^不/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&stayIn&&!/放行李/.test(plain)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
+    const det=`${(longI||sp.more)?`<p class="tl-more">${full}</p>`:""}${sp.html}${x.eat.length&&!(meal&&x.sp.length)?eatList(x.eat):""}${x.sp.map(spDetail).join("")}`;
+    const inner0=!pri&&!((f==="pk"||meal)&&x.sp.length)?`${head}${sp.more&&!sp.html?`<div class="tl-d">${sp.more}</div>`:""}${sp.html&&f==="pk"?sp.html:""}${(()=>{const ns=x.eat.map(e=>e[1]).filter(n=>!/^不/.test(n)).filter(n=>{const b=String(n).split(/[（(]/)[0].trim(),w=b.split(/\s+/)[0];return !plain.includes(b)&&!(w.length>3&&plain.includes(w))});return ns.length?`<div class="tl-d eatl">推薦：${ns.map(eatA).join("／")}</div>`:""})()}${stayIn?stayDetH(day.d):""}${(DT||REAL)&&stayIn&&!/放行李/.test(plain)?`<button type="button" class="stlink" data-gostay="${day.d}">住宿預訂 ›</button>`:""}${named.length?`<details class="dsx"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary><div class="spd">${named.map(([m,n,t])=>`<div class="spt">${n}</div><p>${t}${mustTxt(n)}</p>`).join("")}</div></details>`:""}`:det.replace(/\s+/g,"")?`${head}<details class="dsx"${x.sp[0]?` data-spot="${x.sp[0]}"`:""}><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${det}</details>`:head,inner=pri?`<div class="tl-card">${inner0}</div>`:inner0;
     const ck=cfKey(day.d,t,a),fix=isConf(day.d,a,f),on=fix||!!CF[ck]||!!SHCF[ck],btn="";
     const est=!firm&&/\d{1,2}:\d{2}/.test(String(t))?`<small class="est">預計</small>`:"";
     const m1=String(t).match(/(\d{1,2}):(\d{2})/),pd=m1?(+m1[1]<12?0:+m1[1]<18?1:2):null;let sep="";if(pd!=null&&pd!==PD.v){PD.v=pd;sep=`<div class="tod tod${pd}" aria-hidden="true">${["早上","下午","晚上"][pd]}</div>`}
-    return `${sep}<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}${pri?" pri":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${svc?" svc":""}${pri?" pri":""}${longD?" longd":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}"${SN[i]?` data-sn="${SN[i]}"`:""}${SK[i]?` data-sk="${SK[i]}"`:""}${isDep&&!SK[i]?drvTo(i):""}${f==="y"&&!SK[i]?YNAV(a):""}${!isDep&&day.d!==-4&&(!SK[i]||day.d===0)&&f!=="y"?RNAV(a,day.d):""}>${btn}${inner}</span>`});
+    return `${sep}<span class="t${TAGS[f]?" y":""}${on?" cf":""}${key?" key":""}${pri?" pri":""}">${t}${est}</span><span class="a${f?" "+f:""}${meal?" meal":""}${svc?" svc":""}${pri?" pri":""}${longD?" longd":""}${f==="n"||f==="w"||f==="g"?" y":""}${on?" cf":""}${key?" key":""}"${SN[i]?` data-sn="${SN[i]}"`:""}${SK[i]?` data-sk="${SK[i]}"`:""}${isDep&&!SK[i]&&!isConn(i+1)?drvTo(i):""}${f==="y"&&!SK[i]?YNAV(a):""}${!isDep&&day.d!==-4&&(!SK[i]||day.d===0)&&f!=="y"?RNAV(a,day.d):""}>${btn}${inner}</span>`});
    /* 補開車行：某站前面沒有開車行（也不是早上出發那一行），就按車程自動加一行「開車去 X · 約 N」，出發時間＝上一行結束時間 */
    try{const sm=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/);return m?{s:+m[1]*60+ +m[2],e:m[3]!=null?+m[3]*60+ +m[4]:+m[1]*60+ +m[2]}:null},hm=x=>`${String(Math.floor(x/60)%24).padStart(2,"0")}:${String(x%60).padStart(2,"0")}`,
        du=x=>{x=Math.round(x);const h=Math.floor(x/60),m=x%60;return h?`${h} 小時${m?` ${m} 分鐘`:""}`:`${m} 分鐘`};
@@ -1246,7 +1247,7 @@ function optPlan(raw,day){
   let plan=[...day.plan],arrive=day.arrive,miss=[];
   raw.opt.filter(o=>ids.includes(o.id)&&o.ins&&(!o.dt||DT)&&(!o.vw||o.vw.includes(viewId(raw)))).reverse().forEach(o=>{const s=o.ins,i=plan.findIndex(r=>s.anchor.test(r[1]));if(i<0){miss.push(o.t.split("（")[0]);return}
     let lab=s.at||s.label||"途中";if(!s.at&&s.dur!=null){const ends=String(plan[i][0]).match(/(\d{2}:\d{2})(?!.*\d{2}:\d{2})/);if(ends){const st=tm(ends[1])+(s.gap||0);lab=`${tt(st)}–${tt(st+s.dur)}`}}
-    const row=[lab,o.d&&!(o.k&&SP[o.k])?`${s.row}<details class='stinfo'><summary>詳情</summary><p>${o.d}</p></details>`:s.row,"pk"];
+    const row=[lab,o.d&&!(o.k&&SP[o.k])&&!(o.sp&&SP[o.sp])?`${s.row}<details class='stinfo'><summary>詳情</summary><p>${o.d}</p></details>`:s.row,"pk"];
     const RS=s.rows?s.rows.map(x=>[x[0],x[1],x[2]||"pk"]):[row];/* s.rows：一次插入幾行（例如 開車→景點→開車） */
     if(s.replace)plan.splice(i,1,...RS);else if(s.before)plan.splice(i,0,...RS);else plan.splice(i+1,0,...RS);
     const at=plan.indexOf(RS[RS.length-1]),na=arrive&&s.shift?sh(arrive,s.shift):arrive;
@@ -2214,7 +2215,7 @@ function tripSave(d,S){try{store.set("iceland-done-"+d,JSON.stringify([...S].sor
 function tripNavApply(root){try{(root||document).querySelectorAll("article.day[data-d]").forEach(art=>{const d=art.dataset.d,sc=art.querySelector(".sched.rich");if(!sc)return;
   const rows=[...sc.querySelectorAll(":scope>.a")],live=tripLive(),S=tripDone(d);
   rows.forEach((a,i)=>{a.dataset.ri=i;
-    if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):""));
+    if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):(Q[a.dataset.to]||"")));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
     if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
       /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
@@ -2756,8 +2757,8 @@ const DOCX={
     x.querySelectorAll(":scope>.a").forEach(a=>{const dur=t=>/^(停留)?約 ?[\d小時分鐘 ]+$/.test(t),has=[...a.querySelectorAll(".tl-more,details.dsx")].some(e=>e.textContent.trim())||[...a.querySelectorAll(".tl-m,.tl-d")].some(e=>{const t=e.textContent.trim();return t&&!dur(t)});a.classList.toggle("noexp",!has);
       a.querySelectorAll(".tl-m").forEach(e=>{if(dur(e.textContent.trim()))e.classList.add("durx")});
       a.querySelectorAll("details.dsx .spd").forEach(sp=>{if(sp.dataset.ord)return;sp.dataset.ord=1;let dl=sp.querySelector(":scope>dl");if(!dl){dl=document.createElement("dl");sp.append(dl)}
-        const P=["預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
-        dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
+        const P=["停留時間","預約","門票／收費","停車","廁所","營業時間","休館日","服裝／規定","行李"],HIDE=/^(建議停留|建議時段|最佳拍照|替代景點)$/,pairs=[];
+        {/* 停留時間放入詳情，格式同其他欄一致 */const du=a.querySelector(".tl-m.durx");if(du&&!dl.querySelector("dt.stayx")){dl.insertAdjacentHTML("afterbegin",`<dt class="stayx">停留時間</dt><dd>${DOCX.esc(du.textContent.trim().replace(/^停留/,""))}</dd>`);du.remove()}}dl.querySelectorAll(":scope>dt").forEach(dt=>{const dd=dt.nextElementSibling;pairs.push([dt,dd])});
         pairs.sort((x,y)=>{const i=k=>{const n=P.indexOf(x===k?x[0].textContent.trim():y[0].textContent.trim());return n<0?99:n};const a1=P.indexOf(x[0].textContent.trim()),b1=P.indexOf(y[0].textContent.trim());return (a1<0?99:a1)-(b1<0?99:b1)});
         pairs.forEach(([dt,dd])=>{if(HIDE.test(dt.textContent.trim())){dt.remove();dd&&dd.remove();return}dl.append(dt);dd&&dl.append(dd)});
         const ti=sp.querySelector(":scope>.spt");if(ti)ti.remove();
@@ -2901,7 +2902,7 @@ const DRVF={
     if(!host||(!sp&&!/約/.test(txt)))return;
     const E=DOCX.esc,fm=DRV.fm.bind(DRV),L=[];
     if(sp&&(DT||REAL)){L.push(`<li><span>導航時間</span><b>約 ${fm(+sp.dataset.m)}</b></li>`,`<li title="${E(sp.title||"")}"><span>行程預算</span><b>約 ${fm(+sp.dataset.b)}</b></li>`)}
-    else{const m=String(txt).match(/約\s?(?:\d+\s?(?:個)?小時)?\s?(?:\d+\s?分(?:鐘)?)?/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim())}</b></li>`)}
+    else{const m=String(txt).match(/約\s?\d+(?:\.\d+)?(?:\s?[–-]\s?\d+(?:\.\d+)?)?\s?(?:(?:個)?小時(?:\s?\d+\s?分(?:鐘)?)?|分(?:鐘)?)/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim())}</b></li>`)}
     if(al&&(DT||REAL))L.push(`<li class="dw">${al.outerHTML.replace(" hidden=\"\"","")}</li>`);
     if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
     if(!L.length)return;
