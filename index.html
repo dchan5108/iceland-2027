@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-n">
+<link rel="stylesheet" href="style.css?v=2026-11-25-o">
 
 </head>
 <body>
@@ -2822,7 +2822,7 @@ function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=(H<1
     big=[`${Math.round((T0-td)/864e5)}\u00a0日後出發`,"冰島之旅正式開始！",`冰島之旅第 ${dx}\u00a0日`,"冰島之旅最後一日","冰島之旅圓滿結束 ✨"][st],
     p=st===0?Math.max(0,Math.min(100,(now-S)/(T0-S)*100)):st===4?100:dx/N*100,
     lab=st===0?["今日","出發 🇮🇸"]:st===4?["9月12日","9月23日"]:[st===3?`第 ${dx} / ${N} 日`:`還有 ${Math.round((T1-td)/864e5)} 日`,"9月23日"];
-  return `<section class="fcd noen" aria-label="倒數"><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
+  return `<section class="fcd noen" aria-label="倒數"><div class="fcph" aria-hidden="true"></div><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci">冰島時間 ${hh}:${mm}</div></section>`}
 /* 冰島午夜自動更新倒數卡（唔使重新載入）；返回分頁時亦更新 */
 {const re=()=>document.querySelectorAll("section.fcd").forEach(el=>{try{el.outerHTML=bpassHTML()}catch(e){}});
  const tick=()=>{const n=new Date();let ms;try{const f=new Intl.DateTimeFormat("en-GB",{timeZone:"Atlantic/Reykjavik",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(n),g=k=>+f.find(x=>x.type===k).value;ms=(86400-(g("hour")*3600+g("minute")*60+g("second")))*1000-n.getMilliseconds()+500}catch(e){ms=864e5-(n%864e5)+500}
@@ -3069,7 +3069,6 @@ const TODAY={d:null,docMode:"date",
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull);window.scrollTo(0,0)});
     try{if(window.BADGES){const tk=[...new Set((day.legs||[]).flatMap(l=>[l.a,l.b]))],qk=box.querySelector(".tquick");if(qk)BADGES.merge(qk,tk,(day.plan||[]).map(r=>r[1]).join(" "))}}catch(e){}
-    try{if(box.id==="todayIn")TODAY.tmr(box,raw)}catch(e){}
     TODAY.wx(raw,day)}
 };
 const E0=s=>DOCX.esc(s);

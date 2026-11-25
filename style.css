@@ -3781,3 +3781,7 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 /* 出發通知、今日提示：同版本格一樣款（象牙底、細框、圓角） */
 .golin.g1,.tdep,#panel .today.tdl{background:var(--card)!important;border:1px solid var(--line)!important;border-left:1px solid var(--line)!important;border-radius:12px!important;box-shadow:none!important;margin:8px 16px!important;padding:10px 12px!important}
 #today .tdep{margin:0 0 var(--gap-card,14px)!important;padding:12px 16px!important;border-radius:18px!important;box-shadow:var(--shadow)!important}
+/* 今日頁倒數卡：頂部冰島大圖 */
+.fcph{display:none}
+#today .fcd{overflow:hidden;padding-top:0!important}
+#today .fcph{display:block;height:170px;margin:0 -18px 14px;background:linear-gradient(180deg,rgba(24,30,26,0) 40%,rgba(24,30,26,.35) 100%),url(img/hero.jpg) center 40%/cover no-repeat,#2f3a33}
