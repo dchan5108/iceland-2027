@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-k">
+<link rel="stylesheet" href="style.css?v=2026-11-25-l">
 
 </head>
 <body>
@@ -1400,11 +1400,11 @@ function todayHTML(day){
   const k=sunKey[day.d],ss=k?tm(sunAt(254+day.d,pts[k][2],pts[k][1],0)):null;
   const dep=REAL?day.firmT:(()=>{const i=depI(day.plan);return i>=0?day.plan[i][0]:null})(),dm=dep&&/^\d{1,2}:\d{2}$/.test(dep)?tm(dep):null;
   const L=[];
-  if(dm!=null&&now<dm)L.push(`<b>出發 ${dep}</b>：還有 ${fmtLeft(dm-now)}`);
-  if(cur)L.push(`現在：${cur.txt}（${hm(cur.b)} 完）`);
-  if(nx)L.push(`下一項：${hm(nx.a)} ${nx.txt}（還有 ${fmtLeft(nx.a-now)}）`);
-  if(ss!=null)L.push(now<ss?`日落 ${hm(ss)}：還有 ${fmtLeft(ss-now)}`:`已經日落（${hm(ss)}），不要再開長途`);
-  return `<div class="today"><div class="tdh">📍 今日・冰島時間 ${hm(now)}</div><ul>${L.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  
+  const sh=t=>String(t).split(/[，；（(]/)[0];if(cur)L.push(`而家：${sh(cur.txt)}（${hm(cur.b)} 完）`);
+  if(nx)L.push(`下一項 <b>${hm(nx.a)}</b> ${sh(nx.txt)}（${fmtLeft(nx.a-now)}後）`);
+  if(ss!=null)L.push(now<ss?`日落 ${hm(ss)}`:`已日落，不要再開長途`);
+  return L.length?`<div class="today tdl noen"><span class="tdn">${hm(now)}</span>${L.join('<i class="tdsep">·</i>')}</div>`:"";
 }
 setInterval(()=>{try{if(document.querySelector("#panel .today"))renderPanel()}catch(e){}},60000);
 /* ---- 調整行程 (Dorcas & Tebe version) ---- */
@@ -2245,7 +2245,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
   const nb=art.querySelector(".navbtn");if(!nb)return;if(!nb.dataset.day){nb.dataset.day=nb.getAttribute("href")||"";nb.dataset.lab=(nb.querySelector("span")||{}).textContent||"導航"}
   /* 下一個要去的站：第一個「目的地未打勾」的導航行 */
   const destOf=r=>{const i=+r.dataset.ri;const j=rows.findIndex((x,k)=>k>i&&!x.classList.contains("drv"));return j},nx=live?rows.find(r=>r.dataset.nav&&(()=>{const j=destOf(r);return j>=0&&!S.has(j)})()):null,sp=nb.querySelector("span");
-  if(sp)sp.classList.add("noen");if(nx){nb.href=nx.dataset.nav;const n=tripName(nx.dataset.to);if(sp)sp.textContent=(S.size?"繼續去 ":"出發去 ")+n;nb.setAttribute("aria-label","繼續導航去 "+n)}
+  if(sp)sp.classList.add("noen");if(nx){nb.href=nx.dataset.nav;const n=tripName(nx.dataset.to);if(sp)sp.textContent=(S.size?"繼續去 ":"出發去 ")+String(n).split(/[\s（(]/)[0];nb.setAttribute("aria-label","繼續導航去 "+n)}
   else{nb.href=nb.dataset.day;if(sp)sp.textContent=nb.dataset.lab;nb.setAttribute("aria-label","Google Maps 整日導航")}})}catch(e){}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
   const b=t.closest(".tick");if(b){e.preventDefault();e.stopPropagation();const [d,i]=b.dataset.tick.split("|"),S=tripDone(d);S.has(+i)?S.delete(+i):S.add(+i);tripSave(d,S);tripNavApply(b.closest("article.day")?.parentElement||document);return}

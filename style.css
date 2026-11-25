@@ -3762,3 +3762,16 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 .ovdays .ov{display:flex;flex-direction:column;gap:6px}
 .ovdays .ovrow.dtoday{outline:2px solid var(--moss);outline-offset:-2px;background:var(--accent-bg)!important}
 .ovdays .ovrow.dpast{opacity:.55}
+/* 行程頁「今日」：一行精簡提示（出發時間已喺通知列，唔再重複） */
+#panel .today.tdl{display:block!important;margin:8px 16px!important;padding:8px 12px!important;border:0!important;border-radius:12px!important;background:var(--fill)!important;box-shadow:none!important;font-size:13.5px!important;line-height:1.6;color:var(--muted)}
+#panel .today.tdl .tdn{display:inline-block;margin-right:8px;padding:0 8px;border-radius:999px;background:var(--moss);color:#fff;font-weight:700;font-variant-numeric:tabular-nums}
+#panel .today.tdl b{color:var(--fg)}.today.tdl .tdsep{font-style:normal;margin:0 6px;opacity:.6}
+/* 浮動導航掣：唔好長過畫面一半 */
+#view-trip .dsum2 .navbtn{max-width:calc(100vw - 230px)!important}
+#view-trip .dsum2 .navbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+/* 版本掣：T&D／J&J 永遠固定喺右上；「標示不同」放第二行 */
+.scenbox.viewbox{display:grid!important;grid-template-columns:1fr auto;align-items:center;row-gap:8px}
+.scenbox.viewbox>.sl{grid-column:1;grid-row:1}
+.scenbox.viewbox>.seg{grid-column:2;grid-row:1;margin-left:0!important}
+.scenbox.viewbox>.seg~.seg{grid-row:2;justify-self:end;background:none!important;padding:0!important}
+.scenbox.viewbox>.seg~.seg button{min-height:28px!important;font-size:12.5px!important;padding:0 12px!important;border:1px solid var(--line)!important}
