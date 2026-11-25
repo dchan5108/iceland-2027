@@ -3775,3 +3775,6 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 .scenbox.viewbox>.seg{grid-column:2;grid-row:1;margin-left:0!important}
 .scenbox.viewbox>.seg~.seg{grid-row:2;justify-self:end;background:none!important;padding:0!important}
 .scenbox.viewbox>.seg~.seg button{min-height:28px!important;font-size:12.5px!important;padding:0 12px!important;border:1px solid var(--line)!important}
+#panel article.day>.scenbox.viewbox,#today .scenbox.viewbox,#homeToday .scenbox.viewbox{display:grid!important;grid-template-columns:1fr auto!important;align-items:center;row-gap:8px}
+#panel article.day>.scenbox.viewbox>.seg~.seg,#today .scenbox.viewbox>.seg~.seg,#homeToday .scenbox.viewbox>.seg~.seg{grid-column:2!important;grid-row:2!important;justify-self:end}
+#panel article.day>.scenbox.viewbox>.seg:first-of-type,#today .scenbox.viewbox>.seg:first-of-type,#homeToday .scenbox.viewbox>.seg:first-of-type{grid-column:2!important;grid-row:1!important}
