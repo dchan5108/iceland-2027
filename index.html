@@ -2525,7 +2525,7 @@ function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mo
   if(PH===1&&HOMEV==="day"){$("home").dataset.mode="day";TODAY.prevHook=()=>{HOMEV="prep";renderHome();window.scrollTo(0,0)};box.innerHTML=`<div id="homeToday"></div>${LINKS}`;try{TODAY.render($("homeToday"))}catch(e){}
     HSEGON(box);TIPMOVE();return}
   if(PH===2){const L=TODAY.ids();TODAY.d=DT?L[0]:(L.includes(1)?1:L[0])}
-  box.innerHTML=`${ovHero()}<section class="hcard ovmap" id="homeMapSlot" aria-label="環島路線地圖"></section>${PH===2?`<div id="homeKnow"></div>`:""}${ovPlan()}${LINKS}`;
+  box.innerHTML="";   /* 旅程總覽只顯示每日行程（MARKDAYS 加入） */
   {const sl=$("homeMapSlot");if(sl)sl.innerHTML=ovSil()}
   box.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.hgo)});
   if($("homeToday"))try{TODAY.render($("homeToday"))}catch(e){}HSEGON(box);TIPMOVE();box.querySelectorAll("[data-goday]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.goday)});box.querySelectorAll("[data-gotask]").forEach(b=>b.onclick=()=>{TKF=b.dataset.gotask||"all";view("prep");try{renderGuide()}catch(e){}})}
@@ -3050,7 +3050,7 @@ const TODAY={d:null,docMode:"date",
     const bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
     if(!bd.length)return "";
     return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n,v])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}" data-art="${v}">${window.LANDING?LANDING.badge(v,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
-  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;if(nowIS()<Date.UTC(2027,8,12)){box.innerHTML=bpassHTML();return}const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
+  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;if(nowIS()<Date.UTC(2027,8,12)){box.innerHTML=bpassHTML()+`<section class="hcard ovmap"><p class="bnote">路線地圖會在行程確定後加上</p></section>`;return}const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
     /* 非管理者：旅程期間只顯示當日行程；未出發顯示「行程預覽」（可換日）；旅程完結顯示完成狀態 */
     let PVN="";if(!DT){let t0=null;try{t0=todayDay()}catch(e){}const pre=nowIS()<Date.UTC(2027,8,12);
       if(t0&&L.includes(t0.d)){TODAY.d=t0.d}
