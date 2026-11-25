@@ -2076,7 +2076,6 @@ dialog.optdlg:not([open]){display:none}
 #prep .budhead{display:none}
 #prep.budonly>.pghead:not(.budhead),#prep.budonly>.psub,#prep.budonly>#pp-book,#prep.budonly>#pp-pre,#prep.budonly>#prep-dash{display:none!important}
 #prep.budonly .budhead{display:block}
-#prep:not(.budonly) #ps-budget{display:none!important}
 /* 總覽 */
 #home{display:grid;gap:12px}
 #home[hidden]{display:none}

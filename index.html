@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-o">
+<link rel="stylesheet" href="style.css?v=2026-11-25-p">
 
 </head>
 <body>
@@ -2394,7 +2394,7 @@ function prepDash(){const box=$("prep-dash");if(!box||!DT)return;
    <div class="ptiles">${C.map(([k,h,xs,go])=>{const d=xs.filter(Boolean).length,q=xs.length?Math.round(d/xs.length*100):0;return `<a class="ptile pt-${k}${d===xs.length&&xs.length?" full":""}" href="#${go}">${PIC[k]}<span><b>${h}</b><small>${d} / ${xs.length}</small></span><i class="pbar"><i style="width:${q}%"></i></i></a>`}).join("")}</div></div>`;
   box.querySelectorAll("a.ptile").forEach(a=>a.onclick=e=>{e.preventDefault();const t=document.querySelector(a.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})})}
 let PSUB=(()=>{try{const v=store.get("iceland-psub");return /^(book|pre|budget)$/.test(v||"")?v:"book"}catch(e){return "book"}})();
-function prepSub(m){if(m==="pre")m="book";PSUB=m;store.set("iceland-psub",m);if(m==="stay")m="book";const P={book:"pp-book",pre:"pp-pre",budget:"budget"};if(m==="book")try{renderStays()}catch(e){}
+function prepSub(m){PSUB=m;store.set("iceland-psub",m);if(m==="stay")m="book";const P={book:"pp-book",pre:"pp-pre",budget:"budget"};if(m==="book")try{renderStays()}catch(e){}
   for(const k in P){const el=$(P[k]);if(el)el.hidden=k!==m;const b=$("ps-"+k);if(b)b.setAttribute("aria-selected",String(k===m))}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-psub]");if(b)prepSub(b.dataset.psub)});
 /* 出發前要做：只是出發前要處理的事（不包括行李） */
