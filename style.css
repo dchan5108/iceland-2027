@@ -3800,5 +3800,12 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .ovmap .ovgo{display:block;margin:8px 4px 2px;padding:0;background:none;border:0;font-size:14px;color:var(--fg);font-weight:600;cursor:pointer}
 :root[data-theme="dark"] #today .fcd,:root[data-theme="dark"] #today .ovmap{background:var(--card)!important}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .fcd,:root:not([data-theme="light"]) #today .ovmap{background:var(--card)!important}}
-#todayMap .mapmore,#todayMap .maphint1,#todayMap .pickroute,#todayMap .rmode{display:none!important}
-#todayMap .mapcol{margin:0;width:100%;max-width:none;position:static}
+#today .ovdc{margin-top:14px}
+#today .ovdc .ovmt{font-size:14px;font-weight:600;margin:0 2px 8px}
+#today .ovdcs{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+#today .ovdcard{flex:0 0 150px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border:0;border-radius:12px;overflow:hidden;background:#fbfbf9;text-align:left;font:inherit;color:var(--fg);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+#today .ovdi{display:block;height:90px;background:#5e6f66 center/cover no-repeat}
+#today .ovdt{display:flex;flex-direction:column;gap:2px;padding:8px 10px 10px;font-size:13px;line-height:1.45}
+#today .ovdt small{font-size:12px;color:var(--muted);margin-bottom:2px}
+:root[data-theme="dark"] #today .ovdcard{background:var(--card)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .ovdcard{background:var(--card)}}
