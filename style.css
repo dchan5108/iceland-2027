@@ -3811,3 +3811,10 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .ovdt span{font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;word-break:keep-all;overflow-wrap:anywhere}
 :root[data-theme="dark"] #today .ovdcard{background:var(--card)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .ovdcard{background:var(--card)}}
+
+/* 電腦版：內容欄同手機版一樣闊（約 430px），置中；側欄保留 */
+@media (min-width:820px){
+ body .wrap>[id]:not(.bnav),body .wrap>.hero,body .wrap>div:not([id]):not(.bnav){max-width:430px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}
+ body .wrap>#prep,body .wrap>#tips,body .wrap>#stays,body .wrap>#home,body .wrap>#today,body .wrap>#view-trip,body .wrap>#budget,body .wrap>#pack{max-width:430px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important}
+ body .wrap>.hero{padding-inline:16px!important}
+}
