@@ -3784,3 +3784,17 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 .fcph{display:none}
 #today .fcd{overflow:hidden;padding-top:0!important}
 #today .fcph{display:block;height:170px;margin:0 -18px 14px;background:linear-gradient(180deg,rgba(24,30,26,0) 40%,rgba(24,30,26,.35) 100%),url(img/hero.jpg) center 40%/cover no-repeat,#2f3a33}
+/* 今日頁倒數卡及路線圖（2026-11-25） */
+#today .fcd{background:#fbfbf9!important;box-shadow:0 1px 3px rgba(0,0,0,.05)!important}
+#today .fcd .fct b{display:flex;align-items:baseline;gap:6px}
+#today .fcd .fcn{font-style:normal;font-size:44px;font-weight:700;line-height:1}
+#today .fcd .fcu{font-size:15px;font-weight:500;color:var(--muted)}
+#today .fcd .fcb i{background:linear-gradient(90deg,#9bb096,#5e7a5a)!important}
+#today .fcd .fci{align-items:baseline;gap:6px}
+#today .fcd .fci small{font-size:11px;color:var(--muted)}
+#today .fcd .fctm{font-style:normal;font-size:20px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+#today .fcd .fctm small{font-size:11px;font-weight:400;margin-right:2px}
+#today .ovmap{background:#fbfbf9!important;border:0!important;box-shadow:none!important;padding:10px!important;margin-top:10px}
+#today .ovmap .ovmt{font-size:14px;font-weight:600;margin:2px 4px 8px}
+#today .ovmap img{width:100%;height:auto;display:block;border-radius:10px}
+#today .ovmap .ovgo{display:block;margin:8px 4px 2px;padding:0;background:none;border:0;font-size:14px;color:var(--fg);font-weight:600;cursor:pointer}
