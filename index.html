@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-i">
+<link rel="stylesheet" href="style.css?v=2026-11-25-k">
 
 </head>
 <body>
@@ -71,7 +71,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
   </nav>
 
   <div id="view-trip" role="tabpanel" aria-labelledby="tab-trip">
-    <div class="pghead pgtrip"><h2>行程</h2></div>
+    <div class="pghead pgtrip"><h2>行程</h2></div><div class="tseg noen" role="group" aria-label="行程檢視"><button type="button" data-tsub="home">旅程總覽</button><button type="button" data-tsub="trip">詳細時間表</button></div>
     <div id="tripHero"></div>
 
 
@@ -103,7 +103,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
     <nav class="fnav" id="fnav" aria-label="日子導航" hidden><button type="button" id="fprev">‹ 前一日</button><button type="button" id="fall">全部日子</button><button type="button" id="fnext">後一日 ›</button></nav>
   </div>
 
-  <section id="home" class="pg" role="tabpanel" aria-labelledby="tab-home" hidden><div class="pghead"><h2>總覽</h2></div><div id="homeL"><div id="homeMap"></div><div id="homeTop"></div></div></section>
+  <section id="home" class="pg" role="tabpanel" aria-labelledby="tab-trip" hidden><div class="pghead"><h2>行程</h2></div><div class="tseg noen" role="group" aria-label="行程檢視"><button type="button" data-tsub="home">旅程總覽</button><button type="button" data-tsub="trip">詳細時間表</button></div><div id="homeL"><div id="homeMap"></div><div id="homeTop"></div></div></section>
   <section id="today" class="pg" role="tabpanel" aria-labelledby="tab-today" hidden></section>
   <section id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden></section>
   <section id="prep" class="pg" role="tabpanel" aria-labelledby="tab-prep" hidden>
@@ -2439,11 +2439,11 @@ function view(v){
   document.documentElement.dataset.page=v;
   $("home").hidden=v!=="home";$("today").hidden=v!=="today";if(v==="today")try{if(TODAY.box)TODAY.render()}catch(e){}/* 轉去今日頁時用最新切換重畫 */$("view-trip").hidden=v!=="trip";$("prep").hidden=!(v==="prep"||v==="budget");$("tips").hidden=v!=="links";$("stays").hidden=false;if(v==="prep"&&(PSUB==="stay"||PSUB==="book"))try{renderStays()}catch(e){}
   $("prep").classList.toggle("budonly",v==="budget");
-  [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});
+  [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});if(v==="home")$("tab-trip").setAttribute("aria-selected","true");if(v==="budget")$("tab-prep").setAttribute("aria-selected","true");document.querySelectorAll("[data-tsub]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.tsub===v)));
   {const mc=$("mapcol");if(mc){if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
-  if(v==="home"){try{renderHome()}catch(e){}}
-  if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else if(!L.includes(TODAY.d))TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:OWNER,now:nowIS()})}catch(e){}}
+  if(v==="home"){try{renderHome()}catch(e){}try{MARKDAYS($("home"))}catch(e){}}
+  if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:OWNER,now:nowIS()})}catch(e){}}
   if(v==="today"){try{TODAY.render()}catch(e){}}
   if(v==="prep"||v==="budget"){if(DT)renderPack();renderPrep();try{TIPMOVE()}catch(e){}}
   if(v==="links")try{renderTips()}catch(e){}
@@ -2491,7 +2491,7 @@ function ovSil(){try{const C=DATA.coast,k=Math.cos(65*Math.PI/180),P=C.map(([x,y
   return `<div class="ovsil"><svg viewBox="0 0 112 ${H}" role="img" aria-label="冰島輪廓"><defs><linearGradient id="ovsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sil1)"/><stop offset="1" stop-color="var(--sil2)"/></linearGradient></defs><path d="${d}" fill="url(#ovsg)" stroke="var(--sil3)" stroke-width=".5" stroke-linejoin="round"/></svg><div class="ovsil-t"><b>Iceland</b><span>路線地圖會在行程確定後加上</span></div></div>`}catch(e){return ""}}
 function renderHome(){const box=$("homeTop");if(!box)return;$("home").dataset.mode="";{const mc=$("mapcol");if(mc&&box.contains(mc))($("homeMap")||$("view-trip")).appendChild(mc)}
   let TD=null;try{TD=todayDay()}catch(e){}const T0=Date.UTC(2027,8,12),dd=Math.ceil((T0-nowIS())/864e5),N=days.filter(x=>x.d>=1).length;
-  const prog=TD&&TD.d>=1?`<div class="hbig">第 ${TD.d} 日<small> / ${N} 日</small></div><div class="hbar"><i style="width:${Math.round(TD.d/N*100)}%"></i></div>`:dd>0?`<div class="hbig">${dd}<small> 日後出發</small></div><div class="hbar"><i style="width:0%"></i></div>`:`<div class="hbig">旅程完成</div>`;
+  const prog=TD&&TD.d>=1?`<div class="hbig">第 ${TD.d} 日<small> / ${N} 日</small></div><div class="hbar"><i style="width:${Math.round(TD.d/N*100)}%"></i></div><p class="hrem">今日係第 ${TD.d} 日 · 尚餘 ${N-TD.d} 日</p>`:dd>0?`<div class="hbig">${dd}<small> 日後出發</small></div><div class="hbar"><i style="width:0%"></i></div>`:`<div class="hbig">旅程完成</div>`;
   /* 重要提醒：今日（出發前就是第一日）的出發時間、重點行程、天氣 */
   const first=days.find(x=>x.d>=1),raw=TD||first;let rem="";
   if(raw){let day;try{day=R(raw)}catch(e){day=raw}const pl=EP(day.plan||[],DSH(raw.d));
@@ -2567,7 +2567,7 @@ function dayWx(){document.querySelectorAll("#panel .dwx[data-wxd]").forEach(el=>
   const [,lon,lat]=pts[k];fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&wind_speed_unit=ms&timezone=Atlantic%2FReykjavik&start_date=${date}&end_date=${date}`).then(r=>r.json()).then(j=>{const D=j&&j.daily;if(!D||!D.time||!D.time.length)return;
     const t=`${WXC[D.weather_code[0]]||""} ${Math.round(D.temperature_2m_min[0])}–${Math.round(D.temperature_2m_max[0])}°C · 雨 ${D.precipitation_probability_max[0]??"—"}% · 風 ${Math.round(D.wind_speed_10m_max[0])} m/s`.trim();
     try{sessionStorage.setItem(ck,JSON.stringify(t))}catch(e){}show(t)}).catch(()=>{})})}
-$("tab-trip").addEventListener("click",()=>view("trip"));
+$("tab-trip").addEventListener("click",()=>TRIPTAB());
 $("tab-budget").addEventListener("click",()=>view("budget"));
 $("tab-tips").addEventListener("click",()=>view("tips"));
 /* ===== 地圖介面：主要控制（＋－全圖）和進階控制（⋯）分開；景點資訊卡浮在地圖上；當日路線摘要 ===== */
@@ -2688,7 +2688,7 @@ if(location.hash==="#book")view("book");if(location.hash==="#transport")view("tr
 if(location.hash==="#guide")view("tips");
 if(location.hash==="#tips")view("tips");
 if(location.hash==="#budget")view("budget");
-if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash))view("home");   /* 打開網站：先看總覽 */
+if(!/^#(prep|stay|pack|book|transport|guide|tips|budget)$/.test(location.hash)){const pv=store.get("iceland-tab");view("home");setTimeout(()=>AUTOV(pv),0)}   /* 打開網站：先看總覽 */
 if(/simple/.test(location.hash)){
   document.documentElement.classList.add("print","simple");
   drv="raw";sel=ALL;PRINT=true;VB={...FULL};drawMap();dim();
@@ -3069,9 +3069,22 @@ const TODAY={d:null,docMode:"date",
     box.querySelectorAll("[data-tgo]").forEach(b=>b.onclick=()=>{const v=b.dataset.tgo;if(v==="now"){TODAY.d=td.d}else{const j=i+(+v);if(j<0&&TODAY.prevHook){TODAY.prevHook();return}if(L[j]!=null)TODAY.d=L[j]}TODAY.render()});
     box.querySelectorAll("[data-tfull]").forEach(b=>b.onclick=()=>{view("trip");select(+b.dataset.tfull);window.scrollTo(0,0)});
     try{if(window.BADGES){const tk=[...new Set((day.legs||[]).flatMap(l=>[l.a,l.b]))],qk=box.querySelector(".tquick");if(qk)BADGES.merge(qk,tk,(day.plan||[]).map(r=>r[1]).join(" "))}}catch(e){}
+    try{if(box.id==="todayIn")TODAY.tmr(box,raw)}catch(e){}
     TODAY.wx(raw,day)}
 };
 const E0=s=>DOCX.esc(s);
+/* ===== 導航：3 個主分頁（準備／今日／行程）；行程分「旅程總覽／詳細時間表」；按日期自動揀頁 ===== */
+TODAY.tmr=(box,raw)=>{const i=days.indexOf(raw),n=days[i+1];if(!n)return;let nd=n;try{nd=TODAY.dayOf(n)}catch(e){}let rt="";try{rt=TODAY.routeLat(n,nd)||""}catch(e){}
+  const pl=(nd.plan||[]).filter(r=>/^\d{1,2}:\d{2}/.test(String(r[0]))&&r[2]!=="m").slice(0,3).map(r=>`<li><b>${(String(r[0]).match(/\d{1,2}:\d{2}/)||[""])[0]}</b> ${DOCX.esc(cl(r[1]).split(/[，；（(]/)[0].slice(0,36))}</li>`).join("");
+  const d=document.createElement("section");d.className="tcard tmr noen";d.innerHTML=`<div class="thd2"><b>明日行程</b><span>${dLab(n.d)} · ${dFmt(n.date)||""}</span></div>${rt?`<p class="tmr-rt">${DOCX.esc(String(rt).replace(/<[^>]*>/g,""))}</p>`:""}${pl?`<ul>${pl}</ul>`:""}<button type="button" class="tfull2" data-tmr="${n.d}">看明日詳細時間表 ›</button>`;
+  box.appendChild(d);d.querySelector("[data-tmr]").onclick=()=>{store.set("iceland-tsub","trip");view("trip");select(n.d);window.scrollTo(0,0)}};
+function MARKDAYS(root){let td=null;try{td=todayDay()}catch(e){}if(!root)return;try{const hb=$("homeTop");if(hb&&!hb.querySelector(".ovdays")){const w=document.createElement("section");w.className="hcard ovdays noen";w.innerHTML=`<h3 class="ovdh">每日行程</h3>${overview()}`;hb.appendChild(w);w.querySelectorAll("[data-go]").forEach(b=>b.onclick=e=>{e.stopPropagation();store.set("iceland-tsub","trip");view("trip");select(+b.dataset.go);window.scrollTo(0,0)})}}catch(e){}root.querySelectorAll("[data-hgo],[data-goday],.ovdays [data-go]").forEach(b=>{const d=+(b.dataset.hgo||b.dataset.goday||b.dataset.go);b.classList.toggle("dtoday",!!td&&d===td.d);b.classList.toggle("dpast",!!td&&td.d>=1&&d<td.d)})}
+function TRIPTAB(){let td=null;try{td=todayDay()}catch(e){}if(HPHASE()===3&&td){store.set("iceland-tsub","trip");view("trip");try{select(td.d)}catch(e){}}else view(store.get("iceland-tsub")==="trip"?"trip":"home");try{navSync()}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-tsub]");if(!b)return;const v=b.dataset.tsub;store.set("iceland-tsub",v);view(v);if(v==="trip"){let td=null;try{td=todayDay()}catch(err){}if(HPHASE()===3&&td)try{select(td.d)}catch(err){}}try{navSync()}catch(err){}});
+function AUTOV(pv){let v=null;try{if(sessionStorage.getItem("iceland-auto"))v=pv||store.get("iceland-tab")}catch(e){}
+  if(!v){const P=HPHASE(),en=Date.UTC(2027,8,24);v=(P===2||P===3)?"today":nowIS()>=en?"home":"prep";try{sessionStorage.setItem("iceland-auto","1")}catch(e){}}
+  if(v==="prep"&&$("tab-prep").hidden)v="home";if(v==="today"&&$("tab-today").hidden)v="home";if(!["home","trip","prep","budget","today"].includes(v))v="home";view(v);try{navSync()}catch(e){}}
+
 /* 「今日」tab：旅程期間（9/5–9/24）才出現；管理者版一直顯示做預覽 */
 TODAY.live=()=>HPHASE()===3;
 TODAY.show=true;   /* 「今日」是獨立分頁：旅程中自動顯示當日；總覽一直保留 */

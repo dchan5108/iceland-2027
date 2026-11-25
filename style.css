@@ -3731,3 +3731,34 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .thero,#homeToday .thero{background-position:0 0,center top,0 0!important}
 .tdrow{flex-wrap:wrap!important;row-gap:4px}
 .tdrow .tdate{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+/* ===== 導航：3 個主分頁 ===== */
+#tab-home,#tab-budget{display:none!important}
+.tseg{display:flex;gap:2px;margin:6px 0 12px;padding:3px;background:var(--fill);border-radius:999px;width:100%;box-sizing:border-box}
+.tseg button{flex:1;border:0;background:transparent;border-radius:999px;min-height:36px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer}
+.tseg button[aria-pressed="true"]{background:var(--moss);color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#home>.pghead,#view-trip>.pghead.pgtrip{display:block!important}
+/* 今日：唔顯示日子掣；日期一行，連結放下一行 */
+#today .tchips,#today [data-tgo]{display:none!important}
+#today .thero .tdrow{display:block!important}
+#today .thero .tdate{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:clamp(20px,6.4vw,30px)!important}
+#today .thero .tbtns{position:static!important;display:flex!important;flex-wrap:wrap;justify-content:flex-start!important;gap:6px 16px;margin:4px 0 2px!important;width:auto!important}
+/* 明日行程 */
+.tmr .thd2{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.tmr .thd2 span{font-size:13px;color:var(--muted)}
+.tmr-rt{margin:4px 0 6px;font-weight:600}
+.tmr ul{margin:0 0 8px;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+.tmr li{padding:3px 0}.tmr li b{color:var(--fg);margin-right:6px;font-variant-numeric:tabular-nums}
+.tmr .tfull2{color:var(--moss);font-weight:700;background:none;border:0;padding:4px 0;font:inherit;cursor:pointer}
+/* 旅程總覽：今日／已過／未到 */
+.hrem{margin:6px 0 0;font-size:13px;color:var(--muted)}
+[data-hgo].dtoday,[data-goday].dtoday{outline:2px solid var(--moss);outline-offset:2px;border-radius:12px;position:relative}
+[data-hgo].dtoday::after,[data-goday].dtoday::after{content:"今日";position:absolute;top:-9px;right:8px;background:var(--moss);color:#fff;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:999px}
+[data-hgo].dpast,[data-goday].dpast{opacity:.55}
+.bnav #tab-home:not([hidden]),.bnav #tab-budget:not([hidden]){display:none!important}
+#today .thero{display:block!important}
+#today .thero .tbtns{display:flex!important;margin-top:6px!important}
+#today .thero .tdrow,#today .thero .tdate{width:100%!important;max-width:none!important}
+.ovdays{padding:14px 12px!important}.ovdays .ovdh{margin:0 4px 8px;font-family:var(--serif);font-size:18px}
+.ovdays .ov{display:flex;flex-direction:column;gap:6px}
+.ovdays .ovrow.dtoday{outline:2px solid var(--moss);outline-offset:-2px;background:var(--accent-bg)!important}
+.ovdays .ovrow.dpast{opacity:.55}
