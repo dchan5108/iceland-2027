@@ -3798,3 +3798,5 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .ovmap .ovmt{font-size:14px;font-weight:600;margin:2px 4px 8px}
 #today .ovmap img{width:100%;height:auto;display:block;border-radius:10px}
 #today .ovmap .ovgo{display:block;margin:8px 4px 2px;padding:0;background:none;border:0;font-size:14px;color:var(--fg);font-weight:600;cursor:pointer}
+:root[data-theme="dark"] #today .fcd,:root[data-theme="dark"] #today .ovmap{background:var(--card)!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .fcd,:root:not([data-theme="light"]) #today .ovmap{background:var(--card)!important}}
