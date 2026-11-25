@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-r">
+<link rel="stylesheet" href="style.css?v=2026-11-25-s">
 
 </head>
 <body>
@@ -136,7 +136,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </div>
 
 
-<script src="trip.js?v=2026-11-24-e"></script>
+<script src="trip.js?v=2026-11-25-a"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
 <script src="data.js?v=2026-11-24-d"></script>
@@ -235,7 +235,10 @@ try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i),m=/^icela
 const b64e=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const b64d=t=>JSON.parse(decodeURIComponent(escape(atob(t.replace(/-/g,"+").replace(/_/g,"/")))));
 let SHARED=null;try{const q=new URLSearchParams(location.search).get("plan");if(q)SHARED=b64d(q)}catch(e){SHARED=null}
-const EDV=()=>SHARED||EDITS;let EDITING=null,EDAUTO=true;
+const EDV=()=>SHARED||EDITS;
+/* 時間表「退房出發去 X／退房出發，前往 X…」一律只顯示「退房出發」（「｜」後的 AI 建議保留） */
+{const CO=v=>{if(Array.isArray(v)){if(typeof v[1]==="string"&&/^退房出發/.test(v[1]))v[1]=v[1].replace(/^退房出發[^｜]*/,"退房出發");v.forEach(CO)}else if(v&&typeof v==="object")Object.values(v).forEach(CO)};try{CO(days)}catch(e){}try{CO(EDITS)}catch(e){}try{CO(SHARED)}catch(e){}}
+let EDITING=null,EDAUTO=true;
 /* Web Mercator (same as the CARTO tiles), scaled so 1° longitude = 88 units */
 const WU=31680,mY=lat=>{const r=lat*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*WU},MX0=(-24.6+180)/360*WU-8,MY0=mY(66.65)-10;
 const P=(lon,lat)=>[(lon+180)/360*WU-MX0,mY(lat)-MY0];
@@ -1292,14 +1295,14 @@ function tideD6(raw,day){
   if(st+60<=T("10:00")){/* 上午：獨木舟照舊 11:30 */
     const en=Math.min(st+105,T("10:00")),early=st-15<T("07:30"),rows=[];
     rows.push(early?[S(st-50)+"–"+S(st-25),"早餐：預先準備早餐和熱飲，在住處簡單吃","m"]:[S(st-60)+"–"+S(st-25),"早餐：赫本住處自理","m"]);
-    rows.push([S(st-15),"退房出發，前往 Vestrahorn 蝙蝠山（約 15 分鐘）","c"]);rows.push(VR(S(st)+"–"+S(en)));
+    rows.push([S(st-15),"退房出發","c"]);rows.push(VR(S(st)+"–"+S(en)));
     if(en<T("09:45"))rows.push([S(en)+"–10:00","自由時間：Stokksnes 一帶再影，或者回赫本補給",""]);
     return {plan:[...rows,...base.slice(iL)]}}
   if(L<=T("14:30")){/* 中午退潮：先蝙蝠山，獨木舟改下晝 */
     const vs=L-60,ve=L+45,a=ve+75,k0=a+45,kS=k0+15,kE=kS+120,db=kE+15,rows=[];
     rows.push(["07:30–08:30","早餐：赫本住處自理","m"]);
     if(vs-25>T("09:15"))rows.push(["09:00–"+S(vs-25),"上午：Höfn 赫本自由時間（Ósland 小山散步、港口、超市補給）",""]);
-    rows.push([S(vs-15),"退房出發，前往 Vestrahorn 蝙蝠山（約 15 分鐘）","c"]);rows.push(VR(S(vs)+"–"+S(ve)));
+    rows.push([S(vs-15),"退房出發","c"]);rows.push(VR(S(vs)+"–"+S(ve)));
     rows.push([S(ve),"出發前往冰河湖 Jökulsárlón（約 1 小時 15 分鐘）","c"]);
     rows.push([S(a)+"–"+S(a+40),"午餐：冰河湖 The Café，或自備野餐","m"]);
     rows.push([S(k0)+"–"+S(kS),"獨木舟集合地點報到及準備裝備","c"]);
@@ -2815,6 +2818,11 @@ renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(
 /* 準備頁頂部：出發倒數 */
 /* 冰島日期（Atlantic/Reykjavik）→ 當日 00:00 UTC 毫秒 */
 const isDay=t=>{try{return Date.parse(new Intl.DateTimeFormat("en-CA",{timeZone:"Atlantic/Reykjavik",year:"numeric",month:"2-digit",day:"2-digit"}).format(t))}catch(e){const d=new Date(t);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())}};
+/* 冰島時間（上午 04:55:00），每秒更新 */
+/* 今日頁（出發前）：把詳細時間表的互動地圖搬過來，顯示全程；轉去其他頁時 view() 會搬回去 */
+function TMAP(){const sl=$("todayMap"),mc=$("mapcol");if(!sl||!mc)return;sl.appendChild(mc);requestAnimationFrame(()=>{try{drawMap();const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120)}catch(e){}})}
+function ISCLK(){const t=new Date(nowIS()),H=t.getUTCHours(),p=n=>String(n).padStart(2,"0");return `<small>${H<12?"上午":"下午"}</small>${p(H%12||12)}:${p(t.getUTCMinutes())}:${p(t.getUTCSeconds())}`}
+setInterval(()=>{const el=document.querySelectorAll("[data-istime]");if(el.length){const h=ISCLK();el.forEach(e=>e.innerHTML=h)}},1000);
 function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=`<small>${H<12?"上午":"下午"}</small>${H%12||12}`,mm=String(t.getUTCMinutes()).padStart(2,"0");
   /* 倒數卡（F 款）：路線進度條；出發前＝準備進度，旅程中＝第幾日；階段按冰島日期 */
   const S=Date.UTC(2026,8,12),T0=Date.UTC(2027,8,12),T1=Date.UTC(2027,8,23),N=Math.round((T1-T0)/864e5)+1,td=isDay(now),
@@ -2822,7 +2830,7 @@ function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=`<sm
     big=[`<em class="fcn">${Math.round((T0-td)/864e5)}</em><small class="fcu">日後出發</small>`,"冰島之旅正式開始！",`冰島之旅第 ${dx}\u00a0日`,"冰島之旅最後一日","冰島之旅圓滿結束 ✨"][st],
     p=st===0?Math.max(0,Math.min(100,(now-S)/(T0-S)*100)):st===4?100:dx/N*100,
     lab=st===0?["今日","出發 🇮🇸"]:st===4?["9月12日","9月23日"]:[st===3?`第 ${dx} / ${N} 日`:`還有 ${Math.round((T1-td)/864e5)} 日`,"9月23日"];
-  return `<section class="fcd noen" aria-label="倒數"><div class="fcph" aria-hidden="true"></div><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci"><small>冰島時間</small><em class="fctm">${hh}:${mm}</em></div></section>`}
+  return `<section class="fcd noen" aria-label="倒數"><div class="fcph" aria-hidden="true"></div><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci"><small>現在冰島時間</small><em class="fctm" data-istime>${ISCLK()}</em></div></section>`}
 /* 冰島午夜自動更新倒數卡（唔使重新載入）；返回分頁時亦更新 */
 {const re=()=>document.querySelectorAll("section.fcd").forEach(el=>{try{el.outerHTML=bpassHTML()}catch(e){}});
  const tick=()=>{const n=new Date();let ms;try{const f=new Intl.DateTimeFormat("en-GB",{timeZone:"Atlantic/Reykjavik",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(n),g=k=>+f.find(x=>x.type===k).value;ms=(86400-(g("hour")*3600+g("minute")*60+g("second")))*1000-n.getMilliseconds()+500}catch(e){ms=864e5-(n%864e5)+500}
@@ -3050,7 +3058,7 @@ const TODAY={d:null,docMode:"date",
     const bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
     if(!bd.length)return "";
     return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n,v])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}" data-art="${v}">${window.LANDING?LANDING.badge(v,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
-  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;if(nowIS()<Date.UTC(2027,8,12)){box.innerHTML=bpassHTML()+`<section class="hcard ovmap" aria-label="環島路線圖"><h3 class="ovmt">環島路線</h3><img src="img/route.jpg?v=1" alt="冰島環島路線圖" loading="lazy"><button type="button" class="stlink ovgo" data-tsub="trip">探索完整路線 ›</button></section>`;return}const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
+  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;if(nowIS()<Date.UTC(2027,8,12)){box.innerHTML=bpassHTML()+`<section class="hcard ovmap" aria-label="環島路線圖"><h3 class="ovmt">環島路線</h3><div id="todayMap"></div></section>`;TMAP();return}const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
     /* 非管理者：旅程期間只顯示當日行程；未出發顯示「行程預覽」（可換日）；旅程完結顯示完成狀態 */
     let PVN="";if(!DT){let t0=null;try{t0=todayDay()}catch(e){}const pre=nowIS()<Date.UTC(2027,8,12);
       if(t0&&L.includes(t0.d)){TODAY.d=t0.d}
