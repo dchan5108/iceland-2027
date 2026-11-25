@@ -3819,3 +3819,4 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
  body .wrap>.hero{padding-inline:16px!important}
 }
 #today .ovdcard[data-dc="4"] .ovdi{background-size:170% auto;background-position:65% 92%}
+#today .ovdcard[data-dc="5"] .ovdi{background-image:url(img/dettifoss.jpg)!important;background-position:50% 60%}
