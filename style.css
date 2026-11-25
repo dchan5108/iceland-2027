@@ -2063,7 +2063,7 @@ dialog.optdlg:not([open]){display:none}
   .bnav button[aria-selected="true"]{color:var(--route)!important}
 }
 @media (max-width:819px){
-  .bnav button span{font-size:11px}
+  .bnav button span{font-size:12px;font-weight:500}
 }
 @media (max-width:819px){
   .srow{display:flex!important;justify-content:flex-start;padding-block:4px}
@@ -3787,12 +3787,12 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 /* 今日頁倒數卡及路線圖（2026-11-25） */
 #today .fcd{background:#fbfbf9!important;box-shadow:0 1px 3px rgba(0,0,0,.05)!important}
 #today .fcd .fct b{display:flex;align-items:baseline;gap:6px}
-#today .fcd .fcn{font-style:normal;font-size:44px;font-weight:700;line-height:1}
-#today .fcd .fcu{font-size:15px;font-weight:500;color:var(--muted)}
+#today .fcd .fcn{font-style:normal;font-size:46px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+#today .fcd .fcu{font-size:13px;font-weight:500;color:var(--muted)}
 #today .fcd .fcb i{background:linear-gradient(90deg,#9bb096,#5e7a5a)!important}
 #today .fcd .fci{align-items:baseline;gap:6px}
-#today .fcd .fci small{font-size:11px;color:var(--muted)}
-#today .fcd .fctm{font-style:normal;font-size:20px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+#today .fcd .fci small{font-size:12px;color:var(--muted)}
+#today .fcd .fctm{font-style:normal;font-size:24px;font-weight:600;line-height:1.2;color:var(--fg);font-variant-numeric:tabular-nums}
 #today .fcd .fctm small{font-size:11px;font-weight:400;margin-right:2px}
 #today .ovmap{background:#fbfbf9!important;border:0!important;box-shadow:none!important;padding:10px!important;margin-top:10px}
 #today .ovmap .ovmt{font-size:14px;font-weight:600;margin:2px 4px 8px}
@@ -3801,11 +3801,13 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 :root[data-theme="dark"] #today .fcd,:root[data-theme="dark"] #today .ovmap{background:var(--card)!important}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .fcd,:root:not([data-theme="light"]) #today .ovmap{background:var(--card)!important}}
 #today .ovdc{margin-top:14px}
-#today .ovdc .ovmt{font-size:14px;font-weight:600;margin:0 2px 8px}
-#today .ovdcs{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch}
-#today .ovdcard{flex:0 0 150px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border:0;border-radius:12px;overflow:hidden;background:#fbfbf9;text-align:left;font:inherit;color:var(--fg);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-#today .ovdi{display:block;height:90px;background:#5e6f66 center/cover no-repeat}
-#today .ovdt{display:flex;flex-direction:column;gap:2px;padding:8px 10px 10px;font-size:13px;line-height:1.45}
-#today .ovdt small{font-size:12px;color:var(--muted);margin-bottom:2px}
+#today .ovdc .ovmt{font-size:18px;font-weight:600;line-height:1.3;margin:0 2px 10px}
+#today .ovdcs{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}#today .ovdcs::-webkit-scrollbar{display:none}
+#today .ovdcard{flex:0 0 168px;scroll-snap-align:start;display:flex;flex-direction:column;padding:0;border:0;border-radius:12px;overflow:hidden;background:#fbfbf9;text-align:left;font:inherit;color:var(--fg);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+#today .ovdi{display:block;aspect-ratio:16/10;background:#5e6f66 center/cover no-repeat}
+#today .ovdt{display:flex;flex-direction:column;gap:4px;padding:10px 12px 12px;min-height:106px;box-sizing:border-box}
+#today .ovdt small{font-size:12px;line-height:1.3;color:var(--muted);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+#today .ovdt b{font-size:17px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#today .ovdt span{font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;word-break:keep-all;overflow-wrap:anywhere}
 :root[data-theme="dark"] #today .ovdcard{background:var(--card)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #today .ovdcard{background:var(--card)}}

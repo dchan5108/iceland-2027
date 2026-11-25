@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-t">
+<link rel="stylesheet" href="style.css?v=2026-11-25-u">
 
 </head>
 <body>
@@ -136,7 +136,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </div>
 
 
-<script src="trip.js?v=2026-11-25-a"></script>
+<script src="trip.js?v=2026-11-25-b"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
 <script src="data.js?v=2026-11-24-d"></script>
@@ -2820,9 +2820,9 @@ renderPrep=(f=>function(){const r=f.apply(this,arguments);try{DOCX.prep()}catch(
 const isDay=t=>{try{return Date.parse(new Intl.DateTimeFormat("en-CA",{timeZone:"Atlantic/Reykjavik",year:"numeric",month:"2-digit",day:"2-digit"}).format(t))}catch(e){const d=new Date(t);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())}};
 /* 冰島時間（上午 04:55:00），每秒更新 */
 /* 今日頁（出發前）：每日一張圖＋2–3 個重點，左右滑；撳卡片去當日時間表 */
-function DAYCARDS(){return days.filter(x=>x.d>=1).map(r=>{let day;try{day=R(r)}catch(e){day=r}const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay"),ns=ks.map(k=>String(pts[k][0]).replace(/（.*?）/g,"").trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,3);
-  return `<button type="button" class="ovdcard" data-dc="${r.d}"><span class="ovdi" style="background-image:url(img/d${r.d}.jpg)"></span><span class="ovdt"><small>D${r.d} · ${r.date||""}</small>${ns.map(n=>`<span>${esc(n)}</span>`).join("")}</span></button>`}).join("")}
-function ISCLK(){const t=new Date(nowIS()),H=t.getUTCHours(),p=n=>String(n).padStart(2,"0");return `<small>${H<12?"上午":"下午"}</small>${p(H%12||12)}:${p(t.getUTCMinutes())}:${p(t.getUTCSeconds())}`}
+function DAYCARDS(){return days.filter(x=>x.d>=1).map(r=>{let day;try{day=R(r)}catch(e){day=r}const ks=[...new Set((day.legs||[]).filter(l=>!l.c2).flatMap(l=>[l.a,l.b]))].filter(k=>pts[k]&&pts[k][3]!=="stay"),ns=ks.map(k=>{const n=String(pts[k][0]).replace(/（.*?）/g,"").trim();const z=n.split(/\s+/).filter(w=>!/^[A-Za-zÀ-ÿÞþÐðÆæ’'.\-]+$/.test(w)).join(" ");return (z.match(/[\u4e00-\u9fff]/g)||[]).length>2?z:n}).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,3);
+  return `<button type="button" class="ovdcard" data-dc="${r.d}"><span class="ovdi" style="background-image:url(img/d${r.d}.jpg)"></span><span class="ovdt"><small>DAY ${String(r.d).padStart(2,"0")} · ${r.date||""}</small>${r.theme?`<b>${esc(r.theme)}</b>`:""}<span>${ns.map(esc).join(" · ")}</span></span></button>`}).join("")}
+function ISCLK(){const t=new Date(nowIS()),H=t.getUTCHours(),p=n=>String(n).padStart(2,"0");return `${p(H)}:${p(t.getUTCMinutes())}:${p(t.getUTCSeconds())}`}
 setInterval(()=>{const el=document.querySelectorAll("[data-istime]");if(el.length){const h=ISCLK();el.forEach(e=>e.innerHTML=h)}},1000);
 function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=`<small>${H<12?"上午":"下午"}</small>${H%12||12}`,mm=String(t.getUTCMinutes()).padStart(2,"0");
   /* 倒數卡（F 款）：路線進度條；出發前＝準備進度，旅程中＝第幾日；階段按冰島日期 */
@@ -2831,7 +2831,7 @@ function bpassHTML(){const now=nowIS(),t=new Date(now),H=t.getUTCHours(),hh=`<sm
     big=[`<em class="fcn">${Math.round((T0-td)/864e5)}</em><small class="fcu">日後出發</small>`,"冰島之旅正式開始！",`冰島之旅第 ${dx}\u00a0日`,"冰島之旅最後一日","冰島之旅圓滿結束 ✨"][st],
     p=st===0?Math.max(0,Math.min(100,(now-S)/(T0-S)*100)):st===4?100:dx/N*100,
     lab=st===0?["今日","出發 🇮🇸"]:st===4?["9月12日","9月23日"]:[st===3?`第 ${dx} / ${N} 日`:`還有 ${Math.round((T1-td)/864e5)} 日`,"9月23日"];
-  return `<section class="fcd noen" aria-label="倒數"><div class="fcph" aria-hidden="true"></div><div class="fct"><b>${big}</b><span>9月12日 – 9月23日</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci"><small>現在冰島時間</small><em class="fctm" data-istime>${ISCLK()}</em></div></section>`}
+  return `<section class="fcd noen" aria-label="倒數"><div class="fcph" aria-hidden="true"></div><div class="fct"><b>${big}</b><span>9.12 — 9.23</span></div><div class="fcb"><i style="width:${p}%"></i>${st>=1&&st<=3?`<u class="car" style="left:${p}%">🚙</u>`:`<u style="left:${p}%">✈️</u>`}</div><div class="fcr"><span>${lab[0]}</span><span>${lab[1]}</span></div><div class="fcr fci"><small>冰島當地時間</small><em class="fctm" data-istime>${ISCLK()}</em></div></section>`}
 /* 冰島午夜自動更新倒數卡（唔使重新載入）；返回分頁時亦更新 */
 {const re=()=>document.querySelectorAll("section.fcd").forEach(el=>{try{el.outerHTML=bpassHTML()}catch(e){}});
  const tick=()=>{const n=new Date();let ms;try{const f=new Intl.DateTimeFormat("en-GB",{timeZone:"Atlantic/Reykjavik",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(n),g=k=>+f.find(x=>x.type===k).value;ms=(86400-(g("hour")*3600+g("minute")*60+g("second")))*1000-n.getMilliseconds()+500}catch(e){ms=864e5-(n%864e5)+500}
