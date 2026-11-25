@@ -3818,3 +3818,4 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
  body .wrap>#prep,body .wrap>#tips,body .wrap>#stays,body .wrap>#home,body .wrap>#today,body .wrap>#view-trip,body .wrap>#budget,body .wrap>#pack{max-width:430px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important}
  body .wrap>.hero{padding-inline:16px!important}
 }
+#today .ovdcard[data-dc="4"] .ovdi{background-size:170% auto;background-position:65% 92%}
