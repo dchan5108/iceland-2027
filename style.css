@@ -3724,3 +3724,10 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 }
 /* 網頁版主網站：內容唔好拉到太闊 */
 @media (min-width:1100px){.hero:not(.compact) h1{font-size:40px}}
+/* 字體統一：標題同一隻襯線字（中英數字同一隻，唔再一行兩款字），其餘全部同一隻無襯線字 */
+:root{--serif:"Songti TC","Noto Serif TC","Source Han Serif TC","Noto Serif CJK TC","PMingLiU",serif;--sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
+/* 今日卡：相片貼頂，唔再上面留一條空位；日期唔好被截斷 */
+#today .thero,#homeToday .thero{background-position:0 0,center top,0 0!important}
+.tdrow{flex-wrap:wrap!important;row-gap:4px}
+.tdrow .tdate{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
