@@ -2401,7 +2401,7 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 var FLYOPEN=false;document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("flc")&&(e.target.closest(".prelist")||e.target.closest(".bkchk")))FLYOPEN=e.target.open},true);
 function renderPre(){const box=$("prep-pre");if(!box)return;const HIDE=/^(溫泉用品|轉插和充電)$/,it=[...(DT&&FLIGHTS?[[["機票","每人自己買；按「航班」看航段"],"fly"]]:[]),...PRECHK.map((x,i)=>[x,"p"+i]).filter(([x])=>!HIDE.test(x[0]))],n=it.filter(([,i])=>PREK[i]).length;
   box.innerHTML=`<div class="pdash2"><div class="pd-h"><b>已完成 ${n} / ${it.length}</b><small>${Math.round(n/it.length*100)}%</small></div><div class="pd-bar"><i style="width:${Math.round(n/it.length*100)}%"></i></div></div><ul class="prelist">${it.map(([[a,b],i])=>`<li class="${PREK[i]?"done":""}"><label><input type="checkbox" data-pre="${i}"${PREK[i]?" checked":""}><span><b>${a}</b><small>${b}</small></span></label>${i==="fly"?`<details class="flc"${FLYOPEN?" open":""}><summary>航班</summary>${FLIGHTS.replace(' id="g-fly"',"").replace('<h3 class="bkh">機票</h3>',"")}</details>`:""}</li>`).join("")}</ul>${SYNC.url?"":`<p class="bnote">剔了的只會記在這部裝置。</p>`}`}
-function renderPrep(){try{renderGuide()}catch(e){}if(DT){$("pre-fly").innerHTML="";$("prep-fly").innerHTML=""}renderPre();const nav=document.querySelector("#prep .psub");if(nav){nav.hidden=true;nav.style.setProperty("display","none","important")}prepSub(PSUB)}
+function renderPrep(){try{renderGuide()}catch(e){}if(DT){$("pre-fly").innerHTML="";$("prep-fly").innerHTML=""}renderPre();const nav=document.querySelector("#prep .psub");if(nav&&RO){nav.hidden=true;nav.style.setProperty("display","none","important")}prepSub(PSUB)}
 renderStays();if(DT)renderPack();renderPrep();$("tab-prep").hidden=false;   /* 準備頁大眾版都有 */
 try{if(sel!==ALL)renderPanel()}catch(e){}
 /* 公開版：只顯示行程和住宿 */
@@ -3050,7 +3050,7 @@ const TODAY={d:null,docMode:"date",
     const bd=kk.map(k=>{const v=TODAY.art(k,day);return [k,SPV[v]?SPV[v].t:String(nm(k)).replace(/（.*?）/g,"").trim(),v]});
     if(!bd.length)return "";
     return `<section class="tcard tquick noen"><div class="thd2"><b>📍 今日重點</b><small class="bc-cnt"></small></div>${bd.length?`<div class="bdgs noen" style="--n:${bd.length}">${bd.map(([k,n,v])=>`<button type="button" class="bdg" data-k="${k}" data-spk="${k}" data-art="${v}">${window.LANDING?LANDING.badge(v,72):""}<span>${E(n)}</span></button>`).join("")}</div>`:""}</section>`}catch(e){return ""}},
-  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
+  render(bx){const box=bx||TODAY.box||$("homeToday");if(!box)return;TODAY.box=box;if(nowIS()<Date.UTC(2027,8,12)){box.innerHTML=bpassHTML();return}const L=TODAY.ids();if(TODAY.d==null||(!L.includes(TODAY.d)&&!(L.length===0&&days.some(x=>x.d===TODAY.d))))TODAY.d=TODAY.start();
     /* 非管理者：旅程期間只顯示當日行程；未出發顯示「行程預覽」（可換日）；旅程完結顯示完成狀態 */
     let PVN="";if(!DT){let t0=null;try{t0=todayDay()}catch(e){}const pre=nowIS()<Date.UTC(2027,8,12);
       if(t0&&L.includes(t0.d)){TODAY.d=t0.d}
