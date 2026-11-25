@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25-m">
+<link rel="stylesheet" href="style.css?v=2026-11-25-n">
 
 </head>
 <body>
@@ -1403,7 +1403,7 @@ function todayHTML(day){
   
   const sh=t=>String(t).split(/[，；（(]/)[0];if(cur)L.push(`而家：${sh(cur.txt)}（${hm(cur.b)} 完）`);
   if(nx)L.push(`下一項 <b>${hm(nx.a)}</b> ${sh(nx.txt)}（${fmtLeft(nx.a-now)}後）`);
-  if(ss!=null)L.push(now<ss?`日落 ${hm(ss)}`:`已日落，不要再開長途`);
+  if(ss!=null&&now>=ss)L.push(`已日落，不要再開長途`);
   return L.length?`<div class="today tdl noen"><span class="tdn">${hm(now)}</span>${L.join('<i class="tdsep">·</i>')}</div>`:"";
 }
 setInterval(()=>{try{if(document.querySelector("#panel .today"))renderPanel()}catch(e){}},60000);
