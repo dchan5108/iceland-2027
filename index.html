@@ -136,7 +136,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 <script src="trip.js?v=2026-11-26-d7"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
-<script src="data.js?v=2026-11-26-zc"></script>
+<script src="data.js?v=2026-11-26-nk"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -781,7 +781,7 @@ function drawMap(){
   const pickDot=(k,d)=>{if(!pts[k])return;const [name,lon,lat]=pts[k],[x,y]=P(lon,lat);
     const c=el("circle",{cx:x,cy:y,class:"pt opt picked","data-r":8.5,fill:OKC(),stroke:"#fff","stroke-width":2.5,"vector-effect":"non-scaling-stroke","data-days":String(d),"data-key":k});
     el("title",{},name+"（已選）",c);PD[k]=PD[k]||new Set([d]);
-    const sd={nakano:"b",lavash:"t",nauth:"b",skutu:"l",dimmu:"l"}[k]||"r";
+    const sd={lavash:"t",nauth:"b",skutu:"l",dimmu:"l"}[k]||"r";
     el("text",{class:"lbl pk","data-x":x,"data-y":y,"data-side":sd,"data-fs":12.5,"text-anchor":OFF[sd][2],"font-weight":700,fill:OKC(),"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)","data-days":String(d),"data-key":k},"✓ "+name.split(" ")[0])};
   days.forEach(day=>(day.opt||[]).forEach(o=>{if(!o.k)return;if(PK(day.d).includes(o.id)){pickDot(o.k,day.d);return}if(o.early)return;/* 早起行程未加入：地圖不顯示 */const [name,lon,lat]=pts[o.k],[x,y]=P(lon,lat);
     const c=el("circle",{cx:x,cy:y,class:"pt opt","data-r":5.5,fill:"var(--card)",stroke:"var(--meal)","stroke-width":2,"stroke-dasharray":"2 2","vector-effect":"non-scaling-stroke","data-days":String(day.d),"data-key":o.k});
@@ -2050,7 +2050,6 @@ const GIFT=[
  ["姆明杯 Moomin mug","約 EUR 27–30 一隻（約 4,000–4,500 ISK）","最便宜：赫爾辛基機場非申根區 Moomin Shop（近 Gate 40，另一間近 21–22 閘口），價錢和芬蘭市面差不多，非歐盟居民還可以免稅","芬蘭 Arabia 出品；回程 KEF → 赫爾辛基 → 香港會經過。易碎，放手提行李。"],
  ["火山冰塊（威士忌石）","9 粒裝約 USD 38（約 5,000 ISK）","最便宜：網上 icelandicstore.is 和雷克雅維克市區手信店比較一下價先買","用冰島東南部的輝長岩 gabbro 切成小方塊，雪冷後放入酒杯，冷酒不會溶水。好重，記得計行李重量。"],
  ["Fischersund 香水","50 ml 香水海外售價約 USD 195；固體香膏 10 g 約 USD 64；試用裝 2 ml 約 USD 7","最便宜：雷克雅維克市中心 Fischersund 街門市（原產地，滿 12,000 ISK 可以退稅）；海外代理通常貴","Sigur Rós 主音 Jónsi 和兄弟姊妹開的家族品牌，用冰島野生香草。門市可以試香；D0、D1 下晝或 D12 早上在市中心時去。"],
- ["日本文具（Nakano）","價錢未查到，以店內為準","最便宜：同一件日本文具通常在日本當地買最便宜；Nakano 適合買店主推介或者冰島才見到的東西","Grensásvegur 16（2 樓後面），星期一休息；D0（9/11 星期六）11:00–17:00 開。"],
  ["退稅提提你","—","同一張收據滿 12,000 ISK 才可以退稅","香水、羊毛衫可以集中在同一間店買，離境前在 KEF 機場辦。"]];
 const TOPSAVE=[
  ["酒在 KEF 下機買","酒錢大約省一半","到達大堂免稅店買全程的酒；之後只有 Vínbúðin 賣酒，貴、時間短、星期日不開"],
