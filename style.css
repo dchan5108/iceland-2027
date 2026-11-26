@@ -3829,3 +3829,11 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
  #view-trip:not(.nomap) .mapcol{grid-column:2!important;grid-row:1/span 40!important;align-self:start}
  #view-trip:not(.nomap)>*:not(.mapcol){grid-column:1!important}
 }
+
+/* 旅行費用：人數、車數一行排好，數字框細啲 */
+#budget .bctl{display:flex!important;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:14px;margin:8px 0 12px}
+#budget .bctl label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+#budget .bctl input[type=number]{width:64px!important;height:32px;padding:2px 6px;font-size:14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);box-sizing:border-box}
+#budget .bctl input[type=number]::-webkit-inner-spin-button{opacity:.6}
+#budget .bctl input[type=number]{-moz-appearance:textfield;appearance:textfield;min-height:0!important;height:30px!important;line-height:28px;border-radius:8px!important;padding:0 8px!important;background:var(--card)!important;font-size:14px!important;width:56px!important}
+#budget .bctl input[type=number]::-webkit-outer-spin-button,#budget .bctl input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}

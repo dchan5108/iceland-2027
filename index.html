@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-26-tv4">
+<link rel="stylesheet" href="style.css?v=2026-11-26-bc1">
 
 </head>
 <body>
@@ -122,7 +122,6 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
     <div class="bctl" id="b-adm" hidden>
       <label for="b-people">參加人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
       <label for="b-cars">車數 <input type="number" id="b-cars" min="1" max="5" step="1" value="2"></label>
-      <label for="b-stay">住宿 <select id="b-stay"><option value="hotel" selected>酒店</option></select></label>
       <details class="brate"><summary>匯率</summary><label for="b-hkd">1 ISK = <input type="number" id="b-hkd" min="0" step="0.0001" value="0.0643"> HKD</label> <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label></details>
     </div>
     <details class="bsec" id="bs-tbl"><summary>逐項明細<span>勾選參加的活動、填個人開支</span></summary><div class="bwrap"><table class="btable" id="b-table"></table></div></details>
@@ -1907,7 +1906,6 @@ const rowsAll=BUD.flatMap(([,r])=>r),actRows=rowsAll.filter(r=>r.scope==="a"),in
 const KEY="iceland-budget-v15";
 let st={};try{st=JSON.parse(store.get(KEY)||"{}")}catch(e){st={}}
 ["people","cars","hkd","aud","stay"].forEach(k=>{if(st[k]!=null&&$("b-"+k))$("b-"+k).value=st[k]});
-if($("b-stay").value!=="hotel")$("b-stay").value="hotel";
 let ACT=st.act&&typeof st.act==="object"?{...st.act}:{};
 if(!(st.pay&&st.pay._def1)&&!st.d1)ACT.dthike=1;
 /* 價錢：管理者自己改的照用；其他人只保留已訂的實際價錢，其餘跟網站最新數字 */
@@ -1963,13 +1961,11 @@ function calc(){
   document.querySelectorAll("[data-bcur]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.bcur===CUR)));
   const pT=pers.reduce((a,x)=>a+x[1],0),pH=DT?`<details class="mecat bpers"><summary><i style="background:var(--chg)"></i>個人預算（只有你看到）<span>${pT?fI(pT):"–"}<small class="bcv">${pT?"約 "+cvx(pT):""}</small></span></summary>${pers.length?`<ul>${pers.map(([n,v])=>`<li>${esc(n)}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`:"";
   $("b-me").innerHTML=pH+cat.map((c,i)=>`<details class="mecat"><summary><i style="background:var(--pc${i})"></i>${CATN[i]}<span>${c.v?fI(c.v):"–"}<small class="bcv">${c.v?"約 "+cvx(c.v):""}</small></span></summary>${c.it.length?`<ul>${c.it.map(([n,v,cf])=>`<li>${esc(n)}${cf?"（已確認）":""}<span>${fI(v)}</span></li>`).join("")}</ul>`:""}</details>`).join("");
-  store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,stay:$("b-stay").value,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
+  store.set(KEY,JSON.stringify({people:ppl,cars,hkd:+$("b-hkd").value||0,aud:+$("b-aud").value||0,mj:MJ,mi:MI,act:ACT,d1:1,rows:Object.fromEntries(rowsAll.map(r=>[r.id,{price:r.price,qty:r.qty,on:r.on}]))}));
 }
 ["bs-tbl"].forEach(id=>{const d=$(id);if(!d)return;const v=store.get("iceland-"+id);if(v==="1")d.open=true;d.addEventListener("toggle",()=>store.set("iceland-"+id,d.open?"1":"0"))});
 $("budget").addEventListener("change",e=>{
   const t=e.target;if(t.id==="b-cur"){CUR=t.value;store.set("iceland-cur",CUR);calc();return}
-  if(t.id==="b-stay"&&DT){const h=t.value==="hotel";rowsAll.filter(r=>/^air\d/.test(r.id)).forEach(r=>$("bc-"+r.id).checked=!h);$("bc-clean").checked=!h;$("bc-hotel").checked=h;
-}
   calc();
 });
 $("budget").addEventListener("input",e=>{if(e.target.type==="number")calc()});
