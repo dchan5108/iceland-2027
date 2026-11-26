@@ -136,7 +136,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 <script src="trip.js?v=2026-11-26-d3"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
-<script src="data.js?v=2026-11-24-d"></script>
+<script src="data.js?v=2026-11-26-zc"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -546,6 +546,7 @@ const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[�
 /* Akureyri 散步／Ketilkaffi 早餐：步行導航（散步路線：海濱 → Hof 心形紅燈 → 教堂階梯 → Ketilkaffi） */
 const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^午餐：Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"]];
 const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="&travelmode=walking",G="https://www.google.com/maps/dir/?api=1&destination=";let u="";
+  if(dd===1&&/^Zero Car/.test(p))return ` data-nav="${escA(G+"64.15536731173869,-21.946386999999998&travelmode=driving")}"`;
   if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA(G+encodeURIComponent("Sun Voyager, Reykjavík")+"&waypoints="+encodeURIComponent("Hallgrímskirkja, Reykjavík|Skólavörðustígur 20, Reykjavík|Laugavegur 30, Reykjavík|Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík|Harpa, Reykjavík")+W)}" data-walk="1"`;
   if(dd===0||dd===-5){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(G+encodeURIComponent(m[1])+"&travelmode="+(m[2]||"walking"))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
   if(/^Akureyri (早上|市區)散步/.test(p))u=G+enc(/Ketilkaffi/.test(p)?"Ketilkaffi, Akureyri":"Akureyrarkirkja, Akureyri")+"&waypoints="+enc(/Ketilkaffi/.test(p)?"Strandgata, Akureyri|Hof, Akureyri|Akureyrarkirkja":"Strandgata, Akureyri|Hof, Akureyri")+W;
