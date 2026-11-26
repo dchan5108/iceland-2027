@@ -3866,3 +3866,7 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
  #view-trip.nomap .mapcol{display:block!important;grid-column:2!important;grid-row:1/span 40!important}
  #view-trip.nomap #panel{grid-column:1!important;max-width:none!important}
 }
+@media (min-width:820px){
+ #homeMap .mapbox{height:auto!important;min-height:0!important}
+ #homeMap .mapbox svg#map{height:auto!important;min-height:0!important;width:100%!important;max-height:calc(100vh - 80px)!important}
+}
