@@ -3820,3 +3820,6 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 }
 #today .ovdcard[data-dc="4"] .ovdi{background-size:170% auto;background-position:65% 92%}
 #today .ovdcard[data-dc="5"] .ovdi{background-image:url(img/dettifoss.jpg)!important;background-position:50% 60%}
+
+/* 電腦版：旅行費用頁四邊留白 */
+@media (min-width:820px){#budget{padding-inline:24px!important}}
