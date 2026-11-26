@@ -544,11 +544,11 @@ else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.som
 /* 日期短寫：單日「9月14日（二）」；跨日「9月7–10日」（徒步等），手機標題不會太長 */
 const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[–-]\s*(\d{1,2})\/(\d{1,2})/);if(m)return m[1]===m[3]?`${m[1]}月${m[2]}–${m[4]}日`:`${m[1]}月${m[2]}日–${m[3]}月${m[4]}日`;return s.replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")};
 /* Akureyri 散步／Ketilkaffi 早餐：步行導航（散步路線：海濱 → Hof 心形紅燈 → 教堂階梯 → Ketilkaffi） */
-const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"64.1467386,-21.9375928"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳 Bus Stop/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
+const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"https://maps.app.goo.gl/ARMCfsAo3kQAzEQJ6"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳 Bus Stop/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
 const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="",G="https://www.google.com/maps/search/?api=1&query=";let u="";
   if(dd===1&&/^Zero Car/.test(p))return ` data-nav="${escA(G+"64.15536731173869,-21.946386999999998")}"`;
   if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Hallgrímskirkja, Reykjavík"))}" data-walk="1"`;
-  if(dd===0||dd===-5||dd===-4){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(G+encodeURIComponent(m[1]))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
+  if(dd===0||dd===-5||dd===-4){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(/^https?:/.test(m[1])?m[1]:G+encodeURIComponent(m[1]))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
   if(/^Akureyri (早上|市區)散步/.test(p))u=G+enc(/Ketilkaffi/.test(p)?"Ketilkaffi, Akureyri":"Akureyrarkirkja, Akureyri")+"&waypoints="+enc(/Ketilkaffi/.test(p)?"Strandgata, Akureyri|Hof, Akureyri|Akureyrarkirkja":"Strandgata, Akureyri|Hof, Akureyri")+W;
   else if(/^早餐：Ketilkaffi/.test(p))u=G+enc("Ketilkaffi, Akureyri")+W;
   return u?` data-nav="${escA(u)}" data-walk="1"`:""};
@@ -1834,7 +1834,7 @@ function setScen(s){
   document.querySelectorAll("[data-scen]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.scen===s)));
   drawMap();renderPanel();dim();
 }
-{const TD=todayDay();/* 日子掣：一行、一樣闊；D&T 自己的日子淺色；「總表」放最尾 */$("chips").innerHTML=[ALL,...days.map(x=>x.d)].map(d=>`<button type="button" data-d="${d}" aria-pressed="false" class="${d===ALL?"call":d<1?"cpre":""}${TD&&TD.d===d?" ctoday":""}"${d===ALL?"":` style="--dc:${dayCol(d)}" aria-label="${dLab(d)} ${dShort(d)}"`}>${d===ALL?"總表":dLab(d)}</button>`).join("")}
+{const TD=todayDay();/* 日子掣：一行、一樣闊；D&T 自己的日子淺色；「總表」放最尾 */$("chips").innerHTML=[...days.map(x=>x.d)].map(d=>`<button type="button" data-d="${d}" aria-pressed="false" class="${d===ALL?"call":d<1?"cpre":""}${TD&&TD.d===d?" ctoday":""}"${d===ALL?"":` style="--dc:${dayCol(d)}" aria-label="${dLab(d)} ${dShort(d)}"`}>${d===ALL?"總表":dLab(d)}</button>`).join("")}
 $("chips").addEventListener("click",e=>{const b=e.target.closest("button");if(b)select(+b.dataset.d)});
 (()=>{const q=$("srq"),res=$("srres");if(!q||!res)return;const T=x=>String(x).replace(/<[^>]+>/g,"");const idx=[];
 days.forEach(d=>{const add=(t,x,vw)=>idx.push({d:d.d,t,x:T(x),vw});(d.plan||[]).forEach(r=>add(r[0],r[1]));((d.view&&d.view.opts)||[]).forEach(o=>{(o.plan||[]).forEach(r=>add(r[0],r[1],o.id));(o.legs||[]).forEach(l=>[l.a,l.b].forEach(k=>{if(pts[k])add("景點",pts[k][0],o.id)}))});Object.values(d.v||{}).forEach(v=>{if(v&&v.plan)v.plan.forEach(r=>add(r[0],r[1]))});(d.opt||[]).forEach(o=>add("推薦可選",o.t+" "+(o.d||"")));(d.rec||[]).forEach(o=>add("推薦行程",o.t+" "+(o.d||"")));[...new Set((d.legs||[]).flatMap(l=>[l.a,l.b]))].forEach(k=>{if(pts[k])add("景點",pts[k][0])})});
@@ -1855,7 +1855,7 @@ function mapHint(){const e=$("maphint1");if(e)e.textContent=(REAL||DT)?(drv==="r
 function setDrv(v){drv=v;try{DRV.on=v==="buf"}catch(e){}mapHint();store.set("iceland-drvbuf",v==="buf"?"1":"0");$("dv-buf").setAttribute("aria-pressed",String(v==="buf"));$("dv-raw").setAttribute("aria-pressed",String(v==="raw"));{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}}}
 $("dv-buf").addEventListener("click",()=>setDrv("buf"));$("dv-raw").addEventListener("click",()=>setDrv("raw"));
 if(REAL){$("drvgrp").hidden=false;document.querySelectorAll(".rawonly").forEach(e=>e.hidden=false)}$("dv-buf").setAttribute("aria-pressed",String(drv==="buf"));$("dv-raw").setAttribute("aria-pressed",String(drv==="raw"));
-{const TD=todayDay();if(TD)sel=TD.d}if(sel!==ALL&&!days.some(x=>x.d===sel))sel=ALL;setScen(scen);select(sel);
+{const TD=todayDay();if(TD)sel=TD.d}if(!days.some(x=>x.d===sel))sel=(days.find(x=>x.d>=1)||days[0]).d;setScen(scen);select(sel);
 
 /* changes summary: collapsed by default */
 
