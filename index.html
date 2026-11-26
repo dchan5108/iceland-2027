@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-26-bc1">
+<link rel="stylesheet" href="style.css?v=2026-11-26-ov1">
 
 </head>
 <body>
@@ -2438,7 +2438,7 @@ function view(v){
   $("home").hidden=v!=="home";$("today").hidden=v!=="today";if(v==="today")try{if(TODAY.box)TODAY.render()}catch(e){}/* 轉去今日頁時用最新切換重畫 */$("view-trip").hidden=v!=="trip";$("prep").hidden=!(v==="prep"||v==="budget");$("tips").hidden=v!=="links";$("stays").hidden=false;if(v==="prep"&&(PSUB==="stay"||PSUB==="book"))try{renderStays()}catch(e){}
   $("prep").classList.toggle("budonly",v==="budget");
   [["home","home"],["today","today"],["trip","trip"],["prep","prep"],["budget","budget"],["tips","links"]].forEach(([id,k])=>{const t=$("tab-"+id);if(t)t.setAttribute("aria-selected",String(v===k))});if(v==="home")$("tab-trip").setAttribute("aria-selected","true");if(v==="budget")$("tab-prep").setAttribute("aria-selected","true");document.querySelectorAll("[data-tsub]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.tsub===v)));
-  {const mc=$("mapcol");if(mc){if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
+  {const mc=$("mapcol"),dsk=matchMedia("(min-width:820px)").matches&&v==="home"&&$("homeMap");if(mc){if(dsk){if(mc.parentElement!==dsk)dsk.appendChild(mc)}else if(mc.parentElement!==$("view-trip"))$("view-trip").insertBefore(mc,$("panel"))}
    requestAnimationFrame(()=>{try{drawMap();if(v==="home"){let hd=null;try{hd=todayDay()}catch(e){}if(!hd||hd.d<1){const FB={x:FULL.x-20,y:FULL.y-20,w:FULL.w+40,h:FULL.h+60};fit(FB);setTimeout(()=>{try{fit(FB);applyVB()}catch(e){}},120);svg.querySelectorAll(".dim").forEach(e=>e.classList.remove("dim"));applyVB();return}hd=hd.d;zoomDay(hd);setTimeout(()=>{try{zoomDay(hd);applyVB()}catch(e){}},120);svg.querySelectorAll("[data-day]").forEach(e=>e.classList.toggle("dim",+e.dataset.day!==hd));svg.querySelectorAll("[data-days]").forEach(e=>e.classList.toggle("dim",!e.dataset.days.split(" ").includes(String(hd))));applyVB()}else{zoomDay(sel);dim();setTimeout(()=>{try{zoomDay(sel);applyVB()}catch(e){}},120)}}catch(e){}})}
   if(v==="home"){try{renderHome()}catch(e){}try{MARKDAYS($("home"))}catch(e){}}
   if(v==="today"){try{const L=TODAY.ids();let td=null;try{td=todayDay()}catch(e){}if(td&&L.includes(td.d))TODAY.d=td.d;else TODAY.d=L.includes(1)?1:L[0];TODAY.prevHook=null;$("today").innerHTML=`<div id="todayIn"></div>`;TODAY.render($("todayIn"));window.BADGES&&BADGES.ping({url:CONTENT_URL,admin:OWNER,now:nowIS()})}catch(e){}}

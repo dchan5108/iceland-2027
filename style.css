@@ -3838,3 +3838,23 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #budget .bctl input[type=number]{-moz-appearance:textfield;appearance:textfield;min-height:0!important;height:30px!important;line-height:28px;border-radius:8px!important;padding:0 8px!important;background:var(--card)!important;font-size:14px!important;width:56px!important}
 #budget .bctl input[type=number]::-webkit-outer-spin-button,#budget .bctl input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
+
+/* 電腦版旅程總覽：右邊顯示同詳細時間表一樣嘅互動地圖（地圖固定右欄，頂部對齊） */
+@media (min-width:820px){
+ #homeL{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(320px,38%,540px)!important;gap:20px!important;align-items:start}
+ #homeTop{grid-column:1;grid-row:1;min-width:0}
+ #homeMap{display:block!important;grid-column:2;grid-row:1;position:sticky;top:16px;min-width:0}
+ #homeMap:empty{display:none!important}
+ #homeMap .mapcol{position:relative!important;top:0!important;display:block!important;max-height:calc(100vh - 32px)!important}
+}
+@media (min-width:820px){
+ #homeL{width:100%!important;max-width:none!important}
+ #homeTop{width:100%!important;max-width:none!important}
+ #homeTop .ovdays,#homeTop .hcard{max-width:none!important;width:100%!important}
+ #homeMap .mapcol{width:100%!important;max-width:none!important}
+}
+@media (min-width:820px){
+ #homeL{grid-template-columns:minmax(0,1fr) minmax(320px,540px)!important}
+ #homeMap{width:100%!important;max-width:540px!important;justify-self:end;overflow:visible}
+ #homeTop .ovdays{width:100%!important}
+}
