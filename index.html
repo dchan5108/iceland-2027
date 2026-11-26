@@ -120,8 +120,6 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
     <p class="bmiss" id="b-miss" hidden></p>
     <div class="bme" id="b-me"></div>
     <div class="bctl" id="b-adm" hidden>
-      <label for="b-people">參加人數 <input type="number" id="b-people" min="1" max="20" step="1" value="7"></label>
-      <label for="b-cars">車數 <input type="number" id="b-cars" min="1" max="5" step="1" value="2"></label>
       <details class="brate"><summary>匯率</summary><label for="b-hkd">1 ISK = <input type="number" id="b-hkd" min="0" step="0.0001" value="0.0643"> HKD</label> <label for="b-aud">1 ISK = <input type="number" id="b-aud" min="0" step="0.0001" value="0.0125"> AUD</label></details>
     </div>
     <details class="bsec" id="bs-tbl"><summary>逐項明細<span>勾選參加的活動、填個人開支</span></summary><div class="bwrap"><table class="btable" id="b-table"></table></div></details>
@@ -1940,7 +1938,7 @@ function build(){
 }
 /* 只計自己：已確認（已訂）／估算分開；未有價錢的項目列出來，不當 0 */
 function calc(){
-  const ppl=Math.max(1,Math.min(20,Math.round(+$("b-people").value||1))),cars=Math.max(1,Math.round(+$("b-cars").value||1));
+  const ppl=7,cars=2;/* 已確定：7 人、2 部車 */
   if(!built)build();
   if(DT)rowsAll.forEach(r=>{const c=$("bc-"+r.id);if(c)r.on=c.checked;if(r.scope!=="i"&&$("bp-"+r.id)){r.price=Math.max(0,+$("bp-"+r.id).value||0);r.qty=Math.max(0,+$("bq-"+r.id).value||0)}});
   actRows.forEach(r=>{const c=$("mj-"+r.id);if(c)MJ[r.id]=c.checked});
@@ -2333,7 +2331,7 @@ function renderStays(){
   const N=STAYS.length,done=STAYS.filter((_,i)=>booked(i)).length,picked=STAYS.filter(([,,s2],i)=>!booked(i)&&s2==="已選").length;
   const keep=new Set([...$("stays").querySelectorAll("details.stc[open]")].map(d=>d.dataset.i));
   const fee=i=>{if(RO||!STAYBUD[i]||typeof rowsAll==="undefined")return null;const r=rowsAll.find(x=>x.id===STAYBUD[i]);return r?{v:r.price*r.qty,act:!!ACT[r.id],est:r.est}:null};
-  const fees=STAYS.map((_,i)=>fee(i)),feeT=fees.reduce((a,x)=>a+(x?x.v:0),0),ppl=Math.max(1,+(($("b-people")||{}).value)||7);
+  const fees=STAYS.map((_,i)=>fee(i)),feeT=fees.reduce((a,x)=>a+(x?x.v:0),0),ppl=7;
   const nav=(area,murl)=>murl?murl:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(area.replace(/：.*/,"").split("／")[0]+" Iceland");
   const IC={bed:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V7M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/></svg>',pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'};
   $("stays").innerHTML=`<div class="pghead"><h2>每日住宿</h2><p>9/12–9/23 · ${N} 晚</p></div>
