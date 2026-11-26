@@ -3858,3 +3858,11 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
  #homeMap{width:100%!important;max-width:540px!important;justify-self:end;overflow:visible}
  #homeTop .ovdays{width:100%!important}
 }
+
+/* 電腦版：地圖一直顯示，唔使收起／顯示地圖 */
+@media (min-width:820px){
+ #maptog{display:none!important}
+ #view-trip.nomap{grid-template-columns:minmax(0,1fr) clamp(320px,38%,540px)!important}
+ #view-trip.nomap .mapcol{display:block!important;grid-column:2!important;grid-row:1/span 40!important}
+ #view-trip.nomap #panel{grid-column:1!important;max-width:none!important}
+}
