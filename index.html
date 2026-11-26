@@ -1277,7 +1277,9 @@ const oPicked=raw=>(RECP[raw.d]||[]).filter(x=>x.startsWith("o:"));
 const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
 /* D6 跟退潮時間：管理者填 Stokksnes 退潮時間（iceland-tide-6，會同步），蝙蝠山排在退潮前後；
    早上退潮 → 獨木舟照舊；中午退潮 → 先蝙蝠山，獨木舟改下晝；太遲／太早 → 用一般時間 */
-const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day)};
+const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day),
+ /* D1 晚餐：按「晚餐」掣揀餐廳，只換晚餐嗰行 */
+ din1:(raw,day)=>{const T={hlem:"晚餐：Hlemmur 美食廣場（Hlemmur Mathöll，多間小店揀）",zhu:"晚餐：朱老闆中菜館（營業時間同訂位出發前核實）",fine:"晚餐：Fine Restaurant 飯（川菜，Rauðarárstígur 33；7 人建議訂位）"},t=T[viewId(raw)];return {plan:t?(day.plan||[]).map(r=>/^晚餐：/.test(String(r[1]))?[r[0],t,r[2]]:r):day.plan}}};
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
 const TIDE_EST="10:10";
 /* 選了「跟退潮」而退潮在早上：全組人已經早去蝙蝠山，不用再顯示「自己提早去影日出」 */
