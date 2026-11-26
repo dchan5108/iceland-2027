@@ -133,7 +133,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </div>
 
 
-<script src="trip.js?v=2026-11-25-b"></script>
+<script src="trip.js?v=2026-11-26-d0"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
 <script src="data.js?v=2026-11-24-d"></script>
@@ -249,7 +249,7 @@ const mealUrl=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURICom
 const CITYDT=DATA.CITYDT;
 const coast=DATA.coast;
 /* name, lon, lat, type, main label side, changed, inset label side (inset points get no label on the main map) */
-const {pts,N,ROUTES,days}=window.TRIP;
+const {pts,N,ROUTES}=window.TRIP;let days=window.TRIP.days;
 /* 自訂地點（由 Google Maps 連結或座標加入）：key u<數字>，存在 iceland-upts，會同步 */
 let UPTS={};try{UPTS=JSON.parse(store.get("iceland-upts")||"{}")||{}}catch(e){UPTS={}}
 Object.keys(UPTS).forEach(k=>{const v=UPTS[k];if(/^u\d+$/.test(k)&&Array.isArray(v)&&isFinite(v[1])&&isFinite(v[2]))pts[k]=v});
@@ -303,6 +303,7 @@ try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","icelan
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */
 const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
 if(PV){REAL=PV==="real";DT=false;OWNER=false;store.set=()=>{}}
+days=days.filter(x=>!x.dt||DT);
 /* 管理者版：D6 Ósland 日落、D7 鑽石沙灘、D5 T&D Stuðlagil 預設已加入（只做一次） */
 try{if(DT){let ch=0;[[6,"osland6"],[7,"dusk7"],[5,"stud5t"]].forEach(([d,id])=>{if(store.get("iceland-seed-"+id)&&id!=="osland6")return;if(id==="osland6"&&(RECP[d]||[]).includes(id))return;/* D6 日落已冇掣：Ósland 固定加入 */RECP[d]=[...new Set([...(RECP[d]||[]),id])];store.set("iceland-seed-"+id,"1");ch=1});if(ch)store.set("iceland-recp",JSON.stringify(RECP))}}catch(e){}
 const HASH0=location.hash;
