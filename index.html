@@ -545,15 +545,15 @@ else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.som
 const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[–-]\s*(\d{1,2})\/(\d{1,2})/);if(m)return m[1]===m[3]?`${m[1]}月${m[2]}–${m[4]}日`:`${m[1]}月${m[2]}日–${m[3]}月${m[4]}日`;return s.replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")};
 /* Akureyri 散步／Ketilkaffi 早餐：步行導航（散步路線：海濱 → Hof 心形紅燈 → 教堂階梯 → Ketilkaffi） */
 const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"64.1467386,-21.9375928"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳 Bus Stop/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
-const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="&travelmode=walking",G="https://www.google.com/maps/search/?api=1&query=";let u="";
+const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="",G="https://www.google.com/maps/search/?api=1&query=";let u="";
   if(dd===1&&/^Zero Car/.test(p))return ` data-nav="${escA(G+"64.15536731173869,-21.946386999999998")}"`;
-  if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA("https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent("Sun Voyager, Reykjavík")+"&waypoints="+encodeURIComponent("Hallgrímskirkja, Reykjavík|Skólavörðustígur 20, Reykjavík|Laugavegur 30, Reykjavík|Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík|Harpa, Reykjavík")+W)}" data-walk="1"`;
+  if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Hallgrímskirkja, Reykjavík"))}" data-walk="1"`;
   if(dd===0||dd===-5||dd===-4){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(G+encodeURIComponent(m[1]))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
   if(/^Akureyri (早上|市區)散步/.test(p))u=G+enc(/Ketilkaffi/.test(p)?"Ketilkaffi, Akureyri":"Akureyrarkirkja, Akureyri")+"&waypoints="+enc(/Ketilkaffi/.test(p)?"Strandgata, Akureyri|Hof, Akureyri|Akureyrarkirkja":"Strandgata, Akureyri|Hof, Akureyri")+W;
   else if(/^早餐：Ketilkaffi/.test(p))u=G+enc("Ketilkaffi, Akureyri")+W;
   return u?` data-nav="${escA(u)}" data-walk="1"`:""};
 /* 私人小行程（y 行）：「出發去 X／開回 X」也有導航 */
-const YNAV=a=>{const m=String(a).replace(/<[^>]*>/g,"").match(/^(?:出發去|開一部車去|開車去|開去|開回)\s*([^\s（(，,]+)/);if(!m)return "";const nm0=m[1],k=Object.keys(pts).find(k=>String(pts[k][0]).includes(nm0)),q=k?qn(k):nm0+", Iceland";return ` data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
+const YNAV=a=>{const m=String(a).replace(/<[^>]*>/g,"").match(/^(?:出發去|開一部車去|開車去|開去|開回)\s*([^\s（(，,]+)/);if(!m)return "";const nm0=m[1],k=Object.keys(pts).find(k=>String(pts[k][0]).includes(nm0)),q=k?qn(k):nm0+", Iceland";return ` data-nav="${escA(`https://www.google.com/maps/search/?api=1&query=${enc(q)}`)}"`};
 const dLab=d=>d===-5?"H0":d===-4?"徒步":d<0?(days.find(x=>x.d===d)||{date:""}).date.replace(/（[^）]*）/g,"").replace(/\s/g,""):`D${d}`;
 const shiftClock=s=>!OFS?s:s.replace(/(\d{1,2}):(\d{2})/g,(m,h,mi)=>{let t=+h*60+ +mi-OFS;if(t<0)t+=1440;return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`});
 const shiftBook=s=>!OFS?s:s.replace(/(預約(?:約)? ?)(\d{1,2}:\d{2})/g,(m,p,t)=>p+shiftClock(t));
@@ -917,7 +917,7 @@ function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect(),ux=VB.x+(cx-r.left)
 function ctr(){const r=svg.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]}
 function showPop(k){
   const p=SP[k],ds=[...(PD[k]||[])].sort((a,b)=>a-b),name=pts[k][0].replace(/（.*）/,"");
-  $("pop").innerHTML=`<div class="poph"><b>${p?p.t:name}</b><button type="button" class="popx" aria-label="關閉">×</button></div>${ds.length?`<div class="popd">${ds.map(d=>`<span>${dLab(d)}</span>`).join("")}</div>`:""}${p?`<p>${p.d}</p>${p.park?`<p class="ppark"><b>停車：</b>${p.park}</p>`:""}`:""}<div class="popb"><a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${enc(Q[k]||(pts[k]?pts[k][2]+","+pts[k][1]:name))}&travelmode=driving" target="_blank" rel="noopener">導航去這裡</a>${parkUrl(k)?`<a class="btn ghostb" href="${parkUrl(k)}" target="_blank" rel="noopener">導航去停車場</a>`:""}${ds.map(d=>`<button type="button" class="btn ghostb" data-pd="${d}" data-pk="${k}">${dLab(d)} 行程</button>`).join("")}</div>`;
+  $("pop").innerHTML=`<div class="poph"><b>${p?p.t:name}</b><button type="button" class="popx" aria-label="關閉">×</button></div>${ds.length?`<div class="popd">${ds.map(d=>`<span>${dLab(d)}</span>`).join("")}</div>`:""}${p?`<p>${p.d}</p>${p.park?`<p class="ppark"><b>停車：</b>${p.park}</p>`:""}`:""}<div class="popb"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=${enc(Q[k]||(pts[k]?pts[k][2]+","+pts[k][1]:name))}" target="_blank" rel="noopener">導航去這裡</a>${parkUrl(k)?`<a class="btn ghostb" href="${parkUrl(k)}" target="_blank" rel="noopener">導航去停車場</a>`:""}${ds.map(d=>`<button type="button" class="btn ghostb" data-pd="${d}" data-pk="${k}">${dLab(d)} 行程</button>`).join("")}</div>`;
   $("pop").hidden=false;$("fnav").hidden=true;
 }
 
@@ -927,7 +927,7 @@ const enc=s=>encodeURIComponent(/^-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?$/.test(String(s
 const VQ=DATA.VQ;
 const vq=v=>v in VQ?VQ[v]:String(v).replace(/[（(][^）)]*[）)]/g,"").trim()||null;
 const dir=(stops,mode)=>{const o=stops[0],d=stops[stops.length-1],w=stops.slice(1,-1);
-  return `https://www.google.com/maps/dir/?api=1&origin=${enc(o)}&destination=${enc(d)}${w.length?`&waypoints=${w.map(enc).join("%7C")}`:""}&travelmode=${mode||"driving"}`};
+  return `https://www.google.com/maps/search/?api=1&query=${enc(d)}`};
 const stopsOf=day=>{const lg=day.legs.filter(l=>!l.c2);if(!lg.length)return[];const s=[lg[0].a];lg.forEach(l=>{(l.via||[]).forEach(v=>s.push("via:"+v));s.push(l.b)});return s};
 const legUrl=l=>dir([qn(l.a),...(l.via||[]).map(vq).filter(Boolean),qn(l.b)],l.city?"transit":"");
 const dayUrl=day=>{let s=stopsOf(day);
@@ -1197,7 +1197,7 @@ function richRows(day){
   /* 時間軸每行：名稱＋停留／車程＋一行簡介；其餘資料收在「詳情」 */
   const dep=depI(plan),LG=(day.legs||[]).filter(l=>!l.c2&&!l.hide),usedL=new Set(),PD={v:null};
   /* 開車行的目的地：之後第一個有地點的站；按這一行就導航去那裡 */
-  const drvTo=i=>{if(day.d===-4)return "";{/* 目的地唔喺地圖站嘅開車行：直接用名搜尋導航 */const DNAV=[[/^退房（Old farm）出發去 Akureyri/,"Akureyri"],[/^開去 Polar Hestar/,"Grýtubakki II, Grenivík"]],ov=DNAV.find(([r])=>r.test(String(plan[i][1]).replace(/<[^>]*>/g,"")));if(ov)return ` data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(ov[1])}&travelmode=driving`)}"`}let j=i+1;const pk=x=>plan[x][2]==="pk"&&att[x].sp[0]&&(pts[att[x].sp[0]]||Q[att[x].sp[0]]);/* 可選站（例如 Diamond Beach）：導航去佢，同標題一致 */while(j<plan.length&&!SK[j]&&!pk(j))j++;const k=j<plan.length?(SK[j]||(pk(j)?att[j].sp[0]:"")):"";if(!k||!(pts[k]||Q[k]))return "";const q=qn(k),lg0=(day.legs||[]).find(l=>l.b===k&&!l.walk);return ` data-to="${escA(k)}"${lg0&&lg0.m?` data-dm="${Math.round(lg0.m)}"`:""} data-nav="${escA(`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`)}"`};
+  const drvTo=i=>{if(day.d===-4)return "";{/* 目的地唔喺地圖站嘅開車行：直接用名搜尋導航 */const DNAV=[[/^退房（Old farm）出發去 Akureyri/,"Akureyri"],[/^開去 Polar Hestar/,"Grýtubakki II, Grenivík"]],ov=DNAV.find(([r])=>r.test(String(plan[i][1]).replace(/<[^>]*>/g,"")));if(ov)return ` data-nav="${escA(`https://www.google.com/maps/search/?api=1&query=${enc(ov[1])}`)}"`}let j=i+1;const pk=x=>plan[x][2]==="pk"&&att[x].sp[0]&&(pts[att[x].sp[0]]||Q[att[x].sp[0]]);/* 可選站（例如 Diamond Beach）：導航去佢，同標題一致 */while(j<plan.length&&!SK[j]&&!pk(j))j++;const k=j<plan.length?(SK[j]||(pk(j)?att[j].sp[0]:"")):"";if(!k||!(pts[k]||Q[k]))return "";const q=qn(k),lg0=(day.legs||[]).find(l=>l.b===k&&!l.walk);return ` data-to="${escA(k)}"${lg0&&lg0.m?` data-dm="${Math.round(lg0.m)}"`:""} data-nav="${escA(`https://www.google.com/maps/search/?api=1&query=${enc(q)}`)}"`};
   const driveTo=k=>{const i=LG.findIndex((l,x)=>!usedL.has(x)&&l.b===k);if(i<0)return 0;usedL.add(i);return LG[i]};
   const bodyA=plan.map(([t,a,f],i)=>{if(isConn(i)){if(SK[i])driveTo(SK[i]);const p=String(a).replace(/<[^>]*>/g,"");
       let tx=p.replace(/\s*[（(]\s*/," · ").replace(/[）)]\s*[：:，,]\s*/," · ").replace(/[）)]\s*$/,"").replace(/[）)]\s*/g," ").replace(/[；;]\s*/g," · ").replace(/\s+·/g," ·");
@@ -1233,7 +1233,7 @@ function richRows(day){
      plan.forEach((r,i)=>{const k=SK[i];if(!k||!pts[k]||i===0)return;let j=i-1;while(j>=0&&!plan[j])j--;if(j<0)return;
        if(isConn(j)||isDrv(plan[j][1])||j===dep)return;
        let ps=i-1;while(ps>=0&&!SK[ps])ps--;if(ps<0)return;for(let q=ps+1;q<i;q++){if(plan[q]&&plan[q][2]!=="m"&&!isConn(q))return}const lg=(day.legs||[]).find(l=>l.a===SK[ps]&&l.b===k&&!l.c2&&!l.walk&&!l.ride&&!l.city);if(!lg||!lg.m)return;
-       const pv=sm(plan[j][0]),at=pv?pv.e:null,me=sm(r[0]);if(at!=null&&me&&Math.abs(at+lg.m-me.s)>20)return;const q=qn(k),nav=`https://www.google.com/maps/dir/?api=1&destination=${enc(q)}&travelmode=driving`,lng=lg.m>=120;
+       const pv=sm(plan[j][0]),at=pv?pv.e:null,me=sm(r[0]);if(at!=null&&me&&Math.abs(at+lg.m-me.s)>20)return;const q=qn(k),nav=`https://www.google.com/maps/search/?api=1&query=${enc(q)}`,lng=lg.m>=120;
        const h=`<span class="t cn">${at!=null?hm(at):""}</span><span class="a drv cn auto${lng?" longd":""}" data-to="${escA(k)}" data-nav="${escA(nav)}"><svg class="cnic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/></svg>約 ${du(lg.m)}${lng?`<span class="alrt drvA">長途駕駛</span>`:""}</span>`;
        const b=bodyA[i];if(/^<div class="tod/.test(b)){const x=b.indexOf("</div>")+6;bodyA[i]=b.slice(0,x)+h+b.slice(x)}else bodyA[i]=h+b})}catch(e){}
   /* AI 建議同行程調整原因放入行程表（喺相關嗰行下面），版本掣上面唔再因版本變高度 */
