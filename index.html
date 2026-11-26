@@ -544,7 +544,7 @@ else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.som
 /* 日期短寫：單日「9月14日（二）」；跨日「9月7–10日」（徒步等），手機標題不會太長 */
 const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[–-]\s*(\d{1,2})\/(\d{1,2})/);if(m)return m[1]===m[3]?`${m[1]}月${m[2]}–${m[4]}日`:`${m[1]}月${m[2]}日–${m[3]}月${m[4]}日`;return s.replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")};
 /* Akureyri 散步／Ketilkaffi 早餐：步行導航（散步路線：海濱 → Hof 心形紅燈 → 教堂階梯 → Ketilkaffi） */
-const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"https://maps.app.goo.gl/ARMCfsAo3kQAzEQJ6"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳|Bus Stop|City Hall/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
+const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"https://maps.app.goo.gl/ARMCfsAo3kQAzEQJ6"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳|Bus Stop|City Hall/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
 const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="",G="https://www.google.com/maps/search/?api=1&query=";let u="";
   if(dd===1&&/^Zero Car/.test(p))return ` data-nav="https://maps.app.goo.gl/1h24Z1WEZmjBC1L17"`;
   if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Hallgrímskirkja, Reykjavík"))}" data-walk="1"`;
@@ -1279,12 +1279,12 @@ const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
    早上退潮 → 獨木舟照舊；中午退潮 → 先蝙蝠山，獨木舟改下晝；太遲／太早 → 用一般時間 */
 const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day),
  /* D1 晚餐：按「晚餐」掣揀餐廳，只換晚餐嗰行 */
- din1:(raw,day)=>{const T={hlem:"晚餐：Hlemmur 美食廣場（Hlemmur Mathöll，多間小店揀） ▾",zhu:"晚餐：朱老闆中菜館（營業時間同訂位出發前核實） ▾",fine:"晚餐：Fine Restaurant 飯（川菜，Rauðarárstígur 33；7 人建議訂位） ▾"},t=T[viewId(raw)];return {plan:t?(day.plan||[]).map(r=>/^晚餐：/.test(String(r[1]))?[r[0],t,r[2]]:r):day.plan}}};
+ din1:(raw,day)=>{const T={hlem:"晚餐：Hlemmur 美食廣場（Hlemmur Mathöll，多間小店揀） ▾",zhu:"晚餐：朱老闆中菜館（營業時間同訂位出發前核實） ▾",fine:"晚餐：Fine Restaurant 飯（川菜，Rauðarárstígur 33；7 人建議訂位） ▾"},t=T[viewId(raw)];return {plan:t?(day.plan||[]).map(r=>/^晚餐/.test(String(r[1]))?[r[0],t,r[2]]:r):day.plan}}};
 /* D1 晚餐：撳時間表入面晚餐嗰行，彈出餐廳選擇 */
 document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select"))return;const a=e.target.closest(".a");if(!a)return;const raw=days.find(x=>x.d===1);if(!raw||!raw.view||!raw.view.inline)return;
- const t=a.textContent||"";if(!/晚餐：/.test(t)||!/ ▾/.test(t))return;e.preventDefault();e.stopPropagation();
+ const t=a.textContent||"";if(!/晚餐/.test(t)||!/ ▾/.test(t))return;e.preventDefault();e.stopPropagation();
  const old=a.nextElementSibling;if(old&&old.classList.contains("dinpick")){old.remove();return}document.querySelectorAll(".dinpick").forEach(x=>x.remove());
- const cur=viewId(raw),m=document.createElement("div");m.className="scenbox viewbox dinpick noen";m.innerHTML=`<span class="sl">揀晚餐</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="1|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div>`;a.insertAdjacentElement("afterend",m)},true);
+ const cur=viewId(raw),m=document.createElement("div");m.className="dinpick noen";m.style.cssText="grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px";m.innerHTML=raw.view.opts.map(o=>`<button type="button" data-view="1|${o.id}" aria-pressed="${o.id===cur}" style="font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:${o.id===cur?"var(--chg)":"transparent"};color:${o.id===cur?"var(--bg)":"var(--fg)"};white-space:nowrap">${o.t}</button>`).join("");a.insertAdjacentElement("afterend",m)},true);
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
 const TIDE_EST="10:10";
 /* 選了「跟退潮」而退潮在早上：全組人已經早去蝙蝠山，不用再顯示「自己提早去影日出」 */
