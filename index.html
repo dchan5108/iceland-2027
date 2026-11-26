@@ -571,7 +571,7 @@ const noBF0=o=>o&&Array.isArray(o.plan)&&o.plan.some(BFX)?{...o,plan:o.plan.filt
 /* D&T 早起行程（似日出）：未加入就不顯示 D&T 專屬行 */
 const EARLY=o=>{try{if(!o||!Array.isArray(o.plan)||!(o.opt||[]).some(x=>x.early))return o;const id=o.opt.find(x=>x.early).id;if((RECP[o.d]||[]).includes(id))return o;return {...o,plan:o.plan.filter(r=>r[2]!=="y").map(r=>/⟦[^⟧]*Stykkish/.test(String(r[1]))?[r[0],String(r[1]).replace(/⟦[^⟧]*⟧/g,""),...r.slice(2)]:r)}}catch(e){return o}};
 const noBF=o=>EARLY(noBF0(o));
-const R0=day0=>{const day=REAL&&day0.real?{...day0,...day0.real}:day0;const x=day.v?((scen==="ok"&&viewOpt(day0))||day.v[scen]):viewOpt(day0);if(!x)return noBF(day);return noBF({...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]})};
+const R0=day0=>MSEL(R0x(day0));const R0x=day0=>{const day=REAL&&day0.real?{...day0,...day0.real}:day0;const x=day.v?((scen==="ok"&&viewOpt(day0))||day.v[scen]):viewOpt(day0);if(!x)return noBF(day);return noBF({...day,...x,notes:[...(x.notes||[]),...(day.notes||[])]})};
 /* departure: firm = when the cars really leave; told = what everyone is told, always at least 30 minutes earlier */
 /* Dorcas & Tebe version: picked extras change the route (via stops, D0 bus hops, D4 second car) */
 const kmB=(a,b)=>{const [,x1,y1]=pts[a],[,x2,y2]=pts[b],r=Math.PI/180,dl=(y2-y1)*r,dn=(x2-x1)*r,h=Math.sin(dl/2)**2+Math.cos(y1*r)*Math.cos(y2*r)*Math.sin(dn/2)**2;return 6371*2*Math.asin(Math.sqrt(h))};
@@ -1277,15 +1277,30 @@ const oPicked=raw=>(RECP[raw.d]||[]).filter(x=>x.startsWith("o:"));
 const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
 /* D6 跟退潮時間：管理者填 Stokksnes 退潮時間（iceland-tide-6，會同步），蝙蝠山排在退潮前後；
    早上退潮 → 獨木舟照舊；中午退潮 → 先蝙蝠山，獨木舟改下晝；太遲／太早 → 用一般時間 */
-const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day),
- /* D1 晚餐：按「晚餐」掣揀餐廳，只換晚餐嗰行 */
- din1:(raw,day)=>{const T={hlem:"晚餐：Hlemmur 美食廣場（Hlemmur Mathöll，多間小店揀） ▾",zhu:"晚餐：朱老闆中菜館（營業時間同訂位出發前核實） ▾",fine:"晚餐：Fine Restaurant 飯（川菜，Rauðarárstígur 33；7 人建議訂位） ▾"},t=T[viewId(raw)];return {plan:t?(day.plan||[]).map(r=>/^晚餐/.test(String(r[1]))?[r[0],t,r[2]]:r):day.plan}}};
-/* D1 晚餐：撳時間表入面晚餐嗰行，彈出餐廳選擇 */
-document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select,summary,details"))return;const a=e.target.closest(".a");if(!a)return;const raw=days.find(x=>x.d===1);if(!raw||!raw.view||!raw.view.inline)return;
- const t=a.textContent||"";if(!/晚餐/.test(t)||!/▾/.test(t))return;e.preventDefault();e.stopPropagation();
+const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day)};
+/* 午餐／晚餐揀餐廳：撳時間表入面餐嗰行（尾有 ▾）彈出選擇；揀咗有詳情（SPKW）同導航；再撳已揀就取消。n＝行入面顯示嘅名，s＝一句簡介，q＝導航 */
+const MO={
+ 1:{晚餐:{def:"",o:[{k:"hlemd",n:"Hlemmur 美食廣場",s:"舊巴士站改建，多間小店各自揀",q:"Hlemmur Mathöll, Reykjavík"},{k:"zhu",n:"朱老闆中菜館",s:"華人老闆中菜",q:"https://maps.app.goo.gl/3bMcjyP71gDwTtPJ8"},{k:"fine",n:"Fine Restaurant 飯",s:"川菜，自家餃子、手拉麵",q:"Fine Restaurant, Rauðarárstígur 33, Reykjavík"}]}},
+ 2:{午餐:{def:"hjag",o:[{k:"hjag",n:"Hjá Góðu Fólki",s:"農場小餐廳；暫停營業中，出發前確認",q:"https://maps.app.goo.gl/MsmUnSDgggchUMQKA"}]},晚餐:{def:"hlad",o:[{k:"hlad",n:"Hlaðan（Miðhraun 酒店餐廳）",s:"住處餐廳，舊穀倉改建",q:"Miðhraun Lava Resort, Snæfellsnes"}]}},
+ 3:{午餐:{def:"borg",o:[{k:"borg",n:"Settlement Center 移民中心",s:"博物館餐廳，有自助午餐",q:"Settlement Center Borgarnes"},{k:"dirtyb",n:"Dirty Burger and Ribs（博爾加內斯）",s:"漢堡、豬肋骨",q:"Brúartorg 6, Borgarnes"}]},晚餐:{def:"",o:[{k:"strik",n:"Strikið",s:"5 樓望峽灣，海鮮",q:"Strikið, Skipagata 14, Akureyri"},{k:"rub",n:"Rub23",s:"壽司、海鮮配香料",q:"Rub23, Kaupvangsstræti 6, Akureyri"},{k:"",n:"自己煮",s:"Akureyri 有 Bónus、Krónan",q:""}]}},
+ 4:{早午餐:{def:"lyst",o:[{k:"lyst",n:"Café Lyst（植物公園內）",s:"植物公園入面嘅咖啡店",q:"LYST Akureyri botanical garden"},{k:"ketil",n:"Ketilkaffi（後備）",s:"美術館入面，精品咖啡、早午餐",q:"Ketilkaffi, Kaupvangsstræti 8, Akureyri"}]},晚餐:{def:"h4",o:[{k:"",id:"h4",n:"酒店餐廳（米湖住處，待訂）",s:"訂房時問清楚有冇餐廳",q:""}]}},
+ 5:{午餐:{def:"fjkaf",o:[{k:"fjkaf",n:"Fjallakaffi（Möðrudalur 農場）",s:"高原農場咖啡店",q:"Fjallakaffi Möðrudalur"}]}},
+ 6:{午餐:{def:"aldan",o:[{k:"aldan",n:"Hotel Aldan 餐廳（Seyðisfjörður）",s:"東部峽灣本地食材",q:"Hotel Aldan Seyðisfjörður"},{k:"",id:"eg6",n:"Egilsstaðir 簡單午餐",s:"超市（Bónus、Nettó）或油站",q:"Bónus Egilsstaðir"}]},晚餐:{def:"pakk",o:[{k:"pakk",n:"Pakkhús（赫本）",s:"港口小龍蝦餐廳",q:"Pakkhús Höfn"},{k:"hafn",n:"Hafnarbúðin（赫本）",s:"港口小快餐店，龍蝦包",q:"Hafnarbúðin, Ránarslóð 12, Höfn"}]}},
+ 7:{晚餐:{def:"gunna",o:[{k:"gunna",n:"Gunna á Leiti（Hótel Jökulsárlón 酒店餐廳）",s:"住處餐廳，食完唔使再揸車",q:"Hótel Jökulsárlón"}]}},
+ 8:{午餐:{def:"frost",o:[{k:"frost",n:"Frost 餐廳（Fjallsárlón 湖邊）",s:"自助形式，望冰川",q:"Frost Restaurant Fjallsárlón"}]}},
+ 9:{午餐:{def:"mias",o:[{k:"mias",n:"Mia's Country Grill（Skógar）",s:"紅色餐車炸魚薯條",q:"Mia's Country Van Skógar"}]}},
+ 10:{午餐:{def:"fridh",o:[{k:"fridh",n:"Friðheimar 番茄農場（12:00，要提前訂位）",s:"溫室入面食番茄湯",q:"Friðheimar"}]}}};
+const oid=o=>o.k||o.id||o.n;
+function mselGet(d,m){let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(e){}const v=S[d+"|"+m];return v==null?MO[d][m].def:v}
+function MSEL(d){try{const M=d&&MO[d.d];if(!M||!d.plan)return d;
+  const plan=d.plan.map(r=>{const p=String(r[1]),mt=/^(早午餐|午餐|晚餐)/.exec(p);if(r[2]!=="m"||!mt||!M[mt[1]])return r;const c=mselGet(d.d,mt[1]),o=M[mt[1]].o.find(x=>oid(x)===c);return [r[0],o?`${mt[1]}：${o.n} ▾`:`${mt[1]}（可選） ▾`,r[2]]});
+  return {...d,plan}}catch(e){return d}}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-meal]");if(!b)return;e.preventDefault();e.stopPropagation();const [d,m,v]=b.dataset.meal.split("|");let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){}S[d+"|"+m]=v;store.set("iceland-meal",JSON.stringify(S));const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}},true);
+document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select,summary,details"))return;const a=e.target.closest(".sched .a");if(!a)return;
+ const t=a.textContent||"",mt=/(早午餐|午餐|晚餐)/.exec(t);if(!mt||!/▾/.test(t))return;const M=MO[sel];if(!M||!M[mt[1]])return;e.preventDefault();e.stopPropagation();
  const old=a.nextElementSibling;if(old&&old.classList.contains("dinpick")){old.remove();return}document.querySelectorAll(".dinpick").forEach(x=>x.remove());
- const cur=viewId(raw),m=document.createElement("div");m.className="dinpick noen";m.style.cssText="grid-column:2;display:flex;flex-direction:column;gap:6px;margin:4px 0 12px";const DI={hlem:["Hlemmur 美食廣場","舊巴士站改建，多間小店各自揀","Hlemmur Mathöll, Reykjavík"],zhu:["朱老闆中菜館","華人老闆中菜；時間同訂位出發前核實","https://maps.app.goo.gl/3bMcjyP71gDwTtPJ8"],fine:["Fine Restaurant 飯","川菜，自家餃子、手拉麵；7 人建議訂位","Fine Restaurant, Rauðarárstígur 33, Reykjavík"]};
- m.innerHTML=`<small style="color:var(--muted)">撳餐廳揀；再撳已揀嗰間就取消</small>`+raw.view.opts.filter(o=>DI[o.id]).map(o=>{const on=o.id===cur,x=DI[o.id],u=/^https?:/.test(x[2])?x[2]:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(x[2]);return `<div style="display:flex;align-items:center;gap:8px;border:1px solid ${on?"var(--chg)":"var(--line)"};border-radius:12px;padding:8px 10px;background:${on?"color-mix(in srgb,var(--chg) 12%,transparent)":"transparent"}"><button type="button" data-view="1|${on?"self":o.id}" aria-pressed="${on}" style="flex:1;text-align:left;background:none;border:0;padding:0;color:var(--fg);cursor:pointer"><b>${on?"✓ ":""}${x[0]}</b><br><small style="color:var(--muted)">${x[1]}</small></button><a href="${u}" target="_blank" rel="noopener" style="font-size:13px;white-space:nowrap;padding:4px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none">導航</a></div>`}).join("");a.insertAdjacentElement("afterend",m)},true);
+ const ml=mt[1],cur=mselGet(sel,ml),m=document.createElement("div");m.className="dinpick noen";m.style.cssText="grid-column:2;display:flex;flex-direction:column;gap:6px;margin:4px 0 12px";
+ m.innerHTML=`<small style="color:var(--muted)">撳餐廳揀；再撳已揀嗰間就取消</small>`+M[ml].o.map(o=>{const id=oid(o),on=id===cur,u=!o.q?"":/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);return `<div style="display:flex;align-items:center;gap:8px;border:1px solid ${on?"var(--chg)":"var(--line)"};border-radius:12px;padding:8px 10px;background:${on?"color-mix(in srgb,var(--chg) 12%,transparent)":"transparent"}"><button type="button" data-meal="${sel}|${ml}|${on?"-":id}" aria-pressed="${on}" style="flex:1;text-align:left;background:none;border:0;padding:0;color:var(--fg);cursor:pointer"><b>${on?"✓ ":""}${o.n}</b><br><small style="color:var(--muted)">${o.s}</small></button>${u?`<a href="${u}" target="_blank" rel="noopener" style="font-size:13px;white-space:nowrap;padding:4px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none">導航</a>`:""}</div>`}).join("");a.insertAdjacentElement("afterend",m)},true);
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
 const TIDE_EST="10:10";
 /* 選了「跟退潮」而退潮在早上：全組人已經早去蝙蝠山，不用再顯示「自己提早去影日出」 */
