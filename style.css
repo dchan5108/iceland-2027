@@ -3823,3 +3823,9 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 
 /* 電腦版：旅行費用頁四邊留白 */
 @media (min-width:820px){#budget{padding-inline:24px!important}}
+
+/* 電腦版行程頁：地圖固定在右邊一欄，行程總覽及每日內容都排在左邊一欄（避免左上角留空） */
+@media (min-width:820px){
+ #view-trip:not(.nomap) .mapcol{grid-column:2!important;grid-row:1/span 40!important;align-self:start}
+ #view-trip:not(.nomap)>*:not(.mapcol){grid-column:1!important}
+}
