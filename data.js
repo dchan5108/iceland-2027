@@ -5,7 +5,7 @@ CITY:[["哈爾格林姆大教堂",-21.9266,64.1417],["Harpa 音樂廳",-21.9326,
 /* 地圖：餐廳位置 */
 MEALS:[[1,"午","Stormur Bistro（Hvammsvík）",-21.53,64.36,"Hvammsvík Hot Springs"],
  [1,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
- [2,"午","Hjá Góðu Fólki",-22.74126,64.84925,"64.84925,-22.74126"],
+ [2,"午","Hjá Góðu Fólki",-22.74126,64.84925,"https://maps.app.goo.gl/MsmUnSDgggchUMQKA"],
  [3,"午","Settlement Center 移民中心",-21.925,64.536,"Settlement Center Borgarnes"],
  [3,"晚","Strikið（阿克雷里）",-18.088,65.6825,"Strikið Akureyri"],
  [4,"午","Naustið（胡薩維克）",-17.343,66.046,"Naustið Húsavík"],

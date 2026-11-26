@@ -544,11 +544,11 @@ else{const i0=days.findIndex(x=>x.d===0);if(i0>=0)days.splice(i0,1);if(!days.som
 /* 日期短寫：單日「9月14日（二）」；跨日「9月7–10日」（徒步等），手機標題不會太長 */
 const dFmt=s=>{s=String(s||"");const m=s.match(/^(\d{1,2})\/(\d{1,2})[^–-]*[–-]\s*(\d{1,2})\/(\d{1,2})/);if(m)return m[1]===m[3]?`${m[1]}月${m[2]}–${m[4]}日`:`${m[1]}月${m[2]}日–${m[3]}月${m[4]}日`;return s.replace(/(\d{1,2})\/(\d{1,2})/g,"$1月$2日")};
 /* Akureyri 散步／Ketilkaffi 早餐：步行導航（散步路線：海濱 → Hof 心形紅燈 → 教堂階梯 → Ketilkaffi） */
-const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"https://maps.app.goo.gl/ARMCfsAo3kQAzEQJ6"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳 Bus Stop/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
+const D0W=[[/^早餐：Grái Kötturinn/,"Grái Kötturinn, Hverfisgata 16, Reykjavík"],[/^哈爾格林姆大教堂/,"Hallgrímskirkja, Reykjavík"],[/^彩虹街/,"Skólavörðustígur 20, Reykjavík"],[/^Laugavegur 逛街/,"Laugavegur 30, Reykjavík"],[/^咖啡站：Reykjavik Roasters/,"Reykjavik Roasters, Reykjavík"],[/^Bæjarins Beztu/,"Bæjarins Beztu Pylsur, Tryggvagata 1, Reykjavík"],[/^Harpa/,"Harpa, Reykjavík"],[/^Sun Voyager/,"Sun Voyager, Reykjavík"],[/^Sundhöllin/,"Sundhöllin, Barónsstígur 45a, Reykjavík"],[/^Grótta/,"Grótta lighthouse, Seltjarnarnes","transit"],[/^Hús máls og menningar/,"Hús máls og menningar, Laugavegur 18, Reykjavík"],[/City Guesthouse/,"https://maps.app.goo.gl/ARMCfsAo3kQAzEQJ6"],[/Sandholt/,"Sandholt, Laugavegur 36, Reykjavík"],[/市政廳|Bus Stop|City Hall/,"Reykjavík City Hall, Tjarnargata 11, Reykjavík"]];
 const RNAV=(a,dd)=>{const p=String(a).replace(/<[^>]*>/g,""),W="",G="https://www.google.com/maps/search/?api=1&query=";let u="";
-  if(dd===1&&/^Zero Car/.test(p))return ` data-nav="${escA(G+"64.15536731173869,-21.946386999999998")}"`;
+  if(dd===1&&/^Zero Car/.test(p))return ` data-nav="https://maps.app.goo.gl/1h24Z1WEZmjBC1L17"`;
   if(dd===0&&/^市中心 City Walk/.test(p))return ` data-nav="${escA("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Hallgrímskirkja, Reykjavík"))}" data-walk="1"`;
-  if(dd===0||dd===-5||dd===-4){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(/^https?:/.test(m[1])?m[1]:G+encodeURIComponent(m[1]))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
+  if(dd<=0){const m=D0W.find(x=>x[0].test(p));if(m)return ` data-nav="${escA(/^https?:/.test(m[1])?m[1]:G+encodeURIComponent(m[1]))}"${m[2]?' data-bus="1"':' data-walk="1"'}`}
   if(/^Akureyri (早上|市區)散步/.test(p))u=G+enc(/Ketilkaffi/.test(p)?"Ketilkaffi, Akureyri":"Akureyrarkirkja, Akureyri")+"&waypoints="+enc(/Ketilkaffi/.test(p)?"Strandgata, Akureyri|Hof, Akureyri|Akureyrarkirkja":"Strandgata, Akureyri|Hof, Akureyri")+W;
   else if(/^早餐：Ketilkaffi/.test(p))u=G+enc("Ketilkaffi, Akureyri")+W;
   return u?` data-nav="${escA(u)}" data-walk="1"`:""};
@@ -989,7 +989,7 @@ Object.entries({lmlg:"Laugavegur 徒步起點，海拔約 600 米。四周是彩
   thor:"Laugavegur 終點，海拔約 200 米。被三座冰川包圍的山谷，有樺樹林和冰河，是冰島最綠的高地之一。"}).forEach(([k,d])=>{if(!SP[k])SP[k]={t:pts[k]?String(pts[k][0]).replace(/（.*?）/g,"").trim():k,d};else if(!SP[k].d)SP[k].d=d});
 /* which timetable rows a spot attaches to */
 const SPKW=DATA.SPKW;
-const NAVQ={dett:"65.811369,-16.400368"};/* 黛提瀑布西岸停車場（862 柏油路，避開東岸 864 石路） */
+const NAVQ={dett:"https://maps.app.goo.gl/oNYhVgamqSEoWtSW8"};/* 黛提瀑布西岸停車場（862 柏油路，避開東岸 864 石路） */
 const qn=k=>NAVQ[k]||Q[k]||(UPTS[k]?`${UPTS[k][2]},${UPTS[k][1]}`:null)||(pts[k]?`${pts[k][2]},${pts[k][1]}`:null)||k;
 const PQ=DATA.PQ;
 const parkUrl=k=>PQ[k]?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PQ[k]+", Iceland")}`:"";
@@ -1191,7 +1191,7 @@ function richRows(day){
   const left=meals.filter(e=>!done.has(e[0])&&!(day.rec||[]).some(o=>o.meal===e[0]));
   const PINI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
   const eatQ=n=>{n=String(n).replace(/^划算・/,"");const base=n.split(/[（(]/)[0].trim(),tw=(n.match(/[（(]([^）)]*)[）)]/)||[])[1]||"";if(/或|自己煮|簡單午餐|^不/.test(n)||!/[A-Za-zÀ-ÿðþæÐÞÆ]/.test(base))return null;
-    const ml=MEALS.find(m=>String(m[2]).split(" ")[0]===base.split(" ")[0]&&m[5]);if(ml)return ml[5]+", Iceland";const lat=base.replace(/[\u3400-\u9fff]+/g,"").trim(),te=(ENN.find(([c])=>tw.includes(c))||[])[1]||(/[A-Za-z]/.test(tw)?tw:"");return `${lat}${te?" "+te:""}, Iceland`};
+    const ml=MEALS.find(m=>String(m[2]).split(" ")[0]===base.split(" ")[0]&&m[5]);if(ml)return /^https?:/.test(ml[5])?ml[5]:ml[5]+", Iceland";const lat=base.replace(/[\u3400-\u9fff]+/g,"").trim(),te=(ENN.find(([c])=>tw.includes(c))||[])[1]||(/[A-Za-z]/.test(tw)?tw:"");return `${lat}${te?" "+te:""}, Iceland`};
   const eatA=n=>{const q=eatQ(n),b=foodAI(n)?AIB:"";return (q?`<a class="gml" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}" target="_blank" rel="noopener">${n}</a>`:n)+b};
   const eatList=xs=>`<div class="eatbox"><div class="eatm">推薦食肆（選一間就得）</div><ul>${xs.map(([m,n,t])=>`<li><b>${eatA(n)}</b>：${t}${mustTxt(n)}</li>`).join("")}</ul></div>`;
   /* 時間軸每行：名稱＋停留／車程＋一行簡介；其餘資料收在「詳情」 */
@@ -3148,5 +3148,7 @@ privUnlock().then(()=>__load(__start),()=>__load(__start));
  const set=v=>{document.documentElement.classList.toggle("sbmin",v);b.setAttribute("aria-label",v?"打開側欄":"收起側欄");b.querySelector("span").textContent=v?"打開":"收起";try{localStorage.setItem("iceland-sbmin",v?"1":"0")}catch(e){}setTimeout(()=>{try{window.dispatchEvent(new Event("resize"))}catch(e){}},50)};
  b.addEventListener("click",()=>set(!document.documentElement.classList.contains("sbmin")));n.insertBefore(b,n.firstChild);set(m)}catch(e){}})();
 </script>
+<script>/* 用 Google Maps 短連結做地點：撳導航時直接開條連結（唔好當搜尋字） */
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href")||"";if(/^https:\/\/maps\.app\.goo\.gl\//.test(h))return;let d=h;try{d=decodeURIComponent(h)}catch(x){}const m=d.match(/https:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+/);if(!m)return;e.preventDefault();e.stopPropagation();window.open(m[0],"_blank","noopener")},true);</script>
 </body>
 </html>
