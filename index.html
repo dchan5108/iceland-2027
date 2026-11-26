@@ -1280,6 +1280,11 @@ const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
 const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day),
  /* D1 晚餐：按「晚餐」掣揀餐廳，只換晚餐嗰行 */
  din1:(raw,day)=>{const T={hlem:"晚餐：Hlemmur 美食廣場（Hlemmur Mathöll，多間小店揀） ▾",zhu:"晚餐：朱老闆中菜館（營業時間同訂位出發前核實） ▾",fine:"晚餐：Fine Restaurant 飯（川菜，Rauðarárstígur 33；7 人建議訂位） ▾"},t=T[viewId(raw)];return {plan:t?(day.plan||[]).map(r=>/^晚餐：/.test(String(r[1]))?[r[0],t,r[2]]:r):day.plan}}};
+/* D1 晚餐：撳時間表入面晚餐嗰行，彈出餐廳選擇 */
+document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select"))return;const a=e.target.closest(".a");if(!a)return;const raw=days.find(x=>x.d===1);if(!raw||!raw.view||!raw.view.inline)return;
+ const t=a.textContent||"";if(!/晚餐：/.test(t)||!/ ▾/.test(t))return;e.preventDefault();e.stopPropagation();
+ const old=a.nextElementSibling;if(old&&old.classList.contains("dinpick")){old.remove();return}document.querySelectorAll(".dinpick").forEach(x=>x.remove());
+ const cur=viewId(raw),m=document.createElement("div");m.className="scenbox viewbox dinpick noen";m.innerHTML=`<span class="sl">揀晚餐</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="1|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div>`;a.insertAdjacentElement("afterend",m)},true);
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
 const TIDE_EST="10:10";
 /* 選了「跟退潮」而退潮在早上：全組人已經早去蝙蝠山，不用再顯示「自己提早去影日出」 */
@@ -3152,10 +3157,5 @@ privUnlock().then(()=>__load(__start),()=>__load(__start));
 </script>
 <script>/* 用 Google Maps 短連結做地點：撳導航時直接開條連結（唔好當搜尋字） */
 document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href")||"";if(/^https:\/\/maps\.app\.goo\.gl\//.test(h))return;let d=h;try{d=decodeURIComponent(h)}catch(x){}const m=d.match(/https:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+/);if(!m)return;e.preventDefault();e.stopPropagation();window.open(m[0],"_blank","noopener")},true);</script>
-<script>/* D1 晚餐：撳時間表入面晚餐嗰行，彈出餐廳選擇 */
-document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select"))return;const a=e.target.closest(".a");if(!a)return;const raw=days.find(x=>x.d===1);if(!raw||!raw.view||!raw.view.inline)return;
- const t=a.textContent||"";if(!/晚餐：/.test(t)||!/ ▾/.test(t))return;e.preventDefault();e.stopPropagation();
- const old=a.nextElementSibling;if(old&&old.classList.contains("dinpick")){old.remove();return}document.querySelectorAll(".dinpick").forEach(x=>x.remove());
- const cur=viewId(raw),m=document.createElement("div");m.className="scenbox viewbox dinpick noen";m.innerHTML=`<span class="sl">揀晚餐</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="1|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div>`;a.insertAdjacentElement("afterend",m)},true);</script>
 </body>
 </html>
