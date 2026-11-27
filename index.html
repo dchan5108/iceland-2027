@@ -797,7 +797,7 @@ function drawMap(){
   }
   D.forEach(day=>{const sq=stopsOf(day).filter(k=>!k.startsWith("via:"));sq.forEach((k,i)=>{if(!pts[k]||(i===sq.length-1&&k===sq[0]&&i>0))return;const [x,y]=P(pts[k][1],pts[k][2]);
     const g=el("g",{class:"numb","data-nd":day.d,"data-x":x,"data-y":y});el("circle",{fill:dayCol(day.d),stroke:"#fff","stroke-width":1.5,"vector-effect":"non-scaling-stroke"},null,g);el("text",{"text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},String(i+1),g)})});
-  MEALS.forEach(([d,m,n,lon,lat,q])=>{if(!days.some(x=>x.d===d))return;const [x,y]=P(lon,lat);
+  MEALS.forEach(([d,m,n,lon,lat,q])=>{if(!days.some(x=>x.d===d)||!mealOn(d,m,n))return;const [x,y]=P(lon,lat);
     const g=el("g",{class:"meal","data-md":d,"data-x":x,"data-y":y,style:"cursor:pointer"});el("title",{},`${m}餐：${addEn(n)}（按開 Google Maps）`,g);
     el("circle",{fill:MEALC,stroke:"#fff","stroke-width":1.6,"vector-effect":"non-scaling-stroke"},null,g);el("text",{"text-anchor":"middle",fill:"#fff","font-weight":700,"font-family":"var(--sans)"},m,g);
     el("text",{class:"mln","text-anchor":"start",fill:"#a36d00","font-weight":600,"paint-order":"stroke",stroke:"var(--land)","stroke-linejoin":"round","font-family":"var(--sans)"},addEn(n),g);
@@ -1134,15 +1134,17 @@ function autoTime(day){try{
   /* 由上一站 a 行到 k：由 a 開始順住接駁（中間可以經沒有時間行的途經點），接不到就不計 */
   const rowK=new Set(ks.filter(Boolean));
   const legTo=(a,k)=>{const i0=LG.findIndex(l=>l.a===a);if(i0<0)return null;let s=0;for(let i=i0;i<LG.length&&i<i0+4;i++){if(i>i0&&LG[i].a!==LG[i-1].b)return null;s+=AT.min(LG[i]);if(LG[i].b===k)return s;if(rowK.has(LG[i].b))return null}return null};
-  let delta=0,prevEnd=null,prevK=ks[dep]||stopsOf(day)[0],busy=0,warn=[],moved=0;const map={};
+  let delta=0,prevEnd=null,prevK=ks[dep]||stopsOf(day)[0],busy=0,mealX=0,mealN="",warn=[],moved=0;const map={};
   plan.forEach((r,i)=>{if(i<dep||r[2]==="y"||/第二部車/.test(r[1]))return;const sp=AT.span(r[0]);if(!sp)return;
     const k=ks[i];
     if(i===dep){prevEnd=sp.e;return}
-    if(k&&prevEnd!=null){const need=legTo(prevK,k);if(need!=null){const gap=sp.s-prevEnd-busy;if(need>gap)delta+=Math.ceil((need-gap)/5)*5;else delta=Math.max(0,delta-Math.floor((gap-need)/5)*5)  /* 空檔夠就補回之前遲了的時間 */}busy=0}
-    else if(!AT.isMove(r[1]))busy+=sp.e-sp.s;           /* 中途吃飯等：佔用時間，不當車程 */
+    if(k&&prevEnd!=null){const need=legTo(prevK,k);if(need!=null){const gap=sp.s-prevEnd-busy;if(need<=gap&&mealX&&need>gap-mealX)warn.push(`${mealN} ${r[0]}：連${mealN.replace(/：.*/,"")}約 ${mealX} 分鐘計，車程可能唔夠時間`);if(need>gap)delta+=Math.ceil((need-gap)/5)*5;else delta=Math.max(0,delta-Math.floor((gap-need)/5)*5)  /* 空檔夠就補回之前遲了的時間 */}busy=0;mealX=0}
+    else if(!AT.isMove(r[1])){busy+=sp.e-sp.s;if(r[2]==="m"&&sp.e===sp.s){mealX+=45;mealN=String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，▾]/)[0].trim()}}   /* 只寫開始時間嘅餐：當約 45 分鐘，只出提示，唔改時間 */           /* 中途吃飯等：佔用時間，不當車程 */
     if(delta>0){if(AT.lock.test(r[1])&&!/出發/.test(r[1])){warn.push(`${String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，]/)[0]} ${r[0]}：按車程可能遲 ${delta} 分鐘到`);delta=0}
       else{const nt=shiftT(r[0],delta);map[r[0]]=nt;r[0]=nt;moved=1}}
     if(k){prevEnd=sp.e;prevK=k}});          /* 用原本時間計空檔（之後整體順延，空檔不變） */
+  /* 順延後時間次序倒轉（例如排喺固定預約之前嘅行遲過預約）：出提示 */
+  {let lt=-1,l0=-1;plan.forEach((r,i)=>{if(i<dep||r[2]==="y"||/第二部車/.test(r[1]))return;const sp=AT.span(r[0]),s0=AT.span(day.plan[i][0]);if(!sp||!s0)return;if(sp.s<lt&&s0.s>=l0&&lt-sp.s<600)warn.push(`${String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，]/)[0]} ${r[0]}：順延後早過上一行，次序要再睇`);lt=Math.max(lt,sp.s);l0=Math.max(l0,s0.s)})}
   if(!moved&&!warn.length)return day;
   const arrive=day.arrive&&map[day.arrive]?map[day.arrive].split(/\s*[–-]/)[0]:day.arrive;
   return {...day,plan,arrive,retimed:moved,rtWarn:warn}}catch(e){return day}}
@@ -1278,7 +1280,6 @@ const cPicked=raw=>((RECP[raw.d]||[]).find(x=>x.startsWith("c:"))||"").slice(2);
 const CHOICE_FN={tide6:(raw,day)=>tideD6(raw,day)};
 /* 午餐／晚餐揀餐廳：撳時間表入面餐嗰行（尾有 ▾）彈出選擇；揀咗有詳情（SPKW）同導航；再撳已揀就取消。n＝行入面顯示嘅名，s＝一句簡介，q＝導航 */
 const MO={
- 1:{晚餐:{def:"",o:[{k:"hlemd",n:"Hlemmur 美食廣場",s:"舊巴士站改建，多間小店各自揀",q:"Hlemmur Mathöll, Reykjavík"},{k:"zhu",n:"朱老闆中菜館",s:"華人老闆中菜",q:"https://maps.app.goo.gl/3bMcjyP71gDwTtPJ8"},{k:"fine",n:"Fine Restaurant 飯",s:"川菜，自家餃子、手拉麵",q:"Fine Restaurant, Rauðarárstígur 33, Reykjavík"}]}},
  2:{午餐:{def:"hjag",o:[{k:"hjag",n:"Hjá Góðu Fólki",s:"農場小餐廳；暫停營業中，出發前確認",q:"https://maps.app.goo.gl/MsmUnSDgggchUMQKA"}]},晚餐:{def:"hlad",o:[{k:"hlad",n:"Hlaðan（Miðhraun 酒店餐廳）",s:"住處餐廳，舊穀倉改建",q:"Miðhraun Lava Resort, Snæfellsnes"}]}},
  3:{午餐:{def:"borg",o:[{k:"borg",n:"Settlement Center 移民中心",s:"博物館餐廳，有自助午餐",q:"Settlement Center Borgarnes"},{k:"dirtyb",n:"Dirty Burger and Ribs（博爾加內斯）",s:"漢堡、豬肋骨",q:"Brúartorg 6, Borgarnes"}]},晚餐:{def:"",o:[{k:"strik",n:"Strikið",s:"5 樓望峽灣，海鮮",q:"Strikið, Skipagata 14, Akureyri"},{k:"rub",n:"Rub23",s:"壽司、海鮮配香料",q:"Rub23, Kaupvangsstræti 6, Akureyri"},{k:"",n:"自己煮",s:"Akureyri 有 Bónus、Krónan",q:""}]}},
  4:{早午餐:{def:"lyst",o:[{k:"lyst",n:"Café Lyst（植物公園內）",s:"植物公園入面嘅咖啡店",q:"LYST Akureyri botanical garden"},{k:"ketil",n:"Ketilkaffi（後備）",s:"美術館入面，精品咖啡、早午餐",q:"Ketilkaffi, Kaupvangsstræti 8, Akureyri"}]},晚餐:{def:"h4",o:[{k:"",id:"h4",n:"酒店餐廳（米湖住處，待訂）",s:"訂房時問清楚有冇餐廳",q:""}]}},
@@ -1289,6 +1290,11 @@ const MO={
  9:{午餐:{def:"mias",o:[{k:"mias",n:"Mia's Country Grill（Skógar）",s:"紅色餐車炸魚薯條",q:"Mia's Country Van Skógar"}]}},
  10:{午餐:{def:"fridh",o:[{k:"fridh",n:"Friðheimar 番茄農場（12:00，要提前訂位）",s:"溫室入面食番茄湯",q:"Friðheimar"}]}}};
 const oid=o=>o.k||o.id||o.n;
+/* 地圖餐廳標記跟返揀咗嘅餐廳：揀咗另一間（或者取消）就唔顯示原本個標記 */
+function mealOn(d,m,n){try{const M=MO[d];if(!M)return true;
+  const ms=({早:["早餐","早午餐"],午:["午餐","早午餐"],晚:["晚餐"]})[m]||[];const ml=ms.find(x=>M[x]);if(!ml)return true;
+  const c=mselGet(d,ml);if(c==="")return true;const o=M[ml].o.find(x=>oid(x)===c);if(!o)return false;
+  const W=s=>new Set((String(s||"").toLowerCase().match(/[a-zà-ÿðþæö']{4,}/g)||[]).filter(w=>!/^(hotel|hótel|restaurant|café|cafe|country|bistro)$/.test(w))),A=W(n);return [...W(o.n)].some(w=>A.has(w))}catch(e){return true}}
 /* H0／D0／D1 Reykjavík 用餐：選項全部來自共用餐廳庫 DATA.RVK_EAT（按餐分類） */
 try{const L=DATA.RVK_EAT,ML=DATA.RVK_ML,SPK=new Set(["graik","roast","bbp","hlemd","zhu","fine"]),DEF={"-5":{早午餐:"sandholt",午餐:"sandholt",晚餐:"svarta"},1:{早餐:"graik"}};
  [-5,0,1].forEach(d=>{const M=MO[d]=MO[d]||{};ML[d].forEach(m=>{const o=L.filter(r=>r.m.includes(m)).map(r=>({[SPK.has(r.id)?"k":"id"]:r.id,n:r.n,s:r.t,q:r.n.replace(/^划算・/,"").split(/[（(]/)[0].trim()+", Reykjavík"}));const x={def:(M[m]&&M[m].def)||(DEF[d]||{})[m]||"",o};M[m]=x;if(m==="午餐")M["早午餐"]={def:(DEF[d]||{})["早午餐"]||x.def,o}})})}catch(e){console.error(e)}
@@ -1298,13 +1304,13 @@ function MSEL(d){try{const M=d&&MO[d.d];if(!M||!d.plan)return d;
   return {...d,plan}}catch(e){return d}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-meal]");if(!b)return;e.preventDefault();e.stopPropagation();const [d,m,v]=b.dataset.meal.split("|");let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){}S[d+"|"+m]=v;store.set("iceland-meal",JSON.stringify(S));{const sh=$("mealsheet");if(sh)sh.hidden=true}const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}},true);
 /* 揀餐廳：Bottom Sheet（行程表只顯示時段、已揀餐廳、導航同「揀／更改」掣） */
-function mealSheet(a){const t=a.textContent||"",mt=/(早午餐|早餐|午餐|晚餐)/.exec(t);if(!mt)return false;const M=MO[sel];if(!M||!M[mt[1]])return false;
+function mealSheet(a){const SD=(a.closest&&a.closest("#today")&&typeof TODAY.d==="number")?TODAY.d:sel;/* 今日頁用今日嗰日，唔用行程頁選緊嘅日 */const t=a.textContent||"",mt=/(早午餐|早餐|午餐|晚餐)/.exec(t);if(!mt)return false;const M=MO[SD];if(!M||!M[mt[1]])return false;
  let sh=$("mealsheet");if(!sh){sh=document.createElement("div");sh.id="mealsheet";sh.className="msheet";sh.hidden=true;document.body.appendChild(sh);sh.addEventListener("click",e=>{if(e.target===sh||e.target.closest(".mpclose"))sh.hidden=true})}
- const ml=mt[1],cur=mselGet(sel,ml),m=document.createElement("div");m.className="msp dinpick noen";m.setAttribute("role","dialog");
- const S0=(()=>{try{return JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){return {}}})(),oth=id=>Object.keys(S0).filter(k=>!k.startsWith(sel+"|")&&S0[k]===id).map(k=>dLab(+k.split("|")[0])).filter((v,i,A)=>A.indexOf(v)===i).join("、");
+ const ml=mt[1],cur=mselGet(SD,ml),m=document.createElement("div");m.className="msp dinpick noen";m.setAttribute("role","dialog");
+ const S0=(()=>{try{return JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){return {}}})(),oth=id=>Object.keys(S0).filter(k=>!k.startsWith(SD+"|")&&S0[k]===id).map(k=>dLab(+k.split("|")[0])).filter((v,i,A)=>A.indexOf(v)===i).join("、");
  m.style.cssText="";m.innerHTML=`<div class="dph">${M[ml].o.length} 間可選<small>再撳已揀嗰間就取消</small></div><ul>`+M[ml].o.map(o=>{const id=oid(o),on=id===cur,u=!o.q?"":/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q),ot=oth(id);let dh="";try{dh=o.k&&SP[o.k]?spDetail(o.k):""}catch(x){}
-  return `<li class="${on?"on":""}"><button type="button" data-meal="${sel}|${ml}|${on?"-":id}" aria-pressed="${on}"><b>${o.n}</b><small>${o.s}${ot?`<em>已揀：${ot}</em>`:""}</small></button>${u?`<a class="dpnav" href="${u}" target="_blank" rel="noopener">導航</a>`:""}${dh?`<details class="dsx dpd" data-spot="${o.k}"><summary title="詳情">ⓘ</summary>${dh}</details>`:""}</li>`}).join("")+`</ul>`;
- m.insertAdjacentHTML("afterbegin",`<div class="mph"><b>${dLab(sel)} ${ml}</b><button type="button" class="mpclose" aria-label="關閉">✕</button></div>`);sh.innerHTML="";sh.appendChild(m);sh.hidden=false;try{TIDY.all(m)}catch(x){}return true}
+  return `<li class="${on?"on":""}"><button type="button" data-meal="${SD}|${ml}|${on?"-":id}" aria-pressed="${on}"><b>${o.n}</b><small>${o.s}${ot?`<em>已揀：${ot}</em>`:""}</small></button>${u?`<a class="dpnav" href="${u}" target="_blank" rel="noopener">導航</a>`:""}${dh?`<details class="dsx dpd" data-spot="${o.k}"><summary title="詳情">ⓘ</summary>${dh}</details>`:""}</li>`}).join("")+`</ul>`;
+ m.insertAdjacentHTML("afterbegin",`<div class="mph"><b>${dLab(SD)} ${ml}</b><button type="button" class="mpclose" aria-label="關閉">✕</button></div>`);sh.innerHTML="";sh.appendChild(m);sh.hidden=false;try{TIDY.all(m)}catch(x){}return true}
 document.addEventListener("click",e=>{const pb=e.target.closest&&e.target.closest("[data-mpick]");if(pb){const a=pb.closest(".sched .a");if(a&&mealSheet(a)){e.preventDefault();e.stopPropagation()}return}
  if(e.target.closest("a,button,input,select,summary,details"))return;const a=e.target.closest(".sched .a");if(!a||!/▾/.test(a.textContent||""))return;if(mealSheet(a)){e.preventDefault();e.stopPropagation()}},true);
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
