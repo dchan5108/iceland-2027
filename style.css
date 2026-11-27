@@ -48,7 +48,6 @@ html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-b
 .docb svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
 .docb i{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;border-radius:9px;background:#d43a5c;color:#fff;font:700 11px/17px system-ui;font-style:normal}
 .docb.inl{margin-left:4px;width:22px;height:22px}
-          
 
 .dgrp{margin-top:6px}.dgh{display:flex;justify-content:space-between;border-bottom:2px solid var(--route,#2a6f97);padding:8px 0 4px;margin-bottom:4px}
 .docit{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line,#eef0f2);padding:10px 0;font:inherit;color:inherit;cursor:pointer}
@@ -213,8 +212,8 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .dusk{font-size:13px;color:var(--route);margin:0 0 4px;font-variant-numeric:tabular-nums}
 .dusk.warn{color:var(--stay);font-weight:700}
 
-.sched{display:grid;grid-template-columns:5.8em minmax(0,1fr);column-gap:10px;row-gap:3px;font-size:14px}
-.sched .t{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.sched{display:grid;}
+.sched .t{color:var(--muted);}
 .sched .a{min-width:0}
 .sched .m{color:var(--meal)}
 .sched .a.pk{color:var(--ok);font-weight:600}
@@ -289,7 +288,7 @@ details.more p{margin:6px 0 0;max-width:80ch}
 .cfb{position:absolute;left:-9px;top:.6em;width:16px;height:16px;border-radius:50%;border:2.5px solid var(--route);background:var(--card);padding:0;cursor:pointer;display:grid;place-items:center;font-size:11px;line-height:1;color:#fff}
 .sched.rich .a.m .cfb{border-color:var(--meal)}.sched.rich .a.y .cfb{border-color:var(--chg)}
 .cfb.fix{cursor:default}.cfb:not(.fix)[aria-pressed="true"]{background:var(--card);color:var(--ok)}.cfb[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)!important}.cfb[aria-pressed="true"]::after{content:"✓";font-weight:700}.cfcopy{margin-left:auto}
-.sched.rich .a.cf{border-left-color:var(--ok);border-left-style:solid}.sched.rich .t.cf{color:var(--ok);font-weight:600}
+
 .cfbar{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:8px}.cfc{color:var(--ok);font-weight:500}
 .ver{font-size:11px;color:var(--muted);white-space:nowrap;margin-left:4px}.spots.rec{position:relative}.recpick{display:inline-flex;align-items:center;gap:4px;float:right;margin:8px 0 0 8px;font-size:12px;font-weight:600;color:var(--ok);cursor:pointer}.recpick input{width:18px;height:18px;accent-color:var(--ok)}
 .opick{list-style:none;padding:0;margin:4px 0 8px;display:grid;gap:4px}.opick label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13px}.opick input{width:18px;height:18px;accent-color:var(--ok);flex:0 0 auto;margin-top:1px}.opick small{margin-left:auto;color:var(--muted);white-space:nowrap}
@@ -302,7 +301,7 @@ details.sec{margin:10px 0 0}details.sec>summary{cursor:pointer;padding:9px 12px;
 .er input,.er select{font:inherit;font-size:14px;padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);min-width:0}.er select{grid-column:1/-1}.ekc{justify-self:start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font:inherit;font-size:13px;background:var(--card);color:var(--route);cursor:pointer}.ekc.none{border-style:dashed;color:var(--muted);font-size:12px}.eb{display:flex;gap:4px;justify-content:flex-end}.edrag{touch-action:none;cursor:grab;margin-right:auto;font-size:16px;color:var(--muted)}.er.drg{position:relative;z-index:5;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,.18);border-radius:8px;opacity:.95}.er.dropb{box-shadow:inset 0 3px 0 var(--route)}.er.dropa{box-shadow:inset 0 -3px 0 var(--route)}.eadd{display:grid;gap:6px;margin:10px 0 4px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card)}.eadd input{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg,var(--card));color:var(--fg);min-width:0}.eadd .row{display:flex;gap:6px;flex-wrap:wrap}.eadd .row input{flex:1 1 12em}.elocmsg{margin:0;font-size:13px}.elocmsg.bad{color:var(--warn)}.uplist{margin:0;padding-left:18px;font-size:13px;color:var(--muted)}.uplist button{margin-left:6px}
 .eb button{width:34px;height:32px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer}.eauto{font-size:13px;display:flex;gap:4px;align-items:center}.edone{margin-left:auto;background:var(--ok)!important;color:#fff!important}
 .rhint{font-size:13px;color:var(--muted);margin:2px 0 6px}.reat{margin:6px 0;padding-left:18px;font-size:13px}
-.sched.rich details summary{cursor:pointer;list-style:none}
+.sched.rich details summary{list-style:none}
 .sched.rich details summary::-webkit-details-marker{display:none}
 .sched.rich details summary::after{font-size:11px;color:var(--route);font-weight:400}
 .spd{border-top:1px dashed var(--line);padding-top:6px;font-size:13px;color:var(--fg);font-weight:400}
@@ -368,11 +367,11 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .day h3{font-family:var(--sans);margin-bottom:8px}
 .day h3 small{font-family:var(--sans)}
 .dnote{background:var(--bg);border-left:4px solid var(--stay)}
-.sched.rich{grid-template-columns:5.6em minmax(0,1fr);row-gap:0;margin-top:6px}
+.sched.rich{row-gap:0;}
 .sched.rich .t{}
 .sched.rich .a{border-left:2px solid var(--line)}
 .sched.rich .a::before{content:"";position:absolute;left:-7px;top:.85em;width:12px;height:12px;border-radius:50%;background:var(--card);border:2.5px solid var(--route)}
-.sched.rich .a.m::before{border-color:var(--meal)}
+
 .sched.rich .a.y{border-left:2px dashed var(--chg);padding-left:16px}
 .sched.rich .a.y::before{border-color:var(--chg)}
 .spd{background:var(--bg);border:0;border-radius:12px;margin-top:8px}
@@ -391,7 +390,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
   .day{}
 }
 @media (max-width:560px){
-  .sched.rich{grid-template-columns:4.7em minmax(0,1fr)}
+  
 }
 @media (max-width:560px){
   .sched.rich .t{}
@@ -577,24 +576,20 @@ html.pub details.more{display:none!important}
 .day{border-radius:12px}
 .sched.rich .a{padding:7px 0 12px 18px;line-height:1.45}
 .sched.rich .t{padding:7px 0 0;line-height:1.3}
-.sched.rich .t .est{display:block;font-size:11px;color:var(--muted);font-weight:400;letter-spacing:.06em;margin-top:1px}
-.sched.rich .t.key{color:var(--fg);font-weight:700}
+.sched.rich .t .est{font-weight:400;letter-spacing:.06em;margin-top:1px}
+.sched.rich .t.key{color:var(--fg);}
 .tl-h{font-weight:400;color:var(--fg)}
 .tl-n{font-weight:400}
-.sched.rich .a.key .tl-n{font-weight:700}
-.sched.rich .a.meal .tl-n{color:var(--meal)}
-.sched .m{font-weight:400}
+
 .sched.rich .a.y .tl-n{color:var(--chg)}
-.sched.rich .a.pk .tl-n{color:var(--ok);font-weight:600}
+.sched.rich .a.pk .tl-n{color:var(--ok);}
 .tl-m{font-size:12px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
 .tl-d{font-size:13px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tl-more{margin:6px 0 4px;font-size:13px;color:var(--fg)}
 .bkb{display:inline-block;font-size:11px;font-weight:700;color:var(--stay);border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-left:6px;vertical-align:1px;white-space:nowrap}
-.sched.rich details{margin-top:2px}
-.sched.rich details>summary{font-size:12px;display:inline-block}
-.sched.rich details summary::after{content:"▸ 詳情"}
-.sched.rich details[open] summary::after{content:"▾ 收起"}
-.sched.rich .a.drv{padding:2px 0 8px 18px;font-size:12px}
+
+.sched.rich details>summary{display:inline-block}
+
 @media (max-width:560px){
   .sched.rich{}
 }
@@ -608,13 +603,13 @@ html.pub details.more{display:none!important}
   .sched.rich>.t.y{border-left:2px dashed var(--chg)}
 }
 @media (max-width:560px){
-  .sched.rich>.t .est{display:inline;margin:0 0 0 6px}
+  .sched.rich>.t .est{margin:0 0 0 6px}
 }
 @media (max-width:560px){
-  .sched.rich>.a{display:block;}
+  
 }
 @media (max-width:560px){
-  .sched.rich>.a.drv{padding:4px 0 8px 18px}
+  
 }
 @media (max-width:560px){
   .sched.rich>.a::before{}
@@ -644,7 +639,7 @@ html.pub details.more{display:none!important}
 html.pub details.more.mapmore,.simple details.more.mapmore{display:block!important}
 
 .srch{position:relative;margin:8px 0}.srch input{width:100%;box-sizing:border-box;padding:9px 12px;font:inherit;color:inherit}.srres{position:absolute;left:0;right:0;top:100%;z-index:60;background:#fff;color:#222;border:1px solid #ccc;border-radius:12px;max-height:50vh;overflow:auto;box-shadow:0 6px 18px rgba(0,0,0,.18)}.srres button{display:block;width:100%;text-align:left;padding:9px 12px;border:0;background:none;color:inherit;font:inherit;cursor:pointer}.srres button:hover{background:rgba(0,0,0,.06)}.sched .hit{outline:2px solid #e8a33d;border-radius:4px}
-.sub3{font-weight:700;margin:8px 0 2px;color:var(--muted);font-size:13px}.grp{font-size:12px;color:var(--meal);margin:6px 0 2px}.stinfo{font-size:13px}.stinfo b{font-size:13px}.stinfo dl{display:grid;grid-template-columns:4.2em 1fr;gap:3px 10px;margin:6px 0 4px}.stinfo dt{color:var(--muted)}.stinfo dd{margin:0;overflow-wrap:anywhere}.sched .a.drv{font-size:13px;color:var(--muted);padding:0 0 3px 14px;border-left:2px dotted var(--coast);margin-bottom:4px}
+.sub3{font-weight:700;margin:8px 0 2px;color:var(--muted);font-size:13px}.grp{font-size:12px;color:var(--meal);margin:6px 0 2px}.stinfo{font-size:13px}.stinfo b{font-size:13px}.stinfo dl{display:grid;grid-template-columns:4.2em 1fr;gap:3px 10px;margin:6px 0 4px}.stinfo dt{color:var(--muted)}.stinfo dd{margin:0;overflow-wrap:anywhere}.sched .a.drv{margin-bottom:4px}
 
 /* ===== 設計層（Dashboard，淺色）：只負責外觀，不改資料和功能。
    刪走整個 dash 樣式區塊會返回舊樣式。分段：色彩 → 版面 → 元件 → 兩個版本 → 闊螢幕 → 手機 → 深色 → 列印 ===== */
@@ -928,7 +923,7 @@ html.pub details.more.mapmore,.simple details.more.mapmore{display:block!importa
 }
 
 @media screen{
-  html.pub .sched.rich{font-size:15px}
+  
 }
 
 @media screen{
@@ -1021,8 +1016,6 @@ html.print .wrap{margin-left:auto!important;margin-right:auto!important;max-widt
 html.print .hero{background:none!important;color:inherit!important;min-height:0!important;box-shadow:none!important}
 html.print .hero h1,html.print .hero .sub.meta{color:inherit!important;text-shadow:none!important}
 
-               
-
               
 .cpday{font-size:13px}
 @media print{}
@@ -1059,7 +1052,7 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
   a.sos{color:var(--warn)}
 }
 @media screen{
-  .sched.rich details>summary{font-size:12px;color:var(--route)}
+  .sched.rich details>summary{font-size:12px;}
 }
 @media screen{
   .sched.rich details summary::after{content:none}
@@ -1156,8 +1149,6 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
   
 }
 
-           
-
 .dact{display:flex;gap:8px;flex-wrap:wrap}
 .navbtn,.mapbtn{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 16px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;font-family:inherit}
 .navbtn{border:0}
@@ -1168,7 +1159,7 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .day h3:has(+ .dsum2) small{display:none}
 
 /* 時間軸：早上／下午／晚上分段 */
-.sched.rich .tod{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:14px 0 4px;font-size:12px;font-weight:700}
+.sched.rich .tod{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:14px 0 4px;font-weight:700}
 .sched.rich .tod::after{content:"";flex:1;height:1px}
 .sched.rich .tod:first-child{margin-top:4px}
 
@@ -1176,16 +1167,16 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .sched.rich .a.pri{padding-top:6px;padding-bottom:10px}
 .sched.rich .a.pri::before{top:1.15em;background:var(--dc,var(--route));border-color:var(--dc,var(--route))}
 .tl-card{border:1px solid var(--line);border-left:4px solid var(--dc,var(--route));padding:9px 12px 8px}
-.sched.rich .a.pri .tl-n{font-weight:700;font-size:1.03em}
-.sched.rich .t.pri{color:var(--fg);font-weight:600;padding-top:12px}
+
+.sched.rich .t.pri{padding-top:12px}
 /* 用餐、超市、入油：精簡節點 */
 .sched.rich .a.meal,.sched.rich .a.svc{font-size:.93em;padding-bottom:6px}
-.sched.rich .a.meal .tl-d,.sched.rich .a.svc .tl-d{font-size:12px}
-.sched.rich .a.svc .tl-n{color:var(--muted);font-weight:600}
-.sched.rich .a.svc::before{width:9px;height:9px;left:-5.5px;border-width:2px;border-color:var(--muted)}
-.sched.rich .a.meal::before{width:9px;height:9px;left:-5.5px;border-width:2px}
+
+.sched.rich .a.svc .tl-n{color:var(--muted);}
+.sched.rich .a.svc::before{width:9px;height:9px;left:-5.5px;border-color:var(--muted)}
+.sched.rich .a.meal::before{width:9px;height:9px;left:-5.5px;}
 /* 可選：次要 */
-.sched.rich .a.pk .tl-n,.sched.rich .a.o .tl-n{font-weight:600}
+
 /* 提醒標籤 */
 .alrt{display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.6;white-space:nowrap;vertical-align:1px}
 .alrt::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
@@ -1193,9 +1184,8 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .tideA{color:var(--al-tide);background:var(--al-tidebg)}
 .darkA{color:var(--al-dark);background:var(--al-darkbg)}
 .bookA{color:var(--al-book);background:var(--al-bookbg)}
-.sched.rich .bkb{color:var(--al-book)!important;background:var(--al-bookbg)!important;border:0!important;border-radius:999px!important;font-weight:700!important;padding:1px 8px!important}
-.sched.rich .a.drv.longd{color:var(--al-drv);font-weight:600}
-.sched.rich .a.longd:not(.drv){border-left-color:var(--al-drv)}
+.sched.rich .bkb{color:var(--al-book)!important;background:var(--al-bookbg)!important;}
+.sched.rich .a.drv.longd{font-weight:600}
 
                   
 
@@ -1293,7 +1283,7 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 /* ===== 15. 時間軸「詳情」改做小圖示 ===== */
 .sched.rich .a,.tl-card{position:relative}
 .sched.rich details.dsx{margin:0}
-.sched.rich details.dsx>summary.dsm{position:absolute;top:5px;right:0;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:var(--route);background:color-mix(in srgb,var(--route) 10%,transparent);cursor:pointer;list-style:none;padding:0;font-size:0}
+.sched.rich details.dsx>summary.dsm{position:absolute;top:5px;right:0;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:color-mix(in srgb,var(--route) 10%,transparent);font-size:0}
 .tl-card>details.dsx>summary.dsm{top:7px;right:7px}
 .sched.rich details.dsx>summary.dsm::before,.sched.rich details.dsx>summary.dsm::after{content:none!important;display:none}
 .sched.rich details.dsx>summary.dsm::-webkit-details-marker{display:none}
@@ -1304,7 +1294,7 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .sched.rich .a:has(>details.dsx)>.tl-h,.sched.rich .a:has(>details.dsx)>.tl-m,.sched.rich .a:has(>details.dsx)>.tl-d,.tl-card:has(>details.dsx)>.tl-h,.tl-card:has(>details.dsx)>.tl-m,.tl-card:has(>details.dsx)>.tl-d{padding-right:34px}
 .sched.rich details.dsx[open]>*:not(summary){margin-top:6px}
 /* 打開「詳情」時，不再重複顯示上面那行簡介 */
-.sched.rich .a:has(>details.dsx[open]>.tl-more)>.tl-d,.tl-card:has(>details.dsx[open]>.tl-more)>.tl-d{display:none}
+
 /* ===== 16. 更簡潔：每日摘要一行、注意事項分頁、出發準備進度條 ===== */
 .dsum2{flex-wrap:wrap;align-items:center;justify-content:space-between}
 .dsum2 ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;min-width:0;font-size:14px}
@@ -1349,17 +1339,17 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .tpanel .tgrid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;width:100%}
 
 /* 中途出發：小小一行車程（沒有圓點、沒有詳情） */
-.sched.rich .t.cn{font-size:12px;color:var(--muted);font-weight:400;padding-top:4px}
-.sched.rich .a.drv.cn{flex-wrap:wrap;align-items:center;gap:2px 6px;color:var(--muted);font-size:13px;padding:3px 0 9px 18px;border-left:2px dotted var(--line)}
+.sched.rich .t.cn{padding-top:4px}
+.sched.rich .a.drv.cn{flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:13px;padding:3px 0 9px 18px;border-left:2px dotted var(--line)}
 .sched.rich .a.drv.cn::before{display:none}
 .sched.rich .a.drv.cn .cnic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;flex:0 0 auto}
-.sched.rich .eatl{font-size:12px;color:var(--meal)}
+
 .stlink{margin-top:3px;border:0;background:none;padding:0;font:inherit;font-size:12px;color:var(--route);cursor:pointer}
 .stlink:hover{text-decoration:underline}
-@media screen and (max-width:560px){.sched.rich>.t.cn{padding:6px 0 0 18px;border-left:2px dotted var(--line)}}
-.sched.rich .a.drv.cn{display:block}
+@media screen and (max-width:560px){}
+
 .sched.rich .a.drv.cn .cnic{display:inline-block;vertical-align:-3px;margin-right:5px}
-.sched.rich .a.drv.cn.longd{color:var(--muted)}
+
 .sched.rich .a.drv.cn .alrt{margin-left:4px}
 .tl-card .spd>.spt{display:none}
 /* ===== 17. 注意事項「今日」首頁、出發準備分頁 ===== */
@@ -1512,10 +1502,10 @@ h1,h2,.pghead h2,#budget>h2,#tips>h2,.day h3>span:first-child,.tht,.bkh,.pkgh{fo
 .dsum2 .dlong{background:none!important;padding:0!important;gap:5px;align-items:flex-start;line-height:1.5}
 .dsum2 .dlong svg{width:15px;height:15px;margin-top:2.5px;stroke-width:1.9}
 /* 景點／餐廳 Google Maps 連結 */
-.sched .gpin{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:4px;vertical-align:-4px;border-radius:50%;color:var(--route);}
-.sched .gpin svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2}
+.sched .gpin{justify-content:center;}
+.sched .gpin svg{fill:none;stroke:currentColor;stroke-width:2}
 .sched a.gml{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
-.sched.rich .tl-d.eatl{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;display:block!important;-webkit-line-clamp:unset!important}
+
 .hero .ver{display:block;margin:3px 0 0!important;white-space:normal}
 
 /* 每日卡按鈕：同一高度、圓角、字級 */
@@ -1573,15 +1563,15 @@ body{background:var(--bg)!important;font-size:16px;-webkit-font-smoothing:antial
 .rmode button,.mvseg button,.seg button{background:none!important;border:0!important;border-radius:8px!important;color:var(--fg)!important;box-shadow:none!important;font-weight:600}
 .rmode button[aria-pressed="true"],.mvseg button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--card)!important;color:var(--fg)!important;box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04)!important}
 /* 時間軸：小線、灰點，景點卡不再有框 */
-.sched.rich{font-size:15px}
-.sched.rich .tl-card{background:none!important;border:0!important;box-shadow:none!important;padding:2px 0!important}
-.sched.rich .tl-n{font-size:16px}
+
+.sched.rich .tl-card{background:none!important;border:0!important;padding:2px 0!important}
+
 .sched.rich .tl-m,.sched.rich .tl-d{color:var(--muted)}
 .tod{color:var(--muted)!important;font-size:12px!important;font-weight:600;letter-spacing:.06em;border-color:var(--line)!important}
 .bkb,.alrt{background:var(--fill)!important;color:var(--muted)!important;border:0!important;font-weight:600}
 .alrt.drvA,.alrt.bookA{background:var(--al-drvbg)!important;color:var(--meal)!important}
 .alrt.bookA::before{display:none!important}
-.sched .gpin{background:var(--tint)!important}
+
 /* 搜尋欄 */
 .srch input{background:var(--fill)!important;border:0!important;border-radius:12px!important}
 /* 底部分頁列：磨砂、小分隔線、已選＝強調色 */
@@ -1650,15 +1640,13 @@ body,button,input,select,textarea{font-family:var(--sans)!important}
 /* 預訂清單日子標題：純文字 */
 .bkd{background:none!important;color:var(--route)!important;padding:0!important;font-weight:700}
 
-               
-
 /* ---- 地圖：Apple Maps 式 ---- */
 .mapctl button{border-radius:12px!important;width:38px;height:38px}
 .rmode{border-radius:12px!important}
 .pop{border-radius:12px!important}
 .mleg{color:var(--muted)}
 /* ---- 每日行程：類型分得清 ---- */
-.sched.rich .a.drv,.sched.rich .a.cn{color:var(--muted)}
+
 .sched.rich .a.meal::before,.sched.rich .a.m::before{border-color:var(--meal)!important}
 .sched.rich .snum{background:var(--route)!important}
 .cutag{background:var(--okbg)!important;color:var(--sage-t)!important;border:0!important}
@@ -1831,7 +1819,7 @@ html.spon{overflow:hidden}
 
 .day>.golin,.day>.cfbar{margin:0 0 10px;padding:10px 14px;border-radius:12px}
 .day>.cfbar{background:none!important;padding:0 6px}
-.day>.sched{background:var(--card);border-radius:12px;padding:14px 14px 10px!important;margin:0 0 12px}
+.day>.sched{background:var(--card);padding:14px 14px 10px!important;margin:0 0 12px}
 .day>details.sec{background:var(--card)!important;border-radius:12px!important;margin:0 0 8px!important}
 .day>details.sec>summary{padding:13px 16px!important;font-size:15px!important;color:var(--fg)!important;font-weight:600}
 .day>.addp{background:var(--card);border-radius:12px;padding:12px 14px;margin:0 0 12px;border:0!important}
@@ -1993,13 +1981,13 @@ dialog.optdlg:not([open]){display:none}
 /* ==== pinalign ==== */
 /* Google Maps 圖示：和 ⓘ 排在右邊同一行、同一大小 */
 .sched.rich .a{}
-.sched.rich .gpin{position:absolute;top:5px;right:34px;width:28px!important;height:28px!important;margin:0!important;vertical-align:baseline!important;border-radius:50%;display:grid!important;place-items:center;background:var(--tint)!important;color:var(--route)}
+.sched.rich .gpin{position:absolute;top:5px;width:28px!important;height:28px!important;margin:0!important;vertical-align:baseline!important;border-radius:50%;place-items:center;background:var(--tint)!important;color:var(--route)}
 .sched.rich .gpin svg{width:15px!important;height:15px!important}
-.sched.rich .a:not(:has(> details.dsx)):not(:has(> .tl-card > details.dsx)) .gpin{right:0}
-.sched.rich .tl-card .gpin{top:7px;right:41px}
+
+.sched.rich .tl-card .gpin{top:7px;}
 .sched.rich .tl-card:not(:has(> details.dsx)) .gpin{right:7px}
 .sched.rich .a:has(.gpin) .tl-h{}
-.sched.rich .a:has(.gpin):not(:has(details.dsx)) .tl-h{padding-right:34px}
+
 .mback{display:none}
 @media screen and (max-width:819px){
   #view-trip.mvmap .mback{align-items:center;gap:2px;position:absolute;top:10px;left:10px;z-index:8;height:38px;padding:0 14px 0 8px;border-radius:12px;border:.5px solid var(--glass-edge);background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);box-shadow:var(--glass-sh);color:var(--route);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
@@ -2012,7 +2000,7 @@ dialog.optdlg:not([open]){display:none}
 }
 @supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){.mback{background:var(--card)!important}}
 @media (min-width:561px){.sched.rich{grid-template-columns:7.4em minmax(0,1fr)!important;column-gap:12px!important}}
-@media (min-width:561px){.sched.rich>.t{font-size:13px!important;white-space:nowrap;font-variant-numeric:tabular-nums}}
+@media (min-width:561px){.sched.rich>.t{font-variant-numeric:tabular-nums}}
 /* ==== tabs5 ==== */
 /* ===== 27. 分頁：總覽・準備・行程・預算・連結 ===== */
 .bnav .mtab,.bnav #tab-stay{display:none!important}
@@ -2144,9 +2132,7 @@ dialog.optdlg:not([open]){display:none}
 /* ==== pinpad ==== */
 /* Google Maps／詳情圖示不會壓住文字（不靠 :has，舊 Safari 都得） */
 .sched.rich .hasg>.tl-h,.sched.rich .hasd>.tl-h{min-height:34px}
-.sched.rich .hasg.hasd>.tl-h{padding-right:70px!important}
-.sched.rich .hasg:not(.hasd)>.tl-h,.sched.rich .hasd:not(.hasg)>.tl-h{padding-right:38px!important}
-.sched.rich .hasg:not(.hasd) .gpin{right:0!important}
+
 .sched.rich .tl-card.hasg:not(.hasd) .gpin{right:7px!important}
 /* 出發前要做：統一字級 */
 .prelist b{font-size:15px!important;font-weight:600}
@@ -2154,7 +2140,6 @@ dialog.optdlg:not([open]){display:none}
 .prelist .flc>summary{color:var(--route)!important;font-weight:600}
 .prelist .flc .gt,.prelist .flc .gt td,.prelist .flc .gt th,.prelist .flc dl,.prelist .flc dd,.prelist .flc dt{font-size:13px!important}
 .hul{margin:0;padding-left:16px}.hul li{margin:1px 0}
-                    
 
 .rct{font-size:13px;font-weight:700;color:var(--route);margin-bottom:4px;letter-spacing:.02em}
 
@@ -2200,7 +2185,7 @@ dialog.optdlg:not([open]){display:none}
  #prep *:not(svg):not(img):not(input),#tips *:not(svg):not(img):not(input),#stays *:not(svg):not(img):not(input){max-width:100%!important}}
 /* 時間表：地圖站號放入圓點 */
 .sched.rich .tl-h .snum{display:none!important}
-.sched.rich .a[data-sn]::before{content:attr(data-sn)!important;display:block!important;box-sizing:border-box;width:20px!important;height:20px!important;left:-11px!important;margin-top:-4px;border:0!important;background:var(--dc,var(--route))!important;color:#fff;font:700 11px/20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:center;font-variant-numeric:tabular-nums}
+.sched.rich .a[data-sn]::before{content:attr(data-sn)!important;box-sizing:border-box;width:20px!important;height:20px!important;left:-11px!important;margin-top:-4px;border:0!important;background:var(--dc,var(--route))!important;color:#fff;font:700 11px/20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:center;font-variant-numeric:tabular-nums}
 /* ==== visg ==== */
 .visg{display:flex;align-items:baseline;gap:8px;margin:18px 0 6px;font-size:15px}.visg:first-child{margin-top:4px}.visg small{font-weight:400;color:var(--muted);font-size:12px}
 /* ==== spsolid ==== */
@@ -2412,7 +2397,7 @@ select.tst.na{background-color:var(--fill);color:var(--muted)}
 .sched.rich .a .tl-n,.sched.rich .a .tl-h{font-weight:500!important}
 .sched.rich .a.pri .tl-n,.sched.rich .a.key .tl-n,.sched.rich .a.pri .tl-h,.sched.rich .a.key .tl-h{font-weight:600!important}
 .sched.rich .a .tl-m,.sched.rich .a .tl-d{font-size:13px!important}
-.sched.rich .t{font-size:13px!important;font-weight:400!important}
+
 .sched.rich .t.key,.sched.rich .t.pri{font-weight:600!important}
 /* ===== 字體和對齊統一（所有頁）=====
    頁標題 24／區標題 16／項目標題 15／內文 13／小字 12.5（最小 12）；所有頁內容左邊對齊同一條線 */
@@ -2432,7 +2417,6 @@ select.tst.na{background-color:var(--fill);color:var(--muted)}
 .tkl .bkn,.tk-h .bkn,.htl b,.thoff a b,#tips .tgrid dt,#tips details.tsec>summary.tiph,details.mecat>summary{font-size:var(--fs-item)!important}
 .tkl .bkn,.tk-h .bkn,.htl b,.thoff a b,#tips .tgrid dt,#tips details.tsec>summary.tiph,details.mecat>summary{font-weight:600!important}
 
-           
 #tips .tgrid dd,#tips .tipsdl dd,.htl small{font-size:var(--fs-body)!important}
 .tkl .bkm,.thoff a small,.tkst,.tkst .opts small,.flt small,.flc .gt td,.flc .gt th{font-size:var(--fs-meta)!important}
 .bme small,.budget small{font-size:12px!important}
@@ -2456,12 +2440,10 @@ details.cmpx .gtw{margin-top:10px}.gt.cmpt td small{display:block;color:var(--mu
 .dsum2>.dact{grid-column:2;grid-row:1/span 2;align-self:start;justify-content:flex-end;width:auto!important;margin-top:0!important}
 }
 /* 時間表右邊兩個圖案（地圖、詳情）：有沒有卡片都同一位置 */
-.sched.rich .a:has(> details.dsx) > .tl-h .gpin{right:41px}
-.sched.rich .a:has(> details.dsx) > .tl-h{padding-right:76px}
-.sched.rich .tl-card:has(> details.dsx) > .tl-h{padding-right:76px}
+
 /* 沒有詳情掣的行，地圖掣都留在同一欄 */
 .sched.rich .a .tl-h .gpin,.sched.rich .hasg:not(.hasd) .gpin,.sched.rich .tl-card.hasg:not(.hasd) .gpin,.sched.rich .a:not(:has(> details.dsx)):not(:has(> .tl-card > details.dsx)) .gpin,.sched.rich .tl-card:not(:has(> details.dsx)) .gpin{right:41px!important}
-.sched.rich .a:has(.gpin) .tl-h{padding-right:76px!important}
+
 /* ==== 首頁：日期＋倒數放最頂、住宿進度、地圖收小 ==== */
 .hhero .hdate{font-size:20px;font-weight:700;letter-spacing:.01em;color:var(--fg);margin:0 0 6px}
 @media (min-width:820px){.hhero .hdate{font-size:22px}}
@@ -2503,11 +2485,9 @@ article.day>h3 .dwx[hidden]{display:none}
 }
 body:not(:has(#view-trip:not([hidden]))) body #view-trip>.srow.srow{display:none!important}
 /* 大眾版：時間表只剩景點和住宿（沒有「預計」、沒有純開車行） */
-html.pub .sched.rich small.est{display:none!important}
-html.pub .sched.rich > .a.drv,html.pub .sched.rich > .t:has(+ .a.drv){display:none!important}
+
                                              
 
-html.pub .sched small.est{display:none!important}
 html.pub .sched > .a.drv,html.pub .sched > .t:has(+ .a.drv){display:none!important}
 .golin.g1{display:block!important;color:var(--muted)}
 .golin.g1 b{color:var(--fg)}.golin.g1 b.late{color:var(--warn,#c2410c)}
@@ -2529,16 +2509,15 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched small.est{display:none!important}
 /* 手機時間表：時間固定在左哪一欄（和電腦版一致），右邊「② 景點」 */
 @media (max-width:560px){
- .sched.rich{display:grid!important;grid-template-columns:3.4em minmax(0,1fr)!important;column-gap:8px!important;margin-left:0!important}
- .sched.rich>.tod{grid-column:1/-1}
- .sched.rich>.t{display:block!important;grid-column:1;padding:10px 0 0!important;border-left:0!important;font-size:13px!important;line-height:1.35;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:normal!important;overflow-wrap:anywhere}
- .sched.rich>.t:empty{display:block!important}
- .sched.rich>.a{grid-column:2;padding:10px 0 12px 16px!important;border-left:2px solid var(--line)}
+
+ .sched.rich>.t{grid-column:1;padding:10px 0 0!important;border-left:0!important;white-space:normal!important;overflow-wrap:anywhere}
+ 
+ .sched.rich>.a{grid-column:2;padding:10px 0 12px 16px!important;}
  .sched.rich>.a.y{border-left:2px dashed var(--chg)}
  .sched.rich>.a::before{top:calc(10px + .35em)!important}
 }
 .sched.rich > .a.nogpin .gpin{display:none!important}
-.sched.rich > .a.nogpin .tl-h{padding-right:40px!important}
+
 .spd p.gml{margin:8px 0 0}
 #panel{padding-bottom:110px}
 @media (min-width:820px){#panel{padding-bottom:24px}}
@@ -2552,10 +2531,10 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 /* 手機：「時間 ② 景點」—— 號碼由時間軸圓點搬到時間後面，圓點變回小點 */
 .sched.rich .snin{display:none}
 @media (max-width:560px){
- .sched.rich .snin{display:inline-grid;place-items:center;width:18px;height:18px;margin-right:6px;border-radius:50%;background:var(--dc,var(--route));color:#fff;font-size:11px;font-weight:700;font-style:normal;vertical-align:1px}
+ .sched.rich .snin{display:inline-grid;place-items:center;border-radius:50%;background:var(--dc,var(--route));color:#fff;font-weight:700;font-style:normal;}
  .sched.rich>.a[data-sn]::before{content:""!important;width:10px!important;height:10px!important;left:-6px!important;margin-top:0!important}
 }
-.sched.rich > .a.nogpin .tl-card > .tl-h{padding-right:40px!important}
+
 /* 登入掣（未登入才見到）：搜尋掣左邊 */
 .hlogin{position:absolute;top:14px;right:62px;z-index:46;height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--card);color:var(--fg);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 0 0 .5px var(--line)}
 .hlogin:hover{background:var(--fill)}
@@ -2564,7 +2543,6 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .hero:has(#tools) .hlogin{right:124px}
 @media (max-width:819px){.hero:has(#tools):has(.hlogin) h1{max-width:calc(100% - 190px)!important}}
 
-                                                                                                                     
 .hcard,.tcard,.bppl{background:var(--card)!important;border:0!important;border-radius:12px!important;padding:16px 18px!important;box-shadow:none!important}
 .thero{}
 .pghead h2{font-size:var(--fs-page)!important;font-weight:700!important}
@@ -2665,25 +2643,24 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tlist li+li{opacity:.75}
 
 /* ===== 統一時間表（行程頁＋總覽今日）：時間欄＋一行名，按一行才展開詳情 ===== */
-.sched.rich.simp{display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;column-gap:12px!important;row-gap:0!important;margin:0!important;font-size:15px!important}
+.sched.rich.simp{margin:0!important;font-size:15px!important}
 .sched.rich.simp>.tod{display:none!important}
-.sched.rich.simp>.t{display:block!important;grid-column:1!important;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0 0 0!important;margin:0!important;font-size:15px!important;font-weight:600!important;color:var(--muted)!important;line-height:1.35!important;white-space:normal}
-.sched.rich.simp>.t .est{display:none!important}
-.sched.rich.simp>.a{grid-column:2!important;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0!important;margin:0!important;position:relative;min-width:0;cursor:pointer}
+.sched.rich.simp>.t{grid-column:1!important;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0 0 0!important;font-size:15px!important;font-weight:600!important;color:var(--muted)!important;line-height:1.35!important;white-space:normal}
+
+.sched.rich.simp>.a{grid-column:2!important;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0!important;margin:0!important;cursor:pointer}
 .sched.rich.simp>.t:first-of-type,.sched.rich.simp>.a:first-of-type,.sched.rich.simp>.tod+.t,.sched.rich.simp>.tod+.t+.a{border-top:0!important}
 .sched.rich.simp>.a::before,.sched.rich.simp>.a::after{display:none!important}
-.sched.rich.simp .tl-card{background:transparent!important;box-shadow:none!important;padding:0!important;border:0!important;margin:0!important}
-.sched.rich.simp .tl-h{align-items:center;gap:6px;flex-wrap:wrap}
-.sched.rich.simp .tl-n{font-size:15px!important;font-weight:600!important;line-height:1.35}
-.sched.rich.simp .a.m .tl-n{font-weight:400!important;color:var(--meal)}
-.sched.rich.simp .snum{display:none!important}
-.sched.rich.simp .snin{display:inline-grid!important;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--route);color:#fff;font-size:11px;font-style:normal;font-weight:700;flex:none}
+.sched.rich.simp .tl-card{padding:0!important;}
+.sched.rich.simp .tl-h{align-items:center;flex-wrap:wrap}
+.sched.rich.simp .tl-n{font-weight:600!important;}
+.sched.rich.simp .a.m .tl-n{font-weight:400!important;}
+
+.sched.rich.simp .snin{place-items:center;width:20px;height:20px;border-radius:50%;background:var(--route);color:#fff;font-size:11px;font-style:normal;font-weight:700;flex:none}
 .sched.rich.simp .tl-d,.sched.rich.simp .tl-m,.sched.rich.simp .tl-more,.sched.rich.simp details.dsx,.sched.rich.simp .spx0{display:none!important}
 .sched.rich.simp .a.open .tl-d,.sched.rich.simp .a.open .tl-m,.sched.rich.simp .a.open .tl-more,.sched.rich.simp .a.open details.dsx{display:block!important}
-.sched.rich.simp .a.open .tl-d,.sched.rich.simp .a.open .tl-m{font-size:var(--fs-body)!important;color:var(--muted);margin-top:6px;font-weight:400}
-.sched.rich.simp .a .tl-h::after{content:"›";margin-left:auto;color:var(--muted);font-size:18px;line-height:1;transition:transform .15s}
+.sched.rich.simp .a.open .tl-d,.sched.rich.simp .a.open .tl-m{margin-top:6px;font-weight:400}
+.sched.rich.simp .a .tl-h::after{content:"›";color:var(--muted);font-size:18px;line-height:1;transition:transform .15s}
 .sched.rich.simp .a.open .tl-h::after{transform:rotate(90deg)}
-.sched.rich.simp .bkb,.sched.rich.simp .alrt{font-size:11px!important}
 
 .tsdl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;align-items:baseline}
 .tsdl dt{font-size:12px;font-weight:600;color:var(--muted)}
@@ -2692,12 +2669,12 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tok{font-style:normal;font-size:11px;font-weight:700;color:var(--ok,#2e7d32);background:color-mix(in srgb,var(--ok,#2e7d32) 12%,transparent);padding:1px 6px;border-radius:8px}
 /* 時間表一行：名稱、標籤、› 不要斷開 */
 .sched.rich.simp>.a{padding-right:22px!important}
-.sched.rich.simp .tl-h{display:block!important;position:static!important}
+
 .sched.rich.simp .tl-card,.sched.rich.simp .tl-card>*{position:static!important}
-.sched.rich.simp .tl-h>*{display:inline;vertical-align:middle}
+.sched.rich.simp .tl-h>*{vertical-align:middle}
 .sched.rich.simp .tl-h>.snin{display:inline-grid!important;margin-right:6px;vertical-align:1px}
-.sched.rich.simp .tl-h>.bkb,.sched.rich.simp .tl-h>.alrt,.sched.rich.simp .tl-h>.docb,.sched.rich.simp .tl-h>[class*="rk"]{display:inline-flex!important;margin-left:6px;vertical-align:1px}
-.sched.rich.simp .tl-n{min-width:0}
+.sched.rich.simp .tl-h>.bkb,.sched.rich.simp .tl-h>.alrt,.sched.rich.simp .tl-h>.docb,.sched.rich.simp .tl-h>[class*="rk"]{display:inline-flex!important;vertical-align:1px}
+
 .sched.rich.simp .a .tl-h::after{position:absolute;right:2px;top:13px;margin:0!important}
 .sched.rich.simp .gpin{display:none!important}
 
@@ -2837,23 +2814,23 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .bkprog .bklocal{font-size:12px;color:var(--muted);font-weight:500}
 
 /* 時間表展開後：ⓘ 改成「詳情 ▾」小按鈕，放在內容下面，不再和 › 重疊（和預訂頁一樣） */
-.sched.rich.simp .a details.dsx>summary.dsm{position:static!important;align-items:center;gap:3px;width:auto!important;height:28px!important;box-sizing:border-box;margin:8px 0 0!important;padding:0 10px!important;border-radius:999px!important;background:var(--fill)!important;color:var(--route)!important;font-size:13px!important;font-weight:600;line-height:1}
+.sched.rich.simp .a details.dsx>summary.dsm{position:static!important;gap:3px;width:auto!important;box-sizing:border-box;margin:8px 0 0!important;padding:0 10px!important;border-radius:999px!important;background:var(--fill)!important;color:var(--route)!important;font-size:13px!important;font-weight:600;line-height:1}
 .sched.rich.simp .a details.dsx>summary.dsm svg{display:none!important}
-.sched.rich.simp .a details.dsx>summary.dsm .vh{position:static!important;width:auto!important;height:auto!important;clip:auto!important;clip-path:none!important;overflow:visible!important;margin:0!important;white-space:nowrap}
-.sched.rich.simp .a details.dsx>summary.dsm::after{content:"▾"!important;display:inline!important;position:static!important;font-size:11px;border:0!important;transform:none!important;width:auto!important;height:auto!important;background:none!important}
+.sched.rich.simp .a details.dsx>summary.dsm .vh{position:static!important;width:auto!important;height:auto!important;clip:auto!important;overflow:visible!important;}
+.sched.rich.simp .a details.dsx>summary.dsm::after{content:"▾"!important;display:inline!important;}
 .sched.rich.simp .a details.dsx[open]>summary.dsm::after{content:"▴"!important}
 
 /* 一按就看到全部：不用再按「詳情」 */
 .sched.rich.simp .a details.dsx>summary.dsm{display:none!important}
 .sched.rich.simp .a .tl-m.durx{display:none!important}
 .sched.rich.simp .a.open .spd>.spx0{display:block!important;font-weight:600;color:var(--fg);margin:6px 0 4px}
-.sched.rich.simp .a.open .spd>p:not(.spx0){color:var(--muted);margin-top:8px}
+.sched.rich.simp .a.open .spd>p:not(.spx0){color:var(--muted);}
 
 /* 開車行可以按：導航 */
 .sched.rich .a.drv.hasnav{cursor:pointer}
 .sched.rich .a.drv .drvgo{display:block;position:relative;padding-right:66px;min-height:24px;color:inherit;text-decoration:none}
-.sched.rich .a.drv .drvgo .cnic{display:inline-block;vertical-align:-2px;margin-right:4px}
-.sched.rich .a.drv .drvpill{position:absolute;right:0;top:50%;transform:translateY(-50%);font-weight:700;color:var(--route);background:var(--fill);border-radius:999px;line-height:1}
+.sched.rich .a.drv .drvgo .cnic{vertical-align:-2px;margin-right:4px}
+.sched.rich .a.drv .drvpill{position:absolute;right:0;top:50%;transform:translateY(-50%);}
 
 /* 打勾：旅程期間在時間下面 */
 .sched.rich .t .tick{display:block;margin:6px 0 0;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);cursor:pointer;padding:0;position:relative}
@@ -2862,28 +2839,26 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich>.a.done{opacity:.45}
 .sched.rich>.t.done{color:var(--muted)}
 
-.sched.rich .a .depgo{display:inline-block;margin-top:6px;text-decoration:none}
-.sched.rich .a .depgo .drvpill{position:static;transform:none;display:inline-block;font-size:12px;font-weight:700;color:var(--route);background:var(--fill);border-radius:999px;padding:4px 10px 3px;line-height:1}
+.sched.rich .a .depgo{text-decoration:none}
 
 #prepBack{position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;margin:0 0 10px}
 #prepBack .pbk{border:0;background:var(--route);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:8px 14px 7px;box-shadow:0 2px 10px rgba(0,0,0,.18);cursor:pointer}
 
 /* 開車行簡潔：細一行、沒有分隔線，目的地就是下一行 */
-.sched.rich.simp>.t.cn{border-top:0!important;padding-top:2px!important;font-size:13px!important;color:var(--muted)!important;font-weight:500}
-.sched.rich.simp>.a.drv{border-top:0!important;padding-top:2px!important;padding-bottom:10px!important;font-size:13px!important;color:var(--muted)}
+.sched.rich.simp>.t.cn{border-top:0!important;padding-top:2px!important;font-size:13px!important;}
+.sched.rich.simp>.a.drv{border-top:0!important;padding-top:2px!important;padding-bottom:10px!important;color:var(--muted)}
 .sched.rich.simp>.t.cn+.a.drv+.t,.sched.rich.simp>.t.cn+.a.drv+.a{border-top:0!important}
-.sched.rich .a.drv .drvpill{padding:3px 9px 2px;font-size:11px}
 
 /* 時間欄只寫開始時間：收窄 */
 .sched.rich.simp{grid-template-columns:48px minmax(0,1fr)!important}
 .sched.rich .a.drv .drvt{}
 
 /* 早上出發那一行：細字車程＋導航，和中途開車行一樣 */
-.sched.rich .a .depgo.depline{display:block;position:relative;margin-top:4px;padding-right:46px;color:var(--muted);font-size:13px;text-decoration:none;line-height:1.45}
-.sched.rich .a .depgo.depline .cnic{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:4px;fill:none;stroke:currentColor;stroke-width:1.8}
+.sched.rich .a .depgo.depline{display:block;position:relative;margin-top:4px;padding-right:46px;color:var(--muted);font-size:13px;line-height:1.45}
+.sched.rich .a .depgo.depline .cnic{display:inline-block;height:14px;vertical-align:-2px;margin-right:4px;fill:none;stroke:currentColor;stroke-width:1.8}
 .sched.rich .a .depgo.depline .drvpill{position:absolute;right:-22px;top:50%;transform:translateY(-50%)}
 
-.sched.rich .t .tend{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:1px;white-space:nowrap}
+.sched.rich .t .tend{display:block;font-size:11px;margin-top:1px;white-space:nowrap}
 
 .docdlg .dfiles{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
 .docdlg .dfhint{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
@@ -2948,8 +2923,6 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tquick dt{font-size:12px;font-weight:700;color:var(--muted)}
 .tquick dd{margin:0;color:var(--fg);font-size:15px}
 .tquick ol{margin:0;padding-left:1.2em;display:grid;gap:2px}
-
-            
 
 @media (min-width:761px){}
 /* 今日須知 */
@@ -3172,13 +3145,12 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 #panel .today{border-radius:12px!important}
 #budget li{border:0!important;background:var(--bg)!important}
 /* 步行／公車導航：放右邊 */
-.sched.rich .a .depgo:not(.depline){justify-content:flex-end;margin-top:4px}
+.sched.rich .a .depgo:not(.depline){justify-content:flex-end;}
 /* D0、徒步、H0：只用紫色標題，不要紫色線 */
 .day.dtday[style]{border-top:0!important}
 .day.dtday h3>span:first-child{color:var(--chg)}
 /* 步行／公車導航：放在標題同一行右邊，不再另起一行（行距不會太闊） */
-.sched.rich .a{position:relative}
-.sched.rich .a .depgo:not(.depline){position:absolute;margin:0;display:block}
+
 .sched.rich .a:has(>.depgo:not(.depline)) .tl-h{}
 
 /* 文件 📎 放行右邊 */
@@ -3192,18 +3164,16 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .tbtns>a.troute.tlink::after{content:" ›"}
 .tbtns>a.troute.tlink+.tfull2{margin-left:14px;padding:0}
 /* 行程內「出發去 X」等導航掣：和其他導航掣同一條右邊線、對齊標題第一行 */
-.sched.rich .a .depgo:not(.depline){right:0;top:11px}
+
 .sched.rich .a:has(>.depgo:not(.depline)) .tl-h{}
 .sched .a>.docb.docr{right:0;top:10px}
 .sched.rich .a.hasdoc:has(>.depgo:not(.depline))>.docb.docr{right:66px}
 .sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{}
 
-                
-
 .dtm.bufd{color:#b5651d;font-weight:700}
 .alrt.rushA{background:color-mix(in srgb,#d9534f 14%,transparent);color:#b23a36}
 .alrt.hotA{background:color-mix(in srgb,#e08a2e 16%,transparent);color:#a35d12}
-.sched.rich .alrt.rushA{background:color-mix(in srgb,#d9534f 14%,transparent)!important;}
+
 .sched.rich .alrt.hotA{background:color-mix(in srgb,#e08a2e 16%,transparent)!important;color:#a35d12!important}
 .sched.rich .dtm.bufd{color:#b5651d!important}
 /* 日子標題（D2 · 9月13日）做主標題；卡內地點名細一級 */
@@ -3255,17 +3225,15 @@ article.day>h3>.h3act{margin-left:auto!important;margin-top:0!important;display:
 .sched.rich .drvtog{display:inline-flex;align-items:center;gap:3px;margin:4px 0 0;padding:2px 9px;border:0;border-radius:999px;background:var(--fill);color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
 .sched.rich .drvtog::after{content:"▾";font-size:10px;transition:transform .15s}
 .sched.rich .drvtog[aria-expanded="true"]::after{transform:rotate(180deg)}
-.sched.rich .drvdet{list-style:none;margin:6px 0 2px;padding:8px 10px;border-radius:12px;background:var(--fill);font-size:13px;display:grid;gap:4px}
-.sched.rich .drvdet li{display:flex;justify-content:space-between;gap:10px;line-height:1.45}
+.sched.rich .drvdet{border-radius:12px;background:var(--fill);}
+.sched.rich .drvdet li{line-height:1.45}
 .sched.rich .drvdet li span{color:var(--muted)}
-.sched.rich .drvdet li.dn{color:var(--muted);display:block}
-.sched.rich .drvdet li.dw{display:block}
+.sched.rich .drvdet li.dn{color:var(--muted);}
+
 .sched.rich .depline .dgo{font-weight:600}
 .sched.rich .drvdet li b{white-space:nowrap;flex:none}.sched.rich .drvdet li span{min-width:0}
 .carchip{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--route) 14%,transparent);color:var(--route);vertical-align:middle}
 .carchip{white-space:nowrap}
-
-                
 
 .golin.drvc .dlyx .dwarn2{margin:6px 0 0;color:#a35d12;font-weight:600}
 .dmm .dmseg{display:flex;font-size:13px}.dmm .dmseg>span:first-child{color:var(--muted);white-space:nowrap}.dmm .dmseg .seg button{font-size:12px;}
@@ -3302,8 +3270,8 @@ details.dmore .dmm button[data-dlyopen]{display:flex!important;align-items:cente
 /* 3 總表：每日路線最多 2 行 */
 .ovB .ovr{-webkit-box-orient:vertical;-webkit-line-clamp:2;font-weight:700}
 /* 4 出發行：普通字重、灰色，同景點行分清主次；9 尾部加車程時間 */
-.sched.rich .a.drv .drvt{font-weight:500;color:var(--muted)}
-.sched.rich .drvdur{font-size:inherit;font-weight:500;color:var(--muted);white-space:nowrap}
+.sched.rich .a.drv .drvt{font-weight:500;}
+.sched.rich .drvdur{font-size:inherit;font-weight:500;white-space:nowrap}
 /* 5 地圖：揀咗某日時收起其他日子嘅文字；縮到好遠時當日只留編號同住宿名 */
 #map text.lbl.dim{display:none}
 #map.farzoom:has(text.lbl.dim) text.lbl:not(.stay):not(.dim){display:none}
@@ -3430,7 +3398,7 @@ mark.xmiss{background:#ffd0d0;color:#1c1c1c}
 .tmeta.aisug{grid-column:1/-1;width:auto;max-width:none;writing-mode:horizontal-tb;white-space:normal;word-break:normal}
 /* 2026-11-24：打開詳情時只顯示「▾ 詳情」（避免「▾ 詳情▾ 收起」）；步行／巴士導航掣較闊，標題留多啲位 */
 @media screen{.sched.rich details[open] summary::after{content:none}}
-.sched.rich .a:has(>.depgo:not(.depline)) .tl-h{padding-right:112px}
+
 .sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{padding-right:152px}
 /* 2026-11-24 audit：步行／巴士導航掣只留 emoji；詳情內文唔用粗體 */
 .drvpill.emo::before{content:none!important;display:none!important}
@@ -3578,7 +3546,7 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 #today .thero,#homeToday .thero{}
 #today .thero>*:last-child,#homeToday .thero>*:last-child{margin-bottom:0!important}
 /* 行程細項：全文顯示，唔再「…」截斷 */
-.sched .tl-d,.sched .tl-d *,.sched .tl-m,.sched .tl-more,.sched .tl-more *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;-webkit-line-clamp:unset!important}
+.sched .tl-d,.sched .tl-d *,.sched .tl-m,.sched .tl-more,.sched .tl-more *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;}
 /* 今日卡：同行程頁一樣，淺色漸層淡入，日期深色 */
 #today .thero,#homeToday .thero{background:linear-gradient(180deg,rgba(255,252,245,0) 0,rgba(255,252,245,0) 90px,rgba(255,252,245,.7) 160px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,linear-gradient(135deg,#dfe8e6,#efe6d2)!important}
 #today .thero .tsub,#homeToday .thero .tsub{color:var(--gold)!important;text-shadow:none!important}
@@ -3759,15 +3727,15 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 
 /* ===== 日式編排：手機時間表 typography／spacing／右側掣統一（放最後；body:not(#_) 提高優先度） ===== */
 :root{--s1:4px;--s2:8px;--s3:12px;--tcol:52px;--fs-main:16px;--fs-time:15px;--fs-sub:13px;--fs-xs:12px;--lh-t:1.4;--lh-s:1.5;--pillw:76px}
-body:not(#_) .sched.rich .tl-n,body:not(#_) .tlist .tnm{line-break:strict;word-break:normal;overflow-wrap:break-word;text-wrap:pretty}
+body:not(#_) .sched.rich .tl-n,body:not(#_) .tlist .tnm{line-break:strict;overflow-wrap:break-word;text-wrap:pretty}
 body:not(#_) .sched.rich .tl-sub{display:block;margin-top:2px;font-size:var(--fs-sub);font-weight:400;line-height:var(--lh-s);color:var(--muted)}
 /* 標籤：AI 建議、預約等同一款，唔再變大圓 */
-body:not(#_) .sched.rich .ost,body:not(#_) .sched.rich .bkb,body:not(#_) .sched.rich .ytag,body:not(#_) .sched.rich .cutag,body:not(#_) .sched.rich .carchip{display:inline-block!important;min-height:0!important;height:auto!important;width:auto!important;margin:0 0 0 6px!important;border-radius:999px!important;white-space:nowrap}
+body:not(#_) .sched.rich .ost,body:not(#_) .sched.rich .bkb,body:not(#_) .sched.rich .ytag,body:not(#_) .sched.rich .cutag,body:not(#_) .sched.rich .carchip{display:inline-block!important;}
 /* 導航掣：全部同一闊度、同一右邊線 */
-body:not(#_) .sched.rich .drvpill{box-sizing:border-box;width:var(--pillw)!important;min-height:0!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:999px!important;line-height:1!important;flex:none}
-body:not(#_) .sched.rich .a .depgo:not(.depline){position:absolute!important;right:0!important;margin:0!important;display:block!important}
+body:not(#_) .sched.rich .drvpill{width:var(--pillw)!important;min-height:0!important;padding:0!important;justify-content:center;flex:none}
+body:not(#_) .sched.rich .a .depgo:not(.depline){position:absolute!important;right:0!important;}
 body:not(#_) .sched.rich .a:has(>details.dsx) .depgo:not(.depline){right:32px!important}
-body:not(#_) .sched.rich .a>details.dsx>summary.dsm{right:0!important}
+
 body:not(#_) .sched.rich .a>.docb.docr{position:absolute!important;right:0!important;margin:0!important}
 body:not(#_) .sched.rich .a:has(>details.dsx)>.docb.docr{right:32px!important}
 body:not(#_) .sched.rich .a:has(>.depgo:not(.depline))>.docb.docr{}
@@ -3785,20 +3753,20 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin) .tl-h{}
 body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h .gpin{right:32px!important}
 body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{}
 @media (max-width:560px){
-  body:not(#_) .sched.rich{grid-template-columns:var(--tcol) minmax(0,1fr)!important;column-gap:var(--s3)!important;row-gap:0!important}
-  body:not(#_) .sched.rich>.t{font-size:var(--fs-time)!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+  body:not(#_) .sched.rich{grid-template-columns:var(--tcol) minmax(0,1fr)!important;column-gap:var(--s3)!important;}
+  body:not(#_) .sched.rich>.t{font-size:var(--fs-time)!important;font-variant-numeric:tabular-nums;}
   body:not(#_) .sched.rich>.t .tend{font-weight:400!important}
   body:not(#_) .sched.rich .tl-h>.tcat{}
-  body:not(#_) .sched.rich .tl-n{font-size:var(--fs-main)!important;}
+  
   body:not(#_) .sched.rich .a:has(.snin,.snum) .tl-n,body:not(#_) .sched.rich .a.pri .tl-n{}
-  body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d,body:not(#_) .sched.rich .dgo,body:not(#_) .sched.rich .drvdur,body:not(#_) .sched.rich .depm,body:not(#_) .sched.rich .a.drv .drvt{font-size:var(--fs-sub)!important;font-weight:400!important;line-height:var(--lh-s)!important;color:var(--muted)!important}
+  body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d,body:not(#_) .sched.rich .dgo,body:not(#_) .sched.rich .drvdur,body:not(#_) .sched.rich .depm,body:not(#_) .sched.rich .a.drv .drvt{font-size:var(--fs-sub)!important;font-weight:400!important;line-height:var(--lh-s)!important;}
   body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d{}
   /* 開車行／早上出發行：文字靠左、導航掣靠右（同其他導航掣同一條線） */
-  body:not(#_) .sched.rich .a.drv>.drvgo,body:not(#_) .sched.rich .a .depgo.depline{position:relative!important;display:flex!important;align-items:center;justify-content:flex-start!important;margin:var(--s1) 0 0 0!important;padding:0!important}
+  body:not(#_) .sched.rich .a.drv>.drvgo,body:not(#_) .sched.rich .a .depgo.depline{display:flex!important;align-items:center;justify-content:flex-start!important;margin:var(--s1) 0 0 0!important;padding:0!important}
   body:not(#_) .sched.rich .a .depgo.depline{margin-right:-22px!important}
-  body:not(#_) .sched.rich .drvdur{display:inline!important;margin:0!important}
+  body:not(#_) .sched.rich .drvdur{display:inline!important;}
   body:not(#_) .sched.rich .a.drv>.drvgo>svg,body:not(#_) .sched.rich .depm>svg{flex:none}
-  body:not(#_) .sched.rich .a.drv .drvt,body:not(#_) .sched.rich .depm{flex:1 1 auto;min-width:0;display:block!important;white-space:normal}
+  body:not(#_) .sched.rich .a.drv .drvt,body:not(#_) .sched.rich .depm{flex:1 1 auto;min-width:0;}
   body:not(#_) .sched.rich .a.drv>.drvgo>.drvpill,body:not(#_) .sched.rich .a .depgo.depline>.drvpill{position:static!important;transform:none!important;margin-left:auto!important}
   body:not(#_) .sched.rich .drvtog,body:not(#_) .sched.rich .stlink,body:not(#_) .sched.rich .plink{font-size:var(--fs-xs)!important;font-weight:600!important}
   body:not(#_) .sched.rich .drvdet{font-size:var(--fs-sub)!important;margin:var(--s1) 0 0!important}
@@ -3833,15 +3801,15 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin) .tl-h{padding-right:72px
 body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{padding-right:104px!important}
 @media (max-width:560px){
   :root{--tcol:44px}
-  body:not(#_) .sched.rich>.t{font-weight:500!important;line-height:var(--lh-row)!important;padding-top:12px!important;letter-spacing:0}
-  body:not(#_) .sched.rich>.t .tend{font-size:11px!important;line-height:1.4!important}
-  body:not(#_) .sched.rich>.a{padding-top:12px!important;padding-bottom:12px!important;line-height:var(--lh-s)!important}
+  body:not(#_) .sched.rich>.t{font-weight:500!important;line-height:var(--lh-row)!important;padding-top:12px!important;}
+  body:not(#_) .sched.rich>.t .tend{line-height:1.4!important}
+  body:not(#_) .sched.rich>.a{padding-top:12px!important;line-height:var(--lh-s)!important}
   body:not(#_) .sched.rich>.a.drv{padding-top:0!important;padding-bottom:8px!important}
   body:not(#_) .sched.rich .tl-n{font-weight:400!important;line-height:var(--lh-row)!important}
   body:not(#_) .sched.rich .a:has(.snin,.snum) .tl-n,body:not(#_) .sched.rich .a.pri .tl-n{font-weight:600!important}
   body:not(#_) .sched.rich .tl-h{line-height:var(--lh-row)!important}
-  body:not(#_) .sched.rich .tl-h>.tcat{font-size:12px!important;width:16px!important;margin:0 5px 0 0!important;vertical-align:0!important;line-height:var(--lh-row)!important}
-  body:not(#_) .sched.rich .tl-h>.snin{width:16px!important;height:16px!important;font-size:10px!important;margin-right:5px!important;vertical-align:1px!important}
+  body:not(#_) .sched.rich .tl-h>.tcat{font-size:12px!important;width:16px!important;margin:0 5px 0 0!important;vertical-align:0!important;}
+  body:not(#_) .sched.rich .tl-h>.snin{width:16px!important;height:16px!important;font-size:10px!important;margin-right:5px!important;}
   body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d{margin-top:2px!important}
   body:not(#_) .sched.rich .a.drv>.drvgo,body:not(#_) .sched.rich .a .depgo.depline{min-height:36px;gap:6px}
   body:not(#_) .sched.rich .a.drv>.drvgo>svg,body:not(#_) .sched.rich .depm>svg{width:13px;height:13px}
