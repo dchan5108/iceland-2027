@@ -211,10 +211,10 @@ PACK:[
 (()=>{const D=window.DATA;D.RVK_EAT=[
  {id:"graik",m:["早餐"],n:"Grái Kötturinn 灰貓餐廳",t:"Hverfisgata 16；地下室小咖啡店，份量大嘅冰島式早餐，位少"},
  {id:"sandholt",m:["早餐","午餐"],n:"Sandholt",t:"Laugavegur 36；麵包店，早餐或早午餐"},
- {id:"braud",m:["早餐"],n:"Brauð & Co",t:"麵包店，外賣肉桂卷做早餐"},
+ {id:"braud",m:["早餐"],n:"Brauð & Co 烘焙店",t:"號稱全冰島最好吃的麵包店"},
  {id:"roast",m:["早餐"],n:"Reykjavik Roasters",t:"Kárastígur 1；咖啡站，flat white 或手沖 V60"},
- {id:"svarta",m:["午餐","晚餐"],n:"Svarta Kaffið",t:"黑咖啡館，麵包碗湯"},
- {id:"noodle",m:["午餐","晚餐"],n:"Noodle Station",t:"牛肉湯麵，快同平"},
+ {id:"svarta",m:["午餐","晚餐"],n:"Svarta Kaffið",t:"花少同款麵包碗湯"},
+ {id:"noodle",m:["午餐","晚餐"],n:"Noodle Station",t:"主打平價泰式拉麵"},
  {id:"bbp",m:["午餐","晚餐"],n:"Bæjarins Beztu 熱狗",t:"Tryggvagata 1；Harpa 附近，企喺度食，好快"},
  {id:"hlemd",m:["午餐","晚餐"],n:"Hlemmur Mathöll 美食廣場",t:"Hlemmur 巴士總站內，多個小食攤，各自揀"},
  {id:"grandi",m:["午餐","晚餐"],n:"Grandi Mathöll 美食廣場",t:"Grandagarður 16；舊港口，有海鮮、湯和小吃攤，由市中心行過去約 15 分鐘"},
@@ -229,5 +229,5 @@ PACK:[
  const ML={"-5":["早餐","午餐","晚餐"],0:["早餐","午餐","晚餐"],1:["早餐","晚餐"]};
  D.RVK_ML=ML;
  [-5,0,1].forEach(d=>{D.EAT[d]=L(D.RVK_DAY[d]).filter(e=>ML[d].includes(e[0]))});
- Object.assign(D.MUST,{"划算・Lamb Street Food 羊肉街頭小吃":"羊肉卷","Lamb Street Food":"羊肉卷"});
+ Object.assign(D.MUST,{"划算・Lamb Street Food 羊肉街頭小吃":"羊肉卷","Lamb Street Food":"羊肉卷","Brauð & Co 烘焙店":"肉桂卷"});
 })();
