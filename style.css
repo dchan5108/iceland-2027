@@ -3981,3 +3981,26 @@ body:not(#_) .sched.rich .a .mpick{display:inline-flex;align-items:center;min-he
 .dinpick .dpd{flex:none}.dinpick .dpd[open]{flex-basis:100%}.dinpick .dpd>summary{list-style:none;position:static!important;cursor:pointer;color:var(--muted);padding:4px;font-size:13px}.dinpick .dpd>summary::-webkit-details-marker{display:none}
 .dinpick li{display:grid!important;grid-template-columns:minmax(0,1fr) auto 24px;align-items:center;column-gap:8px}
 .dinpick li>.dpnav{grid-column:2}.dinpick li>.dpd{grid-column:3}.dinpick li>.dpd[open]{grid-column:1/-1}
+/* ===== 行程卡片展開排版：窄時間欄、英文主標題、詳情全寬、車程細分隔線 ===== */
+body:not(#_) .sched.rich,body:not(#_) .sched.rich.simp{grid-template-columns:40px minmax(0,1fr)!important;column-gap:var(--s2)!important}
+body:not(#_) .sched.rich>.t small{white-space:nowrap}
+body:not(#_) .sched.rich .tl-zh{font-size:var(--fs-sub);font-weight:500;color:var(--muted)}
+body:not(#_) .sched.rich .tl-zh::before{content:"\A";white-space:pre}
+body:not(#_) .sched.rich .a details.dsx>.spd{margin:var(--s2) -22px 0 calc(-40px - var(--s2))!important;padding:var(--s2) 0 0!important;background:none!important;border:0!important;border-top:.5px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;font-size:var(--fs-sub);line-height:1.5}
+body:not(#_) .sched.rich .spd .sptop,body:not(#_) .sched.rich .spd .spintro{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important}
+body:not(#_) .sched.rich .spd .drvdet.in{gap:2px;margin:0 0 var(--s2)!important;padding:0 0 var(--s2)!important;background:none!important;border:0!important;border-bottom:.5px solid var(--line)!important;border-radius:0!important;box-shadow:none!important}
+body:not(#_) .sched.rich .spd .drvdet.in li{background:none!important;padding:0!important;border-radius:0!important}
+body:not(#_) .sched.rich .spd .drvdet.in li.dn{color:var(--muted);font-size:var(--fs-xs)}
+body:not(#_) .sched.rich .spd .drvdet.in li.dnav a{display:inline-block;padding:2px 0;color:var(--route);font-size:var(--fs-xs);font-weight:600;text-decoration:none}
+body:not(#_) .sched.rich .spd .sph{margin:var(--s2) 0 2px;font-size:var(--fs-xs)}
+body:not(#_) .sched.rich .spd p,body:not(#_) .sched.rich .spd li,body:not(#_) .sched.rich .spd dd,body:not(#_) .sched.rich .spd dt{font-size:var(--fs-sub)}
+/* ===== 餐廳：類別＋狀態／餐廳名／更換餐廳；導航線條 icon ===== */
+body:not(#_) .sched.rich .a.mux .tl-n{cursor:pointer}
+body:not(#_) .sched.rich .a.mux .mcat{font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+body:not(#_) .sched.rich .a.mux .mcat[data-st]::after{content:" · " attr(data-st);font-weight:400}
+body:not(#_) .sched.rich .a.mux .mnm{display:block;font-size:var(--fs-main);font-weight:500;color:var(--fg)}
+body:not(#_) .sched.rich .a.mux details.dsx>summary{display:none!important}
+body:not(#_) .sched.rich .a.mux .mpick{min-height:28px;margin-top:0;font-weight:500}
+body:not(#_) .sched.rich .a.mux .depgo .drvpill{display:inline-flex!important;align-items:center;justify-content:center;min-width:40px;min-height:40px;padding:0!important;background:none!important;color:var(--route)}
+body:not(#_) .sched.rich .a.mux .depgo .drvpill svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+body:not(#_) .sched.rich .a.mux .tl-h::after,body:not(#_) .sched.rich .a.mux .depgo .drvpill::before{display:none!important}

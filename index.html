@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-26-z2">
+<link rel="stylesheet" href="style.css?v=2026-11-27-ux1">
 
 </head>
 <body>
@@ -2260,7 +2260,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
     if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):(Q[a.dataset.to]||"")));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
     if(d==="-4"&&!a.dataset.nav&&!a.classList.contains("drv")&&/Bus Stop #01|市政廳/.test(a.textContent)){a.dataset.nav="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Reykjavík City Hall, Tjarnargata 11, Reykjavík");a.dataset.walk="1"}   /* 徒步：集合點導航 */
-    if(!a.dataset.nav&&a.classList.contains("m")&&MO[d]&&/▾/.test(a.textContent)){const mt=/(早午餐|早餐|午餐|晚餐)/.exec(a.textContent),M=mt&&MO[d][mt[1]],o=M&&M.o.find(x=>oid(x)===mselGet(d,mt[1]));if(o&&o.q){a.dataset.nav=/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);if(+d<1)a.dataset.walk="1"}if(M&&!a.querySelector(".mpick"))a.insertAdjacentHTML("beforeend",`<button type="button" class="mpick noen" data-mpick="1">${o?"更改":"揀餐廳"}</button>`)}   /* 已揀餐廳：行程表直接有導航；揀／更改開 Bottom Sheet */
+    if(!a.dataset.nav&&a.classList.contains("m")&&MO[d]&&/▾/.test(a.textContent)){const mt=/(早午餐|早餐|午餐|晚餐)/.exec(a.textContent),M=mt&&MO[d][mt[1]],o=M&&M.o.find(x=>oid(x)===mselGet(d,mt[1]));if(o&&o.q){a.dataset.nav=/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);if(+d<1)a.dataset.walk="1"}if(M&&!a.querySelector(".mpick"))a.insertAdjacentHTML("beforeend",`<button type="button" class="mpick noen" data-mpick="1">${o?"更換餐廳":"揀餐廳"}</button>`)}   /* 已揀餐廳：行程表直接有導航；揀／更改開 Bottom Sheet */
     if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
       /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
       const tn=a.querySelector(".tl-n"),T=tn?tn.textContent.trim():"",mm=T.match(/^(退房出發|出發)(?:，(.*))?$/);let line="";
@@ -2875,7 +2875,8 @@ const SPTOP={
  put(row,html){if(!row)return false;let spd=row.querySelector("details.dsx .spd");
   if(!spd){/* 目的地本身冇詳情：開一個新「詳情」，格式一樣 */const host=row.querySelector(".tl-card")||row;if(!row.querySelector(".tl-n")&&!row.querySelector(".tl-h"))return false;
    host.insertAdjacentHTML("beforeend",`<details class="dsx"><summary class="dsm" title="詳情"><span class="vh">詳情</span></summary><div class="spd" data-ord="1"></div></details>`);spd=host.querySelector(":scope>details.dsx .spd");row.classList.add("hasd")}let top=spd.querySelector(":scope>.sptop");if(!top){top=document.createElement("div");top.className="sptop";spd.prepend(top)}
-  top.querySelectorAll(":scope>.drvdet").forEach(x=>x.remove());top.insertAdjacentHTML("afterbegin",html);SPTOP.head(top);row.classList.remove("noexp");return true}};
+  top.querySelectorAll(":scope>.drvdet").forEach(x=>x.remove());top.insertAdjacentHTML("afterbegin",html);
+  top.querySelectorAll(":scope>ul.spw>li").forEach(li=>{if(/導航約|車程約|開車約|車程\s?\d/.test(li.textContent))li.remove()});top.querySelectorAll(":scope>ul.spw:empty").forEach(x=>x.remove());SPTOP.head(top);row.classList.remove("noexp");return true}};
 try{const _all=TIDY.all;TIDY.all=function(r){_all.call(TIDY,r);try{DOCX.mark(r)}catch(e){}}}catch(e){}
 /* ===== 車程：導航時間 ↔ 行程預算（同一條路段緩衝公式；只改顯示，不改行程時間）＋溫泉少於 2 小時提示 ===== */
 const DRV={on:REAL&&drv==="buf",
@@ -2952,11 +2953,13 @@ const DRVF={
     if(isDep){prevDrv=true;pd[cr]=true}if(!isDep&&hadDrv)return;   /* 上一行已經有出發／開車行：到達行唔再重複 */
     if(!host||(!sp&&!/約/.test(txt)))return;
     const E=DOCX.esc,fm=DRV.fm.bind(DRV),L=[];
-    if(sp&&(DT||REAL)){L.push(`<li title="${E(sp.title||"")}"><span>車程</span><b>約 ${fm(+sp.dataset.m)}${+sp.dataset.b>+sp.dataset.m?`（預留 ${fm(+sp.dataset.b)}）`:""}</b></li>`)}
-    else{const m=String(txt).match(/約\s?\d+(?:\.\d+)?(?:\s?[–-]\s?\d+(?:\.\d+)?)?\s?(?:(?:個)?小時(?:\s?\d+\s?分(?:鐘)?)?|分(?:鐘)?)/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim())}</b></li>`)}
+    if(sp&&(DT||REAL)){const mn=x=>x<120?`${x} 分鐘`:fm(x);L.push(`<li title="${E(sp.title||"")}"><span>車程</span><b>${mn(+sp.dataset.m)}${+sp.dataset.b>+sp.dataset.m?` · 預留 ${mn(+sp.dataset.b)}`:""}</b></li>`)}
+    else{const m=String(txt).match(/約\s?\d+(?:\.\d+)?(?:\s?[–-]\s?\d+(?:\.\d+)?)?\s?(?:(?:個)?小時(?:\s?\d+\s?分(?:鐘)?)?|分(?:鐘)?)/);if(m)L.push(`<li><span>車程</span><b>${E(m[0].trim().replace(/^約\s?/,""))}</b></li>`)}
     if(al&&(DT||REAL))L.push(`<li class="dw">${al.outerHTML.replace(" hidden=\"\"","")}</li>`);
+    notes=notes.replace(/^導航約?\s?[\d.\s–\-個小時分鐘]+[，,、·・]?\s*/,"");
     if(notes)L.push(`<li class="dn">${E(notes)}</li>`);
     if(!L.length)return;
+    {const t0=isDep?this.destEl(a,kids,ix):a,nv=t0&&(t0.dataset.nav||(t0.querySelector("a.gpin")||{}).href);if(nv)L.push(`<li class="dnav"><a href="${E(nv)}" target="_blank" rel="noopener">導航</a></li>`)}
     /* 車程詳情同「詳情」合併：有目的地詳情就放入去；冇先保留「車程詳情」掣 */
     const tgt=isDep?this.destEl(a,kids,ix):a;if(SPTOP.put(tgt,`<ul class="drvdet in noen">${L.join("")}</ul>`))return;
     host.insertAdjacentHTML("afterend",`<button type="button" class="drvtog noen" aria-expanded="false">車程詳情</button><ul class="drvdet noen" hidden>${L.join("")}</ul>`)})})}};
@@ -3002,9 +3005,18 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
 document.addEventListener("click",e=>{const o=e.target.closest&&e.target.closest("[data-dlyopen]"),c=e.target.closest&&e.target.closest("[data-dlyclose]");if(!o&&!c)return;const art=(o||c).closest("article.day");const p=art&&art.querySelector(".dlyp");if(!p)return;e.preventDefault();
   if(o){const dm=art.querySelector("details.dmore");if(dm)dm.open=false;p.hidden=!p.hidden;if(!p.hidden)try{p.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(err){}}else p.hidden=true},true);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".drvtog");if(!b)return;e.preventDefault();e.stopPropagation();const d=b.nextElementSibling,o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));if(d)d.hidden=!o},true);
-try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}try{DRVF.fold(r)}catch(e){console.error(e)}try{TSPLIT(r)}catch(e){console.error(e)}}}catch(e){}
+try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}try{DRVF.fold(r)}catch(e){console.error(e)}try{TSPLIT(r)}catch(e){console.error(e)}setTimeout(()=>{try{UIX(r)}catch(e){console.error(e)}},0)}}catch(e){}
 /* 長景點名：括號部分拆做次標題（只改顯示，textContent 不變） */
 function TSPLIT(root){(root||document).querySelectorAll(".sched.rich .tl-n:not([data-sp])").forEach(n=>{n.dataset.sp=1;if(n.textContent.length<16)return;const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let x;while((x=w.nextNode())){const i=x.textContent.search(/[（(]/);if(i>0){const r=x.splitText(i),sb=document.createElement("span");sb.className="tl-sub";r.before(sb);sb.appendChild(r);break}}})}
+/* 行程卡片排版：英文名做主標題、中文活動名第二行；餐廳：類別＋狀態／餐廳名／更換餐廳（只改顯示，textContent 不變） */
+function UIX(root){(root||document).querySelectorAll(".sched.rich>.a").forEach(a=>{const n=a.querySelector(".tl-n");if(!n||a.classList.contains("mux")||n.querySelector(".tl-zh"))return;
+  if(a.classList.contains("m")){const T=n.textContent.replace(/\s*▾\s*$/,"").trim(),mt=/^(早午餐|早餐|午餐|晚餐)(?:[：:]\s*|（可選）\s*)?(.*)$/.exec(T);if(!mt)return;
+    const art=a.closest("article.day"),d=art&&art.dataset.d;let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(e){}
+    const v=d!=null?S[d+"|"+mt[1]]:null,ai=a.querySelector(".tl-h .ost.ai"),st=v!=null&&v!==""?"已選定":ai?"AI 建議":(a.querySelector(".mpick")&&!mt[2]?"未選擇":"");
+    if(ai)ai.remove();n.innerHTML=`<span class="mcat"${st?` data-st="${st}"`:""}>${mt[1]}</span>${mt[2]?`<span class="vh">：</span><span class="mnm">${DOCX.esc(mt[2])}</span>`:""}`;a.classList.add("mux");
+    const g=a.querySelector(".depgo .drvpill");if(g){g.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l7 19-7-4-7 4z"/></svg><span class="vh">導航</span>';g.closest(".depgo").setAttribute("aria-label","導航")}return}
+  const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT),x=w.nextNode();if(!x||x.parentNode!==n)return;const m=/^[A-Za-zÀ-ɏ][^\u3400-\u9fff（(]*?(\s+)[\u3400-\u9fff]/.exec(x.textContent);if(!m)return;
+  const r=x.splitText(m[0].length-1-m[1].length),z=document.createElement("span");z.className="tl-zh noen";r.before(z);z.appendChild(r);let y=z.nextSibling;while(y){const nx=y.nextSibling;z.appendChild(y);y=nx}})}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();const y0=window.scrollY;setDrv(b.dataset.drvbuf==="1"?"buf":"raw");try{window.scrollTo(0,y0)}catch(err){}},true);
 
 
