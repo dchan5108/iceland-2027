@@ -136,7 +136,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 <script src="trip.js?v=2026-11-26-d7"></script>
 <script src="landing.js?v=2026-11-24-a"></script>
 <script>window.BADGES_OFF=true;/* 暫停冒險徽章；改做 false 即重新啟用 */</script><script src="badges.js?v=2026-11-24-a"></script>
-<script src="data.js?v=2026-11-26-nk"></script>
+<script src="data.js?v=2026-11-27-pool"></script>
 <script>
 /* 內容由 Google Sheet 提供（住宿、注意事項）；未設定或讀不到就用內建內容 */
 const CONTENT_URL="https://script.google.com/macros/s/AKfycbwuZCkrGflec-ExDusHbFimbaRwYZKnAsoKMiTClL4_Ma44y9EKLw3DceMKc5Ao_cGT/exec";
@@ -1291,9 +1291,9 @@ const MO={
  9:{午餐:{def:"mias",o:[{k:"mias",n:"Mia's Country Grill（Skógar）",s:"紅色餐車炸魚薯條",q:"Mia's Country Van Skógar"}]}},
  10:{午餐:{def:"fridh",o:[{k:"fridh",n:"Friðheimar 番茄農場（12:00，要提前訂位）",s:"溫室入面食番茄湯",q:"Friðheimar"}]}}};
 const oid=o=>o.k||o.id||o.n;
-/* H0／D0／D1 Reykjavík 用餐：選項全部來自共用餐廳庫 DATA.RVK_EAT（按餐分類） */
-try{const L=DATA.RVK_EAT,ML=DATA.RVK_ML,SPK=new Set(["graik","roast","bbp","hlemd","zhu","fine"]),DEF={"-5":{早午餐:"sandholt",午餐:"sandholt",晚餐:"svarta"},1:{早餐:"graik"}};
- [-5,0,1].forEach(d=>{const M=MO[d]=MO[d]||{};ML[d].forEach(m=>{const o=L.filter(r=>r.m.includes(m)).map(r=>({[SPK.has(r.id)?"k":"id"]:r.id,n:r.n,s:r.t,q:r.n.replace(/^划算・/,"").split(/[（(]/)[0].trim()+", Reykjavík"}));const x={def:(M[m]&&M[m].def)||(DEF[d]||{})[m]||"",o};M[m]=x;if(m==="午餐")M["早午餐"]={def:(DEF[d]||{})["早午餐"]||x.def,o}})})}catch(e){console.error(e)}
+/* 地區共用餐廳庫（DATA.POOLS：Reykjavík、Akureyri、Egilsstaðir、Vík、Skaftafell 一帶）：同地區幾日共用；早餐／早午餐 同 午餐／晚餐 分開清單；原有非餐廳選項（例如自己煮）保留喺後面 */
+try{const DEF={"-5":{早午餐:"sandholt",午餐:"sandholt",晚餐:"svarta"},1:{早餐:"graik"}};
+ Object.values(DATA.POOLS).forEach(p=>Object.entries(p.days).forEach(([d,ms])=>{const M=MO[d]=MO[d]||{};ms.forEach(m=>{const o=DATA.POOL_PICK(p,m,d).map(r=>({[SP[r.id]?"k":"id"]:r.id,n:r.n,s:r.t,q:r.q||r.n.replace(/^划算・/,"").split(/[（(]/)[0].trim()+(p.at?", "+p.at:"")})),old=M[m]||{},ex=(old.o||[]).filter(x=>!o.some(y=>oid(y)===oid(x)));M[m]={def:old.def||(DEF[d]||{})[m]||"",o:[...o,...ex]}})}))}catch(e){console.error(e)}
 function mselGet(d,m){let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(e){}const v=S[d+"|"+m];return v==null?MO[d][m].def:v}
 function MSEL(d){try{const M=d&&MO[d.d];if(!M||!d.plan)return d;
   const plan=d.plan.map(r=>{const p=String(r[1]),mt=/^(早午餐|早餐|午餐|晚餐)/.exec(p);if(r[2]!=="m"||!mt||!M[mt[1]])return r;const c=mselGet(d.d,mt[1]),o=M[mt[1]].o.find(x=>oid(x)===c);return [r[0],o?`${mt[1]}：${o.n} ▾`:`${mt[1]}（可選） ▾`,r[2]]});
@@ -3010,7 +3010,7 @@ try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}ca
 function TSPLIT(root){(root||document).querySelectorAll(".sched.rich .tl-n:not([data-sp])").forEach(n=>{n.dataset.sp=1;if(n.textContent.length<16)return;const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let x;while((x=w.nextNode())){const i=x.textContent.search(/[（(]/);if(i>0){const r=x.splitText(i),sb=document.createElement("span");sb.className="tl-sub";r.before(sb);sb.appendChild(r);break}}})}
 /* 行程卡片排版：英文名做主標題、中文活動名第二行；餐廳：類別＋狀態／餐廳名／更換餐廳（只改顯示，textContent 不變） */
 function UIX(root){(root||document).querySelectorAll(".sched.rich>.a").forEach(a=>{const n=a.querySelector(".tl-n");if(!n||a.classList.contains("mux")||n.querySelector(".tl-zh"))return;
-  if(a.classList.contains("m")){const T=n.textContent.replace(/\s*▾\s*$/,"").trim(),mt=/^(早午餐|早餐|午餐|晚餐)(?:[：:]\s*|（可選）\s*)?(.*)$/.exec(T);if(!mt)return;
+  if(a.classList.contains("m")){const T=n.textContent.replace(/\s*▾\s*$/,"").trim(),mt=/^(早午餐|早餐|午餐|晚餐)(?:[：:]\s*(.*)|（可選）|)$/.exec(T);if(!mt)return;
     const art=a.closest("article.day"),d=art&&art.dataset.d;let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(e){}
     const v=d!=null?S[d+"|"+mt[1]]:null,ai=a.querySelector(".tl-h .ost.ai"),st=v!=null&&v!==""?"已選定":ai?"AI 建議":(a.querySelector(".mpick")&&!mt[2]?"未選擇":"");
     if(ai)ai.remove();n.innerHTML=`<span class="mcat"${st?` data-st="${st}"`:""}>${mt[1]}</span>${mt[2]?`<span class="vh">：</span><span class="mnm">${DOCX.esc(mt[2])}</span>`:""}`;a.classList.add("mux");
