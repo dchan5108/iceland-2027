@@ -143,7 +143,7 @@ EAT:{2:[["午餐", "Hjá Góðu Fólki", "Ytri Tunga 附近小咖啡店，魚湯
  11:[],
  12:[]},
 /* 必食 */
-MUST:{"Sandholt":"酸種麵包、牛角包、早餐盤","Svarta Kaffið":"麵包碗湯","Noodle Station":"牛肉湯麵","Hlemmur Mathöll 美食廣場":"冰島魚肉薯蓉 plokkfiskur、各攤招牌菜","Sægreifinn（Sea Baron）":"龍蝦湯、烤魚串","Sægreifinn":"龍蝦湯、烤魚串","Messinn":"北極紅點鮭煎鍋、plokkfiskur 煎鍋","Grandi Mathöll 美食廣場":"海鮮攤的挪威海螯蝦",
+MUST:{"Sandholt":"酸種麵包、牛角包、早餐盤","Svarta Kaffið":"麵包碗湯","Noodle Station":"牛肉湯麵","Hlemmur Mathöll 美食廣場":"冰島魚肉薯蓉 plokkfiskur、各攤招牌菜","Sægreifinn（Sea Baron）":"龍蝦湯、烤魚串","Sægreifinn":"龍蝦湯、烤魚串","Messinn":"冰島燉魚 Plokkfiskur、北極紅點鮭、龍蝦湯","Grandi Mathöll 美食廣場":"海鮮攤的挪威海螯蝦",
  "Hjá Góðu Fólki":"魚湯、深盤薄餅、自家蛋糕","Dirty Burger and Ribs（博爾加內斯）":"漢堡、豬肋骨","Settlement Center 餐廳（博爾加內斯）":"自助午餐、冰島羊肉湯","阿克雷里市區：Strikið 或 Rub 23":"Strikið 海鮮湯、羊肉；Rub 23 壽司","Naustið（胡薩維克）":"魚湯、烤魚串","Gamli Baukur（胡薩維克）":"海鮮湯、羊肉",
  "Vogafjós Cowshed Café（米湖）":"煙燻鱒魚、羊膝、地熱焗黑麥麵包","Daddi's Pizza（米湖）":"薄餅","Fjallakaffi（Möðrudalur 農場）":"冰島羊肉湯 kjötsúpa、炸麵包 kleinur","Askur Pizzeria（埃伊爾斯塔濟）":"自選配料薄餅",
  "Salt Café & Bistro（埃伊爾斯塔濟）":"薄餅、咖喱","Glóð（Hotel Valaskjálf）":"薄餅、當日魚","Café Sumarlína（Fáskrúðsfjörður）":"湯、當日魚","Langabúð（Djúpivogur）":"自家蛋糕","Pakkhús（赫本）":"挪威海螯蝦：烤蝦尾、龍蝦湯",
@@ -216,11 +216,7 @@ PACK:[
  {id:"svarta",m:["午餐","晚餐"],n:"Svarta Kaffið",t:"花少同款麵包碗湯"},
  {id:"noodle",m:["午餐","晚餐"],n:"Noodle Station",t:"主打平價泰式拉麵"},
  {id:"bbp",m:["午餐","晚餐"],n:"Bæjarins Beztu 熱狗",t:"Tryggvagata 1；Harpa 附近，企喺度食，好快"},
- {id:"hlemd",m:["午餐","晚餐"],n:"Hlemmur Mathöll 美食廣場",t:"Hlemmur 巴士總站內，多個小食攤，各自揀"},
- {id:"grandi",m:["午餐","晚餐"],n:"Grandi Mathöll 美食廣場",t:"Grandagarður 16；舊港口，有海鮮、湯和小吃攤，由市中心行過去約 15 分鐘"},
- {id:"saeg",m:["午餐","晚餐"],n:"Sægreifinn（Sea Baron）",t:"Geirsgata 8；港口小店，招牌龍蝦湯約 2,500–3,000 ISK，不接受訂位"},
- {id:"lamb",m:["午餐","晚餐"],n:"划算・Lamb Street Food 羊肉街頭小吃",t:"Grandagarður 7，舊港口；羊肉卷"},
- {id:"messinn",m:["晚餐"],n:"Messinn",t:"海鮮煎鍋餐廳"},
+ {id:"messinn",m:["午餐","晚餐"],n:"Messinn",t:"小紅書推薦：冰島燉魚 Plokkfiskur（熱辣辣魚肉鋪滿薯蓉，配黑麥麵包）、北極紅點鮭（冰島特色，味似三文魚，魚皮煎得香脆）、龍蝦湯"},
  {id:"zhu",m:["晚餐"],n:"朱老闆中菜館",t:"華人老闆中菜館；營業時間同訂位出發前核實"},
  {id:"fine",m:["晚餐"],n:"Fine Restaurant 飯（川菜）",t:"Rauðarárstígur 33，近 Hlemmur；自家包餃子、手拉麵，推介牛肉麵、辣子雞、水煮魚（出發前核實營業時間）"}];
  /* 每日引用：預設全部共用；要某日唔顯示某間，喺 RVK_DAY 寫返想要嘅 id */
