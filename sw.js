@@ -1,6 +1,6 @@
 /* keeps a copy of the trip page so it opens without internet; tries the newest version first, but uses the saved copy if the network takes over 3 seconds */
-const C="iceland-2027-v156";
-const CORE=["./","./index.html","./style.css","./trip.js","./data.js","./landing.js","./html-to-image.js"];
+const C="iceland-2027-v157";
+const CORE=["./","./index.html","./style.css","./trip.js","./data.js","./landing.js","./app.js","./html-to-image.js"];
 const IMGS=["hero","pre","h0","hike","dettifoss","d0","d1","d2","d3","d4","d5","d6","d7","d8","d9","d10","d11","d12"].map(n=>"./img/"+n+".jpg").concat(["./img/icon-180.png","./img/icon-192.png","./img/icon-64.png"]);
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE).then(()=>Promise.all(IMGS.map(u=>c.add(u).catch(()=>{}))))).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
