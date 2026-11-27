@@ -227,6 +227,7 @@ PACK:[
  D.RVK_DAY=D.RVK_DAY||{};const L=ids=>D.RVK_EAT.filter(r=>!ids||ids.includes(r.id)).flatMap(r=>r.m.map(m=>[m,r.n,r.t]));
  /* 每日只配返有嘅餐：D1 午餐喺 Hvammsvík，唔用市中心餐廳 */
  const ML={"-5":["早餐","午餐","晚餐"],0:["早餐","午餐","晚餐"],1:["早餐","晚餐"]};
+ D.RVK_ML=ML;
  [-5,0,1].forEach(d=>{D.EAT[d]=L(D.RVK_DAY[d]).filter(e=>ML[d].includes(e[0]))});
  Object.assign(D.MUST,{"划算・Lamb Street Food 羊肉街頭小吃":"羊肉卷","Lamb Street Food":"羊肉卷"});
 })();
