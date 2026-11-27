@@ -3963,7 +3963,11 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{
   body:not(#_) .tlist .tnm{font-weight:400!important;line-height:var(--lh-row)}
 }
 /* 揀餐廳：緊湊清單（取代大卡） */
-.dinpick{grid-column:2;margin:0 0 12px;font-size:var(--fs-sub);line-height:var(--lh-s)}
+.dinpick{font-size:var(--fs-sub);line-height:var(--lh-s)}
+#mealsheet .msp{width:100%;max-width:560px;max-height:72vh;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--card);border-radius:14px;padding:4px 16px 12px;box-shadow:var(--shadow)}
+#mealsheet .mph{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;background:var(--card);padding:10px 0 4px;font-size:var(--fs-sub)}
+#mealsheet .mpclose{min-width:36px;min-height:36px;border:0;background:none;color:var(--muted);font-size:14px;cursor:pointer}
+body:not(#_) .sched.rich .a .mpick{display:inline-flex;align-items:center;min-height:32px;margin-top:2px;padding:0;border:0;background:none;color:var(--route);font-size:var(--fs-xs);font-weight:600;cursor:pointer}
 .dinpick .dph{display:flex;align-items:baseline;gap:8px;padding:4px 0;font-size:var(--fs-xs);font-weight:600;color:var(--route)}
 .dinpick .dph small{font-weight:400;color:var(--muted)}
 .dinpick ul{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
@@ -3975,3 +3979,5 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{
 .dinpick li.on b::before{content:"✓ ";color:var(--ok)}
 .dinpick .dpnav{flex:none;font-size:var(--fs-xs);font-weight:500;color:var(--route);text-decoration:none;padding:4px 10px;border-radius:999px;background:var(--fill)}
 .dinpick .dpd{flex:none}.dinpick .dpd[open]{flex-basis:100%}.dinpick .dpd>summary{list-style:none;position:static!important;cursor:pointer;color:var(--muted);padding:4px;font-size:13px}.dinpick .dpd>summary::-webkit-details-marker{display:none}
+.dinpick li{display:grid!important;grid-template-columns:minmax(0,1fr) auto 24px;align-items:center;column-gap:8px}
+.dinpick li>.dpnav{grid-column:2}.dinpick li>.dpd{grid-column:3}.dinpick li>.dpd[open]{grid-column:1/-1}
