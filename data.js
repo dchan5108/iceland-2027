@@ -207,3 +207,26 @@ PACK:[
  ["藥物和日用",[["個人藥物","放手提行李"],["暈浪藥","長途車程"],["潤唇膏、潤膚霜","天氣好乾"],["膠布、止痛藥",""]]],
  ["車上",[["保冷袋","每部車一個"],["水瓶","水喉水可以直接喝"],["零食",""],["垃圾袋、濕紙巾",""]]]]
 };
+/* Reykjavík 市中心共用餐廳庫：H0、D0、D1 共用（改一次，三日一齊更新）。m＝適合邊餐；n＝名（同 MUST 對應）；t＝簡介 */
+(()=>{const D=window.DATA;D.RVK_EAT=[
+ {id:"graik",m:["早餐"],n:"Grái Kötturinn 灰貓餐廳",t:"Hverfisgata 16；地下室小咖啡店，份量大嘅冰島式早餐，位少"},
+ {id:"sandholt",m:["早餐","午餐"],n:"Sandholt",t:"Laugavegur 36；麵包店，早餐或早午餐"},
+ {id:"braud",m:["早餐"],n:"Brauð & Co",t:"麵包店，外賣肉桂卷做早餐"},
+ {id:"roast",m:["早餐"],n:"Reykjavik Roasters",t:"Kárastígur 1；咖啡站，flat white 或手沖 V60"},
+ {id:"svarta",m:["午餐","晚餐"],n:"Svarta Kaffið",t:"黑咖啡館，麵包碗湯"},
+ {id:"noodle",m:["午餐","晚餐"],n:"Noodle Station",t:"牛肉湯麵，快同平"},
+ {id:"bbp",m:["午餐","晚餐"],n:"Bæjarins Beztu 熱狗",t:"Tryggvagata 1；Harpa 附近，企喺度食，好快"},
+ {id:"hlemm",m:["午餐","晚餐"],n:"Hlemmur Mathöll 美食廣場",t:"Hlemmur 巴士總站內，多個小食攤，各自揀"},
+ {id:"grandi",m:["午餐","晚餐"],n:"Grandi Mathöll 美食廣場",t:"Grandagarður 16；舊港口，有海鮮、湯和小吃攤，由市中心行過去約 15 分鐘"},
+ {id:"saeg",m:["午餐","晚餐"],n:"Sægreifinn（Sea Baron）",t:"Geirsgata 8；港口小店，招牌龍蝦湯約 2,500–3,000 ISK，不接受訂位"},
+ {id:"lamb",m:["午餐","晚餐"],n:"划算・Lamb Street Food 羊肉街頭小吃",t:"Grandagarður 7，舊港口；羊肉卷"},
+ {id:"messinn",m:["晚餐"],n:"Messinn",t:"海鮮煎鍋餐廳"},
+ {id:"zhu",m:["晚餐"],n:"朱老闆中菜館",t:"華人老闆中菜館；營業時間同訂位出發前核實"},
+ {id:"fine",m:["晚餐"],n:"Fine Restaurant 飯（川菜）",t:"Rauðarárstígur 33，近 Hlemmur；自家包餃子、手拉麵，推介牛肉麵、辣子雞、水煮魚（出發前核實營業時間）"}];
+ /* 每日引用：預設全部共用；要某日唔顯示某間，喺 RVK_DAY 寫返想要嘅 id */
+ D.RVK_DAY=D.RVK_DAY||{};const L=ids=>D.RVK_EAT.filter(r=>!ids||ids.includes(r.id)).flatMap(r=>r.m.map(m=>[m,r.n,r.t]));
+ /* 每日只配返有嘅餐：D1 午餐喺 Hvammsvík，唔用市中心餐廳 */
+ const ML={"-5":["早餐","午餐","晚餐"],0:["早餐","午餐","晚餐"],1:["早餐","晚餐"]};
+ [-5,0,1].forEach(d=>{D.EAT[d]=L(D.RVK_DAY[d]).filter(e=>ML[d].includes(e[0]))});
+ Object.assign(D.MUST,{"划算・Lamb Street Food 羊肉街頭小吃":"羊肉卷","Lamb Street Food":"羊肉卷"});
+})();
