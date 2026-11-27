@@ -3928,3 +3928,37 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{
   body:not(#_) #view-trip{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))!important}
 }
 @media (max-width:560px){body:not(#_) .sched.rich>.a.drv{padding-top:0!important;padding-bottom:var(--s2)!important}}
+/* ===== 日式指南版：再細一級、字重分層、掣同 emoji 縮細（觸控範圍保留） ===== */
+:root{--fs-main:15px;--fs-time:13px;--fs-sub:12px;--fs-xs:11px;--fs-tag:10.5px;--lh-t:1.45;--lh-s:1.5;--lh-row:22px;--pillw:64px}
+body:not(#_) .sched.rich .ost,body:not(#_) .sched.rich .bkb,body:not(#_) .sched.rich .ytag,body:not(#_) .sched.rich .cutag,body:not(#_) .sched.rich .carchip{font-size:var(--fs-tag)!important;font-weight:500!important;padding:0 6px!important;line-height:1.6!important;vertical-align:1px!important}
+body:not(#_) .sched.rich .drvpill{height:24px!important;font-size:var(--fs-xs)!important;font-weight:500!important;gap:3px}
+body:not(#_) .sched.rich .drvpill svg{width:9px;height:9px}
+/* 掣細咗，但連結本身保留 36px 觸控範圍 */
+body:not(#_) .sched.rich .a .depgo:not(.depline){top:5px!important;padding:6px 0 6px 6px!important}
+body:not(#_) .sched.rich .a>details.dsx>summary.dsm{top:9px!important}
+body:not(#_) .sched.rich .a>.docb.docr{top:12px!important}
+body:not(#_) .sched.rich .a:has(>.depgo:not(.depline))>.docb.docr{right:72px!important}
+body:not(#_) .sched.rich .a:has(>details.dsx):has(>.depgo:not(.depline))>.docb.docr{right:104px!important}
+body:not(#_) .sched.rich .a:has(>.depgo:not(.depline)) .tl-h{padding-right:50px!important}
+body:not(#_) .sched.rich .a:has(>details.dsx):has(>.depgo:not(.depline)) .tl-h,body:not(#_) .sched.rich .a.hasdoc:has(>.depgo:not(.depline)) .tl-h{padding-right:82px!important}
+body:not(#_) .sched.rich .a.hasdoc:has(>details.dsx):has(>.depgo:not(.depline)) .tl-h{padding-right:112px!important}
+body:not(#_) .sched.rich:not(.simp) .a .tl-h .gpin{height:24px!important;top:11px!important;font-size:var(--fs-xs);font-weight:500}
+body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin) .tl-h{padding-right:72px!important}
+body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{padding-right:104px!important}
+@media (max-width:560px){
+  :root{--tcol:44px}
+  body:not(#_) .sched.rich>.t{font-weight:500!important;line-height:var(--lh-row)!important;padding-top:12px!important;letter-spacing:0}
+  body:not(#_) .sched.rich>.t .tend{font-size:10.5px!important;line-height:1.4!important}
+  body:not(#_) .sched.rich>.a{padding-top:12px!important;padding-bottom:12px!important;line-height:var(--lh-s)!important}
+  body:not(#_) .sched.rich>.a.drv{padding-top:0!important;padding-bottom:8px!important}
+  body:not(#_) .sched.rich .tl-n{font-weight:400!important;line-height:var(--lh-row)!important}
+  body:not(#_) .sched.rich .a:has(.snin,.snum) .tl-n,body:not(#_) .sched.rich .a.pri .tl-n{font-weight:600!important}
+  body:not(#_) .sched.rich .tl-h{line-height:var(--lh-row)!important}
+  body:not(#_) .sched.rich .tl-h>.tcat{font-size:12px!important;width:16px!important;margin:0 5px 0 0!important;vertical-align:0!important;line-height:var(--lh-row)!important}
+  body:not(#_) .sched.rich .tl-h>.snin{width:16px!important;height:16px!important;font-size:9.5px!important;margin-right:5px!important;vertical-align:1px!important}
+  body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d{margin-top:2px!important}
+  body:not(#_) .sched.rich .a.drv>.drvgo,body:not(#_) .sched.rich .a .depgo.depline{min-height:36px;gap:6px}
+  body:not(#_) .sched.rich .a.drv>.drvgo>svg,body:not(#_) .sched.rich .depm>svg{width:13px;height:13px}
+  body:not(#_) .tlist .tt0{font-weight:500!important;line-height:var(--lh-row)}
+  body:not(#_) .tlist .tnm{font-weight:400!important;line-height:var(--lh-row)}
+}
