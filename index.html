@@ -297,7 +297,7 @@ let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE
 /* 來源標籤：只標 AI 原創建議（不代表重要性或批准）；未知來源不標 */
 const AIB=`<span class="ost ai" title="由 AI 原本提出">AI 建議</span>`,AIRX=Object.fromEntries(Object.entries(window.TRIP.AI||{}).map(([d,r])=>[d,new RegExp(r)]));
 const isAI=(d,t)=>{const r=AIRX[d];return !!r&&r.test(String(t).replace(/<[^>]*>/g,"").split(/[（｜]/)[0])};
-const MYFOOD=/Fjallakaffi|Café Lyst|Cafe Vatnajökull|Settlement Center|小龍蝦|langoustine|humar|Friðheimar|番茄|書店酒吧|Hús máls og menningar|bookshop/i,foodAI=n=>!MYFOOD.test(String(n))&&!/^(住處|自己煮|自備|超市)/.test(String(n));
+const MYFOOD=/Fjallakaffi|Grái Kötturinn|灰貓|Svarta Kaffið|Pakkhús|Mia's|Café Lyst|Cafe Vatnajökull|Settlement Center|小龍蝦|langoustine|humar|Friðheimar|番茄|書店酒吧|Hús máls og menningar|bookshop/i,foodAI=n=>!MYFOOD.test(String(n))&&!/^(住處|自己煮|自備|超市)/.test(String(n));
 const OST=(added,ai)=>`${ai?AIB:""}${added?`<span class="ost on">已加入行程</span>`:""}`;
 try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","iceland-sync-pass","iceland-sync-t"].forEach(k=>localStorage.removeItem(k))}catch(e){}
 /* view-only preview of the other versions, reachable only from the Dorcas & Tebe link; nothing is saved while previewing */

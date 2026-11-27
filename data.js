@@ -3,18 +3,17 @@ window.DATA={
 /* 地圖：市區景點 */
 CITY:[["哈爾格林姆大教堂",-21.9266,64.1417],["Harpa 音樂廳",-21.9326,64.1504],["Sun Voyager",-21.9223,64.1476],["Bæjarins Beztu 熱狗",-21.9405,64.1484],["Grótta 燈塔",-22.0222,64.1647],["BSÍ 巴士站",-21.9365,64.1374],["Hlemmur 美食廣場",-21.9150,64.1430],["Grandi 美食廣場",-21.9515,64.1555],["Messinn",-21.9372,64.1463],["Perlan",-21.919,64.129],["Laugardalslaug",-21.878,64.146],["Nauthólsvík",-21.931,64.122],["Zero Car 取車（Fiskislóð 22）",-21.946386999999998,64.15536731173869]],
 /* 地圖：餐廳位置 */
-MEALS:[[1,"午","Stormur Bistro（Hvammsvík）",-21.53,64.36,"Hvammsvík Hot Springs"],
- [1,"晚","Hlemmur 美食廣場",-21.9150,64.1430,"Hlemmur Mathöll"],
+MEALS:[[1,"早","Grái Kötturinn 灰貓餐廳",-21.9333,64.1468,"Grái Kötturinn Reykjavík"],
+ [1,"午","Stormur Bistro（Hvammsvík）",-21.53,64.36,"Hvammsvík Hot Springs"],
  [2,"午","Hjá Góðu Fólki",-22.74126,64.84925,"https://maps.app.goo.gl/MsmUnSDgggchUMQKA"],
+ [2,"晚","Hlaðan Veitingahús（Miðhraun）",-22.667,64.861,"Miðhraun Lava Resort"],
  [3,"午","Settlement Center 移民中心",-21.925,64.536,"Settlement Center Borgarnes"],
- [3,"晚","Strikið（阿克雷里）",-18.088,65.6825,"Strikið Akureyri"],
- [4,"午","Naustið（胡薩維克）",-17.343,66.046,"Naustið Húsavík"],
- [4,"晚","Salt Café & Bistro（埃伊爾斯塔濟）",-14.395,65.265,"Salt Café & Bistro Egilsstaðir"],
- [5,"午","Hotel Aldan 餐廳（Seyðisfjörður）",-14.009,65.260,"Hotel Aldan Seyðisfjörður"],
- [5,"晚","Pakkhús 小龍蝦",-15.209,64.252,"Pakkhús Höfn"],
- [6,"午","The Café（冰河湖）",-16.18,64.048,"Jökulsárlón Café"],
- [7,"午","斯卡夫塔山遊客中心",-16.966,64.016,"Skaftafell Visitor Centre"],
- [8,"午","斯卡夫塔山遊客中心",-16.966,64.016,"Skaftafell Visitor Centre"],
+ [4,"午","Café Lyst（阿克雷里）",-18.0907,65.6788,"LYST Akureyri"],
+ [5,"午","Fjallakaffi（Möðrudalur）",-15.88,65.37,"Fjallakaffi Möðrudalur"],
+ [6,"午","Hotel Aldan 餐廳（Seyðisfjörður）",-14.009,65.260,"Hotel Aldan Seyðisfjörður"],
+ [6,"晚","Pakkhús 小龍蝦",-15.209,64.252,"Pakkhús Höfn"],
+ [7,"晚","Hótel Jökulsárlón 餐廳",-16.074,64.122,"Hótel Jökulsárlón"],
+ [8,"午","Frost（Fjallsárlón）",-16.37,64.01,"Frost Fjallsárlón"],
  [9,"午","Mia's Country Grill（Skógar）",-19.50,63.527,"Mia's Country Grill Skógar"],
  [10,"午","Friðheimar 番茄溫室",-20.4454,64.1780,"Friðheimar"]],
 /* 地圖：市區景點（管理者） */
@@ -166,22 +165,22 @@ PRECHK:[
 BOOK:[
  ["景點和體驗（必須預約）",[
   ["Hvammsvík Hot Springs","D1 9/12 12:00 入場","hvammsvik.com","2–4 星期","12:00 入場先食 Stormur Bistro（門票包 Full access to Stormur Bistro），13:00 開始浸"],
-  ["冰河湖 Jökulsárlón 獨木舟","D7 9/18 上午（約 09:00–09:30 開始）","Nonni Travel 頁面列出的冰河湖獨木舟團（預算用那個價）","1–2 個月","訂 9/18 09:00–09:30 開始嘅班次；確認有團（列明 5–9 月）"],
+  ["冰河湖 Jökulsárlón 獨木舟","D8 9/19 11:00（健行補做版改 09:00 早場）","Nonni Travel 頁面列出的冰河湖獨木舟團（預算用那個價）","1–2 個月","未預約；訂 9/19 11:00 班次（補做版要 09:00）；確認有團（列明 5–9 月）"],
   ["Troll 冰川健行＋攀冰（斯卡夫塔山）","D7 9/18 14:00 集合","troll.is/tour/skaftafell-ice-climbing-glacier-hike","1–2 個月","訂 9/18；天氣取消 Troll 會改期（改 9/19）或全數退款；後備：Sólheimajökull 攀冰（troll.is）"],
   ["Polar Hestar 騎馬","D4 9/15 14:00–16:00（全團，13:30 報到）","官網待確認","1–2 星期","訂 9/15 14:00 開始；要確認有位"],
-  ["Silfra 浮潛","D11 9/22 12:00","Nonni Travel 頁面列出的 Silfra 浮潛團（現場集合，不含接送）","1–2 個月","訂 9/22 12:00（如已訂 9/21 13:30 要改期）；要填健康聲明、會游泳"],
-  ["Sky Lagoon","D10 9/21 17:30","skylagoon.com","2–4 星期","選 17:30 時段"],["冰河湖獨木舟","D8 9/19 10:00","營運商待確認","1–2 星期","未預約；10:00 開始，要預約"]]],
+  ["Silfra 浮潛","D11 9/22 12:00","Nonni Travel 頁面列出的 Silfra 浮潛團（現場集合，不含接送）","1–2 個月","訂 9/22 12:00；要填健康聲明、會游泳"],
+  ["Sky Lagoon","D10 9/21 17:30","skylagoon.com","2–4 星期","選 17:30 時段"]]],
  ["建議預約",[
   ]],
  ["餐廳訂位",[
-  ["Messinn","D1、D11 晚餐","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
+  ["Messinn","D1、D11 晚餐（如揀 Messinn）","官網網上訂位或電話","1–2 星期","熱門 19:00–20:00"],
   ["Friðheimar 番茄溫室","D10 午餐 12:00（7 人，預留 80 分鐘）","+354 486 8894 或官網","2–4 星期","12:00–13:00 最多人；講明有人不吃番茄"],
   ["Hjá Góðu Fólki","D2 午餐","+354 892 5667","前幾日","7 人預先通知"],
   ["Hlaðan Veitingahús（Miðhraun 酒店）","D2 晚餐","訂房時一齊訂（info@lavaresort.is）","—",""],
   ["Settlement Center","D3 午餐","電話","前一兩日","通知 7 人"],
   ["Strikið","D3 晚餐（如出去吃）","官網","1 星期","入住後 19:30 或之後"],
   ["米湖酒店餐廳","D4 晚餐","—","訂房時一齊問","19:00 前後"],
-  ["Hof 一帶晚餐（Hof-1 酒店餐廳或住處自己煮）","D7、D8 晚餐","住 Hof 的話訂房時問；自己煮就在赫本 Höfn 預先買好材料","—","住宿已改冰河湖以西（Hof／Skaftafell），不再住 Hótel Jökulsárlón"],
+  ["Hótel Jökulsárlón 酒店餐廳","D7 晚餐","訂房時一齊問","—","Troll 完團約 19:30 到酒店，20:00 晚餐"],
   ["不接受訂位","Pakkhús、Sægreifinn、Bæjarins Beztu、美食廣場","早一點去","—","Pakkhús：D6 約 18:05 到赫本"]]],
  ["其他要預先訂",[
   ["租車 2 部（Zero Car）","9/12 雷克雅維克市區取車、9/22 市區還車（18:00 前）","Zero Car（zerocar.is）","越早越好","保險要包 SCDW＋碎石 GP＋沙塵 SAAP；第二司機；7 人行李空間；停車繳費系統；比較報價要看包不包括每公里道路費"],
@@ -194,7 +193,7 @@ BOOK:[
   ["eSIM／數據","出發前","Síminn、Nova 或 eSIM 網站","出發前一星期",""]]]
 ],
 /* 訂位資料欄位 */
-BKINFO:{"9/13（D2）":{name:"Miðhraun - Lava Resort（Snæfellsnes）",addr:"網站未列地址，待確認",room:"4 房 apartment（已選）",checkin:"網站未列明，待確認",checkout:"網站未列明，待確認",contact:"網站未列明，請經 west.is 查",extra:"酒店餐廳 Hlaðan：早餐自助、晚餐餐牌；早餐另外收費（預算按自己解決）",policy:"待填",booking:"待填：訂單號、已付金額、付款日期"},"9/14（D3）":{name:"Old farm – Íslandsbærinn（Akureyri 附近）",addr:"待確認",room:"待填",checkin:"17:00 起",checkout:"12:00 前",contact:"待填",extra:"待確認：地址、房間、聯絡資料",policy:"Agoda 預訂，不可退款",booking:"Agoda 預訂；總價 HKD 6,475"},"9/20（D9）":{name:"Mr Iceland 農場（Efri-Úlfsstaðir）",addr:"Landeyjavegur, 861 Hvolsvöllur, Iceland（約 63.6409, -20.2950）",room:"待填：Sleeping with the Horses 小屋（40 平方米，最多 4 人，有廚房）或 Jakob's House（1923 年建成，有廚房）",checkin:"網站未列明正式入住時間（網站示例行程為 12:45 到達，待確認）",checkout:"網站示例為 12:00，待確認",contact:"電話 +354 844 7220｜info@mriceland.is｜WhatsApp wa.me/3548447220",extra:"晚上 20:00 有故事夜（傳統冰島食物試吃，需另外預訂）；騎馬團需要另外經網站預訂",policy:"價錢、取消及退款條款網站未列明，待填",booking:"待填：訂單號、已付金額、付款日期"}},
+BKINFO:{"9/13（D2）":{name:"Miðhraun - Lava Resort（Snæfellsnes）",addr:"網站未列地址，待確認",room:"4 房 apartment（已選）",checkin:"網站未列明，待確認",checkout:"網站未列明，待確認",contact:"網站未列明，請經 west.is 查",extra:"酒店餐廳 Hlaðan：早餐自助、晚餐餐牌；早餐另外收費（預算按自己解決）",policy:"待填",booking:"待填：訂單號、已付金額、付款日期"},"9/14（D3）":{name:"Old farm – Íslandsbærinn（Akureyri 附近）",addr:"待確認",room:"待填",checkin:"17:00 起",checkout:"12:00 前",contact:"待填",extra:"待確認：地址、房間、聯絡資料",policy:"Agoda 預訂，不可退款",booking:"Agoda 預訂；總價 HKD 6,475"},"9/20（D9）":{name:"Brún（Laugarás）",addr:"Austurbyggð 3, Laugarás",room:"待填",checkin:"待確認",checkout:"待確認",contact:"待填",extra:"晚餐住處自己煮",policy:"待填",booking:"待填：訂單號、已付金額、付款日期"}},
 /* 住宿資料欄位 */
 STAYINFO_FIELDS:[["name","名稱"],["addr","地址"],["room","房間"],["checkin","入住"],["checkout","退房"],["contact","聯絡"],["extra","其他安排"],["policy","取消／付款"],["booking","訂單資料"]],
 /* 準備：行李清單 */

@@ -110,7 +110,7 @@ const days=[
   notes:[["⚠ 13:30 Flybus：2027 年班次待確認（re.is）；預先買票",1],["住處地址未定：取行李同去 BSÍ 時間按市中心住處估計，訂咗住宿再核實",1]]}
 ];
 /* 來源標籤：只列 AI 原本提出的項目（你核實過的名單）。key＝日子號碼，值＝行名稱的 regex */
-const AI={0:"哈爾格林姆大教堂|^彩虹街|^Laugavegur 逛街|^Harpa|^Sun Voyager|^Laugardalslaug",1:"^Hvammsvík Hot Springs",5:"^Gufufoss",7:"^Svartifoss",8:"^午餐：Frost",12:"羊肉熱狗"};
+const AI={5:"^Gufufoss",7:"^Svartifoss",8:"^午餐：Frost",12:"羊肉熱狗"};
 /* 延誤 20–40 分鐘：每日後備建議（只係建議，唔會自動改行程）。m＝必去／已訂，o＝可彈性／可選，s＝做法（先重排、減等候，最後先刪），i＝對到達時間影響 */
 const DLY={
 2:{m:["Ytri Tunga 海豹（潮退後約一個鐘最好）","Kirkjufell 草帽山","Hlaðan 晚餐 19:45"],o:["因亞爾茲霍爾教堂","可選：Arnarstapi 步道、Djúpalónssandur"],
