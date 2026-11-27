@@ -997,13 +997,17 @@ function autoTime(day){try{
   /* 由上一站 a 行到 k：由 a 開始順住接駁（中間可以經沒有時間行的途經點），接不到就不計 */
   const rowK=new Set(ks.filter(Boolean));
   const legTo=(a,k)=>{const i0=LG.findIndex(l=>l.a===a);if(i0<0)return null;let s=0;for(let i=i0;i<LG.length&&i<i0+4;i++){if(i>i0&&LG[i].a!==LG[i-1].b)return null;s+=AT.min(LG[i]);if(LG[i].b===k)return s;if(rowK.has(LG[i].b))return null}return null};
+  /* 固定時間：基底行程（時間＋內容同 trip.js 一樣）用 day.lk；改動過或者冇 lk 嘅行先用關鍵字 */
+  const BD=(window.TRIP.days||[]).find(x=>x.d===day.d),BLK=BD&&BD.lk?new Set(BD.plan.filter(r=>BD.lk.includes(r[0])).map(r=>r[0]+"|"+r[1])):null,
+    BALL=BD&&BD.lk?new Set(BD.plan.map(r=>r[0]+"|"+r[1])):null,
+    isLk=i=>{const r0=day.plan[i],key=r0[0]+"|"+r0[1];if(BALL&&BALL.has(key))return BLK.has(key);const s=String(plan[i][1]);return AT.lock.test(s)&&!/出發/.test(s)};
   let delta=0,prevEnd=null,prevK=ks[dep]||stopsOf(day)[0],busy=0,mealX=0,mealN="",warn=[],moved=0;const map={};
   plan.forEach((r,i)=>{if(i<dep||r[2]==="y"||/第二部車/.test(r[1]))return;const sp=AT.span(r[0]);if(!sp)return;
     const k=ks[i];
     if(i===dep){prevEnd=sp.e;return}
     if(k&&prevEnd!=null){const need=legTo(prevK,k);if(need!=null){const gap=sp.s-prevEnd-busy;if(need<=gap&&mealX&&need>gap-mealX)warn.push(`${mealN} ${r[0]}：連${mealN.replace(/：.*/,"")}約 ${mealX} 分鐘計，車程可能唔夠時間`);if(need>gap)delta+=Math.ceil((need-gap)/5)*5;else delta=Math.max(0,delta-Math.floor((gap-need)/5)*5)  /* 空檔夠就補回之前遲了的時間 */}busy=0;mealX=0}
     else if(!AT.isMove(r[1])){busy+=sp.e-sp.s;if(r[2]==="m"&&sp.e===sp.s){mealX+=45;mealN=String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，▾]/)[0].trim()}}   /* 只寫開始時間嘅餐：當約 45 分鐘，只出提示，唔改時間 */           /* 中途吃飯等：佔用時間，不當車程 */
-    if(delta>0){if(AT.lock.test(r[1])&&!/出發/.test(r[1])){warn.push(`${String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，]/)[0]} ${r[0]}：按車程可能遲 ${delta} 分鐘到`);delta=0}
+    if(delta>0){if(isLk(i)){warn.push(`${String(r[1]).replace(/<[^>]*>/g,"").split(/[（(，]/)[0]} ${r[0]}：按車程可能遲 ${delta} 分鐘到`);delta=0}
       else{const nt=shiftT(r[0],delta);map[r[0]]=nt;r[0]=nt;moved=1}}
     if(k){prevEnd=sp.e;prevK=k}});          /* 用原本時間計空檔（之後整體順延，空檔不變） */
   /* 順延後時間次序倒轉（例如排喺固定預約之前嘅行遲過預約）：出提示 */
