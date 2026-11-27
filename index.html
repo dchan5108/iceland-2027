@@ -1247,7 +1247,7 @@ function richRows(day){
   if(DT){const sr=dtSunrise(day);if(sr){let at=bodyA.length;for(let q=0;q<plan.length;q++){const m0=startMin(plan[q][0]);if(m0!=null&&m0>=sr.m){at=q;break}}bodyA.splice(at,0,sr.h)}}
   const body=bodyA.join("");
   const isOn=(t,a,f)=>isConf(day.d,a,f)||!!CF[cfKey(day.d,t,a)]||!!SHCF[cfKey(day.d,t,a)];const PL=plan.filter((r,i)=>!isConn(i)&&!isDrv(r[1])),nFix=PL.filter(([t,a,f])=>isConf(day.d,a,f)||!!SHCF[cfKey(day.d,t,a)]).length,nOn=PL.filter(([t,a,f])=>isOn(t,a,f)).length,showCf=DT||nFix;
-  return `${KBLG}${false&&showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${PL.length}</span>${DT?`<span>按圓圈確認</span>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}${day.prof?hikeProf(day):""}<div class="sched rich">${body}</div>${left.length?eatList(left):""}`;
+  return `${KBLG}${false&&showCf?`<div class="cfbar"><span class="cfc">已確認 <b>${nOn}</b> / ${PL.length}</span>${DT?`<span>按圓圈確認</span>`:`<span>綠色 ✓ = 已確認</span>`}</div>`:""}${day.prof?hikeProf(day):""}<div class="sched rich">${body}</div>`;
 }
 const rows=p=>`<div class="sched">${EP(p).map(([t,a,f])=>{const kd=kindOf(t,a,f),kb="";return `<span class="t${TAGS[f]?" y":""}">${t}</span><span class="a${f?" "+f:""}${f==="n"||f==="w"||f==="g"?" y":""}">${TAGS[f]?`<span class="ytag">${TAGS[f]}</span>`:""}${kb}${a}</span>`}).join("")}</div>`;
 /* D0 (Dorcas & Tebe): picked recommendations become the 10:00–18:00 timetable; picks saved on this device */
@@ -1389,11 +1389,11 @@ function recPlan(raw,day){
   let t=tm("10:00"),rows=[],warn=[];const END=tm("18:00"),GAP=15;
   const push=(a,b,txt,f,note)=>{rows.push([`${tt(a)}–${tt(b)}`,txt+(note?`（${note}）`:""),f||""])};
   sel.forEach((o,i)=>{
-    if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t>=tm("12:00")){push(t,t+60,"午餐：附近選一間（見下面推薦食肆）","m");t+=60+GAP}
+    if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t>=tm("12:00")){push(t,t+60,"午餐：附近選一間","m");t+=60+GAP}
     let st=t;if(o.open&&st<tm(o.open))st=tm(o.open);if(st+o.dur>END){warn.push(o.row.split("（")[0].split("：")[0]);return}t=st;
     const end=t+o.dur;push(t,end,o.row,o.f,o.close&&end>tm(o.close)?`⚠ ${o.close} 關門，要早一點去`:"");
     t=end+GAP});
-  if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t<=tm("14:30")){push(t,t+60,"午餐：附近選一間（見下面推薦食肆）","m");t+=60+GAP}
+  if(!hasLunch&&!rows.some(r=>/^午餐/.test(r[1]))&&t<=tm("14:30")){push(t,t+60,"午餐：附近選一間","m");t+=60+GAP}
   if(warn.length)rows.push(["⚠",`時間不夠，排不下：${warn.join("、")}（18:00 前做不，可以減其他項目）`,""]);
   if(t-GAP<END-30)rows.push([`${tt(t-GAP)}–18:00`,"自由時間／回住處休息",""]);
   const i=day.plan.findIndex(r=>/^自由活動/.test(r[1]));if(i<0)return day;
@@ -2252,6 +2252,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
   rows.forEach((a,i)=>{a.dataset.ri=i;
     if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):(Q[a.dataset.to]||"")));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
+    if(d==="-4"&&!a.dataset.nav&&!a.classList.contains("drv")&&/Bus Stop #01|市政廳/.test(a.textContent)){a.dataset.nav="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Reykjavík City Hall, Tjarnargata 11, Reykjavík");a.dataset.walk="1"}   /* 徒步：集合點導航 */
     if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
       /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
       const tn=a.querySelector(".tl-n"),T=tn?tn.textContent.trim():"",mm=T.match(/^(退房出發|出發)(?:，(.*))?$/);let line="";
@@ -2931,11 +2932,12 @@ const DRVF={
     const dm=a.querySelector(".depline .depm");
     if(dm){host=dm.closest(".depline");sp=dm.querySelector(".dtm");al=dm.querySelector(".alrt");txt=dm.textContent;
       notes=[...dm.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join("").replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
-      const ic=dm.querySelector("svg");dm.innerHTML="";if(ic)dm.appendChild(ic);const c2=((txt.match(/第[一二]部車/)||[""])[0]+" ").trimStart();dm.insertAdjacentHTML("beforeend",`<span class="dgo">${c2}出發</span>`)}
+      const ic=dm.querySelector("svg");dm.innerHTML="";if(ic)dm.appendChild(ic);const c2=((txt.match(/第[一二]部車/)||[""])[0]+" ").trimStart();dm.insertAdjacentHTML("beforeend",`<span class="dgo">${c2}${dest?"前往 "+DOCX.esc(dest):"出發"}</span>`)}
     else if(a.classList.contains("drv")){const g=a.querySelector("a.drvgo");if(g){host=g;sp=g.querySelector(".dtm");txt=g.textContent;const t=g.querySelector(".drvt");
         [...g.childNodes].forEach(n=>{if(n.nodeType===3){notes+=n.textContent;n.remove()}});notes=notes.replace(/^\s*約\s?[\d小時分鐘 ]+/,"").replace(/^\s*[·・]\s*/,"").trim();
-        if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=(((txt+notes).match(/第[一二]部車/)||[""])[0]+" ").trimStart()+t.textContent.replace(/\s*·\s*$/,"")}}
-    if(host&&sp&&sp.dataset.m&&!host.querySelector(".drvdur")){const tg=host.querySelector(".drvt")||host.querySelector(".dgo");if(tg)tg.insertAdjacentHTML("beforeend",`<small class="drvdur" data-m="${sp.dataset.m}" data-b="${sp.dataset.b||sp.dataset.m}"> · ${DRV.fm(DRV.on?+(sp.dataset.b||sp.dataset.m):+sp.dataset.m)}</small>`)}
+        if(sp)sp.remove();g.querySelectorAll(".alrt").forEach(x=>{al=al||x;x.remove()});if(t)t.textContent=(((txt+notes).match(/第[一二]部車/)||[""])[0]+" ").trimStart()+t.textContent.replace(/\s*·\s*$/,"")+(dest?` → ${dest}`:"")}}
+    if(host&&sp&&sp.dataset.m&&!host.querySelector(".drvdur")){const tg=host.querySelector(".drvt")||host.querySelector(".dgo");if(tg){const f=tg.firstChild;if(f&&f.nodeType===3)f.textContent=f.textContent.replace(/ → .*$/,"").replace(/前往 .*$/,"出發")}   /* 有車程就唔重複目的地 */
+      if(tg)tg.insertAdjacentHTML("beforeend",`<small class="drvdur" data-m="${sp.dataset.m}" data-b="${sp.dataset.b||sp.dataset.m}"> · ${DRV.fm(DRV.on?+(sp.dataset.b||sp.dataset.m):+sp.dataset.m)}</small>`)}
     const isDep=!!host;a.querySelectorAll(".tl-m").forEach(m=>{if(!/車程約/.test(m.textContent))return;const s2=m.querySelector(".dtm");if(!sp&&s2)sp=s2;if(!txt)txt=(m.textContent.match(/車程約[^·]*/)||[""])[0];
       if(s2){const pv=s2.previousSibling;if(pv&&pv.nodeType===3)pv.textContent=pv.textContent.replace(/\s*·\s*$/,"");s2.remove()}else m.textContent=m.textContent.replace(/\s*·?\s*車程約[^·]*/,"");
       m.querySelectorAll(".alrt.rushA").forEach(x=>{al=al||x;x.remove()});if(!m.textContent.trim())m.remove();if(!host)host=a.querySelector(".tl-h")});
