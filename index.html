@@ -1291,17 +1291,21 @@ const MO={
  9:{午餐:{def:"mias",o:[{k:"mias",n:"Mia's Country Grill（Skógar）",s:"紅色餐車炸魚薯條",q:"Mia's Country Van Skógar"}]}},
  10:{午餐:{def:"fridh",o:[{k:"fridh",n:"Friðheimar 番茄農場（12:00，要提前訂位）",s:"溫室入面食番茄湯",q:"Friðheimar"}]}}};
 const oid=o=>o.k||o.id||o.n;
+/* H0／D0／D1 Reykjavík 用餐：選項全部來自共用餐廳庫 DATA.RVK_EAT（按餐分類） */
+try{const L=DATA.RVK_EAT,ML=DATA.RVK_ML,SPK=new Set(["graik","roast","bbp","hlemd","zhu","fine"]),DEF={"-5":{早午餐:"sandholt",午餐:"sandholt",晚餐:"svarta"},1:{早餐:"graik"}};
+ [-5,0,1].forEach(d=>{const M=MO[d]=MO[d]||{};ML[d].forEach(m=>{const o=L.filter(r=>r.m.includes(m)).map(r=>({[SPK.has(r.id)?"k":"id"]:r.id,n:r.n,s:r.t,q:r.n.replace(/^划算・/,"").split(/[（(]/)[0].trim()+", Reykjavík"}));const x={def:(M[m]&&M[m].def)||(DEF[d]||{})[m]||"",o};M[m]=x;if(m==="午餐")M["早午餐"]={def:(DEF[d]||{})["早午餐"]||x.def,o}})})}catch(e){console.error(e)}
 function mselGet(d,m){let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(e){}const v=S[d+"|"+m];return v==null?MO[d][m].def:v}
 function MSEL(d){try{const M=d&&MO[d.d];if(!M||!d.plan)return d;
-  const plan=d.plan.map(r=>{const p=String(r[1]),mt=/^(早午餐|午餐|晚餐)/.exec(p);if(r[2]!=="m"||!mt||!M[mt[1]])return r;const c=mselGet(d.d,mt[1]),o=M[mt[1]].o.find(x=>oid(x)===c);return [r[0],o?`${mt[1]}：${o.n} ▾`:`${mt[1]}（可選） ▾`,r[2]]});
+  const plan=d.plan.map(r=>{const p=String(r[1]),mt=/^(早午餐|早餐|午餐|晚餐)/.exec(p);if(r[2]!=="m"||!mt||!M[mt[1]])return r;const c=mselGet(d.d,mt[1]),o=M[mt[1]].o.find(x=>oid(x)===c);return [r[0],o?`${mt[1]}：${o.n} ▾`:`${mt[1]}（可選） ▾`,r[2]]});
   return {...d,plan}}catch(e){return d}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-meal]");if(!b)return;e.preventDefault();e.stopPropagation();const [d,m,v]=b.dataset.meal.split("|");let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){}S[d+"|"+m]=v;store.set("iceland-meal",JSON.stringify(S));const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}},true);
 document.addEventListener("click",e=>{if(e.target.closest("a,button,input,select,summary,details"))return;const a=e.target.closest(".sched .a");if(!a)return;
- const t=a.textContent||"",mt=/(早午餐|午餐|晚餐)/.exec(t);if(!mt||!/▾/.test(t))return;const M=MO[sel];if(!M||!M[mt[1]])return;e.preventDefault();e.stopPropagation();
+ const t=a.textContent||"",mt=/(早午餐|早餐|午餐|晚餐)/.exec(t);if(!mt||!/▾/.test(t))return;const M=MO[sel];if(!M||!M[mt[1]])return;e.preventDefault();e.stopPropagation();
  const old=a.nextElementSibling;if(old&&old.classList.contains("dinpick")){old.remove();return}document.querySelectorAll(".dinpick").forEach(x=>x.remove());
  const ml=mt[1],cur=mselGet(sel,ml),m=document.createElement("div");m.className="dinpick noen";m.style.cssText="grid-column:2;display:flex;flex-direction:column;gap:6px;margin:4px 0 12px";
- m.innerHTML=`<small style="color:var(--muted)">撳餐廳揀；再撳已揀嗰間就取消</small>`+M[ml].o.map(o=>{const id=oid(o),on=id===cur,u=!o.q?"":/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);let dh="";try{dh=o.k&&SP[o.k]?spDetail(o.k):""}catch(x){}
-  return `<div class="sched rich dpk" style="display:block;border:1px solid ${on?"var(--chg)":"var(--line)"};border-radius:12px;padding:8px 10px;background:${on?"color-mix(in srgb,var(--chg) 12%,transparent)":"transparent"}"><div class="a" style="position:relative;padding-right:${dh?"36px":"0"}"><div style="display:flex;align-items:center;gap:8px"><button type="button" data-meal="${sel}|${ml}|${on?"-":id}" aria-pressed="${on}" style="flex:1;text-align:left;background:none;border:0;padding:0;color:var(--fg);cursor:pointer"><b>${on?"✓ ":""}${o.n}</b><br><small style="color:var(--muted)">${o.s}</small></button>${u?`<a href="${u}" target="_blank" rel="noopener" style="font-size:13px;white-space:nowrap;padding:4px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none">導航</a>`:""}</div>${dh?`<details class="dsx" data-spot="${o.k}"><summary class="dsm" title="詳情"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></svg><span class="vh">詳情</span></summary>${dh}</details>`:""}</div></div>`}).join("");a.insertAdjacentElement("afterend",m);try{TIDY.all(m)}catch(x){}},true);
+ const S0=(()=>{try{return JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){return {}}})(),oth=id=>Object.keys(S0).filter(k=>!k.startsWith(sel+"|")&&S0[k]===id).map(k=>dLab(+k.split("|")[0])).filter((v,i,A)=>A.indexOf(v)===i).join("、");
+ m.style.cssText="";m.innerHTML=`<div class="dph">${M[ml].o.length} 間可選<small>再撳已揀嗰間就取消</small></div><ul>`+M[ml].o.map(o=>{const id=oid(o),on=id===cur,u=!o.q?"":/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q),ot=oth(id);let dh="";try{dh=o.k&&SP[o.k]?spDetail(o.k):""}catch(x){}
+  return `<li class="${on?"on":""}"><button type="button" data-meal="${sel}|${ml}|${on?"-":id}" aria-pressed="${on}"><b>${o.n}</b><small>${o.s}${ot?`<em>已揀：${ot}</em>`:""}</small></button>${u?`<a class="dpnav" href="${u}" target="_blank" rel="noopener">導航</a>`:""}${dh?`<details class="dsx dpd" data-spot="${o.k}"><summary title="詳情">ⓘ</summary>${dh}</details>`:""}</li>`}).join("")+`</ul>`;a.insertAdjacentElement("afterend",m);try{TIDY.all(m)}catch(x){}},true);
 /* 預計退潮（2027-09-17 赫本）：用 2026 年 10–11 月預報的月潮間隙推算，接近滿月大潮；誤差約 ±1 小時，Stokksnes 在外海可能早少少 */
 const TIDE_EST="10:10";
 /* 選了「跟退潮」而退潮在早上：全組人已經早去蝙蝠山，不用再顯示「自己提早去影日出」 */
@@ -2253,6 +2257,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
     if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):(Q[a.dataset.to]||"")));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
     if(d==="-4"&&!a.dataset.nav&&!a.classList.contains("drv")&&/Bus Stop #01|市政廳/.test(a.textContent)){a.dataset.nav="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Reykjavík City Hall, Tjarnargata 11, Reykjavík");a.dataset.walk="1"}   /* 徒步：集合點導航 */
+    if(!a.dataset.nav&&a.classList.contains("m")&&MO[d]&&/▾/.test(a.textContent)){const mt=/(早午餐|早餐|午餐|晚餐)/.exec(a.textContent),M=mt&&MO[d][mt[1]],o=M&&M.o.find(x=>oid(x)===mselGet(d,mt[1]));if(o&&o.q){a.dataset.nav=/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);if(+d<1)a.dataset.walk="1"}}   /* 已揀餐廳：行程表直接有導航 */
     if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
       /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
       const tn=a.querySelector(".tl-n"),T=tn?tn.textContent.trim():"",mm=T.match(/^(退房出發|出發)(?:，(.*))?$/);let line="";
@@ -2994,19 +2999,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest&&e.target.c
 document.addEventListener("click",e=>{const o=e.target.closest&&e.target.closest("[data-dlyopen]"),c=e.target.closest&&e.target.closest("[data-dlyclose]");if(!o&&!c)return;const art=(o||c).closest("article.day");const p=art&&art.querySelector(".dlyp");if(!p)return;e.preventDefault();
   if(o){const dm=art.querySelector("details.dmore");if(dm)dm.open=false;p.hidden=!p.hidden;if(!p.hidden)try{p.scrollIntoView({block:"nearest",behavior:"smooth"})}catch(err){}}else p.hidden=true},true);
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".drvtog");if(!b)return;e.preventDefault();e.stopPropagation();const d=b.nextElementSibling,o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));if(d)d.hidden=!o},true);
-try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}try{DRVF.fold(r)}catch(e){console.error(e)}try{TSPLIT(r)}catch(e){console.error(e)}try{RVKP(r)}catch(e){console.error(e)}}}catch(e){}
-/* Reykjavík 餐廳揀選（H0／D0／D1）：每日每餐一間，存喺 RECP（key "eat:餐:id"），用返原有同步 */
-function RVKP(root){const L=(window.DATA||{}).RVK_EAT,ML=(window.DATA||{}).RVK_ML;if(!L||!ML)return;const E=DOCX.esc,G="https://www.google.com/maps/search/?api=1&query=";
- (root||document).querySelectorAll("article.day[data-d] .sched.rich>.a").forEach(a=>{const d=a.closest("article.day").dataset.d;if(!ML[d])return;const n=a.querySelector(".tl-n");if(!n)return;
-  const T=n.textContent,mm=T.match(/早餐|午餐|晚餐/),meal=mm&&mm[0];if(!meal||!ML[d].includes(meal)||/Hvammsvík|自己|住處|超市/.test(T))return;
-  const xs=L.filter(r=>r.m.includes(meal));if(!xs.length)return;a.classList.add("rvkx");a.querySelector(":scope>.rvk")?.remove();
-  const pre="eat:"+meal+":",cur=(RECP[d]||[]).find(k=>k.startsWith(pre)),named=xs.find(r=>T.includes(r.n.replace(/^划算・/,"").split(/[（( ]/)[0])),sel=cur?xs.find(r=>r.id===cur.slice(pre.length)):named;
-  const other=id=>Object.keys(RECP).filter(k=>k!==d&&(RECP[k]||[]).some(v=>v.startsWith("eat:")&&v.endsWith(":"+id))).map(k=>dLab(+k)).join("、");
-  const nav=r=>G+encodeURIComponent(r.n.replace(/^划算・/,"").split(/[（(]/)[0].trim()+", Reykjavík");
-  a.insertAdjacentHTML("beforeend",`<div class="rvk noen">${sel?`<div class="rvsel"><span class="rvn">✓ ${E(sel.n)}</span><a class="drvpill" href="${nav(sel)}" target="_blank" rel="noopener">導航</a></div>`:""}<details class="rvl"><summary>${sel?"更改餐廳":"揀餐廳"}<small>${xs.length} 間</small></summary><ul>${xs.map(r=>{const o=other(r.id),on=sel&&sel.id===r.id;return `<li${on?' class="on"':""}><button type="button" data-rvk="${d}|${meal}|${r.id}"${RO?" disabled":""}><b>${E(r.n)}</b><small>${E(r.t)}${o?`<em>已揀：${E(o)}</em>`:""}</small></button></li>`}).join("")}</ul></details></div>`)})}
-document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".rvk button[data-rvk],.rvk summary,.rvk a");if(!b)return;e.stopPropagation();if(!b.dataset.rvk)return;e.preventDefault();
- const [d,meal,id]=b.dataset.rvk.split("|"),pre="eat:"+meal+":",k=pre+id,a0=RECP[d]||[],had=a0.includes(k);RECP[d]=a0.filter(v=>!v.startsWith(pre));if(!had)RECP[d].push(k);
- store.set("iceland-recp",JSON.stringify(RECP));document.querySelectorAll("article.day[data-d]").forEach(x=>RVKP(x))},true);
+try{const _a2=TIDY.all;TIDY.all=function(r){_a2.call(TIDY,r);try{DRV.apply(r)}catch(e){console.error(e)}try{DRVF.fold(r)}catch(e){console.error(e)}try{TSPLIT(r)}catch(e){console.error(e)}}}catch(e){}
 /* 長景點名：括號部分拆做次標題（只改顯示，textContent 不變） */
 function TSPLIT(root){(root||document).querySelectorAll(".sched.rich .tl-n:not([data-sp])").forEach(n=>{n.dataset.sp=1;if(n.textContent.length<16)return;const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let x;while((x=w.nextNode())){const i=x.textContent.search(/[（(]/);if(i>0){const r=x.splitText(i),sb=document.createElement("span");sb.className="tl-sub";r.before(sb);sb.appendChild(r);break}}})}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-drvbuf]");if(!b)return;e.preventDefault();e.stopPropagation();const y0=window.scrollY;setDrv(b.dataset.drvbuf==="1"?"buf":"raw");try{window.scrollTo(0,y0)}catch(err){}},true);
@@ -3126,7 +3119,7 @@ function MARKDAYS(root){let td=null;try{td=todayDay()}catch(e){}if(!root)return;
 function TRIPTAB(){let td=null;try{td=todayDay()}catch(e){}if(HPHASE()===3&&td){store.set("iceland-tsub","trip");view("trip");try{select(td.d)}catch(e){}}else view(store.get("iceland-tsub")==="trip"?"trip":"home");try{navSync()}catch(e){}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-tsub]");if(!b)return;const v=b.dataset.tsub;store.set("iceland-tsub",v);view(v);if(v==="trip"){let td=null;try{td=todayDay()}catch(err){}if(HPHASE()===3&&td)try{select(td.d)}catch(err){}}try{navSync()}catch(err){}});
 function AUTOV(pv){let v=null;try{if(sessionStorage.getItem("iceland-auto"))v=pv||store.get("iceland-tab")}catch(e){}
-  if(!v){const P=HPHASE(),en=Date.UTC(2027,8,24);v=(P===2||P===3)?"today":nowIS()>=en?"home":"prep";try{sessionStorage.setItem("iceland-auto","1")}catch(e){}}
+  if(!v){const P=HPHASE(),en=Date.UTC(2027,8,24);v=nowIS()>=en?"home":"today";try{sessionStorage.setItem("iceland-auto","1")}catch(e){}}
   if(v==="prep"&&$("tab-prep").hidden)v="home";if(v==="today"&&$("tab-today").hidden)v="home";if(!["home","trip","prep","budget","today"].includes(v))v="home";view(v);try{navSync()}catch(e){}}
 
 /* 「今日」tab：旅程期間（9/5–9/24）才出現；管理者版一直顯示做預覽 */

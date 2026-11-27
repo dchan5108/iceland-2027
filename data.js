@@ -216,7 +216,7 @@ PACK:[
  {id:"svarta",m:["午餐","晚餐"],n:"Svarta Kaffið",t:"黑咖啡館，麵包碗湯"},
  {id:"noodle",m:["午餐","晚餐"],n:"Noodle Station",t:"牛肉湯麵，快同平"},
  {id:"bbp",m:["午餐","晚餐"],n:"Bæjarins Beztu 熱狗",t:"Tryggvagata 1；Harpa 附近，企喺度食，好快"},
- {id:"hlemm",m:["午餐","晚餐"],n:"Hlemmur Mathöll 美食廣場",t:"Hlemmur 巴士總站內，多個小食攤，各自揀"},
+ {id:"hlemd",m:["午餐","晚餐"],n:"Hlemmur Mathöll 美食廣場",t:"Hlemmur 巴士總站內，多個小食攤，各自揀"},
  {id:"grandi",m:["午餐","晚餐"],n:"Grandi Mathöll 美食廣場",t:"Grandagarður 16；舊港口，有海鮮、湯和小吃攤，由市中心行過去約 15 分鐘"},
  {id:"saeg",m:["午餐","晚餐"],n:"Sægreifinn（Sea Baron）",t:"Geirsgata 8；港口小店，招牌龍蝦湯約 2,500–3,000 ISK，不接受訂位"},
  {id:"lamb",m:["午餐","晚餐"],n:"划算・Lamb Street Food 羊肉街頭小吃",t:"Grandagarður 7，舊港口；羊肉卷"},

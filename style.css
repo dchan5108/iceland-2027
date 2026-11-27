@@ -3962,22 +3962,16 @@ body:not(#_) .sched.rich:not(.simp) .a:has(.tl-h .gpin):has(>details.dsx) .tl-h{
   body:not(#_) .tlist .tt0{font-weight:500!important;line-height:var(--lh-row)}
   body:not(#_) .tlist .tnm{font-weight:400!important;line-height:var(--lh-row)}
 }
-/* Reykjavík 餐廳揀選：緊湊清單 */
-body:not(#_) .sched.rich .a.rvkx .eatl,body:not(#_) .sched.rich .a.rvkx .eatbox{display:none!important}
-.rvk{margin-top:4px;font-size:var(--fs-sub);line-height:var(--lh-s)}
-.rvk .rvsel{display:flex;align-items:center;gap:8px;min-height:32px}
-.rvk .rvn{flex:1 1 auto;min-width:0;color:var(--fg);font-weight:500}
-.rvk .rvl>summary{display:inline-flex;align-items:center;gap:6px;min-height:32px;list-style:none;cursor:pointer;color:var(--route);font-size:var(--fs-xs);font-weight:600}
-.rvk .rvl>summary::-webkit-details-marker{display:none}
-.rvk .rvl>summary::after{content:"▾";font-size:10px}.rvk .rvl[open]>summary::after{content:"▴"}
-.rvk .rvl>summary small{color:var(--muted);font-weight:400}
-.rvk ul{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
-.rvk li{border-bottom:.5px solid var(--line)}
-.rvk li button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 0;font:inherit;color:inherit;cursor:pointer}
-.rvk li b{display:block;font-size:var(--fs-sub);font-weight:500;color:var(--fg)}
-.rvk li small{display:block;font-size:var(--fs-xs);color:var(--muted);line-height:1.45}
-.rvk li em{font-style:normal;margin-left:6px;opacity:.75}
-.rvk li.on b::before{content:"✓ ";color:var(--ok)}
-.rvk li button:disabled{cursor:default}
-.rvk .rvl>summary::before{content:none!important;display:none!important}
-body:not(#_) .sched.rich .rvk .rvsel{margin-right:-22px}
+/* 揀餐廳：緊湊清單（取代大卡） */
+.dinpick{grid-column:2;margin:0 0 12px;font-size:var(--fs-sub);line-height:var(--lh-s)}
+.dinpick .dph{display:flex;align-items:baseline;gap:8px;padding:4px 0;font-size:var(--fs-xs);font-weight:600;color:var(--route)}
+.dinpick .dph small{font-weight:400;color:var(--muted)}
+.dinpick ul{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
+.dinpick li{display:flex;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:.5px solid var(--line)}
+.dinpick li>button{flex:1 1 0;min-width:0;text-align:left;background:none;border:0;padding:8px 0;font:inherit;color:inherit;cursor:pointer}
+.dinpick li b{display:block;font-size:var(--fs-sub);font-weight:500;color:var(--fg)}
+.dinpick li small{display:block;font-size:var(--fs-xs);color:var(--muted);line-height:1.45}
+.dinpick li em{font-style:normal;margin-left:6px;opacity:.75}
+.dinpick li.on b::before{content:"✓ ";color:var(--ok)}
+.dinpick .dpnav{flex:none;font-size:var(--fs-xs);font-weight:500;color:var(--route);text-decoration:none;padding:4px 10px;border-radius:999px;background:var(--fill)}
+.dinpick .dpd{flex:none}.dinpick .dpd[open]{flex-basis:100%}.dinpick .dpd>summary{list-style:none;position:static!important;cursor:pointer;color:var(--muted);padding:4px;font-size:13px}.dinpick .dpd>summary::-webkit-details-marker{display:none}
