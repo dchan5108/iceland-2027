@@ -1,7 +1,221 @@
+/* ===== Design tokens：淺色（所有 CSS 變數集中喺呢度） ===== */
+:root{
+  --bg:#f6f1e6;
+  --fg:#24302a;
+  --muted:#6a6e64;
+  --line:#e4dac6;
+  --sea:#d9e6ea;
+  --land:#f4eee1;
+  --coast:#9fb7bf;
+  --route:#4f6b3d;
+  --pill:#fffcf5;
+  --pill-fg:#4f6b3d;
+  --stay:#c2412d;
+  --spot:#1d2833;
+  --chg:#6d45c6;
+  --chg-bg:#f0eafc;
+  --meal:#a8580a;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --serif:"Songti TC","Noto Serif TC","Source Han Serif TC","Noto Serif CJK TC","PMingLiU",serif;
+  --ok:#4f6b3d;
+  --card:#fffcf5;
+  --shadow:0 1px 2px rgba(70,58,36,.05),0 8px 22px rgba(70,58,36,.07);
+  --ice:#eef3f5;
+  --pc0:#2a78d6;
+  --pc1:#eb6834;
+  --pc2:#1baf7a;
+  --pc3:#eda100;
+  --pc4:#e87ba4;
+  --pc5:#8a6fd1;
+  --pc6:#6b8f86;
+  --pc7:#b04fc4;
+  --aur1:#3fc79a;
+  --aur2:#6f86e0;
+  --star:#9fb6c0;
+  --mt1:#c9d8d6;
+  --mt2:#9fb3b4;
+  --snow:#ffffff;
+  --turf:#6f9a5b;
+  --house:#e9e2d2;
+  --door:#8a5a3c;
+  --knit:#1d6e8a;
+  --ok2:#4f6b3d;
+  --warn:#a8580a;
+  --warnbg:#f8e6df;
+  --okbg:#e6ecdb;
+  --nav:rgba(250,246,237,.92);
+  --accent-bg:#ebeedf;
+  --shadow-l:0 10px 30px rgba(70,58,36,.12);
+  --r-l:16px;
+  --r-m:12px;
+  --r-s:10px;
+  --hero-img:none!important;
+  --hero-fade:linear-gradient(90deg,#f6f1e6 0%,rgba(246,241,230,.95) 38%,rgba(246,241,230,.55) 58%,rgba(246,241,230,0) 78%),linear-gradient(180deg,rgba(246,241,230,0) 70%,rgba(246,241,230,.9) 100%);
+  --al-drv:#a8580a;
+  --al-drvbg:#fbf0e3;
+  --al-tide:#0f7a6c;
+  --al-tidebg:#dff3ef;
+  --al-dark:#6d45c6;
+  --al-darkbg:#eee8fb;
+  --al-book:#9a3d29;
+  --al-bookbg:#f8e6df;
+  --s-ok:#2f8a57;
+  --s-quote:#2a78d6;
+  --s-est:#d99a1e;
+  --s-tbd:#b9c4c8;
+  --c-drive:#1d6e8a;
+  --c-wx:#4a6fa5;
+  --c-safe:#2f8a57;
+  --c-tide:#0f7a6c;
+  --c-sos:#b5523b;
+  --c-misc:#5a6c73;
+  --c-save:#94600d;
+  --tint:#ebeedf;
+  --fjord:#4f6b3d;
+  --sage:#8fae9b;
+  --fill:#efe8da;
+  --sage-t:#4e6f5c;
+  --glass:rgba(255,252,245,.8);
+  --glass-solid:#fbf7ee;
+  --glass-edge:rgba(0,0,0,.08);
+  --glass-hi:rgba(255,255,255,.6);
+  --glass-sh:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.06);
+  --thick:rgba(250,246,237,.9);
+  --side:#f1eadc;
+  --mapH:clamp(380px,calc(100vh - 140px),760px);
+  --fs-page:24px;
+  --fs-sec:17px;
+  --fs-item:15px;
+  --fs-body:13px;
+  --fs-meta:12.5px;
+  --sil1:#dfeaf0;
+  --sil2:#c4d8e3;
+  --sil3:#9fbccc;
+  --gap-card:14px;
+  --pad-card:18px;
+  --gold:#a8874a;
+  --glacier:#7f9fb0;
+  --moss:#4f6b3d;
+  --ph:none;
+  --topo:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%23a8874a' stroke-opacity='.16' stroke-width='1'%3E%3Cpath d='M-10 60c40-30 80 20 130-5s80-35 130 0'/%3E%3Cpath d='M-10 85c45-25 85 22 132-2s78-30 128 4'/%3E%3Cpath d='M-10 150c35-20 70 25 120 5s90-40 140-5'/%3E%3Cpath d='M-10 175c40-18 80 28 125 8s85-35 135 0'/%3E%3Cpath d='M-10 205c45-15 85 25 128 8s82-30 132 2'/%3E%3C/svg%3E");
+  --s1:4px;
+  --s2:8px;
+  --s3:12px;
+  --tcol:52px;
+  --fs-main:15px;
+  --fs-time:13px;
+  --fs-sub:12px;
+  --fs-xs:11px;
+  --fs-tag:10.5px;
+  --lh-t:1.45;
+  --lh-s:1.5;
+  --lh-row:22px;
+  --pillw:64px;
+}
+@media(prefers-color-scheme:dark){
+/* ===== Design tokens：深色模式 ===== */
+:root:not([data-theme="light"]){
+  --bg:#0d1b27;
+  --fg:#e6eef2;
+  --muted:#9fb2bd;
+  --line:#243a4b;
+  --sea:#12293a;
+  --land:#1c3040;
+  --coast:#3e5b63;
+  --route:#7cc0de;
+  --pill:#14293a;
+  --pill-fg:#bfe3f2;
+  --stay:#ff7b69;
+  --spot:#e5ecef;
+  --chg:#c0a0ff;
+  --chg-bg:#2a2140;
+  --meal:#f0b062;
+  --ok:#a9cdb7;
+  --card:#14293a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  --ice:#2a3a40;
+  --pc0:#3987e5;
+  --pc1:#d95926;
+  --pc2:#199e70;
+  --pc3:#c98500;
+  --pc4:#d55181;
+  --pc5:#9b84e0;
+  --pc6:#7fa69c;
+  --pc7:#c56fd6;
+  --aur1:#4fe0ad;
+  --aur2:#8ea0ff;
+  --star:#d6e4ea;
+  --mt1:#22343a;
+  --mt2:#2c4248;
+  --snow:#d9e6ea;
+  --turf:#4d7a43;
+  --house:#3a3a33;
+  --door:#b07c58;
+  --knit:#78c3dc;
+  --ok2:#a9cdb7;
+  --warn:#f0b062;
+  --warnbg:#3a231c;
+  --okbg:#1d2a22;
+  --nav:rgba(18,18,20,.82);
+  --accent-bg:#1f2c32;
+  --shadow-l:0 10px 30px rgba(0,0,0,.6);
+  --hero-fade:linear-gradient(90deg,rgba(13,20,24,.82) 0%,rgba(13,20,24,.45) 28%,rgba(13,20,24,.05) 50%),linear-gradient(180deg,rgba(13,20,24,0) 55%,rgba(13,20,24,.7) 100%);
+  --al-drv:#f0b062;
+  --al-drvbg:#2e2416;
+  --al-tide:#6fd3c2;
+  --al-tidebg:#14302c;
+  --al-dark:#c3a2ff;
+  --al-darkbg:#2a2140;
+  --al-book:#ff8f74;
+  --al-bookbg:#3a231c;
+  --s-ok:#6fd39a;
+  --s-quote:#6aa6f0;
+  --s-est:#e6b660;
+  --s-tbd:#4a5a60;
+  --c-drive:#7fc0d6;
+  --c-wx:#9db7e6;
+  --c-safe:#6fd39a;
+  --c-tide:#6fd3c2;
+  --c-sos:#ff8f74;
+  --c-misc:#9aaaae;
+  --c-save:#e6b660;
+  --tint:#1f2c32;
+  --fjord:#8fc3d6;
+  --fill:#2c2c2e;
+  --sage:#a9cdb7;
+  --sage-t:#a9cdb7;
+  --glass:rgba(30,30,32,.72);
+  --glass-solid:#1c1c1e;
+  --glass-edge:rgba(255,255,255,.10);
+  --glass-hi:rgba(255,255,255,.06);
+  --glass-sh:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.35);
+  --thick:rgba(36,36,38,.86);
+  --side:#1c1c1e;
+  --sil1:#2a465a;
+  --sil2:#1f3a4d;
+  --sil3:#3f6178;
+  --moss:#9cbf86;
+  --gold:#d2b36f;
+}
+}
+/* ===== 基本元素 ===== */
 html{color-scheme:light}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}
 img{max-width:100%}
+/* 主要樣式：元件、玻璃效果、時間表、地圖、對話框和響應式。
+   注意：次序就是優先次序（後面蓋前面），新樣式加在最尾；不要隨便搬位置。 */
+/* Layout: header + stat chips, tabs (trip / tips / budget); trip view = toggles, sticky day bar, zoomable map, overview or one day card as a timeline, floating day nav */
+body{font-family:var(--sans);line-height:1.6}
+h1{font-family:var(--sans);font-weight:600;margin:0;text-wrap:balance}
+h2{font-size:1.05rem;font-weight:700;margin:22px 0 8px}
+button{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--chg);outline-offset:2px}
+h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
+/* 動畫只用在狀態切換 */
+*{animation:none!important}
+dialog::backdrop{background:rgba(0,0,0,.28)}
+body{background:var(--topo) 0 0/240px 240px repeat,var(--bg)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 [hidden],#bookp ul.tkl[hidden]{display:none!important}
 /* ===== 今日頁＋票券（TODAY／DOCX） ===== */
 #prep-docs .pdocs{margin:0 0 14px}
@@ -91,75 +305,16 @@ img{max-width:100%}
 .dem div{font-size:13px;line-height:1.55;padding:8px 0;overflow-wrap:anywhere}
 .dlink{display:inline-block;margin-top:8px;font-weight:600}
 .dmissp{color:var(--muted,#5b6470);font-size:13px}
-/* 設計 token：顏色、字體、尺寸、深色模式（只放 CSS 變數） */
-:root{--bg:#f6f8f8;--fg:#1d2a2e;--muted:#5d6d72;--line:#d6dfe1;--sea:#e3eef2;--land:#eef0ea;--coast:#b9c7c4;--route:#2f6f86;--pill:#ffffff;--pill-fg:#1f4f60;--stay:#d23a35;--spot:#26343a;--chg:#7b3fd1;--chg-bg:#f1eafc;--meal:#9a6410;--sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;--serif:var(--sans)}
+:root{color-scheme:light}
 @media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#12191c;--fg:#e4eceb;--muted:#9aaaae;--line:#2a373b;--sea:#16252c;--land:#26302f;--coast:#3e4f50;--route:#7fc0d6;--pill:#1b2a30;--pill-fg:#b8e0ec;--stay:#ff6a62;--spot:#e4eceb;--chg:#c3a2ff;--chg-bg:#2a2140;--meal:#e6b660;--ok:#8cc29a}
-}
-:root[data-theme="dark"]{--bg:#12191c;--fg:#e4eceb;--muted:#9aaaae;--line:#2a373b;--sea:#16252c;--land:#26302f;--coast:#3e4f50;--route:#7fc0d6;--pill:#1b2a30;--pill-fg:#b8e0ec;--stay:#ff6a62;--spot:#e4eceb;--chg:#c3a2ff;--chg-bg:#2a2140;--meal:#e6b660;--ok:#8cc29a}
-:root{--ok:#4f7d5c;--bg:#eef3f4;--card:#ffffff;--fg:#14242c;--muted:#5a6c73;--line:#d8e2e5;--sea:#d6e6ec;--land:#f5f3ec;--coast:#a7bbb7;--route:#1d6e8a;--pill:#ffffff;--pill-fg:#15506a;--stay:#c43f2c;--spot:#14242c;--meal:#94600d;--chg:#6d45c6;--chg-bg:#f0eafc;--shadow:0 1px 2px rgba(20,36,44,.06),0 6px 18px rgba(20,36,44,.07)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#0f171b;--card:#172228;--fg:#e3ecec;--muted:#97a9ad;--line:#26353b;--sea:#13232b;--land:#22302f;--coast:#3b4e4f;--route:#78c3dc;--pill:#172228;--pill-fg:#b6e2ef;--stay:#ff6b5c;--spot:#e3ecec;--meal:#e3b25c;--chg:#c0a0ff;--chg-bg:#2a2140;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
-}
-:root[data-theme="dark"]{--bg:#0f171b;--card:#172228;--fg:#e3ecec;--muted:#97a9ad;--line:#26353b;--sea:#13232b;--land:#22302f;--coast:#3b4e4f;--route:#78c3dc;--pill:#172228;--pill-fg:#b6e2ef;--stay:#ff6b5c;--spot:#e3ecec;--meal:#e3b25c;--chg:#c0a0ff;--chg-bg:#2a2140;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
-:root{--bg:#f4f1ec;--card:#fffdf9;--fg:#2f3437;--muted:#76797a;--line:#e4ddd2;--sea:#bfe0ef;--land:#f8f5ec;--coast:#86bcd8;--route:#5f8189;--pill:#fffdf9;--pill-fg:#4c646a;--stay:#b06d58;--spot:#4a4f52;--meal:#9c7445;--ice:#ffffff;--shadow:0 1px 2px rgba(80,70,60,.06),0 6px 18px rgba(80,70,60,.07)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c;--pc7:#c56fd6;--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}
-}
-:root[data-theme="dark"]{--bg:#1d1e1c;--card:#272825;--fg:#ebe6dd;--muted:#a9a59c;--line:#393a36;--sea:#25302f;--land:#34342f;--coast:#66706a;--route:#9fb9bd;--pill:#272825;--pill-fg:#d3dfdf;--stay:#d99c86;--spot:#ebe6dd;--meal:#d6b27e;--ice:#4a504d;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);--pc0:#3987e5;--pc1:#d95926;--pc2:#199e70;--pc3:#c98500;--pc4:#d55181;--pc5:#9b84e0;--pc6:#7fa69c;--pc7:#c56fd6;--aur1:#4fe0ad;--aur2:#8ea0ff;--star:#d6e4ea;--mt1:#22343a;--mt2:#2c4248;--snow:#d9e6ea;--turf:#4d7a43;--house:#3a3a33;--door:#b07c58;--knit:#78c3dc;--ok2:#6fd39a;--warn:#ff8f74;--warnbg:#3a231c;--okbg:#18322a;--nav:rgba(23,34,40,.94)}
-:root{--serif:var(--sans);--pc0:#2a78d6;--pc1:#eb6834;--pc2:#1baf7a;--pc3:#eda100;--pc4:#e87ba4;--pc5:#8a6fd1;--pc6:#6b8f86;--pc7:#b04fc4;--aur1:#3fc79a;--aur2:#6f86e0;--star:#9fb6c0;--mt1:#c9d8d6;--mt2:#9fb3b4;--snow:#ffffff;--turf:#6f9a5b;--house:#e9e2d2;--door:#8a5a3c;--knit:#1d6e8a;--ok2:#2f8a57;--warn:#b5523b;--warnbg:#f8e6df;--okbg:#e3f1e8;--bg:#f1f3f4;--card:#ffffff;--fg:#1e2a31;--muted:#65727a;--line:#e0e5e8;--sea:#d7e7ef;--land:#f7f6f1;--coast:#9db9c6;--route:#3a7690;--pill:#ffffff;--pill-fg:#2f6377;--stay:#c2412d;--spot:#1d2833;--meal:#9a6418;--nav:rgba(255,255,255,.92);--accent-bg:#e5eef2;--shadow:0 1px 2px rgba(16,24,40,.05),0 2px 8px rgba(16,24,40,.05);--shadow-l:0 1px 2px rgba(16,24,40,.06),0 10px 28px rgba(16,24,40,.09);--r-l:16px;--r-m:12px;--r-s:8px;--hero-img:none;--hero-fade:linear-gradient(90deg,rgba(246,248,249,.82) 0%,rgba(246,248,249,.45) 26%,rgba(246,248,249,0) 46%),linear-gradient(180deg,rgba(246,248,249,0) 62%,rgba(246,248,249,.45) 100%)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#0d1418;--card:#141e24;--fg:#e5ecef;--muted:#93a4ad;--line:#22313a;--sea:#10232c;--land:#1a2528;--coast:#355058;--route:#86c1d6;--pill:#141e24;--pill-fg:#b6e2ef;--stay:#ff7b69;--spot:#e5ecef;--meal:#e6b562;--nav:rgba(20,30,36,.92);--accent-bg:#14303b;--shadow:0 1px 2px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.25);--shadow-l:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);--hero-fade:linear-gradient(90deg,rgba(13,20,24,.82) 0%,rgba(13,20,24,.45) 28%,rgba(13,20,24,.05) 50%),linear-gradient(180deg,rgba(13,20,24,0) 55%,rgba(13,20,24,.7) 100%)}
-}
-:root[data-theme="dark"]{--bg:#0d1418;--card:#141e24;--fg:#e5ecef;--muted:#93a4ad;--line:#22313a;--sea:#10232c;--land:#1a2528;--coast:#355058;--route:#86c1d6;--pill:#141e24;--pill-fg:#b6e2ef;--stay:#ff7b69;--spot:#e5ecef;--meal:#e6b562;--nav:rgba(20,30,36,.92);--accent-bg:#14303b;--shadow:0 1px 2px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.25);--shadow-l:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);--hero-fade:linear-gradient(90deg,rgba(13,20,24,.82) 0%,rgba(13,20,24,.45) 28%,rgba(13,20,24,.05) 50%),linear-gradient(180deg,rgba(13,20,24,0) 55%,rgba(13,20,24,.7) 100%)}
-:root{--muted:#5b6870;--warn:#9c3a24;--ok2:#226b45;--route:#2f6a83;--meal:#86560f}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--muted:#9db0b8;--warn:#ff9a85;--ok2:#86d6a8;--route:#86c1d6;--meal:#e6b562;--al-drv:#7fc0d6;--al-drvbg:#173039;--al-tide:#6fd3c2;--al-tidebg:#14302c;--al-dark:#c3a2ff;--al-darkbg:#2a2140;--al-book:#ff8f74;--al-bookbg:#3a231c;--s-ok:#6fd39a;--s-quote:#6aa6f0;--s-est:#e6b660;--s-tbd:#4a5a60;--c-drive:#7fc0d6;--c-wx:#9db7e6;--c-safe:#6fd39a;--c-tide:#6fd3c2;--c-sos:#ff8f74;--c-misc:#9aaaae;--c-save:#e6b660;--tint:12%}
-}
-:root[data-theme="dark"]{--muted:#9db0b8;--warn:#ff9a85;--ok2:#86d6a8;--route:#86c1d6;--meal:#e6b562;--al-drv:#7fc0d6;--al-drvbg:#173039;--al-tide:#6fd3c2;--al-tidebg:#14302c;--al-dark:#c3a2ff;--al-darkbg:#2a2140;--al-book:#ff8f74;--al-bookbg:#3a231c;--s-ok:#6fd39a;--s-quote:#6aa6f0;--s-est:#e6b660;--s-tbd:#4a5a60;--c-drive:#7fc0d6;--c-wx:#9db7e6;--c-safe:#6fd39a;--c-tide:#6fd3c2;--c-sos:#ff8f74;--c-misc:#9aaaae;--c-save:#e6b660;--tint:12%}
-:root{--al-drv:#1d6e8a;--al-drvbg:#e2f0f5;--al-tide:#0f7a6c;--al-tidebg:#dff3ef;--al-dark:#6d45c6;--al-darkbg:#eee8fb;--al-book:#9a3d29;--al-bookbg:#f8e6df;--s-ok:#2f8a57;--s-quote:#2a78d6;--s-est:#d99a1e;--s-tbd:#b9c4c8;--c-drive:#1d6e8a;--c-wx:#4a6fa5;--c-safe:#2f8a57;--c-tide:#0f7a6c;--c-sos:#b5523b;--c-misc:#5a6c73;--c-save:#94600d;--tint:6%}
-:root,:root[data-theme="light"]{--fjord:#1f4e5f;--sage:#8fae9b;--bg:#f7f3ea;--card:#fffdf8;--fg:#1e2b30;--muted:#5f6d6b;--line:#e6dfd1;--sea:#dbe7ea;--land:#faf7f0;--coast:#a9c1c6;--route:#1f4e5f;--pill:#fffdf8;--pill-fg:#1f4e5f;--accent-bg:#e6eef0;--ok2:#3f6f55;--okbg:#e5efe8;--nav:rgba(255,253,248,.94);--shadow:0 1px 2px rgba(70,55,30,.05),0 4px 14px rgba(70,55,30,.06);--shadow-l:0 2px 4px rgba(70,55,30,.06),0 12px 30px rgba(70,55,30,.09);--r-l:18px;--r-m:12px;--r-s:8px;--serif:var(--sans);color-scheme:light}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#121819;--card:#1a2224;--fg:#ece6da;--muted:#a3ada8;--line:#2b3537;--sea:#13252b;--land:#1c2426;--coast:#3b5459;--route:#8ec3cf;--pill:#1a2224;--pill-fg:#bfe1e8;--accent-bg:#1d3036;--ok2:#9cc7ae;--okbg:#1e2e26;--nav:rgba(26,34,36,.94);--shadow:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);--shadow-l:0 2px 4px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);color-scheme:dark}
-}
-:root[data-theme="dark"]{--bg:#121819;--card:#1a2224;--fg:#ece6da;--muted:#a3ada8;--line:#2b3537;--route:#8ec3cf;--pill:#1a2224;--pill-fg:#bfe1e8;--accent-bg:#1d3036;--ok2:#9cc7ae;--okbg:#1e2e26;--nav:rgba(26,34,36,.94);--shadow:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);--shadow-l:0 2px 4px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);color-scheme:dark;--sea:#142229;--land:#1f2729;--coast:#3e5b63;--ice:#2a3a40}
-:root{--sea:#d5e5ea;--land:#f1ece0;--coast:#8fb0bb;--ice:#eef3f5}
-:root,:root[data-theme="light"]{--bg:#f2f2f7;--card:#ffffff;--fg:#1c1c1e;--muted:#6c6c70;--line:rgba(60,60,67,.16);--route:#0a6a8f;--fjord:#0a6a8f;--accent-bg:rgba(10,106,143,.1);--tint:rgba(10,106,143,.1);--fill:#e9e9ee;--nav:rgba(249,249,251,.86);--pill:#fff;--pill-fg:#0a6a8f;--shadow:none;--shadow-l:0 8px 28px rgba(0,0,0,.12);--r-l:14px;--r-m:12px;--r-s:8px;--meal:#a8580a;--al-drv:#a8580a;--al-drvbg:rgba(255,149,0,.12)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--sea:#142229;--land:#1f2729;--coast:#3e5b63;--ice:#2a3a40;--bg:#000;--card:#1c1c1e;--fg:#f2f2f7;--muted:#98989f;--line:rgba(84,84,88,.55);--route:#5ab8e0;--fjord:#5ab8e0;--accent-bg:rgba(90,184,224,.16);--tint:rgba(90,184,224,.16);--fill:#2c2c2e;--nav:rgba(22,22,24,.86);--pill:#1c1c1e;--pill-fg:#5ab8e0;--shadow:none;--meal:#ffb347;--al-drv:#ffb347;--al-drvbg:rgba(255,159,10,.16)}
-}
-:root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--fg:#f2f2f7;--muted:#98989f;--line:rgba(84,84,88,.55);--route:#5ab8e0;--fjord:#5ab8e0;--accent-bg:rgba(90,184,224,.16);--tint:rgba(90,184,224,.16);--fill:#2c2c2e;--nav:rgba(22,22,24,.86);--pill:#1c1c1e;--pill-fg:#5ab8e0;--shadow:none;--meal:#ffb347;--al-drv:#ffb347;--al-drvbg:rgba(255,159,10,.16)}
-:root,:root[data-theme="light"]{--bg:#f5f5f7;--card:#fff;--fg:#1d1d1f;--muted:#6e6e73;--line:#e5e5ea;--route:#3f6f85;--fjord:#3f6f85;--sage:#8fae9b;--sage-t:#4e6f5c;--ok2:#4e6f5c;--ok:#4e6f5c;--okbg:#eaf1ec;--tint:#e9f0f3;--accent-bg:#e9f0f3;--fill:#ececf0;--nav:rgba(245,245,247,.82);--pill:#fff;--pill-fg:#3f6f85;--meal:#a8580a;--al-drv:#a8580a;--al-drvbg:#fbf0e3;--warn:#a8580a;--shadow:none;--shadow-l:0 10px 30px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.06);--r-l:16px;--r-m:12px;--r-s:10px;--sea:#dde9ee;--land:#f6f3ec;--coast:#a9c1c9}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--bg:#000;--card:#1c1c1e;--fg:#f5f5f7;--muted:#a1a1a6;--line:#38383a;--route:#8fc3d6;--fjord:#8fc3d6;--sage:#a9cdb7;--sage-t:#a9cdb7;--ok2:#a9cdb7;--ok:#a9cdb7;--okbg:#1d2a22;--tint:#1f2c32;--accent-bg:#1f2c32;--fill:#2c2c2e;--nav:rgba(18,18,20,.82);--pill:#1c1c1e;--pill-fg:#8fc3d6;--meal:#f0b062;--al-drv:#f0b062;--al-drvbg:#2e2416;--warn:#f0b062;--shadow-l:0 10px 30px rgba(0,0,0,.6)}
-}
-:root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--fg:#f5f5f7;--muted:#a1a1a6;--line:#38383a;--route:#8fc3d6;--fjord:#8fc3d6;--sage:#a9cdb7;--sage-t:#a9cdb7;--ok2:#a9cdb7;--ok:#a9cdb7;--okbg:#1d2a22;--tint:#1f2c32;--accent-bg:#1f2c32;--fill:#2c2c2e;--nav:rgba(18,18,20,.82);--pill:#1c1c1e;--pill-fg:#8fc3d6;--meal:#f0b062;--al-drv:#f0b062;--al-drvbg:#2e2416;--warn:#f0b062;--shadow-l:0 10px 30px rgba(0,0,0,.6)}
-:root{--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
-:root,:root[data-theme="light"]{--glass:rgba(255,255,255,.72);--glass-solid:#fbfbfd;--glass-edge:rgba(0,0,0,.08);--glass-hi:rgba(255,255,255,.6);--glass-sh:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.06)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--glass:rgba(30,30,32,.72);--glass-solid:#1c1c1e;--glass-edge:rgba(255,255,255,.10);--glass-hi:rgba(255,255,255,.06);--glass-sh:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.35)}
-}
-:root[data-theme="dark"]{--glass:rgba(30,30,32,.72);--glass-solid:#1c1c1e;--glass-edge:rgba(255,255,255,.10);--glass-hi:rgba(255,255,255,.06);--glass-sh:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.35)}
-:root,:root[data-theme="light"]{--thick:rgba(250,250,252,.86)}
-@media (prefers-color-scheme: dark){
-:root:not([data-theme="light"]){--thick:rgba(36,36,38,.86);--side:#1c1c1e}
+:root:not([data-theme="light"]){color-scheme:dark}
 /* 13. 深色模式：標題圖用深色淡出 */
 :root:not([data-theme="light"]) .hero:not(.compact){background:var(--hero-fade),var(--hero-img) center 32%/cover no-repeat,#1c2b32}
 :root:not([data-theme="light"]) .hero:not(.compact) h1{text-shadow:0 1px 10px rgba(0,0,0,.5)}
 :root:not([data-theme="light"]) .hero:not(.compact) .sub.meta{color:#c9d5da}
 }
-:root[data-theme="dark"]{--thick:rgba(36,36,38,.86);--side:#1c1c1e}
-:root{--side:#ececf0}
-/* 主要樣式：元件、玻璃效果、時間表、地圖、對話框和響應式。
-   注意：次序就是優先次序（後面蓋前面），新樣式加在最尾；不要隨便搬位置。 */
-/* Layout: header + stat chips, tabs (trip / tips / budget); trip view = toggles, sticky day bar, zoomable map, overview or one day card as a timeline, floating day nav */
-body{font-family:var(--sans);line-height:1.6}
 .wrap{margin:0 auto;padding-inline:16px}
-h1{font-family:var(--sans);font-weight:600;margin:0;text-wrap:balance}
-h2{font-size:1.05rem;font-weight:700;margin:22px 0 8px}
 .sub{color:var(--muted)}
-button{font:inherit}
-button:focus-visible,a:focus-visible{outline:2px solid var(--chg);outline-offset:2px}
 .tabs{border-bottom:1px solid var(--line);margin:0 0 14px}
 .tabs button{font-size:15px;font-weight:500;border-bottom:2px solid transparent;background:transparent;color:var(--muted);cursor:pointer;margin-bottom:-1px}
 .tabs button[aria-selected="true"]{border-bottom-color:var(--route)}
@@ -375,7 +530,6 @@ details.sec[open]>summary::before{content:"▾ "}
 .sday .stayline{margin-top:4px;font-size:11px}
 /* redesign: icy palette, cards, sticky day bar, interactive map, timeline schedule, floating day nav */
 .wrap{max-width:1100px}
-h1{font-size:clamp(1.6rem,4.5vw,2.3rem);letter-spacing:.01em}
 .pvbar{font-size:13px;color:var(--muted);margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;position:relative;z-index:60}
 .pvbar a{color:var(--route);font-weight:600}
 .pvbar.on{background:#fff4d6;color:#5b4300;border:1px solid #e8cf8a;border-radius:8px;padding:6px 10px}
@@ -720,10 +874,6 @@ html.pub details.more.mapmore,.simple details.more.mapmore{display:block!importa
 .stinfo dl{display:grid;grid-template-columns:4.2em 1fr;gap:3px 10px;margin:6px 0 4px}
 .stinfo dt{color:var(--muted)}
 .stinfo dd{margin:0;overflow-wrap:anywhere}
-/* 2. 版面 */
-:root[data-theme="dark"] .hero:not(.compact){background:var(--hero-fade),var(--hero-img) center 32%/cover no-repeat,#1c2b32}
-:root[data-theme="dark"] .hero:not(.compact) .sub.meta{color:#c9d5da}
-:root[data-theme="dark"] .chips button[aria-pressed="true"]{}
 html.print .wrap{margin-left:auto!important;margin-right:auto!important;max-width:1440px}
 html.print .hero{background:none!important;color:inherit!important;min-height:0!important;box-shadow:none!important}
 html.print .hero h1,html.print .hero .sub.meta{color:inherit!important;text-shadow:none!important}
@@ -868,8 +1018,6 @@ dialog.logindlg::backdrop{background:rgba(0,0,0,.35)}
 .edcmp ul{margin:2px 0 6px;padding-left:18px;font-size:13px}
 .edmine li{color:var(--ok2)}
 .edgone li{color:var(--muted);text-decoration:line-through}
-:root[data-theme="dark"] .chips button[aria-pressed="true"][style]{background:var(--dc);border-color:var(--dc);color:#0d1418}
-:root[data-theme="dark"] .night .nd b{color:color-mix(in srgb,var(--dc,var(--route)) 70%,#fff)}
 /* ===== 13. 2026-10 重新設計：地圖為核心、時間軸卡片、手機行程／地圖切換、預算 Dashboard ===== */
 
 /* 地圖：路線檢視切換、圖例 */
@@ -1195,13 +1343,10 @@ h1,h2,.pghead h2,#budget>h2,#tips>h2,.day h3>span:first-child,.tht,.bkh,.pkgh{fo
 .day,.card2,.tcat,.stc,.sd-t,.pdash2,.thd,.prelist li,.mapbox,.bkchk li{border-color:var(--line)!important}
 .tl-card{border-radius:12px}
 .dsum2{border-color:transparent!important}
-:root[data-theme="dark"] .dsum2{background:var(--accent-bg)!important}
 .navbtn,.cuopen,.mini,.mapbtn,.sunb>summary,.tct,.mvseg button,.rmode button{transition:background-color .15s ease,color .15s ease,border-color .15s ease,transform .15s ease}
 .navbtn{background:var(--fjord)!important;color:#fffdf8!important}
-:root[data-theme="dark"] .navbtn{background:var(--route)!important}
 .navbtn:active,.mapbtn:active,.cuopen:active,.tct:active{transform:scale(.97)}
 .cuopen{border-color:var(--sage)!important;color:var(--fjord)!important;background:color-mix(in srgb,var(--sage) 14%,transparent)!important;border-style:solid!important}
-:root[data-theme="dark"] .cuopen{color:var(--route)!important}
 @media (max-width:560px){
 .hero:not(.compact)::before{right:62px;top:23px;bottom:auto;width:76px;max-width:none;aspect-ratio:1}
 .hero:not(.compact)>*:not(.pvbar):not(.heroart){}
@@ -1233,9 +1378,6 @@ html,body{overflow-x:hidden}
 #map .contours .cm{stroke:#5d7468;stroke-width:.5;opacity:.18}
 #map .contours .ci{stroke:#4f665a;stroke-width:.9;opacity:.32}
 #map .tiles{mix-blend-mode:multiply;opacity:.85}
-:root[data-theme="dark"] #map .terr{filter:brightness(.42) saturate(.7)}
-:root[data-theme="dark"] #map .tiles{mix-blend-mode:normal;opacity:.55;filter:invert(1) hue-rotate(180deg) brightness(.8)}
-:root[data-theme="dark"] #map .contours path{stroke:#9fb8ac}
 /* 景點標記：統一的圓形日子標記，不用插畫圖示 */
 #map g.st .si,#map g.st .sf,#map g.st .sfi,#map g.st .sc,#map g.st .se,#map g.meal .mln{display:none}
 #map g.st .sct{fill:#fff!important}
@@ -1305,7 +1447,6 @@ body{background:var(--bg)!important;font-size:16px;-webkit-font-smoothing:antial
 .dsum2 .dlong{font-size:14px!important}
 /* 掣：主要＝實色；次要＝淡色底＋強調色字；統一高度 */
 .navbtn,.dsum2 .navbtn{background:var(--route)!important;color:#fff!important;border:0!important}
-:root[data-theme="dark"] .navbtn{color:#000!important}
 .dsum2 .mapbtn,.day h3 .h3act .cuopen,.cuopen,.mini,.cpday,.mapbtn{background:var(--tint)!important;color:var(--route)!important;border:0!important;box-shadow:none!important}
 .day h3 .h3act .sunbtn{background:var(--al-drvbg)!important;color:var(--meal)!important;border:0!important}
 .day h3 .h3act .sunbtn[aria-pressed="true"]{background:var(--meal)!important;color:var(--card)!important}
@@ -1349,8 +1490,7 @@ details.sec{border:0!important;background:var(--fill)!important;border-radius:12
 .dnote{border:0!important;border-radius:12px!important}
 /* ==== ios2 ==== */
 /* iOS：補充 */
-.dsum2,:root[data-theme="dark"] .dsum2{background:none!important}
-:root[data-theme="dark"] .chips button[aria-pressed="true"],:root[data-theme="dark"] .navbtn{color:#000!important}
+.dsum2{background:none!important}
 .daynav button,.scenbox{box-shadow:none!important}
 .daynav button.ghost{visibility:hidden}
 .ovrow .r small{color:var(--muted)!important}
@@ -1385,7 +1525,6 @@ body,button,input,select,textarea{font-family:var(--sans)!important}
 }
 .tcatnav .tct[aria-selected="true"],.psub .tct[aria-selected="true"],.tcatnav .tct.on{background:var(--route)!important;color:#fff!important}
 .tcatnav .tct[aria-selected="true"] svg{color:#fff!important}
-:root[data-theme="dark"] .tcatnav .tct[aria-selected="true"]{color:#000!important}
 #tips .tcat::before,#tips [class*="tcbar"]{display:none!important}
 /* 官方資訊：iOS 分組列表 */
 .thoff{display:grid!important;grid-template-columns:1fr!important;gap:0!important;background:var(--card);border-radius:12px;overflow:hidden;border:.5px solid var(--line)}
@@ -1394,7 +1533,6 @@ body,button,input,select,textarea{font-family:var(--sans)!important}
 .thoff b{font-weight:600;color:var(--fg)}
 .thoff small,.mleg{color:var(--muted)}
 .thoff .sos b{color:#c0392b}
-:root[data-theme="dark"] .thoff .sos b{color:#ff6b5e}
 /* 預訂清單日子標題：純文字 */
 .bkd{background:none!important;color:var(--route)!important;padding:0!important;font-weight:700}
 /* ---- 地圖：Apple Maps 式 ---- */
@@ -1408,8 +1546,6 @@ body,button,input,select,textarea{font-family:var(--sans)!important}
 .btn,.ghostb{border-radius:999px!important}
 .btn:not(.ghostb){background:var(--route)!important;color:#fff!important;border:0!important}
 .ghostb{background:var(--tint)!important;color:var(--route)!important;border:0!important}
-/* 動畫只用在狀態切換 */
-*{animation:none!important}
 button,a,.chips button{transition:background-color .15s ease,color .15s ease}
 /* ==== nordic2 ==== */
 .scenbox,.scenbox *{color:var(--fg)}
@@ -1559,7 +1695,6 @@ html.spon{overflow:hidden}
 .dstat2 .bkn{color:var(--fg)}
 /* 彈出視窗：iOS 厚玻璃 */
 dialog{border:0!important;border-radius:12px!important;background:var(--thick)!important;-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px);box-shadow:0 20px 60px rgba(0,0,0,.25),0 0 0 .5px rgba(0,0,0,.06)!important;color:var(--fg);padding:20px!important;max-width:min(92vw,520px)}
-dialog::backdrop{background:rgba(0,0,0,.28)}
 dialog h3{font-size:18px;font-weight:700;margin:0 0 8px}
 /* 表單：iOS 填色欄位，16px 防止 iPhone 自動放大 */
 input[type=text],input[type=password],input[type=number],input[type=search],input[type=url],input[type=tel],input:not([type]),textarea,select{font-size:16px!important;background:var(--fill)!important;color:var(--fg)!important;border:0!important;border-radius:12px!important;padding:10px 12px!important;box-shadow:none!important;min-height:42px;box-sizing:border-box;font-family:inherit}
@@ -1582,7 +1717,6 @@ table.btable,table.gt{border-collapse:separate!important;border-spacing:0;backgr
 .mgrp,.mcancel{background:var(--thick)!important;-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px)}
 .msheet{background:rgba(0,0,0,.22)}
 dialog button[type=submit].mini{background:var(--route)!important;color:#fff!important;min-height:44px;padding:0 20px!important;border-radius:12px!important;font-size:16px}
-:root[data-theme="dark"] dialog button[type=submit].mini{color:#000!important}
 dialog button.mini:not([type=submit]){min-height:44px;padding:0 18px!important;border-radius:12px!important;font-size:16px}
 dialog form .row,dialog .row{gap:8px}
 dialog input[type=text],dialog input[type=password],dialog input:not([type]),dialog textarea,dialog select{background:var(--card)!important;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12)!important}
@@ -1627,7 +1761,6 @@ dialog,.mgrp,.mcancel,.spp{background:var(--card)!important;-webkit-backdrop-fil
 :root:not([data-theme="light"]) #bookp select.tst.todo{color:#f0a868!important}
 :root:not([data-theme="light"]) #bookp select.tst.ok{color:#6fd39a!important}
 :root:not([data-theme="light"]) #bookp select.tst.chg{color:#ff8a80!important}
-:root:not([data-theme="light"]){--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}
 }
 @media (max-width:640px){
 dialog.optdlg{width:100%;max-width:100%;margin:auto 0 0;border-radius:12px 20px 0 0!important;max-height:86vh;padding-bottom:env(safe-area-inset-bottom,0px)!important}
@@ -1999,9 +2132,6 @@ html .wrap > .bnav button span,html .wrap > .bnav button em,html .wrap > .bnav b
 .tkl li.tk-done .bkn,.tkl li.tk-na .bkn{color:var(--muted)}
 .tkl li.tk-na{opacity:.7}
 .tkl .flc,.tkl .bkact,.tkl .bkx{margin-left:0!important}
-:root[data-theme="dark"] select.tst.todo{color:#f0a868}
-:root[data-theme="dark"] select.tst.ok{color:#6fd39a}
-:root[data-theme="dark"] select.tst.chg{color:#ff8a80}
 /* 首頁「今日要做」 */
 
 /* 首頁「今日要做」 */
@@ -2019,9 +2149,6 @@ html .wrap > .bnav button span,html .wrap > .bnav button em,html .wrap > .bnav b
 #bookp select.tst.ok{background-color:rgba(47,138,87,.14)!important;color:#23744a!important}
 #bookp select.tst.chg{background-color:rgba(214,61,46,.13)!important;color:#b3261e!important}
 #bookp select.tst.na{background-color:var(--fill)!important;color:var(--muted)!important}
-:root[data-theme="dark"] #bookp select.tst.todo{color:#f0a868!important}
-:root[data-theme="dark"] #bookp select.tst.ok{color:#6fd39a!important}
-:root[data-theme="dark"] #bookp select.tst.chg{color:#ff8a80!important}
 /* 每日住宿已併入任務清單 */
 #pp-stay{display:none!important}
 .tkst{margin-top:8px;display:grid;gap:8px;font-size:13px;color:var(--fg)}
@@ -2033,11 +2160,6 @@ html .wrap > .bnav button span,html .wrap > .bnav button em,html .wrap > .bnav b
 .htodo .hbig{margin-top:2px}
 .htodo .hmeta{margin-bottom:6px}
 .tkl .bkx input[type=date]{min-width:150px!important;width:auto!important;height:32px;padding:0 8px!important}
-/* 總覽同行程頁地圖用同一個高度 */
-
-/* ===== 字體和對齊統一（所有頁）=====
-   頁標題 24／區標題 16／項目標題 15／內文 13／小字 12.5（最小 12）；所有頁內容左邊對齊同一條線 */
-:root{--mapH:clamp(380px,calc(100vh - 140px),760px);--fs-page:24px;--fs-sec:16px;--fs-item:15px;--fs-body:13px;--fs-meta:12.5px}
 /* 時間表字體統一：標題 15px（重點 600、其他 500）、小字 12.5px、時間 13px */
 .sched.rich .a:not(.drv) .tl-n,.sched.rich .a:not(.drv):not(:has(.tl-n)) > .tl-h,.sched.rich .a.m .tl-h,.sched.rich .a.meal .tl-h{font-size:15px!important;line-height:1.4!important}
 .sched.rich .a .tl-n,.sched.rich .a .tl-h{font-weight:500!important}
@@ -2519,9 +2641,6 @@ article.day>h3 .optbtn span{display:none}
 .landing .lenter{margin-top:8px;width:100%;border:0;border-radius:999px;padding:12px;background:#15506a;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
 .landing.st-almost .lenter{background:#b5532f}
 .landing.st-early .lenter{background:#2b7a8f}
-/* ===== Nordic Editorial：冰川藍、霧灰、米白、深藍 ===== */
-:root{--bg:#f4f1ea;--card:#fffdf8;--fg:#14283a;--muted:#667985;--line:#ddd8cb;--sea:#d3e5ee;--land:#f1ede3;--route:#2b6f95;--pill:#fffdf8;--pill-fg:#1b4a68;--shadow:0 1px 2px rgba(20,40,58,.05),0 8px 24px rgba(20,40,58,.07)}
-:root[data-theme="dark"]{--bg:#0d1b27;--card:#14293a;--fg:#e6eef2;--muted:#9fb2bd;--line:#243a4b;--sea:#12293a;--land:#1c3040;--route:#7cc0de;--pill:#14293a;--pill-fg:#bfe3f2;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28)}
 .tcard,.fcd,.ovplan,.ovhero{border-radius:12px}
 .tdate,.ovhero h1,.ovhero h2,.thd2 b,.ovplan h2,.ovplan h3{font-family:var(--sans);letter-spacing:.01em}
 .tdate{}
@@ -2622,9 +2741,7 @@ article.day>h3 .optbtn span{display:none}
 .glance{background:#FDFBF7;border-color:#EFECE6}
 @media (prefers-color-scheme:dark){
 :root:not([data-theme="light"]) .glance{background:var(--card);border-color:var(--line)}
-:root:not([data-theme="light"]){--sil1:#2a465a;--sil2:#1f3a4d;--sil3:#3f6178}
 }
-:root[data-theme="dark"] .glance{background:var(--card);border-color:var(--line)}
 .glh{display:block}
 .glh small{display:block;font:600 11.5px/1 system-ui,sans-serif;letter-spacing:.15em;color:#8C857B;margin-bottom:6px}
 .glh h3{font:700 24px/1.2 var(--sans)}
@@ -2637,9 +2754,6 @@ article.day>h3 .optbtn span{display:none}
 .glst b.sm{font-size:24px;line-height:36px}
 .glst small{font-size:11px;font-weight:500;color:#6B7280}
 .glst small i{font-style:normal}
-/* ===== 總覽地圖：暫時用冰島輪廓 ===== */
-:root{--sil1:#dfeaf0;--sil2:#c4d8e3;--sil3:#9fbccc}
-:root[data-theme="dark"]{--sil1:#2a465a;--sil2:#1f3a4d;--sil3:#3f6178}
 #homeMap{display:none!important}
 .ovsil{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;padding:28px 20px 22px;box-sizing:border-box;background:radial-gradient(90% 70% at 50% 40%,color-mix(in srgb,var(--route) 7%,transparent),transparent 70%)}
 .ovsil svg{width:100%;max-width:300px;height:auto;filter:drop-shadow(0 6px 14px rgba(20,40,58,.12))}
@@ -2671,8 +2785,6 @@ article.day>h3 .optbtn span{display:none}
 .thero,.thero > *,#today,#todayIn{min-width:0;max-width:100%}
 .thero .tchips{width:100%;box-sizing:border-box;margin-left:0!important;margin-right:0!important}
 #todayIn{display:grid;grid-template-columns:minmax(0,1fr)}
-/* ===== 全站一致：卡片標題同一級、卡片外觀統一 ===== */
-:root{--fs-sec:17px}
 .thd2>b,.glh h3,.bc-h .glk,#bookp h3.bkh,.hrh b{font:700 var(--fs-sec)/1.3 var(--sans)!important;color:var(--fg);letter-spacing:.01em;margin:0}
 .thd2{margin-bottom:12px}
 .glh{margin-bottom:16px}
@@ -2686,8 +2798,6 @@ article.day>h3 .optbtn span{display:none}
 }
 .thd2 small,.bc-n,.bc-cnt{font:600 12px system-ui,sans-serif;color:var(--muted)}
 .hlinks .thd2{margin-bottom:10px}
-/* ===== 版面節奏：卡片間距、內距、對齊統一 ===== */
-:root{--gap-card:14px;--pad-card:18px}
 #todayIn{gap:var(--gap-card)}
 .dsum2.dsB,.dlinks,#bookp > section,#prep section.tcard,#prep .hcard,#panel .dsum2.dsB{border-radius:12px!important;padding:var(--pad-card)!important}
 #prep>*+*,#budget>*+*{margin-top:var(--gap-card)}
@@ -2933,11 +3043,6 @@ mark.xmiss{background:#ffd0d0;color:#1c1c1c}
 /* 2026-11-24 audit：步行／巴士導航掣只留 emoji；詳情內文唔用粗體 */
 .drvpill.emo::before{content:none!important;display:none!important}
 .sched.rich details.stinfo>p{font-weight:400!important;font-size:13px!important;color:var(--muted)!important}
-/* ===== Nordic Expedition Editorial（2026-11-24）— 只改外觀，不改資料／功能 ===== */
-:root{--serif:"Iowan Old Style","Charter","Georgia","Songti TC","Noto Serif TC","PMingLiU",serif;--gold:#a8874a;--glacier:#7f9fb0;--moss:#4f6b3d;--ph:none;--topo:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%23a8874a' stroke-opacity='.16' stroke-width='1'%3E%3Cpath d='M-10 60c40-30 80 20 130-5s80-35 130 0'/%3E%3Cpath d='M-10 85c45-25 85 22 132-2s78-30 128 4'/%3E%3Cpath d='M-10 150c35-20 70 25 120 5s90-40 140-5'/%3E%3Cpath d='M-10 175c40-18 80 28 125 8s85-35 135 0'/%3E%3Cpath d='M-10 205c45-15 85 25 128 8s82-30 132 2'/%3E%3C/svg%3E")}
-:root,:root[data-theme="light"]{--bg:#f6f1e6;--card:#fffcf5;--fg:#24302a;--muted:#6a6e64;--line:#e4dac6;--route:#4f6b3d;--fjord:#4f6b3d;--pill:#fffcf5;--pill-fg:#4f6b3d;--accent-bg:#ebeedf;--tint:#ebeedf;--fill:#efe8da;--nav:rgba(250,246,237,.92);--side:#f1eadc;--sea:#d9e6ea;--land:#f4eee1;--coast:#9fb7bf;--ok:#4f6b3d;--ok2:#4f6b3d;--okbg:#e6ecdb;--shadow:0 1px 2px rgba(70,58,36,.05),0 8px 22px rgba(70,58,36,.07);--shadow-l:0 10px 30px rgba(70,58,36,.12);--glass:rgba(255,252,245,.8);--glass-solid:#fbf7ee;--thick:rgba(250,246,237,.9);--hero-fade:linear-gradient(90deg,rgba(246,241,230,.92) 0%,rgba(246,241,230,.55) 38%,rgba(246,241,230,0) 70%),linear-gradient(180deg,rgba(246,241,230,0) 55%,#f6f1e6 100%)}
-body{background:var(--topo) 0 0/240px 240px repeat,var(--bg)}
-:root[data-theme="dark"] body{--topo:none}
 /* 標題：襯線；內文維持無襯線 */
 h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcard h3,.tiph{font-family:var(--serif)!important;letter-spacing:-.005em}
 .tdate,.day>h3>span:first-child{font-weight:700!important}
@@ -2965,9 +3070,6 @@ h1,.hero h1,.tdate,.pghead h1,.day>h3>span:first-child,.hcard h3,.tcard h2,.tcar
 /* 導航列 */
 .bnav,.fnav{background:var(--nav)!important;border-color:var(--line)!important;-webkit-backdrop-filter:saturate(1.2) blur(14px);backdrop-filter:saturate(1.2) blur(14px)}
 .bnav [aria-current="page"],.bnav .on,.fnav [aria-current="page"],.fnav .on{color:var(--moss)!important}
-/* 深色模式：保留原有配色，只加金色小強調 */
-:root[data-theme="dark"]{--moss:#9cbf86;--gold:#d2b36f}
-:root[data-theme="dark"] .thero{background:var(--card)!important}
 @media (max-width:560px){
 #budget .btot{grid-template-columns:1fr 1fr}
 #budget .btable .item{min-width:10em}
@@ -2979,20 +3081,9 @@ body:not(#_) .sched.rich{grid-template-columns:var(--tcol) minmax(0,1fr)!importa
 }
 @media (prefers-color-scheme:dark){
 :root:not([data-theme="light"]) body{--topo:none}
-:root:not([data-theme="light"]){--moss:#9cbf86;--gold:#d2b36f}
 :root:not([data-theme="light"]) .thero{background:var(--card)!important}
 :root:not([data-theme="light"]) .chips button[aria-pressed="true"]{color:#000!important}
 }
-:root[data-theme="dark"] .chips button[aria-pressed="true"]{color:#000!important}
-/* 相片位置：收到相片後在此加入，例如
-:root{--hero-img:url(img/hero.jpg)}
-.day[data-d="9"],.thero[data-d="9"]{--ph:url(img/d9.jpg)} */
-/* 相片（Unsplash） */
-
-/* 主頁標題：唔用相 */
-
-/* 字體統一：標題同一隻襯線字（中英數字同一隻，唔再一行兩款字），其餘全部同一隻無襯線字 */
-:root{--hero-img:none!important;--serif:"Songti TC","Noto Serif TC","Source Han Serif TC","Noto Serif CJK TC","PMingLiU",serif;--sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
 .day[data-d="2"],.thero[data-d="2"]{--ph:url(img/d2.jpg)}
 .day[data-d="3"],.thero[data-d="3"]{--ph:url(img/d3.jpg)}
 .day[data-d="6"],.thero[data-d="6"]{--ph:url(img/d6.jpg)}
@@ -3035,15 +3126,12 @@ body:not(#_) .sched.rich{grid-template-columns:var(--tcol) minmax(0,1fr)!importa
 .scenbox .seg{margin-left:auto;background:var(--fill)!important;border-radius:999px!important;padding:3px!important;display:inline-flex;gap:2px}
 .scenbox .seg button{border-radius:999px!important;border:0!important;background:transparent!important;min-height:32px;padding:0 14px!important;font-weight:600;color:var(--muted)!important}
 .scenbox .seg button[aria-pressed="true"]{background:var(--moss)!important;color:#fff!important;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-:root[data-theme="dark"] .day>h3 .h3act button,:root[data-theme="dark"] .day>h3 .h3act a{background:rgba(30,30,32,.8)!important}
 /* 相片顯示多啲（2026-11-24）*/
 .day:is([data-d="0"],[data-d="1"],[data-d="10"],[data-d="11"],[data-d="12"],[data-d="2"],[data-d="3"],[data-d="4"],[data-d="5"],[data-d="6"],[data-d="7"],[data-d="8"],[data-d="9"],[data-d="-5"],[data-d="-4"])>h3{min-height:132px;align-items:flex-end!important;background:linear-gradient(180deg,rgba(255,252,245,0) 25%,rgba(255,252,245,.75) 72%,var(--card) 100%),var(--ph) center 45%/cover no-repeat!important;padding-bottom:10px!important}
 .thero{background:linear-gradient(180deg,rgba(18,24,20,.05) 0,rgba(18,24,20,.25) 90px,rgba(18,24,20,.6) 168px,var(--card) 168px),var(--ph) center top/100% auto no-repeat,linear-gradient(135deg,#5d7566,#8ea4aa)!important}
 .thero .tsub{padding-top:96px!important;color:#f3ead2!important}
 .thero .tdate,#homeToday .thero .tdate{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.45)}
 .thero .tdrow{min-height:48px}
-/* 主頁標題：左邊象牙底加闊，標題唔再壓喺山上 */
-:root,:root[data-theme="light"]{--hero-fade:linear-gradient(90deg,#f6f1e6 0%,rgba(246,241,230,.95) 38%,rgba(246,241,230,.55) 58%,rgba(246,241,230,0) 78%),linear-gradient(180deg,rgba(246,241,230,0) 70%,rgba(246,241,230,.9) 100%)}
 .day[data-d="0"],.thero[data-d="0"]{--ph:url(img/d0.jpg)}
 /* 今日卡相片：要蓋過 #today／#homeToday 嘅透明底設定 */
 
@@ -3071,7 +3159,6 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 .day[data-d="2"] > h3,#today .thero[data-d="2"],#homeToday .thero[data-d="2"]{background-position:0 0,center 12%,0 0!important}
 /* 今日卡：日期喺相片下面，用深色字 */
 #today .thero .tdate,#homeToday .thero .tdate,.thero .tdate{color:var(--fg)!important;text-shadow:none!important}
-:root[data-theme="dark"] .thero .tdate{color:#fff!important}
 .scenbox .sl,#today .viewbox .sl,#homeToday .viewbox .sl,.thero .viewbox .sl,#panel .scenbox .sl{font-size:12px!important;letter-spacing:.12em;color:var(--gold)!important;font-weight:700}
 #today .viewbox,#homeToday .viewbox{margin:0 0 var(--gap-card,14px)!important;padding:10px 16px!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:var(--shadow)!important}
 /* 今日卡相片：固定 200px 相片帶，日期下面唔再留大段空白 */
@@ -3080,7 +3167,6 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 #today .thero>*:last-child,#homeToday .thero>*:last-child{margin-bottom:0!important}
 /* 行程細項：全文顯示，唔再「…」截斷 */
 .sched .tl-d,.sched .tl-d *,.sched .tl-m,.sched .tl-more,.sched .tl-more *{white-space:normal!important;text-overflow:clip!important}
-:root[data-theme="dark"] #today .thero,:root[data-theme="dark"] #homeToday .thero{background:linear-gradient(180deg,rgba(0,0,0,0) 90px,var(--card) 200px),var(--ph) center 35%/100% auto no-repeat,var(--card)!important}
 /* 今日頁日子掣：放喺卡片外面（同行程頁一樣） */
 #today>.tchips,#homeToday>.tchips,#todayIn>.tchips,.tchips:not(.thero .tchips){margin:0 0 10px!important;padding:2px 0!important;background:none!important;border:0!important;box-shadow:none!important}
 /* 模擬日子提示條 */
@@ -3185,7 +3271,6 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .fcd .fci small{font-size:12px;color:var(--muted)}
 #today .fcd .fctm{font-style:normal;font-size:24px;font-weight:600;line-height:1.2;color:var(--fg);font-variant-numeric:tabular-nums}
 #today .fcd .fctm small{font-size:11px;font-weight:400;margin-right:2px}
-:root[data-theme="dark"] #today .fcd{background:var(--card)!important}
 #today .ovdc{margin-top:14px}
 #today .ovdc .ovmt{font-size:18px;font-weight:600;line-height:1.3;margin:0 2px 10px}
 #today .ovdcs{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -3196,7 +3281,6 @@ body,button,input,select,textarea,.lcard{font-family:var(--sans)!important}
 #today .ovdt small{font-size:12px;line-height:1.3;color:var(--muted);letter-spacing:.04em;font-variant-numeric:tabular-nums}
 #today .ovdt b{font-size:17px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #today .ovdt span{font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;word-break:keep-all;overflow-wrap:anywhere}
-:root[data-theme="dark"] #today .ovdcard{background:var(--card)}
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]) #today .fcd{background:var(--card)!important}
 :root:not([data-theme="light"]) #today .ovdcard{background:var(--card)}
@@ -3230,10 +3314,6 @@ body .wrap>.hero{padding-inline:16px!important}
 #budget .bctl input[type=number]{border:1px solid var(--line);color:var(--fg);box-sizing:border-box;-moz-appearance:textfield;appearance:textfield;min-height:0!important;height:30px!important;line-height:28px;border-radius:8px!important;padding:0 8px!important;background:var(--card)!important;font-size:14px!important;width:56px!important}
 #budget .bctl input[type=number]::-webkit-inner-spin-button{opacity:.6}
 #budget .bctl input[type=number]::-webkit-outer-spin-button,#budget .bctl input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-/* ===== 日式編排：手機時間表 typography／spacing／右側掣統一（放最後；body:not(#_) 提高優先度） ===== */
-
-/* ===== 日式指南版：再細一級、字重分層、掣同 emoji 縮細（觸控範圍保留） ===== */
-:root{--s1:4px;--s2:8px;--s3:12px;--tcol:52px;--fs-main:15px;--fs-time:13px;--fs-sub:12px;--fs-xs:11px;--fs-tag:10.5px;--lh-t:1.45;--lh-s:1.5;--lh-row:22px;--pillw:64px}
 body:not(#_) .sched.rich .tl-n,body:not(#_) .tlist .tnm{line-break:strict;overflow-wrap:break-word;text-wrap:pretty}
 body:not(#_) .sched.rich .tl-sub{display:block;margin-top:2px;font-size:var(--fs-sub);font-weight:400;line-height:var(--lh-s);color:var(--muted)}
 /* 標籤：AI 建議、預約等同一款，唔再變大圓 */
