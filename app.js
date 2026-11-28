@@ -122,7 +122,7 @@ NVP=planNewVer(days);applyPlan(days,OV.plan);
 let scen=store.get("iceland-scen")==="redo"?"redo":"ok";
 /* 每日切換掣（例如 D4 觀不觀鯨、D5 去不去藍色教堂、D6 日出／潮退／日落）：選了哪個，日程表、地圖、導航都跟住變 */
 let VIEW={};try{VIEW=JSON.parse(store.get("iceland-view")||"{}")||{}}catch(e){VIEW={}}
-function viewId(raw){if(!raw||!raw.view)return "";const ids=raw.view.opts.map(o=>o.id),v=VIEW[raw.d];return ids.includes(v)?v:(raw.view.def||ids[0])}
+function viewId(raw){if(!raw||!raw.view)return "";if(!REAL&&!DT){const j=raw.view.opts.find(o=>/J&J/.test(o.t));if(j)return j.id}const ids=raw.view.opts.map(o=>o.id),v=VIEW[raw.d];return ids.includes(v)?v:(raw.view.def||ids[0])}
 let XLS=store.get("iceland-xls")==="1",XHL=store.get("iceland-xhl")==="1";
 function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const cl=x=>String(x).replace(/<[^>]*>/g,""),P=[raw.plan,raw.real&&raw.real.plan,...((raw.view&&raw.view.opts)||[]).map(o=>o.plan),...Object.values(raw.v||{}).map(v=>v&&v.plan)].filter(Boolean).flat().map(r=>[String(r[0]),cl(r[1])]),st=t=>String(t).split("–")[0].trim(),mv=/^(退房|開去|出發|前往|到 )|開去|前往|出發去/;
  const out=raw.xls.plan.map(r=>{let a=r[1];if(XHL&&r[3]){const re=new RegExp(r[3],"i"),m=P.find(p=>re.test(p[1])&&!mv.test(p[1]))||P.find(p=>re.test(p[1])),n=!m?"T&D 冇":st(m[0])!==st(r[0])?`T&D ${m[0]}`:"";if(n)a=`<mark class="xdiff">${a}（${n}）</mark>`}return [r[0],a,r[2]||""]});
@@ -132,7 +132,7 @@ function xlsOpt(raw){if(!XLS||!raw||!raw.xls)return null;const cl=x=>String(x).r
 /* 切換版本／情境後，將撳過嘅掣捲返原本畫面位置（上面內容變高變矮都唔跳） */
 function PIN(b,fn){let sel=null,t0=0;try{const a=["data-xls","data-xhl","data-view","data-scen"].find(n=>b.hasAttribute(n));sel=`[${a}="${CSS.escape(b.getAttribute(a))}"]`;t0=b.getBoundingClientRect().top}catch(e){}
   const y=window.scrollY;fn();try{window.scrollTo(0,y);if(sel){const c=[...document.querySelectorAll(sel)].filter(x=>x.offsetParent);if(c.length){const d=x=>Math.abs(x.getBoundingClientRect().top-t0);c.sort((p,q)=>d(p)-d(q));window.scrollBy(0,c[0].getBoundingClientRect().top-t0)}}}catch(e){}}
-function xlsBar(raw){if(!raw||!raw.xls)return "";return `<div class="scenbox viewbox noen" role="group" aria-label="行程版本"><span class="sl">版本</span><div class="seg"><button type="button" data-xls="0" aria-pressed="${!XLS}">T&amp;D</button><button type="button" data-xls="1" aria-pressed="${XLS}">J&amp;J</button></div><div class="seg"${XLS?"":" style=\"visibility:hidden\" aria-hidden=\"true\""}><button type="button" data-xhl="1" aria-pressed="${XHL}"${XLS?"":" tabindex=\"-1\""}>標示不同</button></div></div>`}
+function xlsBar(raw){if(!raw||!raw.xls||(!REAL&&!DT))return "";return `<div class="scenbox viewbox noen" role="group" aria-label="行程版本"><span class="sl">版本</span><div class="seg"><button type="button" data-xls="0" aria-pressed="${!XLS}">T&amp;D</button><button type="button" data-xls="1" aria-pressed="${XLS}">J&amp;J</button></div><div class="seg"${XLS?"":" style=\"visibility:hidden\" aria-hidden=\"true\""}><button type="button" data-xhl="1" aria-pressed="${XHL}"${XLS?"":" tabindex=\"-1\""}>標示不同</button></div></div>`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-xls],[data-xhl]");if(!b)return;if(b.dataset.xls!=null){XLS=b.dataset.xls==="1";store.set("iceland-xls",XLS?"1":"0")}else{XHL=!XHL;store.set("iceland-xhl",XHL?"1":"0")}PIN(b,()=>{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}})});
 function viewOpt(raw){const xo=xlsOpt(raw);if(xo)return xo;try{if(!raw||!raw.view)return null;const o=raw.view.opts.find(x=>x.id===viewId(raw));if(!o)return null;let plan=o.plan,arrive=o.arrive;
   if(o.fn&&CHOICE_FN[o.fn]){const x=CHOICE_FN[o.fn](raw,{...raw,plan:o.base||raw.plan});plan=x.plan;arrive=x.arrive||raw.arrive}
@@ -143,7 +143,7 @@ function adjWhy(raw){try{const w=REAL&&raw&&(window.TRIP.WHY||{})[raw.d];if(!w)r
 function aiEarly(raw){try{const vo=viewOpt(raw),p=(vo&&vo.plan)||(raw.v?((raw.v[scen]||raw.v.ok).plan):raw.plan)||[];
   const xs=p.map(r=>{const t=String(r[1]),i=t.indexOf("｜AI 建議");return i<0?null:[r[0],t.slice(i+1)]}).filter(Boolean);
   const e=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);return xs.map(([tm,t])=>`<div class="tmeta aisug noen">🤖 ${e(tm)}｜${e(t)}</div>`).join("")}catch(e){return ""}}
-function viewBar(raw){const xb=xlsBar(raw);if(XLS&&raw.xls)return xb;if(!raw.view||raw.view.inline||(raw.v&&scen!=="ok"))return xb;const cur=viewId(raw);
+function viewBar(raw){if(!REAL&&!DT)return "";/* 公眾版：唔顯示版本切換 */const xb=xlsBar(raw);if(XLS&&raw.xls)return xb;if(!raw.view||raw.view.inline||(raw.v&&scen!=="ok"))return xb;const cur=viewId(raw);
   return xb+`<div class="scenbox viewbox noen" role="group" aria-label="${escA(raw.view.label)}"><span class="sl">${raw.view.label}</span><div class="seg">${raw.view.opts.map(o=>`<button type="button" data-view="${raw.d}|${o.id}" aria-pressed="${o.id===cur}">${o.t}</button>`).join("")}</div></div>${raw.d===6&&cur==="tide"?tideH(raw):""}`}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-view]");if(!b)return;const k=b.dataset.view,q=k.indexOf("|");VIEW[k.slice(0,q)]=k.slice(q+1);store.set("iceland-view",JSON.stringify(VIEW));PIN(b,()=>{const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}})});
 const ALL=99;
@@ -173,8 +173,8 @@ if(!REAL){try{
   const isNote=v=>Array.isArray(v)&&typeof v[0]==="string"&&v.length<=2&&(v.length===1||typeof v[1]!=="string");
   const walk=o=>{if(Array.isArray(o)){for(let i=o.length-1;i>=0;i--){const v=o[i];if(typeof v==="string")o[i]=clean(v);else if(isNote(v)&&INT.test(v[0]))o.splice(i,1);else if(v&&typeof v==="object"&&!(v instanceof RegExp))walk(v)}}
     else if(o&&typeof o==="object"&&!(o instanceof RegExp)){for(const k of Object.keys(o)){const v=o[k];if(typeof v==="string")o[k]=clean(v);else if(v&&typeof v==="object"&&!(v instanceof RegExp))walk(v)}}};
-  T.days.forEach(d=>{delete d.xls;walk(d)});days.forEach(d=>{delete d.xls;walk(d)});
-  T.WHY={};T.AI={};T.AIOPT=[];Object.keys(AIRX).forEach(k=>delete AIRX[k]);AIB="";XLS=false;XHL=false;
+  const ph=d=>d.xls&&!(d.xls.plan||[]).some(r=>!/^待定$/.test(String(r[1]).trim()));T.days.forEach(d=>{if(ph(d))delete d.xls;walk(d)});days.forEach(d=>{if(ph(d))delete d.xls;walk(d)});
+  T.WHY={};T.AI={};T.AIOPT=[];Object.keys(AIRX).forEach(k=>delete AIRX[k]);AIB="";XLS=true;XHL=false;/* 公眾版固定顯示 J&J 版本（冇切換、冇差異標示） */
   if(window.DATA&&DATA.SP)walk(DATA.SP);if(window.DATA&&DATA.DLY)walk(DATA.DLY);if(T.DLY)walk(T.DLY);
 }catch(e){}}
 /* 管理者版：D6 Ósland 日落、D7 鑽石沙灘、D5 T&D Stuðlagil 預設已加入（只做一次） */
@@ -1185,7 +1185,7 @@ function MSEL(d){try{const M=d&&MO[d.d];if(!M||!d.plan)return d;
   return {...d,plan}}catch(e){return d}}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-meal]");if(!b)return;e.preventDefault();e.stopPropagation();const [d,m,v]=b.dataset.meal.split("|");let S={};try{S=JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){}S[d+"|"+m]=v;store.set("iceland-meal",JSON.stringify(S));{const sh=$("mealsheet");if(sh)sh.hidden=true}const td0=TODAY.d;drawMap();renderPanel();dim();try{if(TODAY.box&&TODAY.box.offsetParent){TODAY.d=td0;TODAY.render()}}catch(err){}},true);
 /* 揀餐廳：Bottom Sheet（行程表只顯示時段、已揀餐廳、導航同「揀／更改」掣） */
-function mealSheet(a){const SD=(a.closest&&a.closest("#today")&&typeof TODAY.d==="number")?TODAY.d:sel;/* 今日頁用今日嗰日，唔用行程頁選緊嘅日 */const t=a.textContent||"",mt=/(早午餐|早餐|午餐|晚餐)/.exec(t);if(!mt)return false;const M=MO[SD];if(!M||!M[mt[1]])return false;
+function mealSheet(a){if(!REAL&&!DT)return false;/* 公眾版唯讀 */const SD=(a.closest&&a.closest("#today")&&typeof TODAY.d==="number")?TODAY.d:sel;/* 今日頁用今日嗰日，唔用行程頁選緊嘅日 */const t=a.textContent||"",mt=/(早午餐|早餐|午餐|晚餐)/.exec(t);if(!mt)return false;const M=MO[SD];if(!M||!M[mt[1]])return false;
  let sh=$("mealsheet");if(!sh){sh=document.createElement("div");sh.id="mealsheet";sh.className="msheet";sh.hidden=true;document.body.appendChild(sh);sh.addEventListener("click",e=>{if(e.target===sh||e.target.closest(".mpclose"))sh.hidden=true})}
  const ml=mt[1],cur=mselGet(SD,ml),m=document.createElement("div");m.className="msp dinpick noen";m.setAttribute("role","dialog");
  const S0=(()=>{try{return JSON.parse(store.get("iceland-meal")||"{}")||{}}catch(x){return {}}})(),oth=id=>Object.keys(S0).filter(k=>!k.startsWith(SD+"|")&&S0[k]===id).map(k=>dLab(+k.split("|")[0])).filter((v,i,A)=>A.indexOf(v)===i).join("、");
@@ -2136,7 +2136,7 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
    打勾只存在這部手機（iceland-done-日子）；旅程期間才顯示勾；導航任何時候都可以用 */
 /* 地點名：只取外文名（例如 Vestrahorn），沒有就用原名 */
 function tripName(k){try{if(Q[k])return String(Q[k]).replace(/,.*$/,"");const v=String(pts[k][0]).replace(/（.*）/,"");const m=v.match(/[A-Za-zÀ-ÿÞþÐðÆæ][^\u3400-\u9fff（(]*/);return (m?m[0]:v).trim()}catch(e){return ""}}
-function tripLive(){try{return HPHASE()===3||store.get("iceland-ticktest")==="1"}catch(e){return false}}
+function tripLive(){try{if(!REAL&&!DT)return false;/* 公眾版唯讀：冇完成剔號／完成狀態 */return HPHASE()===3||store.get("iceland-ticktest")==="1"}catch(e){return false}}
 function tripDone(d){try{return new Set(JSON.parse(store.get("iceland-done-"+d)||"[]"))}catch(e){return new Set()}}
 function tripSave(d,S){try{store.set("iceland-done-"+d,JSON.stringify([...S].sort((a,b)=>a-b)))}catch(e){}}
 function tripNavApply(root){try{(root||document).querySelectorAll("article.day[data-d]").forEach(art=>{const d=art.dataset.d,sc=art.querySelector(".sched.rich");if(!sc)return;
@@ -2145,7 +2145,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
     if(a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".drvgo")){const g=document.createElement("a");g.className="drvgo";g.href=a.dataset.nav;g.target="_blank";g.rel="noopener";g.setAttribute("aria-label","導航去 "+(pts[a.dataset.to]?String(pts[a.dataset.to][0]).replace(/（.*）/,""):(Q[a.dataset.to]||"")));
       while(a.firstChild)g.appendChild(a.firstChild);g.insertAdjacentHTML("beforeend",'<span class="drvpill">導航</span>');a.appendChild(g);a.classList.add("hasnav")}
     if(d==="-4"&&!a.dataset.nav&&!a.classList.contains("drv")&&/Bus Stop #01|市政廳/.test(a.textContent)){a.dataset.nav="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("Reykjavík City Hall, Tjarnargata 11, Reykjavík");a.dataset.walk="1"}   /* 徒步：集合點導航 */
-    if(!a.dataset.nav&&a.classList.contains("m")&&MO[d]&&/▾/.test(a.textContent)){const mt=/(早午餐|早餐|午餐|晚餐)/.exec(a.textContent),M=mt&&MO[d][mt[1]],o=M&&M.o.find(x=>oid(x)===mselGet(d,mt[1]));if(o&&o.q){a.dataset.nav=/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);if(+d<1)a.dataset.walk="1"}if(M&&!a.querySelector(".mpick"))a.insertAdjacentHTML("beforeend",`<button type="button" class="mpick noen" data-mpick="1">${o?"更改":"揀餐廳"}</button>`)}   /* 已揀餐廳：行程表直接有導航；揀／更改開 Bottom Sheet */
+    if(!a.dataset.nav&&a.classList.contains("m")&&MO[d]&&/▾/.test(a.textContent)){const mt=/(早午餐|早餐|午餐|晚餐)/.exec(a.textContent),M=mt&&MO[d][mt[1]],o=M&&M.o.find(x=>oid(x)===mselGet(d,mt[1]));if(o&&o.q){a.dataset.nav=/^https?:/.test(o.q)?o.q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(o.q);if(+d<1)a.dataset.walk="1"}if(M&&(REAL||DT)&&!a.querySelector(".mpick"))a.insertAdjacentHTML("beforeend",`<button type="button" class="mpick noen" data-mpick="1">${o?"更改":"揀餐廳"}</button>`)}   /* 已揀餐廳：行程表直接有導航；揀／更改開 Bottom Sheet */
     if(!a.classList.contains("drv")&&a.dataset.nav&&!a.querySelector(".depgo")){
       /* 早上出發：標題只寫「退房出發」，下面細字寫車程和路線（目的地就是下一行）；「出發，前往…」（例如可選景點、機場）照舊 */
       const tn=a.querySelector(".tl-n"),T=tn?tn.textContent.trim():"",mm=T.match(/^(退房出發|出發)(?:，(.*))?$/);let line="";
@@ -2165,7 +2165,7 @@ function tripNavApply(root){try{(root||document).querySelectorAll("article.day[d
   if(sp)sp.classList.add("noen");if(nx){nb.href=nx.dataset.nav;const n=tripName(nx.dataset.to);if(sp)sp.textContent=(S.size?"繼續去 ":"出發去 ")+String(n).split(/[\s（(]/)[0];nb.setAttribute("aria-label","繼續導航去 "+n)}
   else{nb.href=nb.dataset.day;if(sp)sp.textContent=nb.dataset.lab;nb.setAttribute("aria-label","Google Maps 整日導航")}})}catch(e){}}
 document.addEventListener("click",e=>{const t=e.target;if(!t.closest)return;
-  const b=t.closest(".tick");if(b){e.preventDefault();e.stopPropagation();const [d,i]=b.dataset.tick.split("|"),S=tripDone(d);S.has(+i)?S.delete(+i):S.add(+i);tripSave(d,S);tripNavApply(b.closest("article.day")?.parentElement||document);return}
+  const b=t.closest(".tick");if(b&&!REAL&&!DT){e.preventDefault();return}if(b){e.preventDefault();e.stopPropagation();const [d,i]=b.dataset.tick.split("|"),S=tripDone(d);S.has(+i)?S.delete(+i):S.add(+i);tripSave(d,S);tripNavApply(b.closest("article.day")?.parentElement||document);return}
   const g=t.closest(".drvgo");if(g&&tripLive()){const a=g.closest(".a"),art=a.closest("article.day[data-d]");if(!art)return;const d=art.dataset.d,S=tripDone(d),me=+a.dataset.ri;
     const dep=g.classList.contains("depgo");art.querySelectorAll(".sched.rich>.a").forEach(r=>{const i=+r.dataset.ri;if((i<me||(dep&&i===me))&&!r.classList.contains("drv"))S.add(i)});tripSave(d,S);setTimeout(()=>tripNavApply(art.parentElement),50)}},true);
 function TKOPEN(li){try{const b=li&&li.querySelector(".tkdet");if(b){b.setAttribute("aria-expanded","true");if(b.nextElementSibling)b.nextElementSibling.hidden=false}}catch(e){}}
