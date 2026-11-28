@@ -18,7 +18,7 @@ var F=window.fetch;window.fetch=function(u,o){try{var x=String(u&&u.url||u);if(/
 if(q.get("daily")){j.daily={time:[a],weather_code:[2],temperature_2m_max:[11],temperature_2m_min:[5],precipitation_probability_max:[30],wind_speed_10m_max:[8],wind_gusts_10m_max:[14]}}
 if(q.get("hourly")){var t=[],c=[],d=new R(a+"T00:00Z"),e=new R(b+"T23:00Z");for(;d<=e;d=new R(+d+3600e3)){t.push(d.toISOString().slice(0,13)+":00");c.push(40)}j.hourly={time:t,cloud_cover:c}}
 return Promise.resolve(new Response(JSON.stringify(j),{headers:{"Content-Type":"application/json"}}))}}catch(e){}return F.apply(this,arguments)};
-document.addEventListener("DOMContentLoaded",function(){var b=document.createElement("div");b.className="simbar";b.innerHTML="模擬中："+v.replace("T"," ")+"（冰島時間）· 天氣係示範數據 <button type=button>結束</button>";b.querySelector("button").onclick=function(){simEnd()};document.body.prepend(b)})}catch(e){}})();
+document.addEventListener("DOMContentLoaded",function(){var b=document.createElement("div");b.className="simbar";b.innerHTML="<span>模擬中："+v.replace("T"," ")+"（冰島時間）· 天氣係示範數據</span><button type=button>結束</button>";b.querySelector("button").onclick=function(){simEnd()};document.body.prepend(b)})}catch(e){}})();
 function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(sessionStorage).filter(function(k){return /wx|aur|cloud|cc/i.test(k)}).forEach(function(k){sessionStorage.removeItem(k)})}catch(e){}location.reload()}
 </script>
 <script>/* 出錯時顯示實際原因（預覽環境只會顯示 Script error） */
@@ -37,7 +37,7 @@ function simEnd(){try{localStorage.removeItem("iceland-sim");Object.keys(session
 </script>
 <title>ICELAND 2027・冰島</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="style.css?v=2026-11-28-d">
+<link rel="stylesheet" href="style.css?v=2026-11-29-a">
 
 </head>
 <body>

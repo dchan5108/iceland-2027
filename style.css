@@ -1986,6 +1986,8 @@ html[data-page="trip"] .hero{padding-bottom:0!important}
 .stc-b{padding:0 14px 14px!important}
 .dsum2 li,.dstat2 li{gap:7px!important}
 .sched.rich .tl-h{gap:6px}
+.sched.rich .a:not(.drv) .tl-h{padding-left:21px;text-indent:-21px}
+.sched.rich .a:not(.drv) .tl-h>*{text-indent:0}
 .spd{padding:10px 12px}
 .optdlg .spots.opts>details{padding:12px 14px 12px 0!important}
 .mgrp button{padding:14px 18px!important}
@@ -2391,7 +2393,7 @@ article.day>h3 .optbtn span{display:none}
 
 /* 時間欄只寫開始時間：收窄 */
 .sched.rich.simp{font-size:15px!important;grid-template-columns:48px minmax(0,1fr)!important}
-.sched.rich.simp>.t{grid-column:1;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0 0 0;font-weight:600;color:var(--muted);line-height:1.35}
+.sched.rich.simp>.t{grid-column:1;border:0!important;padding:12px 0 0 0;font-weight:600;color:var(--muted);line-height:1.35}
 .sched.rich.simp>.a{grid-column:2;border:0!important;border-top:1px solid var(--line)!important;padding:12px 0;cursor:pointer}
 .sched.rich.simp > .t:first-of-type,.sched.rich.simp > .a:first-of-type,.sched.rich.simp > .tod + .t,.sched.rich.simp > .tod + .t + .a,.sched.rich.simp > .t.cn + .a.drv + .t,.sched.rich.simp > .t.cn + .a.drv + .a{border-top:0!important}
 .sched.rich.simp .tl-h{align-items:center;flex-wrap:wrap}
@@ -3170,8 +3172,9 @@ article.day>h3,#panel article.day>h3,#panel .day.dtonly>h3{padding-left:16px!imp
 /* 今日頁日子掣：放喺卡片外面（同行程頁一樣） */
 #today>.tchips,#homeToday>.tchips,#todayIn>.tchips,.tchips:not(.thero .tchips){margin:0 0 10px!important;padding:2px 0!important;background:none!important;border:0!important;box-shadow:none!important}
 /* 模擬日子提示條 */
-.simbar{position:sticky;top:0;z-index:999;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--gold);color:#fff;font-size:13px;font-weight:600;text-align:center}
-.simbar button{border:0;border-radius:999px;padding:3px 12px;background:#fff;color:var(--gold);font-weight:700;font-size:12px}
+.simbar{position:sticky;top:0;z-index:999;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;padding:calc(3px + env(safe-area-inset-top,0px)) 10px 3px;background:var(--gold);color:#fff;font-size:11px;font-weight:600;text-align:center;line-height:1.3}
+.simbar>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.simbar button{flex:none;border:0;border-radius:999px;padding:2px 10px;background:#fff;color:var(--gold);font-weight:700;font-size:11px}
 .simrow input{font:inherit;font-size:14px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
 /* ===== 首頁（Landing）＋ Logo：Nordic Expedition Editorial ===== */
 .logo{color:var(--moss)!important}
@@ -3424,7 +3427,7 @@ body:not(#_) .sched.rich .tl-n{font-weight:400!important;line-height:var(--lh-ro
 body:not(#_) .sched.rich .a:has(.snin,.snum) .tl-n,body:not(#_) .sched.rich .a.pri .tl-n{font-weight:600!important}
 body:not(#_) .sched.rich .tl-h{line-height:var(--lh-row)!important}
 body:not(#_) .sched.rich .tl-h>.tcat{font-size:12px!important;width:16px;margin:0 5px 0 0;vertical-align:0}
-body:not(#_) .sched.rich .tl-h>.snin{width:16px;height:16px;font-size:10px!important;margin-right:5px}
+body:not(#_) .sched.rich .tl-h>.snin{width:16px;height:16px;line-height:16px;font-size:10px!important;margin-right:5px;vertical-align:-1px}
 body:not(#_) .sched.rich .tl-m,body:not(#_) .sched.rich .tl-d{margin-top:2px!important}
 body:not(#_) .sched.rich .a.drv>.drvgo,body:not(#_) .sched.rich .a .depgo.depline{min-height:36px;gap:6px}
 body:not(#_) .sched.rich .a.drv>.drvgo>svg,body:not(#_) .sched.rich .depm>svg{width:13px;height:13px}
