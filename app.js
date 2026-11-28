@@ -154,7 +154,7 @@ const OFS=0;
 const ROLE=(()=>{try{return localStorage.getItem("iceland-key")?(localStorage.getItem("iceland-role")||""):""}catch(e){return ""}})();
 let OWNER=ROLE==="owner";let DT=ROLE==="owner"||ROLE==="admin";let REAL=DT||ROLE==="real";
 /* 來源標籤：只標 AI 原創建議（不代表重要性或批准）；未知來源不標 */
-const AIB=`<span class="ost ai" title="由 AI 原本提出">AI 建議</span>`,AIRX=Object.fromEntries(Object.entries(window.TRIP.AI||{}).map(([d,r])=>[d,new RegExp(r)]));
+let AIB=`<span class="ost ai" title="由 AI 原本提出">AI 建議</span>`,AIRX=Object.fromEntries(Object.entries(window.TRIP.AI||{}).map(([d,r])=>[d,new RegExp(r)]));
 const isAI=(d,t)=>{const r=AIRX[d];return !!r&&r.test(String(t).replace(/<[^>]*>/g,"").split(/[（｜]/)[0])};
 const MYFOOD=/Fjallakaffi|Grái Kötturinn|灰貓|Pakkhús|Mia's|Café Lyst|Cafe Vatnajökull|Settlement Center|小龍蝦|langoustine|humar|Friðheimar|番茄|書店酒吧|Hús máls og menningar|bookshop/i,foodAI=n=>!MYFOOD.test(String(n))&&!/^(住處|自己煮|自備|超市)/.test(String(n));
 const OST=(added,ai)=>`${ai?AIB:""}${added?`<span class="ost on">已加入行程</span>`:""}`;
@@ -163,6 +163,20 @@ try{["iceland-mode","iceland-dev","iceland-devnames","iceland-sync-user","icelan
 const PV=(()=>{try{if(!DT)return "";const h=location.hash.replace("#","");return h==="dt5x-pub"?"pub":h==="dt5x-real"?"real":""}catch(e){return ""}})();
 if(PV){REAL=PV==="real";DT=false;OWNER=false;store.set=()=>{}}
 days=days.filter(x=>!x.dt||DT);
+/* 公眾版內容隔離：大眾版（!REAL，包括管理者預覽公眾版）只顯示正式行程。
+   喺渲染之前統一移除：AI 建議（行內「｜AI 建議…」、AI 來源標籤）、行程調整原因、原本時間比較、J 原版（Excel）行程比較同差異說明、內部筆記。
+   真實版／管理者版唔受影響。只改記憶體入面嘅資料，原始檔唔變。 */
+if(!REAL){try{
+  const T=window.TRIP,INT=/跟 ?Excel|Excel ?原本|J 嘅 ?Excel|J 原本|跟 ?J&J|J&J ?\d|T&D ?\d/;
+  const clean=s=>{if(s==="AI 建議")return "參考";let x=s.replace(/｜\s*AI\s*建議[^｜]*/g,"").replace(/（J 原本行程，可選）/g,"（可選）");
+    if(INT.test(x))x=x.split(/(?<=[。；])/).filter(p=>!INT.test(p)).join("");return x};
+  const isNote=v=>Array.isArray(v)&&typeof v[0]==="string"&&v.length<=2&&(v.length===1||typeof v[1]!=="string");
+  const walk=o=>{if(Array.isArray(o)){for(let i=o.length-1;i>=0;i--){const v=o[i];if(typeof v==="string")o[i]=clean(v);else if(isNote(v)&&INT.test(v[0]))o.splice(i,1);else if(v&&typeof v==="object"&&!(v instanceof RegExp))walk(v)}}
+    else if(o&&typeof o==="object"&&!(o instanceof RegExp)){for(const k of Object.keys(o)){const v=o[k];if(typeof v==="string")o[k]=clean(v);else if(v&&typeof v==="object"&&!(v instanceof RegExp))walk(v)}}};
+  T.days.forEach(d=>{delete d.xls;walk(d)});days.forEach(d=>{delete d.xls;walk(d)});
+  T.WHY={};T.AI={};T.AIOPT=[];Object.keys(AIRX).forEach(k=>delete AIRX[k]);AIB="";XLS=false;XHL=false;
+  if(window.DATA&&DATA.SP)walk(DATA.SP);if(window.DATA&&DATA.DLY)walk(DATA.DLY);if(T.DLY)walk(T.DLY);
+}catch(e){}}
 /* 管理者版：D6 Ósland 日落、D7 鑽石沙灘、D5 T&D Stuðlagil 預設已加入（只做一次） */
 try{if(DT){let ch=0;[[6,"osland6"],[7,"dusk7"],[5,"stud5t"]].forEach(([d,id])=>{if(store.get("iceland-seed-"+id)&&id!=="osland6")return;if(id==="osland6"&&(RECP[d]||[]).includes(id))return;/* D6 日落已冇掣：Ósland 固定加入 */RECP[d]=[...new Set([...(RECP[d]||[]),id])];store.set("iceland-seed-"+id,"1");ch=1});if(ch)store.set("iceland-recp",JSON.stringify(RECP))}}catch(e){}
 const HASH0=location.hash;
