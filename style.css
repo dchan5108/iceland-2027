@@ -3445,3 +3445,14 @@ body:not(#_) .tlist .tnm{font-weight:400!important;line-height:var(--lh-row)}
 /* ===== 第二階段修正 ===== */
 /* 管理者版每日頭圖：標題讓位俾右邊兩個掣（行程篩選、⋯），唔再被擠上頭圖上半部，同大眾版一樣貼底 */
 article.day > h3:has(> .h3act) > span:first-child{flex:1 1 0;min-width:0}
+
+/* ===== Design system 第一批：頭圖掣、⋯ 選單、準備頁細掣 ===== */
+/* 頭圖兩個掣：同一高度、垂直置中對齊；形狀照舊（可選行程＝圓形，⋯＝圓角方形） */
+#panel article.day > h3 > .h3act,article.day > h3 > .h3act{align-items:center!important}
+article.day > h3 > .h3act > details{display:inline-flex;align-items:center;margin:0}
+#panel article.day > h3 > .h3act .optbtn,#panel article.day > h3 > .h3act .dmore > summary,
+article.day > h3 > .h3act .optbtn,article.day > h3 > .h3act .dmore > summary{height:32px!important;min-height:32px!important;width:32px!important;min-width:32px!important;margin-top:0!important;margin-bottom:0!important;box-sizing:border-box}
+/* ⋯ 選單：四個動作統一做同一款列表項目（44 高、米白底、細框、8px 圓角）；「車程顯示」分段選擇留待第二批 */
+details.dmore .dmm > button,details.dmore .dmm > button.cuopen,details.dmore .dmm > button.cpday{display:flex!important;align-items:center;gap:8px;width:100%;height:44px!important;min-height:44px!important;padding:0 12px!important;margin:0 0 6px!important;box-sizing:border-box;border:1px solid var(--line)!important;border-radius:8px!important;background:var(--pill)!important;color:var(--fg)!important;font-size:14px!important;font-weight:500!important;text-align:left}
+/* 準備頁細掣：⇅ 按期限同「去訂」「詳情」一樣 28 高 */
+.tksort{height:28px!important;min-height:28px!important;padding:0 12px!important;display:inline-flex!important;align-items:center;line-height:1!important}
